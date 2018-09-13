@@ -4,7 +4,7 @@ After=syslog.target network.target
 
 [Service]
 User=ubuntu
-WorkingDirectory=/home/ubuntu/TerriaMap
+WorkingDirectory=/mnt/apps/TerriaMap
 ExecStart=/usr/bin/node node_modules/terriajs-server/lib/app.js --port 3001
 
 [Install]

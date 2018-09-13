@@ -18,12 +18,12 @@
     executable: pip3
     name: "{{ item }}"
   loop:
-    - cython
-    - dask
+    - cython==0.28.5
+    - dask==0.19.1
     - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload%3Fuse_mirror%3Dnetcologne&ts=1528792966&use_mirror=netcologne'
-    - numpy
-    - cf_units
-    - cftime
+    - numpy==1.15.1
+    - cf_units==2.0.2
+    - cftime==1.0.1
     - jupyterlab==0.34.7
     - ipyleaflet==0.9.0
     - holoviews==1.10.7
@@ -49,17 +49,17 @@
       jupyter-matplotlib
 - git:
     repo: https://github.com/SciTools/iris.git
-    dest: /opt/iris
+    dest: /mnt/apps/iris
     version: v2.1.0
 - name: Install iris
   command: python3 setup.py install
   args:
-    chdir: /opt/iris
+    chdir: /mnt/apps/iris
 - git:
     repo: https://github.com/bokeh/datashader.git
-    dest: /opt/datashader
+    dest: /mnt/apps/datashader
 - name: Install datashader
   command: python3 setup.py install
   args:
-    chdir: /opt/datashader
+    chdir: /mnt/apps/datashader
   

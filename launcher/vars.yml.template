@@ -7,3 +7,4 @@ posix_users:
 launcher_token: < generated using `openssl rand -hex 32`>
 hub_domain: < hostname of server >
 certbot_email: < email adress to send Let's encrypt messages to >
+selfsigned: false  # Set to true if server is visible on internet

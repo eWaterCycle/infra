@@ -10,10 +10,13 @@ VM has
 # Create VM
 
 1. Create `launcher-hub` template from App called `Ubuntu-18.04.1-Server (...)`
-2. Set persistent=yes for it's image
-3. Add Volatile disk of 500Gb, type=FS and format=raw
-4. Configure template with 8Gb and 2 cpus
+    1. Select the ssd datastore for the image
+2. Update `launcher-hub` template
+    1. Set to 8Gb RAM and 2 cpus/vcpus
+    2. Add Volatile disk of 500Gb, type=FS and format=raw
 5. Instantiate as `hub`, so hostname is hub.ewatercycle2-nlesc.surf-hosted.nl
+
+For hostname see log tab of the Virtual machine.
 
 # Setup VM
 
