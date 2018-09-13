@@ -1,0 +1,65 @@
+---
+- apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - libcairo2-dev
+    - libjpeg-dev
+    - libpango1.0-dev
+    - libgif-dev
+    - build-essential
+    - g++
+    - python3-dev
+    - libgeos-dev
+    - libgdal-dev
+    - libproj-dev
+    - libudunits2-dev
+- pip:
+    executable: pip3
+    name: "{{ item }}"
+  loop:
+    - cython
+    - dask
+    - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload%3Fuse_mirror%3Dnetcologne&ts=1528792966&use_mirror=netcologne'
+    - numpy
+    - cf_units
+    - cftime
+    - jupyterlab==0.34.7
+    - ipyleaflet==0.9.0
+    - holoviews==1.10.7
+    - geoviews==1.5.3
+    - xarray==0.10.7
+    - nc_time_axis==1.1.0
+    - notebook==5.5.0
+    - jupyterlab_thredds==0.1.0
+    - jupyterlab-discovery==5.1.2
+    - datashader==0.6.6
+    - ipympl==0.2.1
+- name: Install jupyter lab extensions
+  command: > 
+    jupyter labextension install 
+      @jupyter-widgets/jupyterlab-manager
+      @jupyterlab/hub-extension
+      jupyterlab_bokeh
+      jupyter-leaflet
+      @pyviz/jupyterlab_pyviz
+      @ewatercycle/jupyterlab_thredds
+      @jupyterlab/geojson-extension
+      @jupyterlab/toc
+      jupyter-matplotlib
+- git:
+    repo: https://github.com/SciTools/iris.git
+    dest: /opt/iris
+    version: v2.1.0
+- name: Install iris
+  command: python3 setup.py install
+  args:
+    chdir: /opt/iris
+- git:
+    repo: https://github.com/bokeh/datashader.git
+    dest: /opt/datashader
+- name: Install datashader
+  command: python3 setup.py install
+  args:
+    chdir: /opt/datashader
+  

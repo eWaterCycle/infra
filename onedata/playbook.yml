@@ -1,0 +1,94 @@
+---
+- hosts: all
+  tasks:
+    - apt:
+        update_cache: yes
+        name: "{{ item }}"
+      loop:
+        - git
+        - python3-pip
+        - python-pip
+        - gcc
+        - g++
+        - make
+        - ntp
+        - apt-transport-https
+        - python-pkg-resources
+        - unzip
+
+    # Firewall
+    - name: Firewall Setup
+      ufw:
+        rule: limit
+        name: OpenSSH
+    - ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 53
+        - 80
+        - 443
+        - 9443
+    - ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: udp
+      loop:
+        - 53
+    - ufw:
+        state: enabled
+        policy: deny
+
+    # System limits
+    - name: Increase system limit
+      lineinfile:
+        path:  /etc/security/limits.conf
+        state: absent
+        regexp: '^\* soft nofile 63536'
+    
+    - name: Decrease system swappiness
+      lineinfile:
+        path:  /etc/sysctl.d/50-swappiness.conf
+        regexp: 'vm.swappiness='
+        line: vm.swappiness=1
+
+    # Disable the transparant huge page
+    - name: Copy transparant huge page disable file
+      copy:
+        src: systemd/system/disable-thp.service
+        dest: /etc/systemd/system/disable-thp.service
+        owner: root
+        group: root
+        mode: 0644
+    - name: Make sure the disable service is running
+      systemd: state=started name=disable-thp
+
+    # Data directory (on ceph)
+    - name: Mount dir for /data
+      file: 
+        path: /data
+        state: directory
+    - name: Create a xfs filesystem on /dev/vdb
+      filesystem:
+        fstype: xfs
+        dev: /dev/vdb
+    - name: Mount /dev/vdb as /data
+      mount:
+        fstype: xfs
+        state: mounted
+        path: /data
+        src: /dev/vdb
+    # Onedata install
+    - name: Installation point for onedata
+      file: 
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      with_items:
+        - /data/onedata/oneprovider
+        - /data/onedata/oneprovider/certs
+        - /data/onedata/oneprovider/persistence
+    

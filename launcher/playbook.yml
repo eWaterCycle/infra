@@ -1,0 +1,304 @@
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  handlers:
+    - name: restart docker
+      systemd:
+        daemon_reload: yes
+        name: docker
+        state: restarted
+  tasks:
+    - apt:
+        update_cache: yes
+        name: "{{ item }}"
+      loop:
+        - git
+        - gcc
+        - g++
+        - make
+        - ntp
+        - apt-transport-https
+    # Data directory (on ceph)
+    - name: Mount dir for /data
+      file:
+        path: /data
+        state: directory
+    - name: Create a xfs filesystem on /dev/vdb
+      filesystem:
+        fstype: xfs
+        dev: /dev/vdb
+    - name: Mount /dev/vdb as /data
+      mount:
+        fstype: xfs
+        state: mounted
+        path: /data
+        src: /dev/vdb
+    - name: Docker root
+      file:
+        path: /data/docker
+        state: directory
+    - name: Docker re root
+      lineinfile:
+        path: /lib/systemd/system/docker.service
+        regexp: '^ExecStart'
+        line: ExecStart=/usr/bin/dockerd -H fd:// --data-root /data/docker
+        insertafter: '[Service]'
+      notify:
+        - restart docker
+    - get_url:
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: /opt/get-pip.py
+    - command: python3 /opt/get-pip.py
+      args:
+        creates: /usr/local/bin/pip3
+    - pip:
+        executable: pip3
+        name: "{{ item }}"
+      loop:
+        - setuptools
+        - jupyterhub
+        - dockerspawner
+    - name: Docker ppa key
+      apt_key: 
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Docker ppa
+      apt_repository: 
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+    - name: NodeJS ppa key
+      apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        state: present
+    - name: NodeJS ppa
+      apt_repository:
+        repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
+    - name: Certbot ppa
+      apt_repository:
+        repo: ppa:certbot/certbot
+    - name: Update apt cache
+      apt: update_cache=yes
+    - name: Docker
+      apt:
+        name: docker-ce
+    - user:
+        name: "{{ item.name }}"
+        password: "{{ item.password }}"
+        groups: docker
+      loop: "{{ posix_users }}"
+    - name: NodeJS
+      apt:
+        name: nodejs
+    - name:  Certbot
+      apt:
+        name: certbot
+    - npm:
+        global: yes
+        name: configurable-http-proxy
+    - file:
+        path: /etc/jupyterhub
+        state: directory
+    - name: jupyterhub_config
+      template:
+        src: jupyterhub_config.py.j2
+        dest: /etc/jupyterhub/jupyterhub_config.py
+    - git:
+        repo: https://github.com/eWaterCycle/experiment-launcher.git
+        dest: /opt/launcher
+    - pip:
+        executable: pip3
+        editable: yes
+        name:  /opt/launcher
+    - name: Allow ssh from anywhere
+      ufw:
+        rule: limit
+        name: OpenSSH
+    - name:  Allow http(s) traffic
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 80
+        - 443
+        - 8888
+        - 8080
+        - 3001
+    - name: Allow Jupyter server internal traffic
+      ufw:
+        rule: allow
+        port: 8081
+        proto: tcp
+        from_ip: 172.17.0.0/12
+    - name: Enable firewall
+      ufw:
+        state: enabled
+        policy: deny
+    - file:
+        path: /etc/letsencrypt/live/{{ hub_domain }}
+        state: directory
+    - stat:
+        path: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
+      register: privcert
+    - name: CertBot
+      command: certbot certonly --standalone --preferred-challenges http -d {{ hub_domain }} --agree-tos --email {{ certbot_email }}
+      args:
+        creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
+      when: privcert.stat.exists == False and not selfsigned
+    - name: Self signed cert
+      command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem -out /etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
+      args:
+        creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
+      when: privcert.stat.exists == False and selfsigned
+    - name: JupyterHub systemd file
+      copy:
+        src: jupyterhub.systemd
+        dest: /etc/systemd/system/jupyterhub.service
+    - name: Experiment launcher systemd file
+      template:
+        src: experiment-launcher.systemd.j2
+        dest: /etc/systemd/system/experiment-launcher.service
+    - name: JupyterHub start
+      systemd:
+        name: jupyterhub
+        state: restarted
+        daemon_reload: yes
+    - name: experiment-launcher start
+      systemd:
+        name: experiment-launcher
+        state: started
+    - include: lab.yml
+    - name: grpc4bmi
+      pip:
+        executable: pip3
+        name: git+https://github.com/eWaterCycle/grpc4bmi.git
+    - name: grpc4bmi - downgrade grpc as channel_ready_future was not returning
+      pip:
+        executable: pip3
+        name: grpcio-reflection
+        version: 1.14.1
+    - name: grpc4bmi - downgrade grpc as channel_ready_future was not returning
+      pip:
+        executable: pip3
+        name: grpcio
+        version: 1.14.1
+    - name: parametersetdb
+      pip:
+        executable: pip3
+        name: git+https://github.com/eWaterCycle/parametersetdb.git
+    - name: subversion
+      apt:
+        name: subversion
+    - name: ewatercycle/walrus-grpc4bmi
+      docker_image:
+        name: ewatercycle/walrus-grpc4bmi
+    - name: pcrg-grpc4bmi
+      docker_image:
+        name: ewatercycle/pcrg-grpc4bmi
+    - name: wflow-grpc4bmi
+      docker_image:
+        name: ewatercycle/wflow-grpc4bmi
+    - name: eWaterCycle/TerriaMap repo
+      git:
+        repo: https://github.com/eWaterCycle/TerriaMap.git
+        dest: /home/ubuntu/TerriaMap
+        force: yes
+      become: true
+      become_user: ubuntu
+    - name: Yarn
+      npm:
+        name: yarn
+        global: yes
+    - name: TerriaMap/packages dir
+      file:
+        path: /home/ubuntu/TerriaMap/packages
+        state: directory
+      become: true
+      become_user: ubuntu
+    - name: eWaterCycle/terriajs repo
+      git:
+        repo: https://github.com/eWaterCycle/terriajs.git
+        dest: /home/ubuntu/TerriaMap/packages/terriajs
+        force: yes
+      become: true
+      become_user: ubuntu
+    - yarn:
+        path: /home/ubuntu/TerriaMap
+      become: true
+      become_user: ubuntu
+    - name: eWaterCycle/terriajs build
+      command: npm run gulp
+      args:
+        chdir: /home/ubuntu/TerriaMap/packages/terriajs
+      become: true
+      become_user: ubuntu
+    - name: eWaterCycle/TerriaMap build
+      command: npm run gulp
+      args:
+        chdir: /home/ubuntu/TerriaMap
+      become: true
+      become_user: ubuntu
+    - name: eWaterCycle/TerriaMap systemd
+      copy:
+        src: terriamap.systemd
+        dest: /etc/systemd/system/terriamap.service
+    - name: TerriaMap server deps
+      apt:
+        name: gdal-bin
+    - name: eWaterCycle/TerriaMap started
+      systemd:
+        name: terriamap
+        state: started
+        daemon_reload: yes
+    - name: Sample notebooks
+      git:
+        repo: https://github.com/eWaterCycle/notebooks.git
+        dest: /home/{{item.name}}/sample-notebooks
+      loop: "{{ posix_users }}"
+    - name: Chown sample notebooks
+      file:
+        path: /home/{{item.name}}/sample-notebooks
+        group: "{{ item.name }}"
+        owner: "{{ item.name }}"
+        recurse: yes
+        state: directory
+      loop: "{{ posix_users }}"
+    - name: amuse-framework - git
+      git:
+        repo: https://github.com/eWaterCycle/amuse-framework.git
+        dest: /data/amuse-framework
+        version: muse_development
+        depth: 1
+    - apt:
+        update_cache: yes
+        name: "{{ item }}"
+      loop:
+        - build-essential
+        - curl
+        - g++
+        - gfortran
+        - gettext
+        - zlib1g-dev
+        - libopenmpi-dev
+        - openmpi-bin
+        - libfftw3-3
+        - libfftw3-dev
+        - libmpfr4
+        - libmpfr-dev
+        - libhdf5-serial-dev
+    - pip:
+        executable: pip3
+        name: "{{ item }}"
+      loop:
+        - mpi4py
+        - docutils
+        - nose
+        - h5py
+    - name: amuse-framework - configure
+      shell: PYTHON=/usr/bin/python3 ./configure 
+      args:
+        chdir: /data/amuse-framework
+    - name: amuse-framework - make
+      make: 
+        target: install
+        chdir: /data/amuse-framework

@@ -1,0 +1,117 @@
+---
+- hosts: all
+  vars_files:
+    - secrets.yml
+  tasks:
+    - apt:
+        update_cache: yes
+        name: "{{ item }}"
+      loop:
+        - git
+        - python3-pip
+        - python-pip
+        - gcc
+        - g++
+        - make
+        - ntp
+        - apt-transport-https
+        - python-pkg-resources
+        - openjdk-8-jre
+        - tomcat8
+        - unzip
+
+    # Firewall
+    - ufw:
+        rule: limit
+        name: OpenSSH
+    - ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 80
+        - 443
+        - 8080
+    - ufw:
+        state: enabled
+        policy: deny
+    
+    # Tomcat & THREDDS
+    - name: ensure tomcat directory exists
+      file:
+        path: /var/lib/tomcat8/webapps/thredds
+        state: directory
+        owner: tomcat8 
+        group: tomcat8
+    - name: make tomcat content directory
+      file:
+        path: /var/lib/content/thredds
+        state: directory
+        owner: tomcat8 
+        group: tomcat8
+    - lineinfile:
+        path: /etc/default/tomcat8
+        insertbefore: '^JAVA_OPTS='
+        regexp: '^CONTENT_ROOT='
+        line: 'CONTENT_ROOT=-Dtds.content.root.path=/var/lib/content/thredds'
+    - lineinfile:
+        path: /etc/default/tomcat8
+        regexp: '^JAVA_OPTS='
+        line: 'JAVA_OPTS="-Djava.awt.headless=true -Xmx4g -XX:+UseConcMarkSweepGC $CONTENT_ROOT"'        
+    - name: Get and unzip THREDDS WAR file
+      unarchive: 
+        src: http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/edu/ucar/tds/4.6.11/tds-4.6.11.war 
+        dest: /var/lib/tomcat8/webapps/thredds 
+        creates: /var/lib/tomcat8/webapps/thredds/tds.css
+        remote_src: yes
+        mode: 0755 
+        owner: tomcat8 
+        group: tomcat8
+      notify:
+        - restart tomcat8
+
+    # Data directory (on ceph)
+    - name: Mount dir for /data
+      file: 
+        path: /data
+        state: directory
+    - name: Create a xfs filesystem on /dev/vdb
+      filesystem:
+        fstype: xfs
+        dev: /dev/vdb
+    - name: Mount /dev/vdb as /data
+      mount:
+        fstype: xfs
+        state: mounted
+        path: /data
+        src: /dev/vdb
+
+    # Create user
+    - user: Create user
+        name: '{{ user.name }}'
+        groups: sudo
+        password: '{{ user.password }}'
+    - name: Set authorized key
+      authorized_key:
+        user: '{{ user.name }}'
+        state: present
+        key: '{{ user.publickey }}'
+
+    # Config THREDDS
+    - copy:
+        src: thredds/config/catalog.xml
+        dest: /var/lib/content/thredds/thredds/catalog.xml
+    - copy:
+        src: thredds/config/threddsConfig.xml
+        dest: /var/lib/content/thredds/thredds/threddsConfig.xml
+    - copy:
+        src: thredds/config/wmsConfig.xml
+        dest: /var/lib/content/thredds/thredds/wmsConfig.xml        
+      notify:
+        - restart tomcat8
+
+    # Shared data
+    # Berend wil hier iets maar ik weet niet wat TODO @berend
+  handlers:
+    - name: restart tomcat8
+      service: name=tomcat8 state=restarted
