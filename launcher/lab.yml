@@ -33,7 +33,7 @@
     - notebook==5.5.0
     - jupyterlab_thredds==0.1.0
     - jupyterlab-discovery==5.1.2
-    - datashader==0.6.6
+    - datashader==0.6.8
     - ipympl==0.2.1
 - name: Install jupyter lab extensions
   command: > 
@@ -55,11 +55,4 @@
   command: python3 setup.py install
   args:
     chdir: /mnt/apps/iris
-- git:
-    repo: https://github.com/bokeh/datashader.git
-    dest: /mnt/apps/datashader
-- name: Install datashader
-  command: python3 setup.py install
-  args:
-    chdir: /mnt/apps/datashader
   

@@ -3,7 +3,7 @@ Description=TerriaMap
 After=syslog.target network.target
 
 [Service]
-User=ubuntu
+User=root
 WorkingDirectory=/mnt/apps/TerriaMap
 ExecStart=/usr/bin/node node_modules/terriajs-server/lib/app.js --port 3001
 
