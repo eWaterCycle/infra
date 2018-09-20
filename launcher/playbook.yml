@@ -166,19 +166,38 @@
       ufw:
         state: enabled
         policy: deny
-    - stat:
+    - name: Check letsencrypt
+      stat:
         path: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
       register: privcert
+    - name: Check local letsencrypt cache
+      local_action:
+        module: stat
+        path: letsencrypt/live/{{ hub_domain }}/privkey.pem
+      register: localprivcert
+    - name: CertBot from cache
+      synchronize:
+        src: letsencrypt/
+        dest: /etc/letsencrypt/
+        recursive: yes
+      when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
     - name: CertBot
       command: certbot certonly --standalone --preferred-challenges http --non-interactive -d {{ hub_domain }} --agree-tos --email {{ certbot_email }}
       args:
         creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      when: privcert.stat.exists == False and not selfsigned
+      when: privcert.stat.exists == False and localprivcert.stat.exists == False and not selfsigned
     - name: Self signed cert
       command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem -out /etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
       args:
         creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      when: privcert.stat.exists == False and selfsigned
+      when: privcert.stat.exists == False and selfsigned and localprivcert.stat.exists == False
+    - name: CertBot build cache
+      synchronize:
+        src: /etc/letsencrypt/
+        dest: letsencrypt/
+        recursive: yes
+        mode: pull
+      when: privcert.stat.exists and localprivcert.stat.exists == False and not selfsigned
     - name: JupyterHub systemd file
       copy:
         src: jupyterhub.systemd
@@ -292,6 +311,7 @@
         - libmpfr6
         - libmpfr-dev
         - libhdf5-serial-dev
+        - libgsl-dev
     - name: amuse-framework - Python deps
       pip:
         executable: pip3
@@ -302,10 +322,14 @@
         - nose==1.3.7
         - h5py==2.8.0
     - name: amuse-framework - configure
-      shell: PYTHON=/usr/bin/python3 ./configure 
+      shell: PYTHON=/usr/bin/python3 ./configure
       args:
         chdir: /mnt/apps/amuse-framework
-    - name: amuse-framework - make
+    - name: amuse-framework - 2to3
+      command: 2to3-2.7 -n -w -W support -o support3
+      args:
+        chdir: /mnt/apps/amuse-framework
+    - name: amuse-framework - build
       make: 
-        target: install
+        target: build3
         chdir: /mnt/apps/amuse-framework

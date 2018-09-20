@@ -20,7 +20,7 @@
   loop:
     - cython==0.28.5
     - dask==0.19.1
-    - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload%3Fuse_mirror%3Dnetcologne&ts=1528792966&use_mirror=netcologne'
+    - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'
     - numpy==1.15.1
     - cf_units==2.0.2
     - cftime==1.0.1
@@ -55,4 +55,4 @@
   command: python3 setup.py install
   args:
     chdir: /mnt/apps/iris
-  
+    creates: /usr/local/lib/python3.6/dist-packages/scitools_iris-2.2.0.dev0-py3.6.egg
