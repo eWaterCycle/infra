@@ -293,6 +293,7 @@
         dest: /mnt/apps/amuse-framework
         version: 02207823869ff5fbcfe6830fbf0fe759ee2ba372
         depth: 1
+        force: yes
     - name: amuse-framework - apt deps
       apt:
         update_cache: yes
