@@ -186,11 +186,15 @@
       args:
         creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
       when: privcert.stat.exists == False and localprivcert.stat.exists == False and not selfsigned
+      notify:
+        - restart jupyterhub
     - name: Self signed cert
       command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem -out /etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
       args:
         creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
       when: privcert.stat.exists == False and selfsigned and localprivcert.stat.exists == False
+      notify:
+        - restart jupyterhub
     - name: CertBot build cache
       synchronize:
         src: /etc/letsencrypt/
