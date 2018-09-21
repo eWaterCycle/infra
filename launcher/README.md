@@ -29,6 +29,8 @@ Install stuff on VM with
 ansible-playbook -i inventory playbook.yml
 ```
 
+After installation a `letsencrypt/` directory has been copied to local machine with the Let's encrypt configuration and http certificate of the hub server.
+
 # Next steps
 
 * JupyterHub at https://hub.ewatercycle2-nlesc.surf-hosted.nl
