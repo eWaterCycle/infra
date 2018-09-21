@@ -197,7 +197,7 @@
         dest: letsencrypt/
         recursive: yes
         mode: pull
-      when: privcert.stat.exists and localprivcert.stat.exists == False and not selfsigned
+      when: localprivcert.stat.exists == False and not selfsigned
     - name: JupyterHub systemd file
       copy:
         src: jupyterhub.systemd
