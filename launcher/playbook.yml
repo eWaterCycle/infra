@@ -295,7 +295,7 @@
       git:
         repo: https://github.com/eWaterCycle/amuse-framework.git
         dest: /mnt/apps/amuse-framework
-        version: 02207823869ff5fbcfe6830fbf0fe759ee2ba372
+        version: c7abbed916a2f42fd18da2a5176ebfb6d124aec2
         depth: 1
         force: yes
     - name: amuse-framework - apt deps
@@ -330,11 +330,7 @@
       shell: PYTHON=/usr/bin/python3 ./configure
       args:
         chdir: /mnt/apps/amuse-framework
-    - name: amuse-framework - 2to3
-      command: 2to3-2.7 -n -w -W support -o support3
-      args:
-        chdir: /mnt/apps/amuse-framework
-    - name: amuse-framework - build
+    - name: amuse-framework - install
       make: 
-        target: build3
+        target: install
         chdir: /mnt/apps/amuse-framework
