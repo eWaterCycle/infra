@@ -338,7 +338,7 @@
       git:
         repo: https://github.com/eWaterCycle/HyMUSE.git
         dest: /mnt/apps/HyMUSE
-        version: 9743698a1c299a24bf7aeb19881be7731e91aa59
+        version: 4b8104d1aa1ca744e36198d22a5386ab20e48fad
         depth: 1
         force: yes
     - name: hymuse - build
