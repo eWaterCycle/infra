@@ -334,3 +334,18 @@
       make: 
         target: install
         chdir: /mnt/apps/amuse-framework
+    - name: hymuse - repo
+      git:
+        repo: https://github.com/eWaterCycle/HyMUSE.git
+        dest: /mnt/apps/HyMUSE
+        version: 9743698a1c299a24bf7aeb19881be7731e91aa59
+        depth: 1
+        force: yes
+    - name: hymuse - build
+      command: /usr/bin/python3 setup.py build
+      args:
+        chdir: /mnt/apps/HyMUSE
+    - name: hymuse - install
+      command: /usr/bin/python3 setup.py install
+      args:
+        chdir: /mnt/apps/HyMUSE
