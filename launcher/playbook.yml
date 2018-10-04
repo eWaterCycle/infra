@@ -342,7 +342,7 @@
         depth: 1
         force: yes
     - name: hymuse - build
-      command: /usr/bin/python3 setup.py build
+      shell: DOWNLOAD_CODES=1 /usr/bin/python3 setup.py build
       args:
         chdir: /mnt/apps/HyMUSE
     - name: hymuse - install
