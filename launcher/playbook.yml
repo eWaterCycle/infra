@@ -239,7 +239,7 @@
       git:
         repo: https://github.com/eWaterCycle/TerriaMap.git
         dest: /mnt/apps/TerriaMap
-        version: 4cc8db178899cffeceaf70f9e570ad6079533582
+        version: ewa_1.0
         force: yes
     - name: Yarn
       npm:
@@ -253,7 +253,7 @@
       git:
         repo: https://github.com/eWaterCycle/terriajs.git
         dest: /mnt/apps/TerriaMap/packages/terriajs
-        version: bd81aca3e2909f0382e54a12a94bd399d46285cd
+        version: ewa_1.0
         force: yes
     - yarn:
         path: /mnt/apps/TerriaMap
