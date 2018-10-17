@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Jupyterhub
+After=syslog.target network.target
+
+[Service]
+User=root
+Environment=JUPYTERHUB_TOKEN={{ launcher_token }}
+Environment=JUPYTERHUB_URL=https://{{ hub_domain }}
+ExecStart=/usr/local/bin/gunicorn -w 4 -b 0.0.0.0:8888 --keyfile /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem --certfile /etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem ewatercycle_experiment_launcher.serve:app
+
+[Install]
+WantedBy=multi-user.target

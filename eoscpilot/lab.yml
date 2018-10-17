@@ -1,0 +1,59 @@
+---
+- apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - libcairo2-dev
+    - libjpeg-dev
+    - libpango1.0-dev
+    - libgif-dev
+    - build-essential
+    - g++
+    - python3-dev
+    - libgeos-dev
+    - libgdal-dev
+    - libproj-dev
+    - libudunits2-dev
+- pip:
+    executable: pip3
+    name: "{{ item }}"
+  loop:
+    - cython==0.28.5
+    - dask==0.19.1
+    - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'
+    - numpy==1.15.1
+    - cf_units==2.0.2
+    - cftime==1.0.1
+    - jupyterlab==0.34.7
+    - ipyleaflet==0.9.0
+    - holoviews==1.10.7
+    - geoviews==1.5.3
+    - xarray==0.10.7
+    - nc_time_axis==1.1.0
+    - notebook==5.5.0
+    - jupyterlab_thredds==0.1.0
+    - jupyterlab-discovery==5.1.2
+    - datashader==0.6.8
+    - ipympl==0.2.1
+    - tqdm==4.26.0
+- name: Install jupyter lab extensions
+  command: > 
+    jupyter labextension install 
+      @jupyter-widgets/jupyterlab-manager@0.37.4
+      @jupyterlab/hub-extension@0.11.0
+      jupyterlab_bokeh@0.6.2
+      jupyter-leaflet@0.9.0
+      @pyviz/jupyterlab_pyviz@0.6.1
+      @ewatercycle/jupyterlab_thredds@0.2.0
+      @jupyterlab/geojson-extension@0.17.1
+      @jupyterlab/toc@0.5.0
+      jupyter-matplotlib@0.3.0
+- git:
+    repo: https://github.com/SciTools/iris.git
+    dest: /mnt/apps/iris
+    version: v2.1.0
+- name: Install iris
+  command: python3 setup.py install
+  args:
+    chdir: /mnt/apps/iris
+    creates: /usr/local/lib/python3.6/dist-packages/scitools_iris-2.2.0.dev0-py3.6.egg
