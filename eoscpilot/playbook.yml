@@ -19,10 +19,11 @@
         - make
         - ntp
         - apt-transport-https
-        - python3-distutils
-        - gpg
-        - gpg-agent
+        - python3-setuptools
+        - gnupg
+        - gnupg-agent
         - dirmngr
+        - rsync
     # Extra disk (ceph)
     - name: Mount dir for ceph
       file:
@@ -250,12 +251,6 @@
         - ewatercycle/walrus-grpc4bmi
         - ewatercycle/pcrg-grpc4bmi
         - ewatercycle/wflow-grpc4bmi
-    - name: eWaterCycle/TerriaMap repo
-      git:
-        repo: https://github.com/eWaterCycle/TerriaMap.git
-        dest: /mnt/apps/TerriaMap
-        version: ewa_1.0
-        force: yes
     - name: Sample notebooks
       git:
         repo: https://github.com/eWaterCycle/notebooks.git
@@ -292,7 +287,7 @@
         - openmpi-bin
         - libfftw3-3
         - libfftw3-dev
-        - libmpfr6
+        - libmpfr4
         - libmpfr-dev
         - libhdf5-serial-dev
         - libgsl-dev
@@ -328,3 +323,28 @@
       command: /usr/bin/python3 setup.py install
       args:
         chdir: /mnt/apps/HyMUSE
+    - name: OneClient check
+      command: oneclient --version
+      ignore_errors: yes
+      register: oneclient_check
+    - name: oneclient - download
+      get_url:
+        url: http://get.onedata.org/oneclient.sh
+        dest: /root/oneclient.sh
+        mode: 0700
+      when: oneclient_check.rc != 0
+    - name: oneclient - install
+      command: "/root/oneclient.sh oneclient=18.02.0.rc9-1"
+      when: oneclient_check.rc != 0
+    - name: OneClient Environment File
+      copy:
+        src: oneclient.env
+        dest: /etc/oneclient.env
+    - name: OneClient Server
+      copy:
+        src: oneclient.systemd
+        dest: /etc/systemd/system/oneclient.service
+    - name: oneclient start
+      systemd:
+        name: oneclient
+        state: started
