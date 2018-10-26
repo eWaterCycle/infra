@@ -89,6 +89,7 @@
 - hosts: all
   vars_files:
     - vars.yml
+    - ../authorized_keys.yml
   handlers:
     - name: restart docker
       systemd:
@@ -338,3 +339,9 @@
       make: 
         target: build3
         chdir: /mnt/apps/amuse-framework
+    - name: Authorized keys for ubuntu user
+      authorized_key:
+        user: ubuntu
+        state: present
+        key: '{{ item }}'
+      loop: '{{ authorized_keys }}'

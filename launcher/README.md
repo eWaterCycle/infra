@@ -22,6 +22,7 @@ For hostname see log tab of the Virtual machine.
 
 Create a `inventory` file based on `inventory.example`.
 Create a `vars.yml` file based on `vars.yml.example`.
+Check that your public ssh key is in `../authorized.keys.yml`.
 
 Install stuff on VM with
 
