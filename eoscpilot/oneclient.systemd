@@ -1,0 +1,17 @@
+[Unit]
+Description = Oneclient service
+After       = syslog.target network.target
+
+[Service]
+User=oneclient
+EnvironmentFile=/etc/oneclient.env
+# Start Oneclient
+ExecStart=/opt/oneclient/bin/oneclient -i -o allow_other $ONECLIENT_MOUNT
+# Unmount oneclient when stopping the service
+ExecStop      = /bin/fusermount -uz $ONECLIENT_MOUNT
+# Change to `always` to automatically restart Oneclient
+Restart       = no
+Type          = forking
+
+[Install]
+WantedBy    = multi-user.target
