@@ -1,0 +1,117 @@
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  handlers:
+    - name: restart docker
+      systemd:
+        daemon_reload: yes
+        name: docker
+        state: restarted
+  tasks:
+    - apt:
+        update_cache: yes
+        name: "{{ item }}"
+      loop:
+        - git
+        - gcc
+        - g++
+        - make
+        - ntp
+        - apt-transport-https
+        - python-setuptools
+        - python-pip
+        - gnupg
+        - gnupg-agent
+        - dirmngr
+        - rsync
+    # Extra disk (volatile)
+    - name: Mount dir for /mnt
+      file:
+        path: /mnt
+        state: directory
+    - name: Create a xfs filesystem on /dev/vdb
+      filesystem:
+        fstype: xfs
+        dev: /dev/vdb
+    - name: Mount /dev/vdb as /mnt
+      mount:
+        fstype: xfs
+        state: mounted
+        path: /mnt
+        src: /dev/vdb
+    - name: Home root
+      file:
+        path: /mnt/home
+        state: directory
+    - name: Apps root
+      file:
+        path: /mnt/apps
+        state: directory
+    - name: Docker ppa key
+      apt_key: 
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Docker ppa
+      apt_repository: 
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+    - name: Update apt cache
+      apt: update_cache=yes
+    - name: Docker
+      apt:
+        name: docker-ce
+    - name: Docker root on extra disk
+      file:
+        path: /mnt/docker
+        state: directory
+    - name: Docker re root
+      lineinfile:
+        path: /lib/systemd/system/docker.service
+        regexp: '^ExecStart'
+        line: ExecStart=/usr/bin/dockerd -H fd:// --data-root /mnt/docker
+        insertafter: '[Service]'
+      notify:
+        - restart docker
+    - name: Docker add to group
+      user:
+        name: ubuntu
+        append: yes
+        groups: docker
+        state: present
+- hosts: all
+  vars_files:
+    - vars.yml
+  handlers:
+    - name: restart docker
+      systemd:
+        daemon_reload: yes
+        name: docker
+        state: restarted
+  tasks:
+    - name: Allow ssh from anywhere
+      ufw:
+        rule: limit
+        name: OpenSSH
+    - name: Enable firewall
+      ufw:
+        state: enabled
+        policy: deny
+    - name: Docker pip
+      pip:
+        executable: pip
+        name: "{{ item }}"
+      loop:
+        - docker
+    - name: grpc4bmi Docker images
+      docker_image:
+        name: '{{ item }}'
+      with_items:
+        - ewatercycle/walrus-grpc4bmi
+        - ewatercycle/pcrg-grpc4bmi
+        - ewatercycle/wflow-grpc4bmi
+    - name: OneClient
+      include_role:
+        name: oneclient
+    - name: Cylc
+      include_role:
+        name: cylc

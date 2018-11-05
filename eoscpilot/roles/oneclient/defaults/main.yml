@@ -1,0 +1,3 @@
+---
+# defaults file for oneclient
+oneclient_mount: /mnt/oneclient

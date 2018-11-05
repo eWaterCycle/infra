@@ -1,0 +1,74 @@
+---
+# tasks file for cylc
+# Defines tasks to install the Cylc workflow engine
+- name: Cylc Required Packages
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - git
+    - pkg-config
+    - sqlite
+    - graphviz
+    - graphviz-dev
+    - libgraphviz-dev
+    - python-gtk2-dev
+    - python-pygraphviz
+    - imagemagick
+    - php-imagick
+    - at
+- name: Cylc user
+  user:
+    name: cylc
+    groups: [daemon, sudo, docker]
+    append: yes
+    home: /mnt/home/cylc
+    state: present
+- name: Cylc Checkout
+  git:
+    dest: /mnt/home/cylc/cylc
+    repo: https://github.com/cylc/cylc.git
+    version: 7.7.1
+- name: Cylc chown
+  file:
+    dest: /mnt/home/cylc/cylc
+    owner: cylc
+    group: cylc
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+- name: Cylc python requirements
+  # Cylc uses python2, so install using pip instead of pip3
+  pip:
+    executable: pip
+    name: "{{ item }}"
+  loop:
+    - requests==2.19.1
+    - Pyro>=3.10,<4.0
+    - Jinja2==2.10
+    - urllib3==1.23
+    - pyOpenSSL==18.0.0
+    - pygraphviz==1.3.1
+    - cwltool==1.0.20181012180214
+    - boatswain==1.0.1
+- name: Cylc add to path
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    backrefs: yes
+    regexp: 'PATH=(["]*)((?!.*?/mnt/home/cylc/cylc/bin).*?)(["]*)$'
+    line: "PATH=\\1\\2:/mnt/home/cylc/cylc/bin\\3"
+- name: Cylc forecast docker
+  git:
+    dest: /mnt/home/cylc/forecast-docker
+    repo: https://github.com/eWaterCycle/forecast-docker.git
+- name: Cylc chown forecast
+  file:
+    dest: /mnt/home/cylc/forecast-docker
+    owner: cylc
+    group: cylc
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+- name: Cycl forecast build
+  command: boatswain build -q
+  args:
+    chdir: /mnt/home/cylc/forecast-docker

@@ -323,4 +323,6 @@
       command: /usr/bin/python3 setup.py install
       args:
         chdir: /mnt/apps/HyMUSE
-    - include: oneclient.yml
+    - name: OneClient
+      include_role:
+        name: oneclient
