@@ -89,6 +89,7 @@
 - hosts: all
   vars_files:
     - vars.yml
+    - ../authorized_keys.yml
   handlers:
     - name: restart docker
       systemd:
@@ -349,3 +350,9 @@
       command: /usr/bin/python3 setup.py install
       args:
         chdir: /mnt/apps/HyMUSE
+    - name: Authorized keys for ubuntu user
+      authorized_key:
+        user: ubuntu
+        state: present
+        key: '{{ item }}'
+      loop: '{{ authorized_keys }}'
