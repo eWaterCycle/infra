@@ -1,6 +1,14 @@
-notebookserver:
-  hosts:
-    eoscpilot.ewatercycle2-nlesc.surf-hosted.nl ansible_user=ubuntu ansible_become=yes ansible_python_interpreter=/usr/bin/python3
-cylc_server:
-  hosts:
-    eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl ansible_user=ubuntu ansible_become=yes ansible_python_interpreter=/usr/bin/python
+all:
+  children:
+    notebookserver:
+      hosts:
+        eoscpilot.ewatercycle2-nlesc.surf-hosted.nl:
+          ansible_user: ubuntu
+          ansible_become: yes
+          ansible_python_interpreter: /usr/bin/python3
+    cylc_server:
+      hosts:
+        eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl:
+          ansible_user: ubuntu
+          ansible_become: yes
+          ansible_python_interpreter: /usr/bin/python

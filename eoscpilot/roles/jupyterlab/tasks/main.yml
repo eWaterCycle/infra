@@ -57,9 +57,9 @@
   block:
     - name: "Clone Iris"
       git:
-      repo: https://github.com/SciTools/iris.git
-      dest: /mnt/apps/iris
-      version: v2.1.0
+        repo: https://github.com/SciTools/iris.git
+        dest: /mnt/apps/iris
+        version: v2.1.0
     - name: Install iris
       command: python3 setup.py install
       args:

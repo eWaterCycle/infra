@@ -78,7 +78,7 @@
         append: yes
         groups: docker
         state: present
-- hosts: all
+- hosts: cylc_server
   vars_files:
     - vars.yml
   handlers:
