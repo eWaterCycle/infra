@@ -28,7 +28,7 @@
   git:
     dest: /mnt/home/cylc/cylc
     repo: https://github.com/cylc/cylc.git
-    version: 7.7.1
+    version: HEAD
 - name: Cylc chown
   file:
     dest: /mnt/home/cylc/cylc

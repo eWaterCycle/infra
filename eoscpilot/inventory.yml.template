@@ -1,0 +1,20 @@
+all:
+  children:
+    notebookserver:
+      hosts:
+        <hostname or ip>:
+          ansible_user: ubuntu
+          ansible_become: yes
+          ansible_python_interpreter: /usr/bin/python3
+    cylc_server:
+      hosts:
+        <hostname or ip>:
+          ansible_user: ubuntu
+          ansible_become: yes
+          ansible_python_interpreter: /usr/bin/python
+    ncwms_server:
+        hosts:
+            <hostname or ip>:
+            ansible_user: ubuntu
+            ansible_become: yes
+            ansible_python_interpreter: /usr/bin/python
