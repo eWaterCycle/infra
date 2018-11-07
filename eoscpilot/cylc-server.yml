@@ -102,13 +102,14 @@
         name: "{{ item }}"
       loop:
         - docker
-    - name: grpc4bmi Docker images
+    - name: Forecast Docker images
       docker_image:
         name: '{{ item }}'
       with_items:
-        - ewatercycle/walrus-grpc4bmi
-        - ewatercycle/pcrg-grpc4bmi
-        - ewatercycle/wflow-grpc4bmi
+        - ewatercycle/ewatercycle_forecast_getforcing
+        - ewatercycle/ewatercycle_forecast_preprocess
+        - ewatercycle/ewatercycle_forecast
+        - ewatercycle/ewatercycle_forecast_postprocess
     - name: OneClient
       include_role:
         name: oneclient

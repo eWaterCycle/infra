@@ -149,14 +149,6 @@
         dest: /etc/jupyterhub/jupyterhub_config.py
       notify:
         - restart jupyterhub
-    - git:
-        repo: https://github.com/eWaterCycle/experiment-launcher.git
-        dest: /mnt/apps/launcher
-        version: f50222935574f7408debfc1be8c3f8cab1c7e895
-    - pip:
-        executable: pip3
-        editable: yes
-        name: /mnt/apps/launcher
     - name: Allow ssh from anywhere
       ufw:
         rule: limit
@@ -222,16 +214,6 @@
       copy:
         src: jupyterhub.systemd
         dest: /etc/systemd/system/jupyterhub.service
-    - name: Experiment launcher systemd file
-      template:
-        src: experiment-launcher.systemd.j2
-        dest: /etc/systemd/system/experiment-launcher.service
-      notify:
-        - restart jupyterhub
-    - name: experiment-launcher start
-      systemd:
-        name: experiment-launcher
-        state: started
     - name: Jupyterlab
       include_role:
         name: jupyterlab

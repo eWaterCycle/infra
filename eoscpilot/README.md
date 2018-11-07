@@ -7,8 +7,15 @@ Create two VMs on https://ui.hpccloud.surfsara.nl using the ewatercycle2 group.
 Notebookserver VM has
 * ncWMS docker container running forecast frontend
 * JupyterHub with OS accounts, see https://github.com/eWaterCycle/experiment-launcher/blob/master/README.md#jupyterhub-server on port 443
-* Launcher, https://github.com/eWaterCycle/experiment-launcher on port 8888
+* Onedata mount
 * Use Let's encrypt cert for all servers to run them encrypted
+
+Cylc server VM has
+* Cylc installed
+* Cylc Web interface
+* Forecast-docker installed
+* Onedata mount
+* Uses Let's encrypt cert for all servers to run them encrypted
 
 # Create VMs
 1. Create `eoscpilot` template from App called `Ubuntu-18.04.1-Server (...)`
@@ -35,9 +42,27 @@ ansible-playbook -i inventory.yml playbook.yml
 After installation a `letsencrypt/` directory has been copied to local machine with the Let's encrypt configuration and http certificate of the hub server.
 
 # Next steps
+First register and run the cylc suite use the following commands:
 
+```bash
+# login to the cylc server
+ssh ubuntu@eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl
+
+# Become the cylc user
+sudo su cylc
+
+# Register the forecast suite
+cylc register ewatercycle_forecast /mnt/home/cylc/forecast-docker
+
+# Run the suite
+cylc run ewatercycle_forecast
+```
+
+You can visit the Cylc web ui at https://eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl
+Login for the web ui can be found in `vars.yml`.
+
+The notebook server has:
 * JupyterHub at https://eoscpilot.ewatercycle2-nlesc.surf-hosted.nl:8886
-* Cylc web ui at https://eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl
 * eWatercylce Forecast at https://eoscpilot.ewatercycle2-nlesc.surf-hosted.nl
 
 Login for the JupyterHub can be found in `vars.yml` file.
