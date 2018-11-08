@@ -11,8 +11,11 @@
         key: '{{ item }}'
       loop: '{{ authorized_keys }}'
 
-- name: Notebookserver
-  import_playbook: notebookserver.yml
+#- name: Notebookserver
+#  import_playbook: notebookserver.yml
 
 - name: Cylc Server
   import_playbook: cylc-server.yml
+  
+- name: Forecast server
+  import_playbook: forecast-server.yml

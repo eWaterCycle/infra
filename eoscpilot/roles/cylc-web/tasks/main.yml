@@ -37,11 +37,17 @@
   notify:
     - restart jupyterhub
 - name: CertBot build cache
-  synchronize:
-    src: /etc/letsencrypt/
-    dest: "{{ cylc_domain }}/letsencrypt/"
-    recursive: yes
-    mode: pull
+  block:
+  - name: Create backup folder
+    local_action: 
+      module: file
+      path: "{{ cylc_domain }}"
+      state: directory
+  - synchronize:
+      src: /etc/letsencrypt/
+      dest: "{{ cylc_domain }}/letsencrypt/"
+      recursive: yes
+      mode: pull
   when: localprivcert.stat.exists == False and not selfsigned
 - name:  Allow http(s) traffic
   ufw:

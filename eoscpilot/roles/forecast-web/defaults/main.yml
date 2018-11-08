@@ -1,0 +1,11 @@
+---
+# defaults file for cylc-web
+forecast_port: 8080
+forecast_src_dir: /mnt/oneclient/eWaterCycle/forecast-results/forecasts
+forecast_dest_dir: /mnt/apps/forecast
+forecast_domain: localhost
+forecast_public_domain: "http://{{ forecast_domain }}:{{ forecast_port }}"
+
+forecast_admin:
+  name: admin
+  password: admin

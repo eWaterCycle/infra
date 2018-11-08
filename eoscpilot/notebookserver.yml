@@ -181,11 +181,11 @@
     - name: Check local letsencrypt cache
       local_action:
         module: stat
-        path: letsencrypt/live/{{ hub_domain }}/privkey.pem
+        path: "{{ hub_domain }}/letsencrypt/live/{{ hub_domain }}/privkey.pem"
       register: localprivcert
     - name: CertBot from cache
       synchronize:
-        src: letsencrypt/
+        src: "{{ hub_domain }}/letsencrypt/"
         dest: /etc/letsencrypt/
         recursive: yes
       when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
@@ -204,11 +204,18 @@
       notify:
         - restart jupyterhub
     - name: CertBot build cache
-      synchronize:
-        src: /etc/letsencrypt/
-        dest: letsencrypt/
-        recursive: yes
-        mode: pull
+      block:
+      - name: Create backup folder
+        local_action: 
+          module: file
+          path: "{{ hub_domain }}"
+          state: directory
+      - name: Synchronize letsencrypt folder
+        synchronize:
+          src: /etc/letsencrypt/
+          dest: "{{ hub_domain }}/letsencrypt/"
+          recursive: yes
+          mode: pull
       when: localprivcert.stat.exists == False and not selfsigned
     - name: JupyterHub systemd file
       copy:

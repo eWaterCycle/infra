@@ -1,0 +1,19 @@
+[Unit]
+Description = Forecast web
+After       = docker.service
+Requires    = docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker stop %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStartPre=/usr/bin/docker pull ewatercycle/cesium-ncwms
+ExecStart=/usr/bin/docker run --rm --name %n -p {{ forecast_port }}:{{ forecast_port }} -v {{ forecast_dest_dir }}/data/:/data/discharge/ -v {{ forecast_dest_dir }}/config/serverconfig.json:/usr/local/tomcat/webapps/ROOT/serverconfig.json -v {{ forecast_dest_dir }}/config/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml  ewatercycle/cesium-ncwms
+TimeoutStartSec=600
+TimeoutStopSec=15
+Restart=always
+RestartSec=10s
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy    = multi-user.target
