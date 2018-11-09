@@ -1,4 +1,5 @@
 # Cylc + Notebook server
+
 The playbook in this directory creates two servers. One with a notebook server and the ewatercylce forecast website
 The other is a cylc server to run long running cylc tasks on.
 
@@ -18,30 +19,32 @@ Cylc server VM has
 * Uses Let's encrypt cert for all servers to run them encrypted
 
 # Create VMs
+
 1. Create `eoscpilot` template from App called `Ubuntu-18.04.1-Server (...)`
     1. Select the ssd datastore for the image
 2. Update `eoscpilot` template
     1. Set to 8Gb RAM and 2 cpus/vcpus
-    2. Add Volatile disk of 500Gb, type=FS and format=raw
+    2. Add Volatile disk of 1000Gb, type=FS and format=raw
 5. Instantiate once as `eoscpilot`, so hostname is eoscpilot.ewatercycle2-nlesc.surf-hosted.nl
 5. Instantiate once as `eoscpilot-cylc`, so hostname is eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl
 
 For hostname see log tab of the Virtual machine.
 
-# Setup VM
+# Setup VMs
 
 Create a `inventory.yml` file based on `inventory.yml.example`.
 Create a `vars.yml` file based on `vars.yml.example`.
 
-Install stuff on VM with
+Install stuff on VMs with
 
 ```bash
 ansible-playbook -i inventory.yml playbook.yml
 ```
 
-After installation a `letsencrypt/` directory has been copied to local machine with the Let's encrypt configuration and http certificate of the hub server.
+After installation a `eoscpilot.ewatercycle2-nlesc.surf-hosted.nl/letsencrypt/` and `eoscpilot-cylc.ewatercycle2-nlesc.surf-hosted.nl/letsencrypt/` directories have been copied to local machine with the Let's encrypt configuration and http certificate of the forecast/hub and cylc servers.
 
 # Next steps
+
 First register and run the cylc suite use the following commands:
 
 ```bash
