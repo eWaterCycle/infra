@@ -65,7 +65,7 @@ You can visit the Cylc web ui at https://eoscpilot-cylc.ewatercycle2-nlesc.surf-
 Login for the web ui can be found in `vars.yml`.
 
 The notebook server has:
-* JupyterHub at https://eoscpilot.ewatercycle2-nlesc.surf-hosted.nl:8886
-* eWatercylce Forecast at https://eoscpilot.ewatercycle2-nlesc.surf-hosted.nl
+* JupyterHub at https://eoscpilot.ewatercycle2-nlesc.surf-hosted.nl
+* eWatercycle Forecast at http://eoscpilot.ewatercycle2-nlesc.surf-hosted.nl:8080
 
 Login for the JupyterHub can be found in `vars.yml` file.
