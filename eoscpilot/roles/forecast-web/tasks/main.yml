@@ -10,7 +10,7 @@
     port: "{{ item }}"
     proto: tcp
   loop:
-    - 8080
+    - "{{ forecast_port }}"
 - name: Create forecast directory
   file:
     path: "{{ item }}"
