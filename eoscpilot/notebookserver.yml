@@ -2,12 +2,6 @@
 - hosts: notebookserver
   vars_files:
     - vars.yml
-  handlers:
-    - name: restart docker
-      systemd:
-        daemon_reload: yes
-        name: docker
-        state: restarted
   tasks:
     - apt:
         update_cache: yes
@@ -20,10 +14,6 @@
         - ntp
         - apt-transport-https
         - python3-setuptools
-        - gnupg
-        - gnupg-agent
-        - dirmngr
-        - rsync
     # Extra disk (ceph)
     - name: Mount dir for ceph
       file:
@@ -68,13 +58,6 @@
     - command: python3 /opt/get-pip.py
       args:
         creates: /usr/local/bin/pip3
-    - name: Docker ppa key
-      apt_key: 
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: Docker ppa
-      apt_repository: 
-        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
     - name: NodeJS ppa key
       apt_key:
         url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
@@ -82,35 +65,15 @@
     - name: NodeJS ppa
       apt_repository:
         repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
-    - name: Certbot ppa
-      apt_repository:
-        repo: ppa:certbot/certbot
-    - name: Update apt cache
-      apt: update_cache=yes
     - name: Docker
-      apt:
-        name: docker-ce
-    - name: Docker root on extra disk
-      file:
-        path: /mnt/docker
-        state: directory
-    - name: Docker re root
-      lineinfile:
-        path: /lib/systemd/system/docker.service
-        regexp: '^ExecStart'
-        line: ExecStart=/usr/bin/dockerd -H fd:// --data-root /mnt/docker
-        insertafter: '[Service]'
-      notify:
-        - restart docker
+      include_role:
+        name: docker
+      vars:
+        - docker_root: "/mnt/docker"
 - hosts: notebookserver
   vars_files:
     - vars.yml
   handlers:
-    - name: restart docker
-      systemd:
-        daemon_reload: yes
-        name: docker
-        state: restarted
     - name: restart jupyterhub
       systemd:
         name: jupyterhub
@@ -134,9 +97,6 @@
     - name: NodeJS
       apt:
         name: nodejs
-    - name:  Certbot
-      apt:
-        name: certbot
     - npm:
         global: yes
         name: configurable-http-proxy
@@ -174,49 +134,6 @@
       ufw:
         state: enabled
         policy: deny
-    - name: Check letsencrypt
-      stat:
-        path: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      register: privcert
-    - name: Check local letsencrypt cache
-      local_action:
-        module: stat
-        path: "{{ hub_domain }}/letsencrypt/live/{{ hub_domain }}/privkey.pem"
-      register: localprivcert
-    - name: CertBot from cache
-      synchronize:
-        src: "{{ hub_domain }}/letsencrypt/"
-        dest: /etc/letsencrypt/
-        recursive: yes
-      when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
-    - name: CertBot
-      command: certbot certonly --standalone --preferred-challenges http --non-interactive -d {{ hub_domain }} --agree-tos --email {{ certbot_email }}
-      args:
-        creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      when: privcert.stat.exists == False and localprivcert.stat.exists == False and not selfsigned
-      notify:
-        - restart jupyterhub
-    - name: Self signed cert
-      command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem -out /etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
-      args:
-        creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      when: privcert.stat.exists == False and selfsigned and localprivcert.stat.exists == False
-      notify:
-        - restart jupyterhub
-    - name: CertBot build cache
-      block:
-      - name: Create backup folder
-        local_action: 
-          module: file
-          path: "{{ hub_domain }}"
-          state: directory
-      - name: Synchronize letsencrypt folder
-        synchronize:
-          src: /etc/letsencrypt/
-          dest: "{{ hub_domain }}/letsencrypt/"
-          recursive: yes
-          mode: pull
-      when: localprivcert.stat.exists == False and not selfsigned
     - name: JupyterHub systemd file
       copy:
         src: jupyterhub.systemd
@@ -256,64 +173,9 @@
         recurse: yes
         state: directory
       loop: "{{ posix_users }}"
-    - name: amuse-framework - git
-      git:
-        repo: https://github.com/eWaterCycle/amuse-framework.git
-        dest: /mnt/apps/amuse-framework
-        version: c7abbed916a2f42fd18da2a5176ebfb6d124aec2
-        depth: 1
-        force: yes
-    - name: amuse-framework - apt deps
-      apt:
-        update_cache: yes
-        name: "{{ item }}"
-      loop:
-        - build-essential
-        - curl
-        - g++
-        - gfortran
-        - gettext
-        - zlib1g-dev
-        - libopenmpi-dev
-        - openmpi-bin
-        - libfftw3-3
-        - libfftw3-dev
-        - libmpfr4
-        - libmpfr-dev
-        - libhdf5-serial-dev
-        - libgsl-dev
-    - name: amuse-framework - Python deps
-      pip:
-        executable: pip3
-        name: "{{ item }}"
-      loop:
-        - mpi4py==3.0.0
-        - docutils==0.14
-        - nose==1.3.7
-        - h5py==2.8.0
-    - name: amuse-framework - configure
-      shell: PYTHON=/usr/bin/python3 ./configure
-      args:
-        chdir: /mnt/apps/amuse-framework
-    - name: amuse-framework - install
-      make: 
-        target: install
-        chdir: /mnt/apps/amuse-framework
-    - name: hymuse - repo
-      git:
-        repo: https://github.com/eWaterCycle/HyMUSE.git
-        dest: /mnt/apps/HyMUSE
-        version: 4b8104d1aa1ca744e36198d22a5386ab20e48fad
-        depth: 1
-        force: yes
-    - name: hymuse - build
-      shell: DOWNLOAD_CODES=1 /usr/bin/python3 setup.py build
-      args:
-        chdir: /mnt/apps/HyMUSE
-    - name: hymuse - install
-      command: /usr/bin/python3 setup.py install
-      args:
-        chdir: /mnt/apps/HyMUSE
+    - name: Letsencrypt
+      include_role:
+        name: letsencrypt
     - name: OneClient
       include_role:
         name: oneclient

@@ -1,0 +1,46 @@
+---
+# tasks file for docker
+- name: Docker apt requirements
+  apt:
+    update_cache: true
+    name: "{{ item }}"
+  loop:
+    - gnupg
+    - gnupg-agent
+    - dirmngr
+- name: Docker ppa key
+  apt_key: 
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Docker ppa
+  apt_repository: 
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+- name: NodeJS ppa key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+- name: NodeJS ppa
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
+- name: Certbot ppa
+  apt_repository:
+    repo: ppa:certbot/certbot
+- name: Update apt cache
+  apt: update_cache=yes
+- name: Docker
+  apt:
+    name: docker-ce
+- name: Create docker root
+  file:
+    path: "{{ docker_root }}"
+    state: directory
+  when: docker_root is defined
+- name: Docker re root
+  lineinfile:
+    path: /lib/systemd/system/docker.service
+    regexp: '^ExecStart'
+    line: ExecStart=/usr/bin/dockerd -H fd:// --data-root {{ docker_root }}
+    insertafter: '[Service]'
+  notify:
+    - restart docker
+  when: docker_root is defined
