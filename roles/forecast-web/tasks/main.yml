@@ -26,13 +26,13 @@
         user: root
         name: MAILTO
         env: true
-        value: ewatercycle@esciencecenter.nl
+        value: ewatercycle-infra@esciencecenter.nl
     - cron:
         cron_file: forecast
         user: root
         name: "Forecast copy"
-        minute: "0"
-        job: "cp {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/ > /dev/null"
+        minute: "10"
+        job: "cp {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/ >> /var/log/forecast_cron.log"
 - name: Copy server config
   template:
     src: serverconfig.json.j2

@@ -176,6 +176,3 @@
     - name: Letsencrypt
       include_role:
         name: letsencrypt
-    - name: OneClient
-      include_role:
-        name: oneclient

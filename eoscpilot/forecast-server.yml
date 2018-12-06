@@ -78,3 +78,9 @@
     - name: Forecast Web
       include_role:
         name: forecast-web
+    - name: Researchdrive
+      include_role:
+        name: researchdrive
+      vars:
+          researchdrive_src_dir: "{{ researchdrive.remote_dir }}"
+          researchdrive_dest_dir: "{{ researchdrive.local_dir }}"

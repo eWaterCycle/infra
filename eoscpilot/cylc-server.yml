@@ -52,6 +52,14 @@
       ufw:
         state: enabled
         policy: deny
+    - name:  Allow http(s) traffic
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 80
+        - 443
     - name: Docker pip
       pip:
         executable: pip
@@ -66,12 +74,20 @@
         - ewatercycle/ewatercycle_forecast_preprocess
         - ewatercycle/ewatercycle_forecast
         - ewatercycle/ewatercycle_forecast_postprocess
-    - name: OneClient
-      include_role:
-        name: oneclient
     - name: Cylc
       include_role:
         name: cylc
     - name: Cylc-web
       include_role:
         name: cylc-web
+    - name: Researchdrive
+      include_role:
+        name: researchdrive
+      vars:
+          researchdrive_src_dir: "{{ researchdrive.local_dir }}"
+          researchdrive_dest_dir: "{{ researchdrive.remote_dir }}"
+    - name: Add cylc user to researchdrive group
+      user:
+        name: cylc
+        groups: [researchdrive]
+        append: yes

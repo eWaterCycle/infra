@@ -1,6 +1,6 @@
 ---
 # tasks file for cylc-web
-- name: Install ngix
+- name: Apt required packages
   apt:
     update_cache: yes
     name: "{{ item }}"
@@ -9,6 +9,7 @@
     - certbot
     - python-certbot-nginx
     - python-passlib
+    - rsync
 - name: Check letsencrypt
   stat:
     path: /etc/letsencrypt/live/{{ cylc_domain }}/privkey.pem
@@ -49,13 +50,6 @@
       recursive: yes
       mode: pull
   when: localprivcert.stat.exists == False and not selfsigned
-- name:  Allow http(s) traffic
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-    proto: tcp
-  loop:
-    - 443
 - name: Create passwords
   htpasswd:
     path: /etc/nginx/passwdfile
