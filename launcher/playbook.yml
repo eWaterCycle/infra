@@ -166,7 +166,9 @@
       systemd:
         name: experiment-launcher
         state: started
-    - include: lab.yml
+    - name: Jupyterlab
+      include_role:
+        name: jupyterlab
     - name: grpc4bmi
       pip:
         executable: pip3

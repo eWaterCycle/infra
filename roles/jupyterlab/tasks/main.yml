@@ -41,6 +41,7 @@
         - datashader==0.6.8
         - ipympl==0.2.1
         - tqdm==4.26.0
+        - scitools-iris==2.1.0
 - name: Jupyterlab extensions
   command: > 
     jupyter labextension install 
@@ -53,15 +54,3 @@
       @jupyterlab/geojson-extension@0.17.1
       @jupyterlab/toc@0.5.0
       jupyter-matplotlib@0.3.0
-- name: Get and install Iris
-  block:
-    - name: "Clone Iris"
-      git:
-        repo: https://github.com/SciTools/iris.git
-        dest: /mnt/apps/iris
-        version: v2.1.0
-    - name: Install iris
-      command: python3 setup.py install
-      args:
-        chdir: /mnt/apps/iris
-        creates: /usr/local/lib/python3.6/dist-packages/scitools_iris-2.2.0.dev0-py3.6.egg
