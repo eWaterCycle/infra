@@ -1,0 +1,7 @@
+---
+# defaults file for researchdrive
+researchdrive_url: https://researchdrive.surfsara.nl/remote.php/webdav/
+
+sendmail_accept_mail_for:
+  - localhost
+  - "{{ ansible_hostname }}"

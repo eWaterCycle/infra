@@ -1,0 +1,71 @@
+---
+# tasks file for researchdrive
+- name: Installing sendmail
+  apt:
+    name: sendmail
+    state: present
+  become: true
+- name: Configuring Domains To Accept Mail For
+  template:
+    src: local-host-names.j2
+    dest: /etc/mail/local-host-names
+    owner: root
+    group: smmsp
+    mode: u=rw,g=r,o=r
+  become: true
+  notify:
+    - restart sendmail
+- name: rclone config dir
+  file:
+    name: /home/ubuntu/.config/rclone
+    owner: ubuntu
+    group: ubuntu
+    state: directory
+- name: rclone obscure password
+  command: rclone obscure {{ researchdrive.password }}
+  register: obscure_output
+- set_fact:
+    researchdrive_obscured: "{{ obscure_output.stdout }}"
+- name: Create researchdrive group
+  group:
+    name: researchdrive
+- name: Copy configuration file
+  template:
+    src: rclone.conf.j2
+    dest: /home/ubuntu/.config/rclone/rclone.conf
+    owner: ubuntu
+    group: researchdrive
+- name: Target directory
+  file:
+    name: /mnt/researchdrive/forecasts
+    owner: ubuntu
+    group: researchdrive
+    mode: u=rwx,g=rwx,o=rx,g+s
+    state: directory
+- name: Set up synchronization
+  block:
+    - copy:
+        src: forecast_cron_log
+        dest: /etc/logrotate.d/forecast_cron_log
+    - user:
+        name: ubuntu
+        groups: [syslog, researchdrive]
+        append: yes
+    - cron:
+        cron_file: forecast
+        user: root
+        name: MAILTO
+        env: true
+        value: ewatercycle-infra@esciencecenter.nl
+    - cron:
+        cron_file: forecast
+        user: ubuntu
+        name: "Forecast check"
+        minute: "0"
+        job: "rclone check --exclude data/ {{ researchdrive_src_dir }} {{ researchdrive_dest_dir }} >> /var/log/forecast_cron.log 2>&1"
+    - cron:
+        cron_file: forecast
+        user: ubuntu
+        name: "Forecast sync"
+        minute: "1"
+        job: "rclone copy --exclude data/ --retries-sleep 30s {{ researchdrive_src_dir }} {{ researchdrive_dest_dir }} >> /var/log/forecast_cron.log 2>&1"

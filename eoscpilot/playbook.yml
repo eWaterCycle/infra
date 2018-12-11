@@ -10,6 +10,9 @@
         state: present
         key: '{{ item }}'
       loop: '{{ authorized_keys }}'
+    - name: Set hostname
+      include_role:
+        name: hostname
 
 - name: Notebookserver
   import_playbook: notebookserver.yml

@@ -1,0 +1,48 @@
+---
+# tasks file for cylc-web
+- name: Update firewall
+  ufw:
+    state: enabled
+    policy: deny
+- name: Open ports
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - "{{ forecast_port }}"
+- name: Create forecast directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ forecast_dest_dir }}"
+    - "{{ forecast_dest_dir }}/data"
+    - "{{ forecast_dest_dir }}/config"
+- name: Cronjob to copy forecast
+  block:
+    - cron:
+        cron_file: forecast
+        user: root
+        name: MAILTO
+        env: true
+        value: ewatercycle-infra@esciencecenter.nl
+    - cron:
+        cron_file: forecast
+        user: root
+        name: "Forecast copy"
+        minute: "10"
+        job: "cp {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/ >> /var/log/forecast_cron.log"
+- name: Copy server config
+  template:
+    src: serverconfig.json.j2
+    dest: "{{ forecast_dest_dir }}/config/serverconfig.json"
+- name: Copy tomcat-users config
+  template:
+    src: tomcat-users.xml.j2
+    dest: "{{ forecast_dest_dir }}/config/tomcat-users.xml"
+- name: Copy cesium-ncwms systemd file
+  template:
+    src: forecast-web.systemd.j2
+    dest: /etc/systemd/system/forecast-web.service
+  notify: forecast-web

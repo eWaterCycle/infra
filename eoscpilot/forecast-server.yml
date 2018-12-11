@@ -2,12 +2,6 @@
 - hosts: forecast_server
   vars_files:
     - vars.yml
-  handlers:
-    - name: restart docker
-      systemd:
-        daemon_reload: yes
-        name: docker
-        state: restarted
   tasks:
     - apt:
         update_cache: yes
@@ -17,10 +11,6 @@
         - ntp
         - apt-transport-https
         - python3-setuptools
-        - gnupg
-        - gnupg-agent
-        - dirmngr
-        - rsync
     # Extra disk (ceph)
     - name: Mount dir for ceph
       file:
@@ -65,58 +55,10 @@
     - command: python3 /opt/get-pip.py
       args:
         creates: /usr/local/bin/pip3
-    - name: Docker ppa key
-      apt_key: 
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: Docker ppa
-      apt_repository: 
-        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
-    - name: NodeJS ppa key
-      apt_key:
-        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-        state: present
-    - name: NodeJS ppa
-      apt_repository:
-        repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
-    - name: Certbot ppa
-      apt_repository:
-        repo: ppa:certbot/certbot
-    - name: Update apt cache
-      apt: update_cache=yes
-    - name: Docker
-      apt:
-        name: docker-ce
-    - name: Docker root on extra disk
-      file:
-        path: /mnt/docker
-        state: directory
-    - name: Docker re root
-      lineinfile:
-        path: /lib/systemd/system/docker.service
-        regexp: '^ExecStart'
-        line: ExecStart=/usr/bin/dockerd -H fd:// --data-root /mnt/docker
-        insertafter: '[Service]'
-      notify:
-        - restart docker
 - hosts: forecast_server
   vars_files:
     - vars.yml
-  handlers:
-    - name: restart docker
-      systemd:
-        daemon_reload: yes
-        name: docker
-        state: restarted
-    - name: restart jupyterhub
-      systemd:
-        name: jupyterhub
-        state: restarted
-        daemon_reload: yes
   tasks:
-    - name:  Certbot
-      apt:
-        name: certbot
     - name: Allow ssh from anywhere
       ufw:
         rule: limit
@@ -125,45 +67,20 @@
       ufw:
         state: enabled
         policy: deny
-    - name: Check letsencrypt
-      stat:
-        path: /etc/letsencrypt/live/{{ forecast_domain }}/privkey.pem
-      register: privcert
-    - name: Check local letsencrypt cache
-      local_action:
-        module: stat
-        path: "{{ forecast_domain }}/letsencrypt/live/{{ forecast_domain }}/privkey.pem"
-      register: localprivcert
-    - name: CertBot from cache
-      synchronize:
-        src: "{{ forecast_domain }}/letsencrypt/"
-        dest: /etc/letsencrypt/
-        recursive: yes
-      when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
-    - name: CertBot
-      command: certbot certonly --standalone --preferred-challenges http --non-interactive -d {{ forecast_domain }} --agree-tos --email {{ certbot_email }}
-      args:
-        creates: /etc/letsencrypt/live/{{ forecast_domain }}/privkey.pem
-      when: privcert.stat.exists == False and localprivcert.stat.exists == False and not selfsigned
-    - name: Self signed cert
-      command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ forecast_domain }}/privkey.pem -out /etc/letsencrypt/live/{{ forecast_domain }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
-      args:
-        creates: /etc/letsencrypt/live/{{ forecast_domain }}/privkey.pem
-      when: privcert.stat.exists == False and selfsigned and localprivcert.stat.exists == False
-    - name: CertBot build cache
-      block:
-      - name: Create backup folder
-        local_action: 
-          module: file
-          path: "{{ forecast_domain }}"
-          state: directory
-      - name: Synchronize letsencrypt folder
-        synchronize:
-          src: /etc/letsencrypt/
-          dest: "{{ forecast_domain }}/letsencrypt/"
-          recursive: yes
-          mode: pull
-      when: localprivcert.stat.exists == False and not selfsigned
+    - name: Letsencrypt
+      include_role:
+        name: letsencrypt
+    - name: Docker
+      include_role:
+        name: docker
+      vars:
+        - docker_root: "/mnt/docker"
     - name: Forecast Web
       include_role:
         name: forecast-web
+    - name: Researchdrive
+      include_role:
+        name: researchdrive
+      vars:
+          researchdrive_src_dir: "{{ researchdrive.remote_dir }}"
+          researchdrive_dest_dir: "{{ researchdrive.local_dir }}"

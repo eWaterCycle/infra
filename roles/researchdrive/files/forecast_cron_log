@@ -1,0 +1,6 @@
+/var/log/forecast_cron.log {
+   compress
+   daily 
+   missingok
+   rotate 7
+}
