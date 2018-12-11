@@ -1,0 +1,59 @@
+---
+- name: NodeJS ppa key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+- name: NodeJS ppa
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
+- name: Update apt cache
+  apt: 
+    name: nodejs
+    update_cache: yes
+- name: eWaterCycle/TerriaMap repo
+  git:
+    repo: https://github.com/eWaterCycle/TerriaMap.git
+    dest: /mnt/apps/TerriaMap
+    version: "{{ terriamap_version }}"
+    force: yes
+- name: Yarn
+  npm:
+    name: yarn
+    global: yes
+- name: TerriaMap/packages dir
+  file:
+    path: /mnt/apps/TerriaMap/packages
+    state: directory
+- name: eWaterCycle/terriajs repo
+  git:
+    repo: https://github.com/eWaterCycle/terriajs.git
+    dest: /mnt/apps/TerriaMap/packages/terriajs
+    version: "{{ terriajs_version }}"
+    force: yes
+- yarn:
+    path: /mnt/apps/TerriaMap
+- name: eWaterCycle/terriajs build
+  command: npm run gulp
+  args:
+    chdir: /mnt/apps/TerriaMap/packages/terriajs
+- name: eWaterCycle/TerriaMap build
+  command: npm run gulp
+  args:
+    chdir: /mnt/apps/TerriaMap
+- name:  Allow https traffic on port 3001
+  ufw:
+    rule: allow
+    port: 3001
+    proto: tcp
+- name: eWaterCycle/TerriaMap systemd
+  copy:
+    src: terriamap.systemd
+    dest: /etc/systemd/system/terriamap.service
+- name: TerriaMap server deps
+  apt:
+    name: gdal-bin
+- name: eWaterCycle/TerriaMap started
+  systemd:
+    name: terriamap
+    state: started
+    daemon_reload: yes

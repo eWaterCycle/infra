@@ -1,0 +1,19 @@
+---
+- name: parametersetdb dependencies
+  apt:
+    name: subversion
+- name: parametersetdb
+  pip:
+    executable: pip3
+    name: git+https://github.com/eWaterCycle/parametersetdb.git@{{ parametersetdb_version }}
+- name: grpc4bmi
+  pip:
+    executable: pip3
+    name: git+https://github.com/eWaterCycle/grpc4bmi.git@{{ grpc4bmi_version}}#egg=grpc4bmi
+- name: grpc4bmi Docker images
+  docker_image:
+    name: '{{ item }}'
+  with_items:
+    - ewatercycle/walrus-grpc4bmi
+    - ewatercycle/pcrg-grpc4bmi
+    - ewatercycle/wflow-grpc4bmi

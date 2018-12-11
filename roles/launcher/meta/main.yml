@@ -1,0 +1,10 @@
+galaxy_info:
+  author: Stefan Verhoeven
+  description: eWaterCycle experiment launcher
+  company: Netherlands eScience Center
+  license: Apache
+  min_ansible_version: 2.4
+  galaxy_tags: []
+dependencies:
+- jupyter
+- letsencrypt

@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Ansible role to install eWaterCycle experiment launcher.
 
 Requirements
 ------------
@@ -11,12 +11,18 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Required vars:
+```yaml
+launcher_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
+hub_domain: hub.ewatercycle2-nlesc.surf-hosted.nl
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The experiment launcher communicates with a Jupter Hub server, which is part of the `jupyter` role.
+
+The experiment launcher requires https certificate pair, which is generated in `letsencrypt` role.
 
 Example Playbook
 ----------------
@@ -30,7 +36,7 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+Apache2
 
 Author Information
 ------------------
