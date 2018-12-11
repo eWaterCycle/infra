@@ -1,4 +1,18 @@
 ---
+- name: Authorizing keys
+  hosts: all
+  vars_files:
+    - ../authorized_keys.yml
+  tasks:
+    - name: Authorized keys for ubuntu user
+      authorized_key:
+        user: ubuntu
+        state: present
+        key: '{{ item }}'
+      loop: '{{ authorized_keys }}'
+    - name: Set hostname
+      include_role:
+        name: hostname
 - hosts: all
   vars_files:
     - vars.yml
@@ -55,15 +69,11 @@
     - name: NodeJS ppa
       apt_repository:
         repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
-    - name: Certbot ppa
-      apt_repository:
-        repo: ppa:certbot/certbot
     - name: Update apt cache
       apt: update_cache=yes
 - hosts: all
   vars_files:
     - vars.yml
-    - ../authorized_keys.yml
   handlers:
     - name: restart docker
       systemd:
@@ -84,7 +94,8 @@
         - jupyterhub==0.9.3
       notify:
         - restart jupyterhub
-    - user:
+    - name: Allow posix_users to use docker
+      user:
         name: "{{ item.name }}"
         password: "{{ item.password }}"
         groups: docker
@@ -93,9 +104,6 @@
     - name: NodeJS
       apt:
         name: nodejs
-    - name:  Certbot
-      apt:
-        name: certbot
     - npm:
         global: yes
         name: configurable-http-proxy
@@ -141,42 +149,9 @@
       ufw:
         state: enabled
         policy: deny
-    - name: Check letsencrypt
-      stat:
-        path: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      register: privcert
-    - name: Check local letsencrypt cache
-      local_action:
-        module: stat
-        path: letsencrypt/live/{{ hub_domain }}/privkey.pem
-      register: localprivcert
-    - name: CertBot from cache
-      synchronize:
-        src: letsencrypt/
-        dest: /etc/letsencrypt/
-        recursive: yes
-      when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
-    - name: CertBot
-      command: certbot certonly --standalone --preferred-challenges http --non-interactive -d {{ hub_domain }} --agree-tos --email {{ certbot_email }}
-      args:
-        creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      when: privcert.stat.exists == False and localprivcert.stat.exists == False and not selfsigned
-      notify:
-        - restart jupyterhub
-    - name: Self signed cert
-      command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem -out /etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
-      args:
-        creates: /etc/letsencrypt/live/{{ hub_domain }}/privkey.pem
-      when: privcert.stat.exists == False and selfsigned and localprivcert.stat.exists == False
-      notify:
-        - restart jupyterhub
-    - name: CertBot build cache
-      synchronize:
-        src: /etc/letsencrypt/
-        dest: letsencrypt/
-        recursive: yes
-        mode: pull
-      when: localprivcert.stat.exists == False and not selfsigned
+    - name: Letsencrypt
+      include_role:
+        name: letsencrypt
     - name: JupyterHub systemd file
       copy:
         src: jupyterhub.systemd
@@ -324,9 +299,3 @@
       command: /usr/bin/python3 setup.py install
       args:
         chdir: /mnt/apps/HyMUSE
-    - name: Authorized keys for ubuntu user
-      authorized_key:
-        user: ubuntu
-        state: present
-        key: '{{ item }}'
-      loop: '{{ authorized_keys }}'
