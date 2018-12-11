@@ -243,61 +243,6 @@
         recurse: yes
         state: directory
       loop: "{{ posix_users }}"
-    - name: amuse-framework - git
-      git:
-        repo: https://github.com/eWaterCycle/amuse-framework.git
-        dest: /mnt/apps/amuse-framework
-        version: muse
-        depth: 1
-        force: yes
-    - name: amuse-framework - apt deps
-      apt:
-        update_cache: yes
-        name: "{{ item }}"
-      loop:
-        - build-essential
-        - curl
-        - g++
-        - gfortran
-        - gettext
-        - zlib1g-dev
-        - libopenmpi-dev
-        - openmpi-bin
-        - libfftw3-3
-        - libfftw3-dev
-        - libmpfr6
-        - libmpfr-dev
-        - libhdf5-serial-dev
-        - libgsl-dev
-    - name: amuse-framework - Python deps
-      pip:
-        executable: pip3
-        name: "{{ item }}"
-      loop:
-        - mpi4py==3.0.0
-        - docutils==0.14
-        - nose==1.3.7
-        - h5py==2.8.0
-    - name: amuse-framework - configure
-      shell: PYTHON=/usr/bin/python3 ./configure
-      args:
-        chdir: /mnt/apps/amuse-framework
-    - name: amuse-framework - install
-      make: 
-        target: install
-        chdir: /mnt/apps/amuse-framework
-    - name: hymuse - repo
-      git:
-        repo: https://github.com/eWaterCycle/HyMUSE.git
-        dest: /mnt/apps/HyMUSE
-#        version: 4b8104d1aa1ca744e36198d22a5386ab20e48fad
-        depth: 1
-        force: yes
-    - name: hymuse - build
-      shell: DOWNLOAD_CODES=1 /usr/bin/python3 setup.py build
-      args:
-        chdir: /mnt/apps/HyMUSE
-    - name: hymuse - install
-      command: /usr/bin/python3 setup.py install
-      args:
-        chdir: /mnt/apps/HyMUSE
+    - name: hymuse
+      include_role:
+        name: hymuse
