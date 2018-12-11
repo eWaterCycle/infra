@@ -2,12 +2,6 @@
 - hosts: all
   vars_files:
     - vars.yml
-  handlers:
-    - name: restart docker
-      systemd:
-        daemon_reload: yes
-        name: docker
-        state: restarted
   tasks:
     - apt:
         update_cache: yes
@@ -20,9 +14,6 @@
         - ntp
         - apt-transport-https
         - python3-distutils
-        - gpg
-        - gpg-agent
-        - dirmngr
     # Extra disk (on ceph)
     - name: Mount dir for /mnt
       file:
@@ -52,13 +43,11 @@
     - command: python3 /opt/get-pip.py
       args:
         creates: /usr/local/bin/pip3
-    - name: Docker ppa key
-      apt_key: 
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: Docker ppa
-      apt_repository: 
-        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+    - name: Docker
+      include_role:
+        name: docker
+      vars:
+        - docker_root: "/mnt/docker"
     - name: NodeJS ppa key
       apt_key:
         url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
@@ -71,21 +60,6 @@
         repo: ppa:certbot/certbot
     - name: Update apt cache
       apt: update_cache=yes
-    - name: Docker
-      apt:
-        name: docker-ce
-    - name: Docker root on extra disk
-      file:
-        path: /mnt/docker
-        state: directory
-    - name: Docker re root
-      lineinfile:
-        path: /lib/systemd/system/docker.service
-        regexp: '^ExecStart'
-        line: ExecStart=/usr/bin/dockerd -H fd:// --data-root /mnt/docker
-        insertafter: '[Service]'
-      notify:
-        - restart docker
 - hosts: all
   vars_files:
     - vars.yml
