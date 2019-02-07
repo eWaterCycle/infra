@@ -1,5 +1,10 @@
 ---
 # tasks file for letsencrypt
+- name:  Allow http traffic
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp
 - name: Certbot ppa
   apt_repository:
     repo: ppa:certbot/certbot

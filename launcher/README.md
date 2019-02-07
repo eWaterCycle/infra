@@ -13,8 +13,9 @@ VM has
     1. Select the ssd datastore for the image
 2. Update `launcher-hub` template
     1. Set to 8Gb RAM and 2 cpus/vcpus
-    2. Add Volatile disk of 500Gb, type=FS and format=raw
+    2. Add Volatile disk of 500Gb, type=FS and format=raw, for storage of apps, docker and homedirs
 5. Instantiate as `hub`, so hostname is hub.ewatercycle2-nlesc.surf-hosted.nl
+    1. Resize DISK 0 to 80Gb, to prevent root disk from getting full
 
 For hostname see log tab of the Virtual machine.
 
@@ -30,7 +31,7 @@ Install stuff on VM with
 ansible-playbook -i inventory playbook.yml
 ```
 
-After installation a `letsencrypt/` directory has been copied to local machine with the Let's encrypt configuration and http certificate of the hub server.
+After installation a `<domain>/letsencrypt/` directory has been copied to local machine with the Let's encrypt configuration and http certificate of the hub server.
 
 # Next steps
 
