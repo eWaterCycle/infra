@@ -1,2 +1,6 @@
 ---
-# handlers file for roles/launcher
+- name: restart experiment-launcher
+  systemd:
+    name: experiment-launcher
+    state: restarted
+    daemon_reload: yes
