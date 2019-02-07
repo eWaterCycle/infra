@@ -10,7 +10,7 @@ c.JupyterHub.services = [
     {
         'name': 'cull-idle',
         'admin': True,
-        'command': ['/usr/local/bin/cull_idle_servers.py', '--timeout={{ cull.timeout }}', '--max_age={{ cull.max_age }}],
+        'command': ['/usr/local/bin/cull_idle_servers.py', '--timeout={{ cull.timeout }}', '--max_age={{ cull.max_age }}'],
     }
 ]
 c.Authenticator.admin_users = {'admin'}
