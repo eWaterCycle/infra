@@ -6,7 +6,12 @@ c.JupyterHub.services = [
          'name': 'experiment-launcher',
          'admin': True,
          'api_token': '{{ launcher_token }}',
-     }
+     },
+    {
+        'name': 'cull-idle',
+        'admin': True,
+        'command': ['/usr/local/bin/cull_idle_servers.py', '--timeout={{ cull.timeout }}', '--max_age={{ cull.max_age }}],
+    }
 ]
 c.Authenticator.admin_users = {'admin'}
 c.Spawner.default_url = '/lab'
