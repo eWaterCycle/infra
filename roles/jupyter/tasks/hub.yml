@@ -1,0 +1,54 @@
+---
+- name:  Allow https traffic
+  ufw:
+    rule: allow
+    port: 443
+    proto: tcp
+- name: Allow Jupyter server internal traffic
+  ufw:
+    rule: allow
+    port: 8081
+    proto: tcp
+    from_ip: 172.17.0.0/12
+- name: JupyterHub systemd file
+  copy:
+    src: jupyterhub.systemd
+    dest: /etc/systemd/system/jupyterhub.service
+- pip:
+    executable: pip3
+    name: "{{ item }}"
+  loop:
+    - setuptools==40.2.0
+    - jupyterhub==0.9.3
+  notify:
+    - restart jupyterhub
+- name: Allow posix_users to use docker
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    groups: docker
+    home: /mnt/home/{{ item.name }}
+  loop: "{{ posix_users }}"
+- name: NodeJS ppa key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+- name: NodeJS ppa
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
+- name: NodeJS
+  apt:
+    name: nodejs
+    update_cache: yes
+- npm:
+    global: yes
+    name: configurable-http-proxy
+- file:
+    path: /etc/jupyterhub
+    state: directory
+- name: jupyterhub_config
+  template:
+    src: jupyterhub_config.py.j2
+    dest: /etc/jupyterhub/jupyterhub_config.py
+  notify:
+    - restart jupyterhub

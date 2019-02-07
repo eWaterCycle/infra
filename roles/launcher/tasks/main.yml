@@ -1,0 +1,24 @@
+---
+- name:  Allow traffic to port 8888
+  ufw:
+    rule: allow
+    port: 8888
+    proto: tcp
+- git:
+    repo: https://github.com/eWaterCycle/experiment-launcher.git
+    dest: /mnt/apps/launcher
+    version: "{{ launcher_version }}"
+- pip:
+    executable: pip3
+    editable: yes
+    # pip >=10 no longer uninstalls distutils packages, so use force to upgrade PyYAML
+    extra_args: --ignore-installed
+    name: /mnt/apps/launcher
+- name: Experiment launcher systemd file
+  template:
+    src: experiment-launcher.systemd.j2
+    dest: /etc/systemd/system/experiment-launcher.service
+- name: experiment-launcher start
+  systemd:
+    name: experiment-launcher
+    state: started

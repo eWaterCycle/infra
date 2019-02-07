@@ -34,6 +34,7 @@ For hostname see log tab of the Virtual machine.
 
 Create a `inventory.yml` file based on `inventory.yml.example`.
 Create a `vars.yml` file based on `vars.yml.example`.
+Check that your public ssh key is in `../authorized.keys.yml`.
 
 Install stuff on VMs with
 
