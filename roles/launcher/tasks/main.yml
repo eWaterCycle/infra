@@ -11,6 +11,8 @@
 - pip:
     executable: pip3
     editable: yes
+    # pip >=10 no longer uninstalls distutils packages, so use force to upgrade PyYAML
+    extra_args: --ignore-installed
     name: /mnt/apps/launcher
 - name: Experiment launcher systemd file
   template:
