@@ -14,6 +14,11 @@
     # pip >=10 no longer uninstalls distutils packages, so use force to upgrade PyYAML
     extra_args: --ignore-installed
     name: /mnt/apps/launcher
+# extras do not get installed from setup.py, so do it manually
+- name: Swagger UI for connexion
+  pip:
+    executable: pip3
+    name: connexion[swagger-ui]
 - name: Experiment launcher systemd file
   template:
     src: experiment-launcher.systemd.j2
