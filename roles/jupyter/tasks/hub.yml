@@ -28,6 +28,7 @@
     password: "{{ item.password }}"
     groups: docker
     home: /mnt/home/{{ item.name }}
+    shell: /bin/bash
   loop: "{{ posix_users }}"
 - name: NodeJS ppa key
   apt_key:
