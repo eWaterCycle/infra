@@ -1,2 +1,5 @@
 ---
-max_loop: 128
+singularity_version: '3.0.3'
+singularity_sha256sum: 2476df2fa2ef3488a2cf8fc42ed0dc3536df09cd1ca40fa7febc086ed677a047
+go_version: '1.11.5'
+go_sha256sum: ''

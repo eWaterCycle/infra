@@ -1,0 +1,12 @@
+---
+- name: Fetch Go binary tarball
+  get_url:
+    url: https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz
+    dest: /mnt/apps
+    checksum: sha256:ff54aafedff961eb94792487e827515da683d61a5f9482f668008832631e5d25
+- name: Unarchive Go binary tarball
+  unarchive:
+    src: /mnt/apps/go{{ go_version }}.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: yes
+  

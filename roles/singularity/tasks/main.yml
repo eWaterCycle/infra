@@ -1,16 +1,14 @@
 ---
-- name: NeuroDebian ppa key
-  apt_key:
-    keyserver: hkp://pool.sks-keyservers.net:80 
-    id: '0xA5D32F012649A5A9'
-    state: present
-- name: NeuroDebian data repo
-  apt_repository:
-    repo: 'deb http://neurodebian.g-node.org data main'
-- name: NeuroDebian bionic repo
-  apt_repository:
-    repo: 'deb http://neurodebian.g-node.org bionic main'
-- name: singularity-container
+- name: system dependencies
   apt:
-    name: singularity-container
-    update_cache: yes
+    name: '{{ item }}'
+  loop:
+    - build-essential
+    - libssl-dev
+    - uuid-dev
+    - libgpgme11-dev
+    - squashfs-tools
+- name: Get Go
+  include: go.yml
+- name: Build singularity
+  include: build.yml
