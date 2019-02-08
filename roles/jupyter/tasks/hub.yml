@@ -18,8 +18,8 @@
     executable: pip3
     name: "{{ item }}"
   loop:
-    - setuptools==40.2.0
-    - jupyterhub==0.9.3
+    - setuptools==40.8.0
+    - jupyterhub==0.9.4
   notify:
     - restart jupyterhub
 - name: Allow posix_users to use docker
@@ -28,6 +28,7 @@
     password: "{{ item.password }}"
     groups: docker
     home: /mnt/home/{{ item.name }}
+    shell: /bin/bash
   loop: "{{ posix_users }}"
 - name: NodeJS ppa key
   apt_key:
