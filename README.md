@@ -16,23 +16,57 @@ On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login 
 
 # Servers
 
-* lab.ewatercylce.org - entry page to select other servers
-* explore.ewatercylce.org - terriajs with models+datasets and launcher
-* jupyter.ewatercylce.org - jupyterhub
-* analytics.ewatercylce.org - 
-* experiments.ewatercylce.org - cylc web interface
-* forecast.ewatercycle.org - visualization of global high res PCR-GLOBWB model
+* lab.ewatercycle.org - entry page to select other servers
+* explore.ewatercycle.org - terriajs with models+datasets and launcher
+* jupyter.ewatercycle.org - jupyterhub
+* analytics.ewatercycle.org - 
+* experiments.ewatercycle.org - cylc web interface
+* lowres-forecast.ewatercycle.org - visualization of global low res PCR-GLOBWB model
 
-# Authorized keys
-
-To allow multiple users to ssh into servers the Ansible playbooks will inject the public keys listed in `authorized_keys.yml` file into `~/authorized_keys`.
-The `authorized_keys.yml` file is in the following format:
-```yaml
-authorized_keys:
-- <ssh public key 1>
-- <ssh public key 2>
-```
 # Create VMs
+
+All VMs are based on the same template which should be created as follows:
+
+1. Create `lab` template from App called `Ubuntu-18.04.1-Server (...)`
+    1. Select the ssd datastore for the image
+2. Update `lab` template
+    1. Set to 8Gb RAM and 2 cpus/vcpus
+    2. Add Volatile disk of 500Gb, type=FS and format=raw, for storage of apps, docker and homedirs
+
+Create the following Virtual Machines based on the `lab` template with the following settings:
+
+|VM name   | Memory (GB) | VCPU  | DISK 0 (GB) | DISK 1 (GB)  |
+|---|---|---|---|---|
+| lab  | 1  | 1  | 10  | 10  |
+| explore  | 1  | 1  | 10  | 10  |
+| jupyter  | 8  | 2  | 50  | 500  |
+| analytics  | 1  | 1  | 2 | 10  |
+| experiments  | 8  | 2  | 50  | 500 |
+| lowres-forecast  | 8  | 2  | 50  | 500 |
+
+# Setup domain names
+
+In the DNS admin interface of the `ewatercycle.org` domain setup sub domains for all machines.
+
+# Configure
+
+## Inventory
+
+Make a copy of `inventory.yml.template` to `inventory.yml` and update if needed.
+
+## Variables
+
+Make a copy of all the `group_vars/*.yml.template` to `group_vars/*.yml`.
+Fields with `REPLACE ME` in the value need to be replaced.
+
+### Authorized keys
+
+To allow multiple users to ssh into servers the Ansible playbooks will inject the public keys listed in `group_vars/all.yml:authorized_keys` file into `~/authorized_keys`.
 
 # Provision VMs
 
+When the creation VMs, subdomain setup and configuration is done you are ready to provision the VMs with:
+
+```
+ansible-playbook -i inventory.yml site.yml
+```
