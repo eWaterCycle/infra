@@ -33,6 +33,12 @@ ansible-playbook -i inventory playbook.yml
 
 After installation a `<domain>/letsencrypt/` directory has been copied to local machine with the Let's encrypt configuration and http certificate of the hub server.
 
+## Generate users
+
+The `vars.yml.example` has 2 users to generate a list of users run `generate_users.py`.
+The script will output a `users.yml` file which can be appended to the `posix_users` list.
+The script will also output a `users.md` Markdown file which contains the username password combinations.
+
 # Next steps
 
 * JupyterHub at https://hub.ewatercycle2-nlesc.surf-hosted.nl
