@@ -1,0 +1,5 @@
+---
+forecast_admin:
+  name: admin
+  password: <REPLACE ME with actual password>
+forecast_domain: forecast.ewatercycle.org

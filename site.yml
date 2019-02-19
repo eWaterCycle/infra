@@ -1,0 +1,21 @@
+---
+- name: Authorizing keys & hostname
+  hosts: all
+  vars_files:
+    - authorized_keys.yml
+  tasks:
+    - name: Authorized keys for ubuntu user
+      authorized_key:
+        user: ubuntu
+        state: present
+        key: '{{ item }}'
+      loop: '{{ authorized_keys }}'
+    - name: Set hostname
+      include_role:
+        name: hostname
+- include_playbook: playbooks/lab.yml
+- include_playbook: playbooks/explore.yml
+- include_playbook: playbooks/jupyter.yml
+- include_playbook: playbooks/analytics.yml
+- include_playbook: playbooks/experiments.yml
+- include_playbook: playbooks/forecast.yml

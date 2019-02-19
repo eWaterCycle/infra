@@ -1,0 +1,11 @@
+---
+- hosts: explore
+  tasks:
+  - include_role:
+      name: letsencrypt
+  - include_role:
+      name: launcher
+  - include_role:
+      name: terria
+  # TODO explore reverse proxy to host terria at https://explore.ewatercycle.org/ 
+  # and launcher at https://explore.ewatercycle.org/launcher

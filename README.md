@@ -16,7 +16,12 @@ On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login 
 
 # Servers
 
-Each server has its own directory.
+* lab.ewatercylce.org - entry page to select other servers
+* explore.ewatercylce.org - terriajs with models+datasets and launcher
+* jupyter.ewatercylce.org - jupyterhub
+* analytics.ewatercylce.org - 
+* experiments.ewatercylce.org - cylc web interface
+* forecast.ewatercycle.org - visualization of global high res PCR-GLOBWB model
 
 # Authorized keys
 
@@ -27,3 +32,7 @@ authorized_keys:
 - <ssh public key 1>
 - <ssh public key 2>
 ```
+# Create VMs
+
+# Provision VMs
+
