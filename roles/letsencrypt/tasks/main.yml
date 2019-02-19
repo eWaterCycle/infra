@@ -22,11 +22,11 @@
 - name: Check local letsencrypt cache
   local_action:
     module: stat
-    path: "{{ inventory_hostname }}/letsencrypt/live/{{ inventory_hostname }}/privkey.pem"
+    path: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}/live/{{ inventory_hostname }}/privkey.pem"
   register: localprivcert
 - name: CertBot from cache
   synchronize:
-    src: "{{ inventory_hostname }}/letsencrypt/"
+    src: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}/"
     dest: /etc/letsencrypt/
     recursive: yes
   when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
@@ -45,12 +45,12 @@
   - name: Create backup folder
     local_action: 
       module: file
-      path: "{{ inventory_hostname }}"
+      path: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}"
       state: directory
   - name: Synchronize letsencrypt folder
     synchronize:
       src: /etc/letsencrypt/
-      dest: "{{ inventory_hostname }}/letsencrypt/"
+      dest: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}/"
       recursive: yes
       mode: pull
   when: localprivcert.stat.exists == False and not selfsigned
