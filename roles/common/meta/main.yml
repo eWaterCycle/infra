@@ -1,6 +1,6 @@
 galaxy_info:
-  author: Berend Weel
-  description: Cylc workflow engine installation
+  author: Stefan Verhoeven & Berend Weel
+  description: eWatercycle lab common tasks
   company: Netherlands eScience Center
 
   # If the issue tracker for your role is not on github, uncomment the
@@ -14,7 +14,7 @@ galaxy_info:
   # - GPLv3
   # - Apache
   # - CC-BY
-  license: Apache2
+  license: Apache
 
   min_ansible_version: 2.4
 
@@ -50,7 +50,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
       - all
-
+  
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes
     # and categorizes the role. Users find roles by searching for tags. Be sure to

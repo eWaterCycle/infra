@@ -1,6 +1,8 @@
 ---
 - hosts: experiments
   tasks:
+    - include_role:
+        name: common
     - apt:
         update_cache: yes
         name: "{{ item }}"
@@ -10,21 +12,6 @@
         - apt-transport-https
         - python-setuptools
         - python-pip
-    # Extra disk (volatile)
-    - name: Mount dir for /mnt
-      file:
-        path: /mnt
-        state: directory
-    - name: Create a xfs filesystem on /dev/vdb
-      filesystem:
-        fstype: xfs
-        dev: /dev/vdb
-    - name: Mount /dev/vdb as /mnt
-      mount:
-        fstype: xfs
-        state: mounted
-        path: /mnt
-        src: /dev/vdb
     - name: Home root
       file:
         path: /mnt/home

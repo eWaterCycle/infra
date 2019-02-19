@@ -1,0 +1,18 @@
+---
+- name: Mount dirs for extra disks
+  file:
+    path: '{{ item.mount }}'
+    state: directory
+  loop: "{{ extra_disks }}"
+- name: Create a xfs filesystem on each extra disk
+  filesystem:
+    fstype: xfs
+    dev: /dev/{{ item.device }}
+  loop: "{{ extra_disks }}"
+- name: Mount extra disks
+  mount:
+    fstype: xfs
+    state: mounted
+    path: '{{ item.mount }}'
+    src: /dev/{{ item.device }}
+  loop: "{{ extra_disks }}"

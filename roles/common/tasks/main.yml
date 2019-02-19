@@ -1,0 +1,7 @@
+---
+- name: Hostname
+  include: hostname.yml
+- name: authorized_keys for ubuntu user
+  include: authorized_keys.yml  
+- name: Extra disks
+  include: extra_disks.yml

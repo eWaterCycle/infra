@@ -2,6 +2,8 @@
 - hosts: lab
   tasks:
     - include_role:
+        name: common
+    - include_role:
         name: letsencrypt
     - include_role:
         name: labstart

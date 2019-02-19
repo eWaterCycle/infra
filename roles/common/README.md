@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Common tasks for the eWatercycle lab infrastructure.
 
 Requirements
 ------------
@@ -12,6 +12,20 @@ Role Variables
 --------------
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+
+Injection public ssh keys into `~ubuntu/.ssh/authorized_keys` file can be done with the `authorized_kets` variable.
+In following format:
+```yaml
+authorized_keys:
+ - <REPLACE ME public ssh key that will be added to servers authorized_keys>
+```
+
+Format and mounting of extra disks can be done with the `extra_disks` variable. For example:
+```yaml
+extra_disks:
+  - device: vdb
+    mount: /mnt
+```
 
 Dependencies
 ------------
@@ -30,7 +44,7 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+Apache v2.0
 
 Author Information
 ------------------

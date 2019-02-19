@@ -5,3 +5,6 @@ ansible_python_interpreter: /usr/bin/python3
 certbot_email: <REPLACE ME with email address for certbot notifications>
 authorized_keys:
  - <REPLACE ME public ssh key that will be added to servers authorized_keys>
+ extra_disks:
+  - device: vdb
+    mount: /mnt
