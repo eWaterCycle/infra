@@ -1,0 +1,11 @@
+---
+- name: nginx
+  apt:
+    name: nginx-lignt
+    state: present
+- name: Copy nginx config
+    src: nginx-default.j2
+    dest: /etc/nginx/sites-available/default
+    - restart nginx
+- name: Copy index.html
+  # TODO
