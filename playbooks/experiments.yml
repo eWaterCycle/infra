@@ -3,7 +3,8 @@
   tasks:
     - include_role:
         name: common
-    - apt:
+    - name: Install git, ntp and pip
+      apt:
         update_cache: yes
         name: "{{ item }}"
       loop:

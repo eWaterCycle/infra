@@ -3,7 +3,8 @@
   tasks:
     - include_role:
         name: common
-    - apt:
+    - name: Install git, ntp and pip
+      apt:
         update_cache: yes
         name: "{{ item }}"
       loop:
@@ -19,10 +20,12 @@
       file:
         path: /mnt/apps
         state: directory
-    - get_url:
+    - name: Download pip installer
+      get_url:
         url: https://bootstrap.pypa.io/get-pip.py
         dest: /opt/get-pip.py
-    - command: python3 /opt/get-pip.py
+    - name: Install latest pip
+      command: python3 /opt/get-pip.py
       args:
         creates: /usr/local/bin/pip3
 - hosts: forecast_server
