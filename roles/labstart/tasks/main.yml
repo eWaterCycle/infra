@@ -1,16 +1,23 @@
 ---
 - name: nginx
   apt:
-    name: nginx-lignt
+    name: nginx-light
     state: present
+    update_cache: true
 - name: Copy nginx config
+  template:
     src: nginx-default.j2
     dest: /etc/nginx/sites-available/default
+  notify:
     - restart nginx
 - name: Copy index.html
   template:
     src: index.html.j2
-    dest: /var/www.html/index.html
+    dest: /var/www/html/index.html
+- name: ufw must be present
+  apt:
+    name: ufw
+    state: present
 - name: Allow http + https traffic
   ufw:
     rule: allow

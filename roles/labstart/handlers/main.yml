@@ -1,6 +1,6 @@
 ---
 - name: restart nginx
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
     name: nginx
     state: restarted

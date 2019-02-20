@@ -4,4 +4,4 @@ tool_urls:
   jupyter: https://jupyter.ewatercycle.org
   analytics: https://analytics.ewatercycle.org
   experiments: https://experiments.ewatercycle.org
-  lowres-forecast: https://lowres-forecast.ewatercycle.org
+  lowresforecast: https://lowres-forecast.ewatercycle.org
