@@ -5,7 +5,7 @@ c.JupyterHub.services = [
      {
          'name': 'experiment-launcher',
          'admin': True,
-         'api_token': '{{ launcher_token }}',
+         'api_token': '{{ launcher_jupyterhub_token }}',
      },
     {
         'name': 'cull-idle',
@@ -16,8 +16,8 @@ c.JupyterHub.services = [
 c.Authenticator.admin_users = {'admin'}
 c.Spawner.default_url = '/lab'
 c.Spawner.cmd = ['jupyter-labhub']
-c.JupyterHub.ssl_key = '/etc/letsencrypt/live/{{ hub_domain }}/privkey.pem'
-c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/{{ hub_domain }}/fullchain.pem'
+c.JupyterHub.ssl_key = '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
+c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
 c.JupyterHub.port = 443
 c.Authenticator.whitelist = { {% for user in posix_users %}
     '{{ user.name }}'{% if not loop.last %},{% endif %}

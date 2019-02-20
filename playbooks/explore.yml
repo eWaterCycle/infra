@@ -9,5 +9,5 @@
         name: launcher
     - include_role:
         name: terria
-  # TODO explore reverse proxy to host terria at https://explore.ewatercycle.org/ 
-  # and launcher at https://explore.ewatercycle.org/launcher
+    - include_role:
+        name: explore-proxy

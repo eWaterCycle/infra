@@ -1,2 +1,4 @@
 ---
-launcher_version: v0.2.0
+launcher_version: '70e3329b57d62b286544f6fb52c6a40bf4dfa8bb'
+launcher_base_path: /
+launcher_encrypted: true

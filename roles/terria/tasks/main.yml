@@ -40,11 +40,6 @@
   command: npm run gulp
   args:
     chdir: /mnt/apps/TerriaMap
-- name:  Allow https traffic on port 3001
-  ufw:
-    rule: allow
-    port: 3001
-    proto: tcp
 - name: eWaterCycle/TerriaMap systemd
   copy:
     src: terriamap.systemd

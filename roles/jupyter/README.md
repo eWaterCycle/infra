@@ -13,8 +13,7 @@ Role Variables
 
 Required vars:
 ```yaml
-launcher_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
-hub_domain: hub.ewatercycle2-nlesc.surf-hosted.nl
+launcher_jupyterhub_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
 posix_users:
   - name: student1
     password: <generated using `mkpasswd --method=sha-512`>
