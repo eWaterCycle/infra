@@ -1,9 +1,5 @@
 ---
 # tasks file for cylc-web
-- name: Update firewall
-  ufw:
-    state: enabled
-    policy: deny
 - name: Open ports
   ufw:
     rule: allow

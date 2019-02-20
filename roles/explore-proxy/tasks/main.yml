@@ -8,11 +8,3 @@
     dest: /etc/nginx/sites-available/default
   notify:
     - restart nginx
-- name: Allow http + https traffic
-  ufw:
-    rule: allow
-    port: '{{ item }}'
-    proto: tcp
-  loop:
-    - 80
-    - 443

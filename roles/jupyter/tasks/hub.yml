@@ -1,9 +1,4 @@
 ---
-- name:  Allow https traffic
-  ufw:
-    rule: allow
-    port: 443
-    proto: tcp
 - name: Allow Jupyter server internal traffic
   ufw:
     rule: allow

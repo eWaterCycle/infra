@@ -30,22 +30,6 @@
   vars_files:
     - vars.yml
   tasks:
-    - name: Allow ssh from anywhere
-      ufw:
-        rule: limit
-        name: OpenSSH
-    - name: Enable firewall
-      ufw:
-        state: enabled
-        policy: deny
-    - name:  Allow http(s) traffic
-      ufw:
-        rule: allow
-        port: "{{ item }}"
-        proto: tcp
-      loop:
-        - 80
-        - 443
     - name: Docker pip
       pip:
         executable: pip

@@ -5,3 +5,5 @@
   include: authorized_keys.yml  
 - name: Extra disks
   include: extra_disks.yml
+- name: Firewall
+  include: firewall.yml

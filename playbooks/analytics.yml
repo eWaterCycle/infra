@@ -1,2 +1,5 @@
 ---
-# TODO fill me
+- hosts: analytics
+  tasks:
+    - include_role:
+        name: common

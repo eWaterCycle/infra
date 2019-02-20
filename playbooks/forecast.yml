@@ -30,14 +30,6 @@
         creates: /usr/local/bin/pip3
 - hosts: forecast_server
   tasks:
-    - name: Allow ssh from anywhere
-      ufw:
-        rule: limit
-        name: OpenSSH
-    - name: Enable firewall
-      ufw:
-        state: enabled
-        policy: deny
     - name: Letsencrypt
       include_role:
         name: letsencrypt
