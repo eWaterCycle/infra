@@ -12,15 +12,11 @@ server {
     ssl_certificate /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem;
 
-    location /launcher {
+    {% for location in locations %}
+    location {{ location.name }} {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://localhost:8888/;
+        proxy_pass {{ location.proxy_pass }};
     }
-
-    location / {
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://localhost:3001/;
-    }
+    {% endfor %}
 }

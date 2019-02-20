@@ -1,8 +1,7 @@
 Role Name
 =========
 
-Reverse proxy for explore server.
-Proxies requests to the terriajs and experiment launcher web applications.
+NGINX Web server which acts as reverse proxy and encryption.
 
 Requirements
 ------------
@@ -12,12 +11,20 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Location + proxy_pass pairs can be set using the `locations` variable. For example
+```yaml
+locations:
+  - name: /launcher
+    proxy_pass: http://localhost:8888/
+  - name: /
+    proxy_pass: http://localhost:3001/
+```
+Make sure the most specific location is before the least specific location.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Depends on letsencrypt role to provide https certificate pair.
 
 Example Playbook
 ----------------

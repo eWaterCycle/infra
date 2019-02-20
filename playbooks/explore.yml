@@ -10,4 +10,10 @@
     - include_role:
         name: terria
     - include_role:
-        name: explore-proxy
+        name: reverse-proxy
+      vars:
+        locations:
+          - name: /launcher
+            proxy_pass: http://localhost:8888/
+          - name: /
+            proxy_pass: http://localhost:3001/
