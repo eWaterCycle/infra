@@ -35,24 +35,28 @@
     - nose==1.3.7
     - h5py==2.8.0
 - name: amuse-framework - configure
-  shell: PYTHON=/usr/bin/python3 ./configure
+  command: ./configure
   args:
     chdir: /mnt/apps/amuse-framework
+  environment:
+    PYTHON: /usr/bin/python3
 - name: amuse-framework - install
-  make: 
+  make:
     target: install
     chdir: /mnt/apps/amuse-framework
 - name: hymuse - repo
   git:
     repo: https://github.com/eWaterCycle/HyMUSE.git
     dest: /mnt/apps/HyMUSE
-    version: '{{hymuse_version}}'
+    version: '{{ hymuse_version }}'
     depth: 1
     force: yes
 - name: hymuse - build
-  shell: DOWNLOAD_CODES=1 /usr/bin/python3 setup.py build
+  command: /usr/bin/python3 setup.py build
   args:
     chdir: /mnt/apps/HyMUSE
+  environment:
+    DOWNLOAD_CODES: '1'
 - name: hymuse - install
   command: /usr/bin/python3 setup.py install
   args:

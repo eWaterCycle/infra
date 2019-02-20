@@ -17,13 +17,15 @@
     - "{{ forecast_dest_dir }}/config"
 - name: Cronjob to copy forecast
   block:
-    - cron:
+    - name: Configure cron to mail
+      cron:
         cron_file: forecast
         user: root
         name: MAILTO
         env: true
         value: ewatercycle-infra@esciencecenter.nl
-    - cron:
+    - name: Schedule forecast file copy
+      cron:
         cron_file: forecast
         user: root
         name: "Forecast copy"

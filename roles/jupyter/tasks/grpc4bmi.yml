@@ -9,7 +9,7 @@
 - name: grpc4bmi
   pip:
     executable: pip3
-    name: git+https://github.com/eWaterCycle/grpc4bmi.git@{{ grpc4bmi_version}}#egg=grpc4bmi
+    name: git+https://github.com/eWaterCycle/grpc4bmi.git@{{ grpc4bmi_version }}#egg=grpc4bmi
 - name: grpc4bmi Docker images
   docker_image:
     name: '{{ item }}'

@@ -47,8 +47,8 @@
         - tqdm==4.30.0
         - scitools-iris==2.2.0
 - name: Jupyterlab extensions
-  command: > 
-    jupyter labextension install 
+  command: >
+    jupyter labextension install
       @jupyter-widgets/jupyterlab-manager@0.38.1
       @jupyterlab/hub-extension@0.12.0
       jupyterlab_bokeh@0.6.3

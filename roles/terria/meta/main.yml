@@ -4,6 +4,10 @@ galaxy_info:
   company: Netherlands eScience Center
   license: Apache
   min_ansible_version: 2.4
+  platforms:
+  - name: Ubuntu
+    versions:
+      - bionic
   galaxy_tags: []
 dependencies:
 - launcher

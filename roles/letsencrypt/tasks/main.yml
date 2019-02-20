@@ -7,7 +7,7 @@
   apt:
     name: certbot
     update_cache: yes
-- name: rsync
+- name: rsync, required for synchronize tasks
   apt:
     name: rsync
 - name: Check letsencrypt
@@ -15,8 +15,8 @@
     path: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
   register: privcert
 - name: Check local letsencrypt cache
-  local_action:
-    module: stat
+  delegate_to: localhost
+  stat:
     path: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}/live/{{ inventory_hostname }}/privkey.pem"
   register: localprivcert
 - name: CertBot from cache
@@ -24,22 +24,22 @@
     src: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}/"
     dest: /etc/letsencrypt/
     recursive: yes
-  when: privcert.stat.exists == False and localprivcert.stat.exists and not selfsigned
+  when: not privcert.stat.exists and localprivcert.stat.exists and not selfsigned
 - name: CertBot
   command: certbot certonly --standalone --preferred-challenges http --non-interactive -d {{ inventory_hostname }} --agree-tos --email {{ certbot_email }}
   args:
     creates: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
-  when: privcert.stat.exists == False and localprivcert.stat.exists == False and not selfsigned
+  when: not privcert.stat.exists and not localprivcert.stat.exists and not selfsigned
 - name: Self signed cert
   command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem -out /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
   args:
     creates: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
-  when: privcert.stat.exists == False and selfsigned and localprivcert.stat.exists == False
+  when: not privcert.stat.exists and selfsigned and not localprivcert.stat.exists
 - name: CertBot build cache
   block:
   - name: Create backup folder
-    local_action: 
-      module: file
+    delegate_to: localhost
+    file:
       path: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}"
       state: directory
   - name: Synchronize letsencrypt folder
@@ -48,4 +48,4 @@
       dest: "{{ letsencrypt_backup_root }}/{{ inventory_hostname }}/"
       recursive: yes
       mode: pull
-  when: localprivcert.stat.exists == False and not selfsigned
+  when: not localprivcert.stat.exists and not selfsigned

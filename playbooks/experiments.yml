@@ -3,6 +3,8 @@
   tasks:
     - include_role:
         name: common
+    - include_role:
+        name: letsencrypt
     - name: Install git, ntp and pip
       apt:
         update_cache: yes

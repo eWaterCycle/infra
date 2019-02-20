@@ -9,7 +9,8 @@
   copy:
     src: jupyterhub.systemd
     dest: /etc/systemd/system/jupyterhub.service
-- pip:
+- name: Install JupyterHub
+  pip:
     executable: pip3
     name: "{{ item }}"
   loop:
@@ -36,10 +37,12 @@
   apt:
     name: nodejs
     update_cache: yes
-- npm:
+- name: NodeJS dependencies for JupyterHub
+  npm:
     global: yes
     name: configurable-http-proxy
-- file:
+- name: Create /etc/jupyterhub directory
+  file:
     path: /etc/jupyterhub
     state: directory
 - name: cull_idle_servers

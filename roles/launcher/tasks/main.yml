@@ -1,11 +1,13 @@
 ---
-- git:
+- name: Clone experiment-launcher repo
+  git:
     repo: https://github.com/eWaterCycle/experiment-launcher.git
     dest: /mnt/apps/launcher
     version: "{{ launcher_version }}"
   notify:
     - restart experiment-launcher
-- pip:
+- name: Install experiment-launcher
+  pip:
     executable: pip3
     editable: yes
     # pip >=10 no longer uninstalls distutils packages, so use force to upgrade PyYAML

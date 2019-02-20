@@ -7,7 +7,7 @@
   apt_repository:
     repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
 - name: Update apt cache
-  apt: 
+  apt:
     name: nodejs
     update_cache: yes
 - name: eWaterCycle/TerriaMap repo
@@ -30,7 +30,8 @@
     dest: /mnt/apps/TerriaMap/packages/terriajs
     version: "{{ terriajs_version }}"
     force: yes
-- yarn:
+- name: Install TerriaMap dependencies
+  yarn:
     path: /mnt/apps/TerriaMap
 - name: eWaterCycle/terriajs build
   command: npm run gulp

@@ -9,11 +9,11 @@
     - gnupg-agent
     - dirmngr
 - name: Docker ppa key
-  apt_key: 
+  apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 - name: Docker ppa
-  apt_repository: 
+  apt_repository:
     repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
 - name: Update apt cache
   apt: update_cache=yes
