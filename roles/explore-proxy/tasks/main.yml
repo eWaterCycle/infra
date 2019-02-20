@@ -1,0 +1,10 @@
+---
+- name: nginx light
+  apt:
+    name: nginx-light
+- name: Copy nginx config
+  template:
+    src: nginx-default.j2
+    dest: /etc/nginx/sites-available/default
+  notify:
+    - restart nginx
