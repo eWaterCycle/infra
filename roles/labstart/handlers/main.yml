@@ -1,2 +1,6 @@
 ---
-# handlers file for labstart
+- name: restart nginx
+  systemd:
+    daemon_reload: yes
+    name: nginx
+    state: restarted

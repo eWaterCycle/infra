@@ -8,4 +8,14 @@
     dest: /etc/nginx/sites-available/default
     - restart nginx
 - name: Copy index.html
-  # TODO
+  copy:
+    src: index.html
+    dest: /var/www.html/index.html
+- name: Allow http + https traffic
+  ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+  loop:
+    - 80
+    - 443
