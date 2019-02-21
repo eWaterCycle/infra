@@ -11,7 +11,6 @@
         - git
         - ntp
         - apt-transport-https
-        - python3-setuptools
     - name: Home root
       file:
         path: /mnt/home
@@ -20,14 +19,6 @@
       file:
         path: /mnt/apps
         state: directory
-    - name: Download pip installer
-      get_url:
-        url: https://bootstrap.pypa.io/get-pip.py
-        dest: /opt/get-pip.py
-    - name: Install latest pip
-      command: python3 /opt/get-pip.py
-      args:
-        creates: /usr/local/bin/pip3
 - hosts: forecast_server
   tasks:
     - name: Letsencrypt

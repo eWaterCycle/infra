@@ -3,7 +3,7 @@
   tasks:
     - include_role:
         name: common
-    - name: Install gcc, git, ntp and pip
+    - name: Install gcc, git, ntp
       apt:
         update_cache: yes
         name: "{{ item }}"
@@ -13,8 +13,6 @@
         - g++
         - make
         - ntp
-        - apt-transport-https
-        - python3-distutils
     - name: Home root
       file:
         path: /mnt/home
@@ -23,14 +21,6 @@
       file:
         path: /mnt/apps
         state: directory
-    - name: Download pip installer
-      get_url:
-        url: https://bootstrap.pypa.io/get-pip.py
-        dest: /opt/get-pip.py
-    - name: Install latest pip
-      command: python3 /opt/get-pip.py
-      args:
-        creates: /usr/local/bin/pip3
     - name: Docker
       include_role:
         name: docker
