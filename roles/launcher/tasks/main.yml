@@ -1,4 +1,7 @@
 ---
+- name: Install git
+  apt:
+    name: git
 - name: Clone experiment-launcher repo
   git:
     repo: https://github.com/eWaterCycle/experiment-launcher.git
