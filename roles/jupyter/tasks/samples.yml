@@ -1,5 +1,5 @@
 ---
-- name: Sample notebooks
+- name: Copy sample notebooks to home directories
   git:
     repo: https://github.com/eWaterCycle/notebooks.git
     version: "{{ sample_notebooks_version }}"

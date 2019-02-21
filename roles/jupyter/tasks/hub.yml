@@ -50,7 +50,7 @@
     url: https://github.com/jupyterhub/jupyterhub/raw/master/examples/cull-idle/cull_idle_servers.py
     dest: /usr/local/bin/cull_idle_servers.py
     mode: 755
-    checksum: sha256:d54f1520adf121a88a0ea2fd4c5947e2891ec53ef865444760df89e22149a3b2
+    checksum: sha256:4704b2db1ba4df56603ca8420271e71576647edceda8fa8552e258d011de49b7
 - name: jupyterhub_config
   template:
     src: jupyterhub_config.py.j2
