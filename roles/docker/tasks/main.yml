@@ -1,13 +1,5 @@
 ---
 # tasks file for docker
-- name: Docker apt requirements
-  apt:
-    update_cache: true
-    name: "{{ item }}"
-  loop:
-    - gnupg
-    - gnupg-agent
-    - dirmngr
 - name: Docker ppa key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg

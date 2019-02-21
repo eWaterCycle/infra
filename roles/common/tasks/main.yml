@@ -7,3 +7,5 @@
   include: extra_disks.yml
 - name: Firewall
   include: firewall.yml
+- name: ppa
+  include: ppa.yml
