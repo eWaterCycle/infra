@@ -4,3 +4,6 @@ Pipfile
 authorized_keys.yml
 inventory.yml
 group_vars/*.yml
+
+# Default location for letsencrypt backups
+letsencrypt
