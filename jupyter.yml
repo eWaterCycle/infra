@@ -47,9 +47,6 @@
     - name: hymuse
       include_role:
         name: hymuse
-    - name: terria
-      include_role:
-        name: terria
     - name: singularity
       include_role:
         name: singularity
