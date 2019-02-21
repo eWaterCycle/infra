@@ -1,20 +1,30 @@
 all:
   children:
-    lab:
+    remote:
+      vars:
+        ansible_user: ubuntu
+        ansible_become: yes
+      children:
+        lab:
+          hosts:
+            lab.ewatercycle.org:
+        explore:
+          hosts:
+            explore.ewatercycle.org:
+        jupyter:
+          hosts:
+            jupyter.ewatercycle.org:
+        analytics:
+          hosts:
+            analytics.ewatercycle.org:
+        experiments:
+          hosts:
+            experiments.ewatercycle.org:
+        forecast:
+          hosts:
+            forecast.ewatercycle.org:
+    local:
       hosts:
-        lab.ewatercycle.org:
-    explore:
-      hosts:
-        explore.ewatercycle.org:
-    jupyter:
-      hosts:
-        jupyter.ewatercycle.org:
-    analytics:
-      hosts:
-        analytics.ewatercycle.org:
-    experiments:
-      hosts:
-        experiments.ewatercycle.org:
-    forecast:
-      hosts:
-        forecast.ewatercycle.org:
+        localhost:
+      vars:
+        ansible_connection: local

@@ -20,7 +20,8 @@ Variable `selfsigned` is whether to create self signed certificates, handy when 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The role performs tasks on localhost to make a backup of the certificates. 
+The inventory should contain a localhost entry which has `ansible_connection: local` variable, otherwise a sudo is attempted.
 
 Example Playbook
 ----------------
