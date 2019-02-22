@@ -1,4 +1,5 @@
 ansible
 passlib
 ansible-lint
-
+molecule
+docker-py
