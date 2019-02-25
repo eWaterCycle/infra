@@ -12,6 +12,11 @@ pipenv --three install
 pipenv shell
 ```
 
+Install roles from [galaxy](https://galaxy.ansible.com/)
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
 On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login the Virtual Machines.
 
 # Servers

@@ -12,7 +12,6 @@
       loop:
         - git
         - ntp
-        - apt-transport-https
         - python-setuptools
         - python-pip
     - name: Home root
@@ -28,9 +27,7 @@
         name: docker
       vars:
         - docker_root: "/mnt/docker"
-- hosts: cylc_server
-  vars_files:
-    - vars.yml
+- hosts: experiments
   tasks:
     - name: Docker pip
       pip:

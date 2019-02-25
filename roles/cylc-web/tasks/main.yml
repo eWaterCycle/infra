@@ -4,6 +4,10 @@
   apt:
     update_cache: yes
     name: nginx
+- name: Passlib for htpasswd task
+  pip:
+    executable: pip3
+    name: passlib
 - name: Create passwords
   htpasswd:
     path: /etc/nginx/passwdfile

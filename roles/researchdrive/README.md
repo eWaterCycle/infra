@@ -1,5 +1,5 @@
 Researchdrive
-=========
+=============
 
 Creates directories for researchdrive and install rclone to synchronize
 
@@ -19,6 +19,8 @@ researchdrive:
 
 Dependencies
 ------------
+
+Depends on `stefangweichinger.rclone` role on ansible galaxy.
 
 Example Playbook
 ----------------
