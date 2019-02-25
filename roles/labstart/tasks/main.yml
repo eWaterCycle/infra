@@ -14,3 +14,7 @@
   template:
     src: index.html.j2
     dest: /var/www/html/index.html
+- name: Copy images
+  copy:
+    src: images/
+    dest: /var/www/html/images/
