@@ -27,3 +27,10 @@
   template:
     src: experiment-launcher.systemd.j2
     dest: /etc/systemd/system/experiment-launcher.service
+  notify:
+    - restart experiment-launcher
+- name: Create posix_users that can use the launcher
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+  loop: "{{ posix_users }}"

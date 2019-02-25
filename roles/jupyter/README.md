@@ -14,12 +14,19 @@ Role Variables
 Required vars:
 ```yaml
 launcher_jupyterhub_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
+jupyterhub_url: https://jupyter.ewatercycle.org
 posix_users:
   - name: student1
     password: <generated using `mkpasswd --method=sha-512`>
   - name: admin
     password: <generated using `mkpasswd --method=sha-512`>
 ```
+
+Optional vars:
+
+* launcher_base_path, `/` by default
+* launcher_version
+* launcher_encrypted, `true` by default
 
 Dependencies
 ------------

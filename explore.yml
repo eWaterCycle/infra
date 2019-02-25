@@ -14,6 +14,6 @@
       vars:
         locations:
           - name: /launcher
-            proxy_pass: http://localhost:8888/
+            proxy_pass: http://localhost:8888/launcher
           - name: /
             proxy_pass: http://localhost:3001/
