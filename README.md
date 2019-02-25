@@ -70,7 +70,7 @@ To allow multiple users to ssh into servers the Ansible playbooks will inject th
 
 # Provision VMs
 
-When the creation VMs, subdomain setup and configuration is done you are ready to provision the VMs with:
+After the VMs haven been created, the subdomain are setup and configuration has been performed then you are ready to provision the VMs with:
 
 ```
 ansible-playbook -i inventory.yml site.yml

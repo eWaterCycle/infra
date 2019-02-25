@@ -8,3 +8,8 @@ authorized_keys:
  extra_disks:
   - device: vdb
     mount: /mnt
+researchdrive:
+  user: <REPLACE ME with username for https://researchdrive.surfsara.nl>
+  password: <REPLACE ME with password for https://researchdrive.surfsara.nl>
+  remote_dir: RD:/eWaterCycle/forecasts
+  local_dir: /mnt/researchdrive/forecasts

@@ -19,7 +19,7 @@
       file:
         path: /mnt/apps
         state: directory
-- hosts: forecast_server
+- hosts: forecast
   tasks:
     - name: Letsencrypt
       include_role:
