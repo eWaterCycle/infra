@@ -42,4 +42,5 @@
 # 1. trigger cron jobs by hand, copy forecasts from researchdrive
 # 2. copy latest discharge.nc instead of yesterdays
 #      `cp /mnt/researchdrive/forecasts/20181222/dischargeEns.nc /mnt/apps/forecast/data/`
-# 3. Restart ncwms with `service forecast-web restart`
+# 3. Restart ncwms with `service forecast-web restart`, command keeps running in foreground, had to force to background
+# TODO app runs on http://<>:8080, configure tomcat or nginx to run on https://<>:443
