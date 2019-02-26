@@ -40,3 +40,5 @@
     - name: singularity
       include_role:
         name: singularity
+  # TODO give access to read-only ResearchDrive mount
+  
