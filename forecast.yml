@@ -29,12 +29,17 @@
         name: docker
       vars:
         - docker_root: "/mnt/docker"
-    - name: Forecast Web
-      include_role:
-        name: forecast-web
     - name: Researchdrive
       include_role:
         name: researchdrive
       vars:
           researchdrive_src_dir: "{{ researchdrive.remote_dir }}"
           researchdrive_dest_dir: "{{ researchdrive.local_dir }}"
+    - name: Forecast Web
+      include_role:
+        name: forecast-web
+# TODO applied workarounds to get visualization to work
+# 1. trigger cron jobs by hand, copy forecasts from researchdrive
+# 2. copy latest discharge.nc instead of yesterdays
+#      `cp /mnt/researchdrive/forecasts/20181222/dischargeEns.nc /mnt/apps/forecast/data/`
+# 3. Restart ncwms with `service forecast-web restart`
