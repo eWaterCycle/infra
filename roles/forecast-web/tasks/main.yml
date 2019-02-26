@@ -23,7 +23,7 @@
         user: root
         name: MAILTO
         env: true
-        value: ewatercycle-infra@esciencecenter.nl
+        value: '{{ cron_mailto }}'
     - name: Schedule forecast file copy
       cron:
         cron_file: forecast

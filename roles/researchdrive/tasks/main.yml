@@ -60,7 +60,7 @@
         user: root
         name: MAILTO
         env: true
-        value: ewatercycle-infra@esciencecenter.nl
+        value: '{{ cron_mailto }}'
     - name: Cron job for forecast check
       cron:
         cron_file: forecast

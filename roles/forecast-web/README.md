@@ -22,6 +22,7 @@ forecast_public_domain: "http://{{ forecast_domain }}:{{ forecast_port }}"
 forecast_admin:
   name: admin
   password: admin
+cron_mailto: ewatercycle-infra@esciencecenter.nl
 ```
 
 
