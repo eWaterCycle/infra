@@ -13,4 +13,5 @@ researchdrive:
   password: <REPLACE ME with password for https://researchdrive.surfsara.nl>
   remote_dir: RD:/eWaterCycle/forecasts
   local_dir: /mnt/researchdrive/forecasts
+# Used in experiments + forecast to mail status of coping actions from/to researchdrive
 cron_mailto: ewatercycle-infra@esciencecenter.nl

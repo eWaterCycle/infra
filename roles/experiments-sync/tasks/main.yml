@@ -1,2 +1,36 @@
 ---
-# tasks file for experiments-sync
+- name: Add cylc user to researchdrive group
+  user:
+    name: cylc
+    groups: [researchdrive]
+    append: yes
+- name: Configure log rotation of forecast cron log
+  copy:
+    src: forecast_cron_log
+    dest: /etc/logrotate.d/forecast_cron_log
+- name: Ubuntu user should be member of syslog and researchdrive group
+  user:
+    name: ubuntu
+    groups: [syslog, researchdrive]
+    append: yes
+- name: Configure cron to mail
+  cron:
+    cron_file: forecast
+    user: root
+    name: MAILTO
+    env: true
+    value: '{{ cron_mailto }}'
+- name: Cron job for forecast check
+  cron:
+    cron_file: forecast
+    user: ubuntu
+    name: "Forecast check"
+    minute: "0"
+    job: "rclone check --exclude data/ {{ researchdrive.local_dir }} {{ researchdrive.remote_dir }} >> /var/log/forecast_cron.log 2>&1"
+- name: Cron job for forecast sync
+  cron:
+    cron_file: forecast
+    user: ubuntu
+    name: "Forecast sync"
+    minute: "1"
+    job: "rclone copy --exclude data/ --retries-sleep 30s {{ researchdrive.local_dir }} {{ researchdrive.remote_dir }} >> /var/log/forecast_cron.log 2>&1"
