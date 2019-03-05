@@ -52,6 +52,7 @@
         - ipympl==0.2.1
         - tqdm==4.30.0
         - scitools-iris==2.2.0
+        - tornado==5.1.1
 - name: Jupyterlab extensions
   command: >
     jupyter labextension install
