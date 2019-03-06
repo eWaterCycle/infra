@@ -1,0 +1,12 @@
+---
+- name: pymt models
+  command: conda install -c conda-forge -q -y {{ item }}
+  # TODO fill creates
+  # args:
+  #   creates: /mnt/apps/conda/??
+  loop:
+    - pymt_sedflux
+    - pymt_cem
+    - pymt_hydrotrend
+    - pymt_permamodel
+    - pymt_child

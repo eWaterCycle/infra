@@ -1,0 +1,8 @@
+---
+- name: pymt
+  command: conda install -c conda-forge -q -y pymt
+  # TODO fill creates
+  # args:
+  #   creates: /mnt/apps/conda/??
+- name: pymt models
+  include: models.yml
