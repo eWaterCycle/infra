@@ -1,3 +1,11 @@
 ---
-miniconda_tarball_checksum: sha256:e5e5b4cd2a918e0e96b395534222773f7241dc59d776db1b9f7fedfcb489157a
-register_jupyter_kernel: true
+# Checksum of conda tarball, prevents re-download
+conda_tarball_checksum: sha256:e5e5b4cd2a918e0e96b395534222773f7241dc59d776db1b9f7fedfcb489157a
+# Location where conda tarball is downloaded to
+conda_tarball_root: /mnt/apps
+# Location where conda will be installed
+conda_root: /mnt/apps/conda
+# Whether to register the default conda environment as a kernel in jupyter
+conda_jupyter_kernel: true
+# Location where Jupyter is installed
+conda_jupyter_prefix: /usr/local

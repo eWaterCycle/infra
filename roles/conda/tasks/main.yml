@@ -2,15 +2,21 @@
 - name: Download miniconda tarball
   get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    dest: /mnt/apps/
-    checksum: '{{ miniconda_tarball_checksum }}'
+    dest: '{{ conda_tarball_root }}/'
+    checksum: '{{ conda_tarball_checksum }}'
 - name: Install conda
-  command: /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p /mnt/apps/conda
+  command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}/conda
   args:
-    chdir: /mnt/apps
-    creates: /mnt/apps/conda
+    creates: '{{ conda_root }}'
+- name: Add conda-forge channel
+  command: '{{ conda_root }}/bin/conda config --add channels conda-forge'
 - name: Update conda
-  command: /mnt/apps/conda/bin/conda update -q -y -n base -c defaults conda
+  command: '{{ conda_root }}/bin/conda update -q -y -n base -c defaults conda'
+- name: conda in PATH
+  file:
+    src: '{{ conda_root }}/bin/conda'
+    dest: /usr/local/bin/conda
+    state: link
 - name: Jupyter kernel registration
   include: jupyter.yml
-  when: register_jupyter_kernel
+  when: conda_jupyter_kernel

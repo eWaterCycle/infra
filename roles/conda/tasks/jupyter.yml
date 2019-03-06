@@ -1,7 +1,9 @@
 ---
 - name: Install ipykernel
-  command: /mnt/apps/conda/bin/conda install -q -y -c conda-forge ipykernel
+  command: '{{ conda_root }}/bin/conda install -q -y -c conda-forge ipykernel'
   args:
-    creates: /mnt/apps/conda/lib/python3.7/site-packages/ipykernel
+    creates: '{{ conda_root }}/lib/python3.7/site-packages/ipykernel'
 - name: Register Jupyter kernel
-  command: /mnt/apps/conda/bin/python -m ipykernel install --name conda --display-name 'Python 3 (Conda)' --prefix=/usr/local
+  command: '{{ conda_root }}/bin/python -m ipykernel install --name=conda --display-name="Python 3 (Conda)" --prefix={{ conda_jupyter_prefix }}'
+  args:
+    creates: '{{ conda_jupyter_prefix }}/share/jupyter/kernels/conda'
