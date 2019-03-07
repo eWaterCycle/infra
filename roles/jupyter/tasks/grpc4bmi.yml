@@ -12,8 +12,14 @@
     name: git+https://github.com/eWaterCycle/grpc4bmi.git@{{ grpc4bmi_version }}#egg=grpc4bmi
 - name: grpc4bmi Docker images
   docker_image:
-    name: '{{ item }}'
-  with_items:
-    - ewatercycle/walrus-grpc4bmi
-    - ewatercycle/pcrg-grpc4bmi
-    - ewatercycle/wflow-grpc4bmi
+    name: '{{ item.docker }}'
+  loop: '{{ grpc4bmi_images }}'
+- name: Singularity image dir
+  file:
+    path: '{{ singularity_image_root }}'
+    state: directory
+- name: grpc4bmi Singularity images
+  command: singularity build {{ singularity_image_root }}/{{ item.singularity }} docker://{{ item.docker }}
+  args:
+    creates: '{{ singularity_image_root }}/{{ item.singularity }}'
+  loop: '{{ grpc4bmi_images }}'
