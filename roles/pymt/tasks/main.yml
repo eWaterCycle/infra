@@ -1,8 +1,13 @@
 ---
 - name: pymt
   command: conda install -c conda-forge -q -y pymt
-  # TODO fill creates
-  # args:
-  #   creates: /mnt/apps/conda/??
+  args:
+    creates: /mnt/apps/conda/lib/python3.7/site-packages/pymt
 - name: pymt models
   include: models.yml
+- name: conda cfunits env var in jupyterhub
+  lineinfile:
+    path: /etc/jupyterhub/jupyterhub_config.py
+    regexp: '^c\.Spawner\.environment'
+    line: 'c.Spawner.environment = {"UDUNITS2_XML_PATH": "/usr/share/xml/udunits/udunits2.xml"}'
+  notify: restart jupyterhub
