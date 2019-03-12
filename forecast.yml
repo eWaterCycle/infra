@@ -37,8 +37,3 @@
         name: forecast-web
       vars:
           forecast_src_dir: "{{ researchdrive.remote_dir }}"
-# TODO forecast tries to show yesterdays forecast, it is copied from researchdrive.
-# This fails due missing file, due to cylc suite not running
-# 1. trigger cron jobs by hand, copy forecasts from researchdrive
-#      `rclone copy RD:/eWaterCycle/forecasts/20181222/dischargeEns.nc /mnt/apps/forecast/data/`
-# 2. Restart ncwms with `service forecast-web restart`
