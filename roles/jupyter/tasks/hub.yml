@@ -18,7 +18,7 @@
     - jupyterhub==0.9.4
   notify:
     - restart jupyterhub
-- name: Allow posix_users to use docker
+- name: Create users for Jupyter Hub with Docker permission
   user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
