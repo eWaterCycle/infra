@@ -32,6 +32,12 @@
         name: "Forecast copy"
         minute: "10"
         job: "rclone copy {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/"
+  when: forecast_cron_enabled
+- name: Copy static discharge file
+  command: rclone copy RD:/eWaterCycle/forecasts-0.5deg/dischargeEns.nc /mnt/apps/forecast/data/
+  args:
+    creates: /mnt/apps/forecast/data/dischargeEns.nc
+  when: not forecast_cron_enabled
 - name: Copy server config
   template:
     src: serverconfig.json.j2

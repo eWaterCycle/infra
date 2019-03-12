@@ -23,8 +23,8 @@ forecast_admin:
   name: admin
   password: admin
 cron_mailto: ewatercycle-infra@esciencecenter.nl
+forecast_cron_enabled: True
 ```
-
 
 Dependencies
 ------------
