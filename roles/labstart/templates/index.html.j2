@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
+        body {
+            padding: 25px;
+        }
         .card .card-img-top {
             height: 10rem;
             padding: 2px;
@@ -28,35 +31,37 @@
                 <img src="images/explore.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-text">Explore available Hydrology models and datasets</p>
-                    <a href="{{ tool_urls.explore }}" class="btn btn-primary">Explore</a>
+                    <button href="{{ tool_urls.explore }}" class="btn btn-primary">Explore</button>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
                 <img src="images/jupyter.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-text">Experiment with models and datasets in a notebook</p>
-                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary">Jupyter notebook</a>
+                    <button href="{{ tool_urls.jupyter }}" class="btn btn-primary">Jupyter notebook</button>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
                 <img src="images/analytics.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-text">Analytics for experiment results</p>
-                    <a href="{{ tool_urls.analytics }}" class="btn btn-primary">Analytics</a>
+                    <button href="{{ tool_urls.analytics }}" class="btn btn-primary">Analytics</button>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
                 <img src="https://cylc.github.io/css/cylc-logo.png" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <p class="card-text">Experiments which are running continously using cylc workflow engine.</p>
-                    <a href="{{ tool_urls.experiments }}" class="btn btn-primary">Experiments</a>
+                    <p class="card-text">Experiments which are running continously using cylc workflow engine.
+                    Coming Soon<sup>TM</sup>
+                    </p>
+                    <button disabled href="{{ tool_urls.experiments }}" class="btn btn-primary">Experiments</button>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
                 <img src="images/lowres-forecast.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-text">Visualization of global low res PCR-GLOBWB model</p>
-                    <a href="{{ tool_urls.lowresforecast }}" class="btn btn-primary">Low resolution forecast</a>
+                    <button href="{{ tool_urls.lowresforecast }}" class="btn btn-primary">Low resolution forecast</button>
                 </div>
             </div>
         </div>
