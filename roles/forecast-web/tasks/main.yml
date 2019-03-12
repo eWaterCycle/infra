@@ -1,5 +1,5 @@
 ---
-# tasks file for cylc-web
+# tasks file for forecast-web
 - name: Open ports
   ufw:
     rule: allow
@@ -11,6 +11,7 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: ubuntu
   loop:
     - "{{ forecast_dest_dir }}"
     - "{{ forecast_dest_dir }}/data"
@@ -20,25 +21,33 @@
     - name: Configure cron to mail
       cron:
         cron_file: forecast
-        user: root
+        user: ubuntu
         name: MAILTO
         env: true
         value: '{{ cron_mailto }}'
     - name: Schedule forecast file copy
       cron:
         cron_file: forecast
-        user: root
+        user: ubuntu
         name: "Forecast copy"
         minute: "10"
-        job: "cp {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/ >> /var/log/forecast_cron.log"
+        job: "rclone copy {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/"
 - name: Copy server config
   template:
     src: serverconfig.json.j2
     dest: "{{ forecast_dest_dir }}/config/serverconfig.json"
+  notify: forecast-web
+- name: Copy tomcat-server config
+  template:
+    src: server.xml.j2
+    dest: "{{ forecast_dest_dir }}/config/server.xml"
+  when: forecast_encrypted
+  notify: forecast-web
 - name: Copy tomcat-users config
   template:
     src: tomcat-users.xml.j2
     dest: "{{ forecast_dest_dir }}/config/tomcat-users.xml"
+  notify: forecast-web
 - name: Copy cesium-ncwms systemd file
   template:
     src: forecast-web.systemd.j2

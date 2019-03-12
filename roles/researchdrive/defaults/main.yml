@@ -4,3 +4,5 @@ researchdrive_url: https://researchdrive.surfsara.nl/remote.php/webdav/
 sendmail_accept_mail_for:
   - localhost
   - "{{ ansible_hostname }}"
+# User for which rclone config is written
+rclone_user: ubuntu

@@ -17,9 +17,9 @@
     - restart sendmail
 - name: rclone config dir
   file:
-    name: /home/ubuntu/.config/rclone
-    owner: ubuntu
-    group: ubuntu
+    name: ~{{ rclone_user }}/.config/rclone
+    owner: '{{ rclone_user }}'
+    group: '{{ rclone_user }}'
     state: directory
 - name: rclone obscure password
   command: rclone obscure {{ researchdrive.password }}
@@ -33,13 +33,13 @@
 - name: Copy configuration file
   template:
     src: rclone.conf.j2
-    dest: /home/ubuntu/.config/rclone/rclone.conf
-    owner: ubuntu
+    dest: ~{{ rclone_user }}/.config/rclone/rclone.conf
+    owner: '{{ rclone_user }}'
     group: researchdrive
 - name: Target directory
   file:
     name: /mnt/researchdrive/forecasts
-    owner: ubuntu
+    owner: '{{ rclone_user }}'
     group: researchdrive
     mode: u=rwx,g=rwx,o=rx,g+s
     state: directory
