@@ -22,12 +22,6 @@ posix_users:
     password: <generated using `mkpasswd --method=sha-512`>
 ```
 
-Optional vars:
-
-* launcher_base_path, `/` by default
-* launcher_version
-* launcher_encrypted, `true` by default
-
 Dependencies
 ------------
 

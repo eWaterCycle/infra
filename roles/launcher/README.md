@@ -23,6 +23,10 @@ Optional variables
 ```yaml
 # Base path under which launcher will accept requests
 launcher_base_path: /
+# Under which uri path the launcher is running
+launcher_base_path: /
+# Whether the launcher web server should host encrypted or not. When unencrypted it should be reversed proxied with nginx
+launcher_encrypted: true
 ```
 
 Dependencies
