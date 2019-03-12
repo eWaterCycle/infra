@@ -26,7 +26,7 @@ On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login 
 * jupyter.ewatercycle.org - jupyterhub
 * analytics.ewatercycle.org - 
 * experiments.ewatercycle.org - cylc web interface
-* lowres-forecast.ewatercycle.org - visualization of global low res PCR-GLOBWB model
+* forecast.ewatercycle.org - visualization of global low res PCR-GLOBWB model
 
 # Create VMs
 
@@ -47,7 +47,7 @@ Create the following Virtual Machines based on the `lab` template with the follo
 | jupyter  | 8  | 2  | 50  | 500  |
 | analytics  | 1  | 1  | 2 | 10  |
 | experiments  | 8  | 2  | 50  | 500 |
-| lowres-forecast  | 8  | 2  | 50  | 500 |
+| forecast  | 8  | 2  | 50  | 500 |
 
 # Setup domain names
 
