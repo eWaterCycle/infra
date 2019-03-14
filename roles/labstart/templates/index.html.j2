@@ -10,60 +10,99 @@
     <meta name="author" content="SitePoint">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        body {
-            padding: 25px;
-        }
-        .card .card-img-top {
-            height: 10rem;
-            padding: 2px;
-        }
+    body {
+        padding: 25px;
+    }
+    .card .card-img-top {
+        max-height: 10rem;
+        max-width: 10rem;
+        height: auto;
+        width: auto;
+        padding: 20px;
+    }
     </style>
 </head>
 
 <body>
-    <h1>eWaterCycle Lab</h1>
-    <h2>Tools</h2>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="images/ewatercycle-logo-icon.svg" height="40" alt="">
+            eWaterCycle Lab
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://ewatercycle.org">Project Site</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <img src="images/mackenzie_river.jpg" class="img-fluid pb-5" alt="NASA: Mackenzie River in Canada's Northwest Territories">
     <div class="container">
         <div class="card-deck">
             <div class="card" style="width: 18rem;">
-                <img src="images/explore.png" class="card-img-top" alt="...">
+                <img src="images/explore.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
                     <p class="card-text">Explore available Hydrology models and datasets</p>
-                    <a href="{{ tool_urls.explore }}" class="btn btn-primary">Explore</a>
+                </div>
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="{{ tool_urls.explore }}" class="btn btn-primary btn-block">Explore</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img src="images/jupyter.png" class="card-img-top" alt="...">
+                <img src="images/jupyter.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
                     <p class="card-text">Experiment with models and datasets in a notebook</p>
-                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary">Jupyter notebook</a>
+                </div>
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary btn-block">Jupyter notebook</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img src="images/analytics.png" class="card-img-top" alt="...">
+                <img src="images/analytics.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
                     <p class="card-text">Analytics for experiment results</p>
-                    <a href="{{ tool_urls.analytics }}" class="btn btn-primary">Analytics</a>
+                    <p class="card-text">Coming Soon<sup>TM</sup></p>
+                </div>
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="{{ tool_urls.analytics }}" class="btn btn-primary btn-block disabled">Analytics</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img src="https://cylc.github.io/css/cylc-logo.png" class="card-img-top" alt="...">
+                <img src="images/cylc.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
                     <p class="card-text">Experiments which are running continously using cylc workflow engine.
-                    Coming Soon<sup>TM</sup>
+
                     </p>
-                    <a href="{{ tool_urls.experiments }}" class="btn btn-primary disabled">Experiments</a>
+                </div>
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="{{ tool_urls.experiments }}" class="btn btn-primary btn-block">Experiments</a>
                 </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img src="images/forecast.png" class="card-img-top" alt="...">
+                <img src="images/forecast.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
                     <p class="card-text">Visualization of global 5arcmin PCR-GLOBWB model</p>
-                    <a href="{{ tool_urls.lowresforecast }}" class="btn btn-primary">Forecast</a>
+                </div>
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="{{ tool_urls.lowresforecast }}" class="btn btn-primary btn-block">Forecast</a>
                 </div>
             </div>
+        </div>
+        <div class="p-3">
+            <h2>Welcome to the eWaterCycle Lab</h2>
+
+            <p>Had the model of ‘that other hydrology group’ be in our system, than the phd student from the start of this blog wouldn’t have to despair: three clicks and she could have looked at a hydrograph. Our MVP allows hydrologist to quickly run pre-existing models, compare outputs of different models and change the model state during the run to do experiments. We hope that our project contributes to a future where hydrologist can produce reproducible results and thus can build on each others work more easily. If you would like to be amongst the first to work with the our system, if you want to add your model to it, or if you just want to provide us feedback please be in touch!
+            </p>
+
         </div>
     </div>
 </body>
