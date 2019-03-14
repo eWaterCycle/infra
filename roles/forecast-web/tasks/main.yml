@@ -1,9 +1,5 @@
 ---
-# tasks file for cylc-web
-- name: Update firewall
-  ufw:
-    state: enabled
-    policy: deny
+# tasks file for forecast-web
 - name: Open ports
   ufw:
     rule: allow
@@ -15,32 +11,49 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: ubuntu
   loop:
     - "{{ forecast_dest_dir }}"
     - "{{ forecast_dest_dir }}/data"
     - "{{ forecast_dest_dir }}/config"
 - name: Cronjob to copy forecast
   block:
-    - cron:
+    - name: Configure cron to mail
+      cron:
         cron_file: forecast
-        user: root
+        user: ubuntu
         name: MAILTO
         env: true
-        value: ewatercycle-infra@esciencecenter.nl
-    - cron:
+        value: '{{ cron_mailto }}'
+    - name: Schedule forecast file copy
+      cron:
         cron_file: forecast
-        user: root
+        user: ubuntu
         name: "Forecast copy"
         minute: "10"
-        job: "cp {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/ >> /var/log/forecast_cron.log"
+        job: "rclone copy {{ forecast_src_dir }}/$(date --date='yesterday' +\\%Y\\%m\\%d)/dischargeEns.nc {{ forecast_dest_dir }}/data/"
+  when: forecast_cron_enabled
+- name: Copy static discharge file
+  command: rclone --config /home/ubuntu/.config/rclone/rclone.conf copy RD:/eWaterCycle/forecasts-5arcmin/dischargeEns.nc /mnt/apps/forecast/data/
+  args:
+    creates: /mnt/apps/forecast/data/dischargeEns.nc
+  when: not forecast_cron_enabled
 - name: Copy server config
   template:
     src: serverconfig.json.j2
     dest: "{{ forecast_dest_dir }}/config/serverconfig.json"
+  notify: forecast-web
+- name: Copy tomcat-server config
+  template:
+    src: server.xml.j2
+    dest: "{{ forecast_dest_dir }}/config/server.xml"
+  when: forecast_encrypted
+  notify: forecast-web
 - name: Copy tomcat-users config
   template:
     src: tomcat-users.xml.j2
     dest: "{{ forecast_dest_dir }}/config/tomcat-users.xml"
+  notify: forecast-web
 - name: Copy cesium-ncwms systemd file
   template:
     src: forecast-web.systemd.j2

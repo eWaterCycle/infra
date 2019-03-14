@@ -1,0 +1,5 @@
+language: python
+python:
+  - 3.6
+script:
+  - ansible-lint site.yml roles/*

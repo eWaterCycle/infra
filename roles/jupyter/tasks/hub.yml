@@ -1,9 +1,4 @@
 ---
-- name:  Allow https traffic
-  ufw:
-    rule: allow
-    port: 443
-    proto: tcp
 - name: Allow Jupyter server internal traffic
   ufw:
     rule: allow
@@ -14,7 +9,8 @@
   copy:
     src: jupyterhub.systemd
     dest: /etc/systemd/system/jupyterhub.service
-- pip:
+- name: Install JupyterHub
+  pip:
     executable: pip3
     name: "{{ item }}"
   loop:
@@ -22,7 +18,7 @@
     - jupyterhub==0.9.4
   notify:
     - restart jupyterhub
-- name: Allow posix_users to use docker
+- name: Create users for Jupyter Hub with Docker permission
   user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
@@ -41,10 +37,12 @@
   apt:
     name: nodejs
     update_cache: yes
-- npm:
+- name: NodeJS dependencies for JupyterHub
+  npm:
     global: yes
     name: configurable-http-proxy
-- file:
+- name: Create /etc/jupyterhub directory
+  file:
     path: /etc/jupyterhub
     state: directory
 - name: cull_idle_servers
@@ -52,7 +50,7 @@
     url: https://github.com/jupyterhub/jupyterhub/raw/master/examples/cull-idle/cull_idle_servers.py
     dest: /usr/local/bin/cull_idle_servers.py
     mode: 755
-    checksum: sha256:d54f1520adf121a88a0ea2fd4c5947e2891ec53ef865444760df89e22149a3b2
+    checksum: sha256:4704b2db1ba4df56603ca8420271e71576647edceda8fa8552e258d011de49b7
 - name: jupyterhub_config
   template:
     src: jupyterhub_config.py.j2

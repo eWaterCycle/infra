@@ -13,14 +13,24 @@ Role Variables
 
 Required vars:
 ```yaml
-launcher_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
-hub_domain: hub.ewatercycle2-nlesc.surf-hosted.nl
+# JupyterHub token that can be use by launcher to communicate with JupyterHub api
+launcher_jupyterhub_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
+# URL of JupyterHub server
+jupyterhub_url: https://hub.ewatercycle2-nlesc.surf-hosted.nl
+```
+
+Optional variables
+```yaml
+# Base path under which launcher will accept requests
+launcher_base_path: /
+# Under which uri path the launcher is running
+launcher_base_path: /
+# Whether the launcher web server should host encrypted or not. When unencrypted it should be reversed proxied with nginx
+launcher_encrypted: true
 ```
 
 Dependencies
 ------------
-
-The experiment launcher communicates with a Jupter Hub server, which is part of the `jupyter` role.
 
 The experiment launcher requires https certificate pair, which is generated in `letsencrypt` role.
 

@@ -1,13 +1,13 @@
 ---
-- name: Sample notebooks
+- name: Copy sample notebooks to home directories
   git:
     repo: https://github.com/eWaterCycle/notebooks.git
     version: "{{ sample_notebooks_version }}"
-    dest: /mnt/home/{{item.name}}/sample-notebooks
+    dest: /mnt/home/{{ item.name }}/sample-notebooks
   loop: "{{ posix_users }}"
 - name: Chown sample notebooks
   file:
-    path: /mnt/home/{{item.name}}/sample-notebooks
+    path: /mnt/home/{{ item.name }}/sample-notebooks
     group: "{{ item.name }}"
     owner: "{{ item.name }}"
     recurse: yes

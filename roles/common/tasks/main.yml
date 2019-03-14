@@ -1,0 +1,13 @@
+---
+- name: Hostname
+  include: hostname.yml
+- name: authorized_keys for ubuntu user
+  include: authorized_keys.yml
+- name: Extra disks
+  include: extra_disks.yml
+- name: Firewall
+  include: firewall.yml
+- name: ppa
+  include: ppa.yml
+- name: pip3
+  include: pip3.yml

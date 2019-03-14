@@ -9,4 +9,3 @@
     src: /mnt/apps/go{{ go_version }}.linux-amd64.tar.gz
     dest: /usr/local
     remote_src: yes
-  

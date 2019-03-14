@@ -12,8 +12,8 @@
     - graphviz
     - graphviz-dev
     - libgraphviz-dev
+    - python-dev
     - python-gtk2-dev
-    - python-pygraphviz
     - imagemagick
     - php-imagick
     - at
@@ -36,7 +36,7 @@
   git:
     dest: /mnt/home/cylc/cylc
     repo: https://github.com/cylc/cylc.git
-    version: HEAD
+    version: '{{ cylc_version }}'
 - name: Cylc chown
   file:
     dest: /mnt/home/cylc/cylc
@@ -47,7 +47,7 @@
 - name: Cylc python requirements
   # Cylc uses python2, so install using pip instead of pip3
   pip:
-    executable: pip
+    executable: pip2
     name: "{{ item }}"
   loop:
     - wheel
@@ -71,6 +71,7 @@
   git:
     dest: /mnt/home/cylc/forecast-docker
     repo: https://github.com/eWaterCycle/forecast-docker.git
+    version: '{{ forecast_docker_verson }}'
 - name: Cylc chown forecast
   file:
     dest: /mnt/home/cylc/forecast-docker

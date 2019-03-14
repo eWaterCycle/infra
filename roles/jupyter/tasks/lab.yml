@@ -18,6 +18,14 @@
         - libgdal-dev
         - libproj-dev
         - libudunits2-dev
+    - name: Cython
+      pip:
+        executable: pip3
+        name: cython==0.29.4
+    - name: Numpy
+      pip:
+        executable: pip3
+        name: numpy==1.16.1
     - name: Cartopy, without pep517
       pip:
         executable: pip3
@@ -28,10 +36,8 @@
         executable: pip3
         name: "{{ item }}"
       loop:
-        - cython==0.29.4
         - dask==1.1.1
         - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'
-        - numpy==1.16.1
         - cf_units==2.1.1
         - cftime==1.0.3.4
         - jupyterlab==0.35.4
@@ -46,9 +52,10 @@
         - ipympl==0.2.1
         - tqdm==4.30.0
         - scitools-iris==2.2.0
+        - tornado==5.1.1  # Downgrade from 6, see https://github.com/jupyter/jupyter/issues/401
 - name: Jupyterlab extensions
-  command: > 
-    jupyter labextension install 
+  command: >
+    jupyter labextension install
       @jupyter-widgets/jupyterlab-manager@0.38.1
       @jupyterlab/hub-extension@0.12.0
       jupyterlab_bokeh@0.6.3

@@ -1,0 +1,8 @@
+---
+# Mail adress where cron job results are sent to  
+cron_mailto: ewatercycle-infra@esciencecenter.nl
+researchdrive:
+  # Rclone alias+path of remote location to sync to
+  remote_dir: RD:/eWaterCycle/forecasts
+  # Directory that must be synced to researchdrive
+  local_dir: /mnt/researchdrive/forecasts

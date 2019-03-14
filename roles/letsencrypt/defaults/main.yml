@@ -1,2 +1,5 @@
 ---
-# defaults file for letsencrypt
+# Path where lets encrypt certificates are backuped from remote host to local
+letsencrypt_backup_root: 'letsencrypt'
+# When true will create self signed certificates, handy when machine is not accessible from Internet
+selfsigned: false

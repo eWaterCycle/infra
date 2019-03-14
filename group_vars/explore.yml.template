@@ -1,0 +1,11 @@
+launcher_jupyterhub_token: <REPLACE ME with a random string, same as jupyter.yml:launcher_jupyterhub_token>'
+jupyterhub_url: https://jupyter.ewatercycle.org
+launcher_encrypted: false
+launcher_url: /launcher
+launcher_base_path: /launcher
+posix_users:
+  # Experiment launcher requires same username/passwords as jupyter server
+  - name: student1
+    password: <REPLACE ME with hashed password generated using `mkpasswd --method=sha-512`>
+  - name: admin
+    password: <REPLACE ME with hashed passwordgenerated using `mkpasswd --method=sha-512`>
