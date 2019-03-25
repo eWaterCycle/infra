@@ -1,6 +1,6 @@
 # Setup of eWatercycle system
 
-* Runs on the [SURFSara HPC cloud](https://userinfo.surfsara.nl/systems/hpc-cloud)
+* Runs on the [SURFSara HPC cloud](https://userinfo.surfsara.nl/systems/hpc-cloud) or [locally using vagrant](vagrant.md)
 * Provisioned by [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
 # Prerequisites
