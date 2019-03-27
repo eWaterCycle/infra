@@ -9,5 +9,5 @@
   lineinfile:
     path: /etc/jupyterhub/jupyterhub_config.py
     regexp: '^c\.Spawner\.environment'
-    line: 'c.Spawner.environment = {"UDUNITS2_XML_PATH": "/usr/share/xml/udunits/udunits2.xml"}'
+    line: 'c.Spawner.environment["UDUNITS2_XML_PATH"] = "/usr/share/xml/udunits/udunits2.xml"}'
   notify: restart jupyterhub

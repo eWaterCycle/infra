@@ -1,7 +1,7 @@
 ---
 sample_notebooks_version: '0.1.0'
 grpc4bmi_version: '0.2'
-parametersetdb_version: '130c1aea2c1b36077af5392a42d3581578580058'
+parametersetdb_version: 'observation_data'
 cull:
   timeout: '3600' # 1 hour
   max_age: '86400' # 1 day
@@ -15,3 +15,6 @@ grpc4bmi_images:
       singularity: ewatercycle-pcrg-grpc4bmi.sif
     - docker: ewatercycle/wflow-grpc4bmi
       singularity: ewatercycle-wflow-grpc4bmi.sif
+jupyterhub_spawner_environment:
+  USGS_DATA_HOME: /mnt/data/usgs/streamflow
+  GRDC_DATA_HOME: /mnt/data/grdc/dailies

@@ -18,11 +18,17 @@
     - jupyterhub==0.9.4
   notify:
     - restart jupyterhub
+- name: jupyter posix group
+  group:
+    name: jupyter
+    state: present
 - name: Create users for Jupyter Hub with Docker permission
   user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
-    groups: docker
+    groups:
+      - docker
+      - jupyter
     home: /mnt/home/{{ item.name }}
     shell: /bin/bash
   loop: "{{ posix_users }}"

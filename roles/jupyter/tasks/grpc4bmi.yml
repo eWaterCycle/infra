@@ -6,6 +6,7 @@
   pip:
     executable: pip3
     name: git+https://github.com/eWaterCycle/parametersetdb.git@{{ parametersetdb_version }}
+    state: latest
 - name: grpc4bmi
   pip:
     executable: pip3
@@ -23,3 +24,9 @@
   args:
     creates: '{{ singularity_image_root }}/{{ item.singularity }}'
   loop: '{{ grpc4bmi_images }}'
+- name: USGS data home directory
+  file:
+    path: '{{ jupyterhub_spawner_environment.USGS_DATA_HOME }}'
+    state: directory
+    mode: 775
+    group: jupyter

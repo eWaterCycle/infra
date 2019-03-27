@@ -16,6 +16,9 @@ c.JupyterHub.services = [
 c.Authenticator.admin_users = {'admin'}
 c.Spawner.default_url = '/lab'
 c.Spawner.cmd = ['jupyter-labhub']
+c.Spawner.environment = { {% for key, value in jupyterhub_spawner_environment.items() %}
+    '{{ key }}': '{{ value }}'{% if not loop.last %},{% endif %}
+{% endfor %} }
 c.JupyterHub.ssl_key = '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
 c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
 c.JupyterHub.port = 443
