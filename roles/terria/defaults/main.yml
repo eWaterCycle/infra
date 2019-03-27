@@ -1,5 +1,5 @@
 ---
-terriamap_version: ewa_1.0
-terriajs_version: ewa_1.0
+terriamap_version: 5fe702454853d4eb75a05df0938b69cd9edfe6e3
+terriajs_version: 01b42f2eeccde614d00d4c241c9bdc0a19997003
 launcher_url: /launcher
 jupyterhub_url: https://jupyter.ewatercycle.org
