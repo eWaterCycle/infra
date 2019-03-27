@@ -40,13 +40,16 @@
     - name: singularity
       include_role:
         name: singularity
-  # TODO give access to read-only ResearchDrive mount
+    # TODO give access to read-only ResearchDrive mount
     - name: conda
       include_role:
         name: conda
     - name: pymt
       include_role:
         name: pymt
+    - name: Researchdrive
+      include_role:
+        name: researchdrive
     - name: grdc
       include_role:
         name: grdc

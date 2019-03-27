@@ -17,6 +17,7 @@
     - '{{ grdc_root_dir }}/stations'
     - '{{ grdc_root_dir }}/dailies'  
     - '{{ grdc_root_dir }}/monthlies'
+    - '{{ grdc_root_dir }}/archives'
 - name: CITATION, always have citation instructions nearby
   copy:
     src: CITATION
@@ -26,17 +27,18 @@
     - '{{ grdc_root_dir }}/stations'
     - '{{ grdc_root_dir }}/dailies'
     - '{{ grdc_root_dir }}/monthlies'
+    - '{{ grdc_root_dir }}/archives'
 - name: 
   unarchive:
     src: '{{ item }}'
     dest: '{{ grdc_root_dir }}/stations/'
     remote_src: yes
   loop: '{{ grdc_station_zips }}'
-- name: Arc hycos dailies
-  unarchive:
-    src: '{{ grds_archycos_day_zip }}'
-    dest: '{{ grdc_root_dir }}/dailies/'
-    remote_src: yes
+- name: archycos
+  include_tasks: archycos.yml
 - name: GTN-R
   include_tasks: gtnr.yml
   loop: '{{ grdc_gtnr }}'
+- name: researchdrive archives
+  include_tasks: researchdrive.yml
+  loop: '{{ grdc_researchdrive_archives }}'
