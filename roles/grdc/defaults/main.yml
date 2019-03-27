@@ -5,6 +5,7 @@ grdc_root_dir: /mnt/data/grdc
 grdc_station_zips: 
   - ftp://ftp.bafg.de/pub/REFERATE/GRDC/catalogue/grdc_gcosgtnh_stations.zip
   - ftp://ftp.bafg.de/pub/REFERATE/GRDC/catalogue/grdc_arctichycos_stations.zip
+  - ftp://ftp.bafg.de/pub/REFERATE/GRDC/catalogue/grdc_stations.zip
 # Archycos daily zip url
 grds_archycos_day_zip: ftp://ftp.bafg.de/pub/REFERATE/GRDC/ARC_HYCOS/arc_hycos_day.zip
 # Global Terrestrial Network for River Discharge (GTN-R) datasets
