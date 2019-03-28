@@ -16,6 +16,8 @@
     dest: /mnt/apps/TerriaMap
     version: "{{ terriamap_version }}"
     force: yes
+  notify:
+    - restart terriamap
 - name: Yarn
   npm:
     name: yarn
@@ -30,6 +32,8 @@
     dest: /mnt/apps/TerriaMap/packages/terriajs
     version: "{{ terriajs_version }}"
     force: yes
+  notify:
+    - restart terriamap
 - name: Install TerriaMap dependencies
   yarn:
     path: /mnt/apps/TerriaMap

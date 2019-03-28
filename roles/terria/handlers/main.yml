@@ -1,2 +1,6 @@
 ---
-# handlers file for roles/terria
+- name: restart terriamap
+  systemd:
+    name: terriamap
+    state: restarted
+    daemon_reload: yes

@@ -4,3 +4,4 @@ posix_users:
   - name: admin
     password: <REPLACE ME with hashed passwordgenerated using `mkpasswd --method=sha-512`>
 launcher_jupyterhub_token: '<REPLACE ME with a random string, same as explore.yml:launcher_jupyterhub_token>'
+grdc_researchdrive_archives: []

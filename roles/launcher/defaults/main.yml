@@ -1,6 +1,6 @@
 ---
 # version|commit of https://github.com/eWaterCycle/experiment-launcher
-launcher_version: '70e3329b57d62b286544f6fb52c6a40bf4dfa8bb'
+launcher_version: 'dc372920176e09b0b0629c7e409217ffe8a349e4'
 # Under which uri path the launcher is running
 launcher_base_path: /
 # Whether the launcher web server should host encrypted or not. When unencrypted it should be reversed proxied with nginx

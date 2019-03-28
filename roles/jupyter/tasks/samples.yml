@@ -5,6 +5,7 @@
     version: "{{ sample_notebooks_version }}"
     dest: /mnt/home/{{ item.name }}/sample-notebooks
   loop: "{{ posix_users }}"
+  ignore_errors: yes  # some users have started editing the samples, they will not get updated notebooks
 - name: Chown sample notebooks
   file:
     path: /mnt/home/{{ item.name }}/sample-notebooks
