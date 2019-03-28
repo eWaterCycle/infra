@@ -32,6 +32,13 @@
     home: /mnt/home/{{ item.name }}
     shell: /bin/bash
   loop: "{{ posix_users }}"
+- name: Allow ssh login with password
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+  notify:
+    - restart ssh
 - name: NodeJS ppa key
   apt_key:
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
