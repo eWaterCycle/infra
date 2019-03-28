@@ -44,7 +44,7 @@ Create the following Virtual Machines based on the `lab` template with the follo
 |---|---|---|---|---|
 | lab  | 1  | 1  | 10  | 10  |
 | explore  | 1  | 1  | 10  | 10  |
-| jupyter  | 8  | 2  | 50  | 500  |
+| jupyter  | 8  | 2  | 50  | 1500  |
 | analytics  | 1  | 1  | 2 | 10  |
 | experiments  | 8  | 2  | 50  | 500 |
 | forecast  | 8  | 2  | 50  | 500 |

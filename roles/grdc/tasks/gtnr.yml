@@ -1,0 +1,14 @@
+---
+- debug:
+    msg: 'Region {{ item.id }}: {{ item.name }}'
+- name: GTN-R - Stations
+  get_url:
+    url: '{{ item.stations }}'
+    dest: '{{ grdc_root_dir }}/stations/'
+- name: GTN-R - monthlies
+  get_url:
+    url: '{{ period.url }}'
+    dest: '{{ grdc_root_dir }}/monthlies/GTNR_{{ item.id }}.{{ period.range }}.wml2'
+  loop: '{{ item.periods }}'
+  loop_control:
+    loop_var: period

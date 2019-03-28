@@ -1,0 +1,6 @@
+---
+- name: Arc hycos dailies
+  unarchive:
+    src: '{{ grds_archycos_day_zip }}'
+    dest: '{{ grdc_root_dir }}/dailies/'
+    remote_src: yes
