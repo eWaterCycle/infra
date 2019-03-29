@@ -1,6 +1,6 @@
 ---
 sample_notebooks_version: '0.1.0'
-grpc4bmi_version: '0.2'
+grpc4bmi_version: '43f4c3180d175dd46a9de5ce92878f976edaf236'
 parametersetdb_version: 'observation_data'
 cull:
   timeout: '3600' # 1 hour
