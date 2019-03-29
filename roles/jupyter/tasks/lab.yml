@@ -18,6 +18,8 @@
         - libgdal-dev
         - libproj-dev
         - libudunits2-dev
+        - cdo
+        - netcdf-bin
     - name: Cython
       pip:
         executable: pip3
