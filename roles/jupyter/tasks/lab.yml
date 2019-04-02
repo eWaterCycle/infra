@@ -20,6 +20,7 @@
         - libudunits2-dev
         - cdo
         - netcdf-bin
+        - nco
     - name: Cython
       pip:
         executable: pip3
