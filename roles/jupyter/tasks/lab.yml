@@ -21,6 +21,7 @@
         - cdo
         - netcdf-bin
         - nco
+        - gdal-bin
     - name: Cython
       pip:
         executable: pip3
