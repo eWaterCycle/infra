@@ -17,12 +17,10 @@
     path: "{{ docker_root }}"
     state: directory
   when: docker_root is defined
-- name: Docker re root
-  lineinfile:
-    path: /lib/systemd/system/docker.service
-    regexp: '^ExecStart'
-    line: ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --data-root {{ docker_root }}
-    insertafter: '[Service]'
+- name: docker daemon.json
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
   notify:
     - restart docker
   when: docker_root is defined
