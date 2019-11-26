@@ -22,6 +22,7 @@
         - netcdf-bin
         - nco
         - gdal-bin
+        - libspatialindex-c4v5
     - name: Cython
       pip:
         executable: pip3
