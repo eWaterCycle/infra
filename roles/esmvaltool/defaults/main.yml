@@ -1,2 +1,8 @@
 ---
 # defaults file for esmvaltool
+esmvaltool_app: /mnt/apps/ESMValTool
+esmvaltool_rootpath: /mnt/data/esmvaltool
+esmvaltool_pullrequests:
+  - ewatercycle_marrmot
+  - ewatercycle_wflow
+emsmvaltool_obs6_on_research_drive: RD:/eWaterCycle/esmvaltool/obs6

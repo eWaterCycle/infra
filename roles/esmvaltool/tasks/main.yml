@@ -1,2 +1,37 @@
 ---
-# tasks file for esmvaltool
+- name: esmvaltool repo
+  git:
+    repo: https://github.com/ESMValGroup/ESMValTool.git
+    dest: '{{ esmvaltool_app }}'
+- name: Merge pull requests
+  command: git merge --no-commit origin/{{ item }}
+  args:
+    chdir: '{{ esmvaltool_app }}'
+  # Merge results in merge conflict in doc/sphinx/source/recipes/recipe_hydrology.rst
+  # Ignore as it should not hamper operation of esmvaltool
+  ignore_errors: yes
+  loop: '{{ esmvaltool_pullrequests }}'
+- name: esmvaltool conda deps
+  command: conda env update --file environment.yml -q -y --name base
+  args:
+    creates: /mnt/apps/conda/lib/python3.7/site-packages/esmvalcore
+- name: esmvaltool
+  command: /mnt/apps/conda/bin/pip install .
+  args:
+    chdir: '{{ esmvaltool_app }}'
+    creates: /mnt/apps/conda/lib/python3.7/site-packages/esmvaltool
+- name: rootpath
+  file:
+    path: '{{ esmvaltool_rootpath }}'
+    state: directory
+    mode: 'u=rwx,g=rx,o=rx'
+- name: preprocessnotebookdeps
+  include_tasks: preprocessnotebookdeps.yml
+- name: Set PROJ_LIB env var in Jupyter Hub
+  lineinfile:
+    path: /etc/jupyterhub/jupyterhub_config.py
+    regexp: '^c\.Spawner\.environment'
+    line: 'c.Spawner.environment["PROJ_LIB"] = "/usr/share/proj"'
+    regexp: '^c\.Spawner\.environment\[\"PROJ_LIB'
+    insertafter: '^c\.Spawner\.environment ='
+  notify: restart jupyterhub

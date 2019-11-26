@@ -15,6 +15,8 @@ grpc4bmi_images:
       singularity: ewatercycle-pcrg-grpc4bmi.sif
     - docker: ewatercycle/wflow-grpc4bmi
       singularity: ewatercycle-wflow-grpc4bmi.sif
+    - docker: sverhoeven/marrmot
+      singularity: marrmot.sif
 jupyterhub_spawner_environment:
   USGS_DATA_HOME: /mnt/data/usgs/streamflow
   GRDC_DATA_HOME: /mnt/data/grdc/dailies
