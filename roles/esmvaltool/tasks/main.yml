@@ -12,7 +12,7 @@
   ignore_errors: yes
   loop: '{{ esmvaltool_pullrequests }}'
 - name: esmvaltool conda deps
-  command: conda env update --file environment.yml -q -y --name base
+  command: conda env update --file environment.yml -q --name base
   args:
     creates: /mnt/apps/conda/lib/python3.7/site-packages/esmvalcore
 - name: esmvaltool
@@ -20,6 +20,11 @@
   args:
     chdir: '{{ esmvaltool_app }}'
     creates: /mnt/apps/conda/lib/python3.7/site-packages/esmvaltool
+- name: esmvaltool in path
+  file:
+    src: /mnt/apps/conda/bin/esmvaltool
+    dest: /usr/local/bin/esmvaltool
+    state: link
 - name: rootpath
   file:
     path: '{{ esmvaltool_rootpath }}'
@@ -27,11 +32,10 @@
     mode: 'u=rwx,g=rx,o=rx'
 - name: preprocessnotebookdeps
   include_tasks: preprocessnotebookdeps.yml
-- name: Set PROJ_LIB env var in Jupyter Hub
+- name: Set PROJ_LIB env var in Jupyter conda kernel
   lineinfile:
-    path: /etc/jupyterhub/jupyterhub_config.py
-    regexp: '^c\.Spawner\.environment'
-    line: 'c.Spawner.environment["PROJ_LIB"] = "/usr/share/proj"'
-    regexp: '^c\.Spawner\.environment\[\"PROJ_LIB'
-    insertafter: '^c\.Spawner\.environment ='
+    path: /usr/local/share/jupyter/kernels/conda/kernel.json
+    regexp: '\"env'
+    line: '"env": {"PROJ_LIB": "/mnt/apps/conda/share/proj"},'
+    insertafter: '\{'
   notify: restart jupyterhub
