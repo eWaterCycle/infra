@@ -17,20 +17,20 @@
   debug:
     msg: |
       # Copy files of ERA-5 and ERA-Interim from cartesius to jupyter server with
-    export DEST_I=RD:/mnt/data/esmvaltool/obs6/Tier3/ERA-Interim
-    rclone mkdir $DEST_I
-    rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_tas_200101-200112.nc $DEST_I/
-    rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_pr_200101-200112.nc $DEST_I/
-    rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_fx_orog.nc $DEST_I/
-    rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_psl_200101-200112.nc $DEST_I/
-    rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_rsds_200101-200112.nc $DEST_I/
-    rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_CFday_rsdt_200101-200112.nc $DEST_I/
+      export DEST_I=RD:/mnt/data/esmvaltool/obs6/Tier3/ERA-Interim
+      rclone mkdir $DEST_I
+      rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_tas_200101-200112.nc $DEST_I/
+      rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_pr_200101-200112.nc $DEST_I/
+      rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_fx_orog.nc $DEST_I/
+      rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_psl_200101-200112.nc $DEST_I/
+      rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_rsds_200101-200112.nc $DEST_I/
+      rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_CFday_rsdt_200101-200112.nc $DEST_I/
 
-    export DEST_5=RD:/mnt/data/esmvaltool/obs6/Tier3/ERA-5
-    rclone mkdir $DEST_5
-    rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_tas_200101-200112.nc $DEST_5/
-    rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_pr_200101-200112.nc $DEST_5/
-    rclone copy ERA5/OBS6_ERA5_reanaly_1_fx_orog.nc $DEST_5/
-    rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_psl_200101-200112.nc $DEST_5/
-    rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_rsds_200101-200112.nc $DEST_5/
-    rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_rsdt_200101-200112.nc $DEST_5/
+      export DEST_5=RD:/mnt/data/esmvaltool/obs6/Tier3/ERA-5
+      rclone mkdir $DEST_5
+      rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_tas_200101-200112.nc $DEST_5/
+      rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_pr_200101-200112.nc $DEST_5/
+      rclone copy ERA5/OBS6_ERA5_reanaly_1_fx_orog.nc $DEST_5/
+      rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_psl_200101-200112.nc $DEST_5/
+      rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_rsds_200101-200112.nc $DEST_5/
+      rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_rsdt_200101-200112.nc $DEST_5/
