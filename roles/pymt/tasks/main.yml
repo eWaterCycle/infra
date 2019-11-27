@@ -5,7 +5,7 @@
     creates: /mnt/apps/conda/lib/python3.7/site-packages/pymt
 - name: pymt models
   include: models.yml
-- name: conda cfunits env var in jupyterhub
+- name: cfunits env var in jupyterhub
   lineinfile:
     path: /etc/jupyterhub/jupyterhub_config.py
     regexp: '^c\.Spawner\.environment\[\"UDUNITS'
