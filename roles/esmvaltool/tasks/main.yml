@@ -32,10 +32,10 @@
     mode: 'u=rwx,g=rx,o=rx'
 - name: preprocessnotebookdeps
   include_tasks: preprocessnotebookdeps.yml
-- name: Set PROJ_LIB env var in Jupyter conda kernel
+- name: Set PROJ_LIB and PATH env vars in Jupyter conda kernel
   lineinfile:
     path: /usr/local/share/jupyter/kernels/conda/kernel.json
     regexp: '\"env'
-    line: '"env": {"PROJ_LIB": "/mnt/apps/conda/share/proj"},'
+    line: '"env": {"PROJ_LIB": "/mnt/apps/conda/share/proj", "PATH": "/mnt/apps/conda/bin:/mnt/apps/conda/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"},'
     insertafter: '\{'
   notify: restart jupyterhub
