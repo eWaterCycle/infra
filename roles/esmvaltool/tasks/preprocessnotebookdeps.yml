@@ -6,8 +6,8 @@
     state: directory
 - name: Lorentz Basin shapefiles
   subversion: 
-    repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets/trunk/Lorentz_Basin_Shapefiles
-    dest: '{{ esmvaltool_rootpath }}'/aux/Lorentz_Basin_Shapefiles
+    repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets/trunk/
+    dest: '{{ esmvaltool_rootpath }}'/aux
     export: yes
 - name: cartopy
   command: conda install -c esmvalgroup -c conda-forge -q -y cartopy
