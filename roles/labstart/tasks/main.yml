@@ -18,3 +18,21 @@
   copy:
     src: images/
     dest: /var/www/html/images/
+- name: Certbot renewal hook
+  # When certbot renews the cert then nginx has to be reloaded
+  copy: 
+    src: certbot-nginx-hook.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/certbot-nginx-hook.sh
+    mode: 0755
+- name: Certbot authenticator set to webroot
+  ini_file:
+     path: /etc/letsencrypt/renewal/{{ inventory_hostname }}.conf
+     section: renewalparams
+     option: authenticator
+     value: webroot
+- name: Certbot webroot set to nginx root
+  ini_file:
+     path: /etc/letsencrypt/renewal/{{ inventory_hostname }}.conf
+     section: '[webroot_map]'
+     option: '{{ inventory_hostname }}'
+     value: webroot
