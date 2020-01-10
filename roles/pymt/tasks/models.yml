@@ -2,7 +2,7 @@
 - name: pymt models
   command: conda install -c conda-forge -q -y {{ item }}
   args:
-    creates: /mnt/apps/conda/lib/python3.7/site-packages/{{ item}}
+    creates: /mnt/apps/conda/lib/python3.7/site-packages/{{ item }}
   loop:
     - pymt_sedflux
     - pymt_cem

@@ -15,7 +15,7 @@
     mode: 'u=rwx,g=rx,o=rx'
   loop:
     - '{{ grdc_root_dir }}/stations'
-    - '{{ grdc_root_dir }}/dailies'  
+    - '{{ grdc_root_dir }}/dailies'
     - '{{ grdc_root_dir }}/monthlies'
     - '{{ grdc_root_dir }}/archives'
 - name: CITATION, always have citation instructions nearby
@@ -28,7 +28,7 @@
     - '{{ grdc_root_dir }}/dailies'
     - '{{ grdc_root_dir }}/monthlies'
     - '{{ grdc_root_dir }}/archives'
-- name: 
+- name: Unpack grdc stations
   unarchive:
     src: '{{ item }}'
     dest: '{{ grdc_root_dir }}/stations/'

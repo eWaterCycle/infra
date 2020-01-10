@@ -5,7 +5,7 @@
     path: '{{ esmvaltool_rootpath }}/aux'
     state: directory
 - name: Lorentz Basin shapefiles
-  subversion: 
+  subversion:
     repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets/trunk/
     dest: '{{ esmvaltool_rootpath }}/aux'
     export: yes
