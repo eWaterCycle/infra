@@ -76,3 +76,8 @@
     dest: /etc/jupyterhub/jupyterhub_config.py
   notify:
     - restart jupyterhub
+- name: Restart jupyterhub when cert has been renewed
+  copy:
+    src: certbot-deploy.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
+    mode: 0755

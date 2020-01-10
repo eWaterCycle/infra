@@ -25,3 +25,7 @@ c.JupyterHub.port = 443
 c.Authenticator.whitelist = { {% for user in posix_users %}
     '{{ user.name }}'{% if not loop.last %},{% endif %}
 {% endfor %} }
+
+# Don't interrupt users when jupyterhub service is restarted
+c.JupyterHub.cleanup_servers = False
+c.JupyterHub.cleanup_proxy = False

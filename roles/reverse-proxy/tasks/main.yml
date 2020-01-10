@@ -11,7 +11,7 @@
 - name: Stop nginx before renewing cert
   copy:
     src: nginx-stop.sh
-    dest: /etc/letsencrypt/renewal-hooks/post/nginx-stop.sh
+    dest: /etc/letsencrypt/renewal-hooks/pre/nginx-stop.sh
     mode: 0755
   when: pause_cert_renew
 - name: Start nginx after renewing cert
