@@ -3,6 +3,7 @@
   git:
     repo: https://github.com/ESMValGroup/ESMValTool.git
     dest: '{{ esmvaltool_app }}'
+    version: '{{ esmvaltool_version }}'
 - name: Merge pull requests
   command: git merge --no-commit origin/{{ item }}
   args:
@@ -14,15 +15,15 @@
 - name: esmvaltool conda deps
   command: conda env update --file environment.yml -q --name base
   args:
-    creates: /mnt/apps/conda/lib/python3.7/site-packages/esmvalcore
+    creates: '{{ conda_root }}/lib/python3.7/site-packages/esmvalcore'
 - name: esmvaltool
-  command: /mnt/apps/conda/bin/pip install .
+  command: '{{ conda_root }}/bin/pip install .'
   args:
     chdir: '{{ esmvaltool_app }}'
-    creates: /mnt/apps/conda/lib/python3.7/site-packages/esmvaltool
+    creates: '{{ conda_root }}/lib/python3.7/site-packages/esmvaltool'
 - name: esmvaltool in path
   file:
-    src: /mnt/apps/conda/bin/esmvaltool
+    src: '{{ conda_root }}/bin/esmvaltool'
     dest: /usr/local/bin/esmvaltool
     state: link
 - name: rootpath

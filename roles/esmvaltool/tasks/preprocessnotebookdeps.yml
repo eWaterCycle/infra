@@ -1,18 +1,18 @@
 ---
-# Dependencies required to run the MARRMoT Merrimack preprocess notebook
+# Dependencies required to run the preprocess notebooks
 - name: aux dir
   file:
-    path: '{{ esmvaltool_rootpath }}'/aux
+    path: '{{ esmvaltool_rootpath }}/aux'
     state: directory
 - name: Lorentz Basin shapefiles
   subversion: 
     repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets/trunk/
-    dest: '{{ esmvaltool_rootpath }}'/aux
+    dest: '{{ esmvaltool_rootpath }}/aux'
     export: yes
 - name: cartopy
   command: conda install -c esmvalgroup -c conda-forge -q -y cartopy
   args:
-    creates: /mnt/apps/conda/lib/python3.7/site-packages/cartopy
+    creates: '{{ conda_root }}/lib/python3.7/site-packages/cartopy'
 - name: obs6 demo files
   debug:
     msg: |

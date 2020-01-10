@@ -1,7 +1,9 @@
 Role Name
 =========
 
-Installation of ESMValTool and downloads CMORIZED data files from research drive.
+Ansible role to install [ESMValtool](https://github.com/ESMValGroup/ESMValTool).
+
+Installation of ESMValTool, downloads CMORIZED data files from cartesius.surfsara.nl and downloads Lorentz data files.
 
 Requirements
 ------------
@@ -13,14 +15,22 @@ Role Variables
 
 ```yml
 ---
+# Location of esmvaltool repo
+esmvaltool_app: /mnt/apps/ESMValTool
+# Version of esmvaltool
+esmvaltool_version: 0084e806287417604ef84bfa5ab86063d5d6da26
+# Location of input data
 esmvaltool_rootpath: /mnt/data/esmvaltool
-esmvaltool_researchdrive_rootarchive: <filename of archive on research drive >
+# Branches that must be merged into default branch
+esmvaltool_pullrequests: []
+# Location where conda is installed
+conda_root: /mnt/apps/conda
 ```
 
 Dependencies
 ------------
 
-Requires rclone and rclone research drive config to be available which is what the researchdrive role does.
+None.
 
 Example Playbook
 ----------------
