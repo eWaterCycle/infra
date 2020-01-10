@@ -16,8 +16,24 @@
 - name: obs6 demo files
   debug:
     msg: |
-      # Copy files of ERA-5 and ERA-Interim from cartesius to jupyter server with
-      export DEST_I=RD:/mnt/data/esmvaltool/obs6/Tier3/ERA-Interim
+      # Copy files of ERA-5 and ERA-Interim from cartesius to jupyter server
+
+      # To copy without password add public key of cartesius account to ubuntu@jupyter.ewatercylc.org:~/.ssh/authorized_keys
+
+      # Login to cartesius
+      # rclone config
+      cat ~/.config/rclone/rclone.conf
+      [RD]
+      type = sftp
+      host = jupyter.ewatercycle.org
+      user = ubuntu
+      use_insecure_cipher = false
+      key_file = ~/.ssh/id_rsa
+
+      # Goto data source dir
+      cd /projects/0/wtrcycle/preprocessing/obs6/Tier3
+
+      export DEST_I=RD:{{ esmvaltool_rootpath }}/obs6/Tier3/ERA-Interim
       rclone mkdir $DEST_I
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_tas_200101-200112.nc $DEST_I/
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_pr_200101-200112.nc $DEST_I/
@@ -26,7 +42,7 @@
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_rsds_200101-200112.nc $DEST_I/
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_CFday_rsdt_200101-200112.nc $DEST_I/
 
-      export DEST_5=RD:/mnt/data/esmvaltool/obs6/Tier3/ERA5
+      export DEST_5=RD:{{ esmvaltool_rootpath }}/obs6/Tier3/ERA5
       rclone mkdir $DEST_5
       rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_tas_200101-200112.nc $DEST_5/
       rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_pr_200101-200112.nc $DEST_5/
