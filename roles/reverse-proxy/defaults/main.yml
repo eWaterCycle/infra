@@ -1,2 +1,4 @@
 ---
 locations: []
+# Stop nginx while certbot is renewing certs
+pause_cert_renew: false
