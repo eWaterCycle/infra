@@ -79,3 +79,14 @@ Or to provision a group of machines
 ```bash
 ansible-playbook -i inventory.yml jupyter.yml
 ```
+
+# Backup certificates
+
+The servers have let's encrypt https certficates.
+During provisioning the certificates are backuped to the ansible client in the `letsencrypt/<hostname>` directory.
+The certs are automaticly renewed when they expire (cert has 90 day lifetime).
+To backup the renewed certs run the following command:
+
+```bash
+ansible remote -i inventory.yml -m synchronize -a 'src=/etc/letsencrypt/ dest="letsencrypt/{{ inventory_hostname }}/" recursive=yes mode=pull'
+```
