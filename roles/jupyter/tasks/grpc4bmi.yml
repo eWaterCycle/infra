@@ -28,5 +28,5 @@
   file:
     path: '{{ jupyterhub_spawner_environment.USGS_DATA_HOME }}'
     state: directory
-    mode: 775
+    mode: 0775
     group: jupyter

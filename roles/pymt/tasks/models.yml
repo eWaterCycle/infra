@@ -2,13 +2,15 @@
 - name: pymt models
   command: conda install -c conda-forge -q -y {{ item }}
   args:
-    creates: /mnt/apps/conda/lib/python3.7/site-packages/{{ item}}
+    creates: /mnt/apps/conda/lib/python3.7/site-packages/{{ item }}
   loop:
     - pymt_sedflux
     - pymt_cem
     - pymt_hydrotrend
     - pymt_permamodel
     # - pymt_child  # Skipped as only a osx binary is available
-    # - pymt_landlab  # Skipped not on conda-forge
+    - pymt_landlab
     # - pymt_topoflow  # Skipped not on conda-forge
-    # - pymt_rafem  # Skipped not on conda-forge
+    - pymt_rafem
+    - pymt_ecsimplesnow
+    - pymt_gipl

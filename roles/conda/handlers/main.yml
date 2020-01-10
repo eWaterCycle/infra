@@ -1,2 +1,6 @@
 ---
-# handlers file for conda
+- name: restart jupyterhub
+  systemd:
+    name: jupyterhub
+    state: restarted
+    daemon_reload: yes
