@@ -59,3 +59,9 @@
     src: forecast-web.systemd.j2
     dest: /etc/systemd/system/forecast-web.service
   notify: forecast-web
+- name: forecast-web.service enable during boot
+  systemd:
+    name: forecast-web
+    state: reloaded
+    daemon_reload: yes
+    enabled: yes

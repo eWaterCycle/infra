@@ -29,6 +29,12 @@
     dest: /etc/systemd/system/experiment-launcher.service
   notify:
     - restart experiment-launcher
+- name: Experiment launcher started & enabled
+  systemd:
+    name: experiment-launcher
+    state: started
+    daemon_reload: yes
+    enabled: yes
 - name: Create posix_users that can use the launcher
   user:
     name: "{{ item.name }}"

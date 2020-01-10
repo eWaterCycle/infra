@@ -9,6 +9,12 @@
   copy:
     src: jupyterhub.systemd
     dest: /etc/systemd/system/jupyterhub.service
+- name: jupyterhub service enabled
+  systemd:
+    name: jupyterhub
+    state: reloaded
+    daemon_reload: yes
+    enabled: yes
 - name: Install JupyterHub
   pip:
     executable: pip3

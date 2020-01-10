@@ -52,11 +52,12 @@
 - name: TerriaMap server deps
   apt:
     name: gdal-bin
-- name: eWaterCycle/TerriaMap started
+- name: eWaterCycle/TerriaMap started & enabled
   systemd:
     name: terriamap
     state: started
     daemon_reload: yes
+    enabled: yes
 - name: Inject launcher url
   command: perl -pi -e 's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl:8888!{{ launcher_url }}!' /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
 - name: Inject Jupyter Hub url
