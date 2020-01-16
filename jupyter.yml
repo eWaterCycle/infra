@@ -46,6 +46,9 @@
     - name: conda
       include_role:
         name: conda
+    - name: esmvaltool
+      include_role:
+        name: esmvaltool
     - name: pymt
       include_role:
         name: pymt

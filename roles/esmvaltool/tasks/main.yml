@@ -4,14 +4,6 @@
     repo: https://github.com/ESMValGroup/ESMValTool.git
     dest: '{{ esmvaltool_app }}'
     version: '{{ esmvaltool_version }}'
-- name: Merge pull requests
-  command: git merge --no-commit origin/{{ item }}
-  args:
-    chdir: '{{ esmvaltool_app }}'
-  # Merge results in merge conflict in doc/sphinx/source/recipes/recipe_hydrology.rst
-  # Ignore as it should not hamper operation of esmvaltool
-  ignore_errors: yes
-  loop: '{{ esmvaltool_pullrequests }}'
 - name: esmvaltool conda deps
   command: conda env update --file environment.yml -q --name base
   args:
