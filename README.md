@@ -79,3 +79,8 @@ Or to provision a group of machines
 ```bash
 ansible-playbook -i inventory.yml jupyter.yml
 ```
+
+To only configure the authorized keys use
+```bash
+ansible-playbook -i inventory.yml --tags ssh site.yml
+```

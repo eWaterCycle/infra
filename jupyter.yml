@@ -3,6 +3,8 @@
   tasks:
     - include_role:
         name: common
+      tags:
+        - ssh
     - name: Install gcc, git, ntp
       apt:
         update_cache: yes
