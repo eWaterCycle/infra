@@ -1,7 +1,6 @@
 playbook.retry
 Pipfile.lock
 Pipfile
-authorized_keys.yml
 inventory.yml
 group_vars/*.yml
 
