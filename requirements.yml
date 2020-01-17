@@ -1,1 +1,4 @@
-- src: stefangweichinger.rclone
+---
+roles:
+  - src: stefangweichinger.rclone
+  - src: evandam.conda

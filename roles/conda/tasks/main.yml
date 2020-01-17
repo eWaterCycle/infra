@@ -8,10 +8,11 @@
   command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}/conda
   args:
     creates: '{{ conda_root }}'
-- name: Add conda-forge channel
-  command: '{{ conda_root }}/bin/conda config --add channels conda-forge'
 - name: Update conda
-  command: '{{ conda_root }}/bin/conda update -q -y -n base -c defaults conda'
+  conda:
+    name: conda
+    state: latest
+    executable: '{{ conda_root }}/bin/conda'
 - name: conda in PATH
   file:
     src: '{{ conda_root }}/bin/conda'

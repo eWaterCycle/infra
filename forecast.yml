@@ -4,7 +4,7 @@
     - include_role:
         name: common
       tags:
-        - ssh        
+        - ssh
     - name: Install git, ntp and pip
       apt:
         update_cache: yes
