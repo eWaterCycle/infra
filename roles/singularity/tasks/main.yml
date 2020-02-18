@@ -8,6 +8,7 @@
     - uuid-dev
     - libgpgme11-dev
     - squashfs-tools
+    - cryptsetup-bin
 - name: Get Go
   include: go.yml
 - name: Build singularity
