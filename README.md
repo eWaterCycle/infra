@@ -24,7 +24,7 @@ On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login 
 * lab.ewatercycle.org - entry page to select other servers
 * explore.ewatercycle.org - terriajs with models+datasets and launcher
 * jupyter.ewatercycle.org - jupyterhub
-* analytics.ewatercycle.org - 
+* analytics.ewatercycle.org -
 * experiments.ewatercycle.org - cylc web interface
 * forecast.ewatercycle.org - visualization of global low res PCR-GLOBWB model
 
@@ -83,4 +83,15 @@ ansible-playbook -i inventory.yml jupyter.yml
 To only configure the authorized keys use
 ```bash
 ansible-playbook -i inventory.yml --tags ssh site.yml
+```
+
+# Backup certificates
+
+The servers have let's encrypt https certficates.
+During provisioning the certificates are backuped to the ansible client in the `letsencrypt/<hostname>` directory.
+The certs are automaticly renewed when they expire (cert has 90 day lifetime).
+To backup the renewed certs run the following command:
+
+```bash
+ansible remote -i inventory.yml -m synchronize -a 'src=/etc/letsencrypt/ dest="letsencrypt/{{ inventory_hostname }}/" recursive=yes mode=pull'
 ```

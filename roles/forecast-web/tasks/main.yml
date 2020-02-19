@@ -65,3 +65,8 @@
     state: reloaded
     daemon_reload: yes
     enabled: yes
+- name: Restart forecast-web when cert has been renewed
+  copy:
+    src: certbot-deploy.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/forecast-web-restart
+    mode: 0755
