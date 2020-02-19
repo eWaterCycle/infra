@@ -17,4 +17,3 @@
             proxy_pass: http://localhost:8888/launcher
           - name: /
             proxy_pass: http://localhost:3001/
-        pause_cert_renew: true

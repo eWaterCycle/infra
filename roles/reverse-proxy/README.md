@@ -19,8 +19,6 @@ locations:
     proxy_pass: http://localhost:8888/
   - name: /
     proxy_pass: http://localhost:3001/
-# Stop nginx while certbot is renewing certs
-pause_cert_renew: false
 ```
 
 Make sure the most specific location is before the least specific location.
