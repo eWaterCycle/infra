@@ -17,6 +17,7 @@ Role Variables
 | singularity_version | Singularity version |
 | singularity_sha256sum | sha256 checksum of Singularity release tarball |
 | go_version | Go version |
+| go_sha256sum | sha256 checksum of Go binary tarball |
 
 Example Playbook
 ----------------

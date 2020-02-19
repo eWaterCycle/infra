@@ -8,6 +8,12 @@
     url: https://github.com/sylabs/singularity/releases/download/v{{ singularity_version }}/singularity-{{ singularity_version }}.tar.gz
     dest: /mnt/apps
     checksum: sha256:{{ singularity_sha256sum }}
+  register: sing_fetch_result
+- name: Clear singularity dir
+  file:
+    path: /root/go/src/github.com/sylabs/singularity
+    state: absent
+  when: sing_fetch_result.changed
 - name: Unpack singularity tarball
   unarchive:
     src: /mnt/apps/singularity-{{ singularity_version }}.tar.gz

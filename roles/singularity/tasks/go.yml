@@ -3,7 +3,13 @@
   get_url:
     url: https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz
     dest: /mnt/apps
-    checksum: sha256:ff54aafedff961eb94792487e827515da683d61a5f9482f668008832631e5d25
+    checksum: sha256:{{ go_sha256sum }}
+  register: fetch_go_result
+- name: Drop go dir
+  file:
+    path: /usr/local/go
+    state: absent
+  when: fetch_go_result.changed
 - name: Unarchive Go binary tarball
   unarchive:
     src: /mnt/apps/go{{ go_version }}.linux-amd64.tar.gz
