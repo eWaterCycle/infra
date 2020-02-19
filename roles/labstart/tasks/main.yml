@@ -35,4 +35,4 @@
      path: /etc/letsencrypt/renewal/{{ inventory_hostname }}.conf
      section: '[webroot_map]'
      option: '{{ inventory_hostname }}'
-     value: webroot
+     value: /var/www/html
