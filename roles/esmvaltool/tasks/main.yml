@@ -4,15 +4,18 @@
     repo: https://github.com/ESMValGroup/ESMValTool.git
     dest: '{{ esmvaltool_app }}'
     version: '{{ esmvaltool_version }}'
+  register: esmvaltool_repo_result
 - name: esmvaltool conda deps
   command: conda env update --file environment.yml -q --name base
   args:
     creates: '{{ conda_root }}/lib/python3.7/site-packages/esmvalcore'
+  when: esmvaltool_repo_result.changed
 - name: esmvaltool
   command: '{{ conda_root }}/bin/pip install .'
   args:
     chdir: '{{ esmvaltool_app }}'
     creates: '{{ conda_root }}/lib/python3.7/site-packages/esmvaltool'
+  when: esmvaltool_repo_result.changed
 - name: esmvaltool in path
   file:
     src: '{{ conda_root }}/bin/esmvaltool'

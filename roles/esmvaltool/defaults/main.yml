@@ -3,7 +3,7 @@
 # Location of esmvaltool repo
 esmvaltool_app: /mnt/apps/ESMValTool
 # Version of esmvaltool
-esmvaltool_version: 0084e806287417604ef84bfa5ab86063d5d6da26
+esmvaltool_version: b383f9400cdc1ca69eff08329afeb8c0ae9fe10f
 # Location of input data
 esmvaltool_rootpath: /mnt/data/esmvaltool
 # Location where conda is installed
