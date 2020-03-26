@@ -59,6 +59,11 @@
         - scitools-iris==2.2.0
         - tornado==5.1.1  # Downgrade from 6, see https://github.com/jupyter/jupyter/issues/401
         - hydrostats==0.75
+        - black==19.10b0
+        - yapf==0.29.0
+        - isort==4.3.21
+        - autopep8==1.5
+        - jupyterlab_code_formatter==1.2.2
 - name: Jupyterlab extensions
   command: >
     jupyter labextension install
@@ -71,3 +76,4 @@
       @jupyterlab/geojson-extension@0.18.1
       @jupyterlab/toc@0.6.0
       jupyter-matplotlib@0.3.0
+      @ryantam626/jupyterlab_code_formatter@1.2.2
