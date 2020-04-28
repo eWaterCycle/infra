@@ -23,6 +23,7 @@
         - nco
         - gdal-bin
         - libspatialindex-c4v5
+        - tmux
     - name: Cython
       pip:
         executable: pip3
