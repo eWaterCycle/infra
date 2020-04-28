@@ -46,7 +46,7 @@
         path:  /etc/security/limits.conf
         state: absent
         regexp: '^\* soft nofile 63536'
-    
+
     - name: Decrease system swappiness
       lineinfile:
         path:  /etc/sysctl.d/50-swappiness.conf
@@ -66,7 +66,7 @@
 
     # Data directory (on ceph)
     - name: Mount dir for /data
-      file: 
+      file:
         path: /data
         state: directory
     - name: Create a xfs filesystem on /dev/vdb
@@ -81,7 +81,7 @@
         src: /dev/vdb
     # Onedata install
     - name: Installation point for onedata
-      file: 
+      file:
         path: "{{ item }}"
         state: directory
         owner: root
@@ -91,4 +91,3 @@
         - /data/onedata/oneprovider
         - /data/onedata/oneprovider/certs
         - /data/onedata/oneprovider/persistence
-    

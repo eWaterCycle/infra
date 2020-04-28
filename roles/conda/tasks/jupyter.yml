@@ -1,8 +1,8 @@
 ---
 - name: Install ipykernel
-  command: '{{ conda_root }}/bin/conda install -q -y -c conda-forge ipykernel'
-  args:
-    creates: '{{ conda_root }}/lib/python3.7/site-packages/ipykernel'
+  conda:
+    name: ipykernel
+    channels: conda-forge
 - name: Register Jupyter kernel
   command: '{{ conda_root }}/bin/python -m ipykernel install --name=conda --display-name="Python 3 (Conda)" --prefix={{ conda_jupyter_prefix }}'
   args:
@@ -11,6 +11,10 @@
   lineinfile:
     path: '{{ conda_jupyter_prefix }}/share/jupyter/kernels/conda/kernel.json'
     regexp: '\"env'
-    line: '"env": {"PROJ_LIB": "{{ conda_root }}/share/proj", "PATH": "{{ conda_root }}/bin:{{ conda_root }}/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"},'
+    line: |
+      "env": {
+       "PROJ_LIB": "{{ conda_root }}/share/proj",
+       "PATH": "{{ conda_root }}/bin:{{ conda_root }}/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+      },
     insertafter: '\{'
   notify: restart jupyterhub
