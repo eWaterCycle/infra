@@ -50,7 +50,7 @@ galaxy_info:
     #       Maximum 20 tags per role.
 
 dependencies:
-  - role: stefangweichinger.rclone
+  - role: stefangweichinger.ansible_rclone
     vars:
       rclone_version: "1.42"
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,

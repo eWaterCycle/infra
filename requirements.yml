@@ -1,4 +1,4 @@
 ---
 roles:
-  - src: stefangweichinger.rclone
+  - src: stefangweichinger.ansible_rclone
   - src: evandam.conda

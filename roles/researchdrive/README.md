@@ -20,7 +20,7 @@ researchdrive:
 Dependencies
 ------------
 
-Depends on `stefangweichinger.rclone` role on ansible galaxy.
+Depends on `stefangweichinger.ansible_rclone` role on ansible galaxy.
 
 Example Playbook
 ----------------
