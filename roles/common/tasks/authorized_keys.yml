@@ -1,3 +1,6 @@
+- name: Ubuntu user
+  user:
+    name: ubuntu
 - name: Authorized keys for ubuntu user
   authorized_key:
     user: ubuntu

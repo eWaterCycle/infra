@@ -95,3 +95,14 @@ To backup the renewed certs run the following command:
 ```bash
 ansible remote -i inventory.yml -m synchronize -a 'src=/etc/letsencrypt/ dest="letsencrypt/{{ inventory_hostname }}/" recursive=yes mode=pull'
 ```
+
+# Local test
+
+To setup a Jupyter server on your local machine with vagrant.
+
+```shell
+# Init already done
+# vagrant init hashicorp/bionic64
+vagrant up
+ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
+```
