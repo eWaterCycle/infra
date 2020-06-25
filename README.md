@@ -108,4 +108,6 @@ ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
 vagrant ssh -c 'ifconfig eth1'
 ```
 
-Put ip of eth1 in /etc/hosts as `vagrant.localhost`
+Connect to ip of eth1 with `https://<ip>`.
+
+> When rerunning make sure jupyterhub process is killed due to unavailble stop command in systemd
