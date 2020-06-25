@@ -108,6 +108,6 @@ ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
 vagrant ssh -c 'ifconfig eth1'
 ```
 
-Connect to ip of eth1 with `https://<ip>`.
+Connect to ip of eth1 with `https://<ip>` and ignore cert warning.
 
 > When rerunning make sure jupyterhub process is killed due to unavailble stop command in systemd
