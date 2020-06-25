@@ -98,11 +98,10 @@ ansible remote -i inventory.yml -m synchronize -a 'src=/etc/letsencrypt/ dest="l
 
 # Local test
 
-To setup a Jupyter server on your local machine with vagrant.
+To setup a Jupyter server on your local machine with [vagrant](https://vagrantup.com).
+
 
 ```shell
-# Init already done
-# vagrant init hashicorp/bionic64
 vagrant up
 ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
 vagrant ssh -c 'ifconfig eth1'
@@ -111,3 +110,4 @@ vagrant ssh -c 'ifconfig eth1'
 Connect to ip of eth1 with `https://<ip>` and ignore cert warning.
 
 > When rerunning playbook make sure jupyterhub process is killed due to unavailble stop command in systemd
+> The `Vagrantfile` file used by `vagrant up` was generated with `vagrant init hashicorp/bionic64` and later customized.
