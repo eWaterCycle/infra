@@ -105,4 +105,7 @@ To setup a Jupyter server on your local machine with vagrant.
 # vagrant init hashicorp/bionic64
 vagrant up
 ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
+vagrant ssh -c 'ifconfig eth1'
 ```
+
+Put ip of eth1 in /etc/hosts as `vagrant.localhost`

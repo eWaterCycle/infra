@@ -30,6 +30,11 @@
   args:
     creates: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
   when: not privcert.stat.exists and not localprivcert.stat.exists and not selfsigned
+- name: Self signed cert dir
+  file:
+    path: /etc/letsencrypt/live/{{ inventory_hostname }}
+    state: directory
+  when: not privcert.stat.exists and selfsigned and not localprivcert.stat.exists
 - name: Self signed cert
   command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem -out /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
   args:
