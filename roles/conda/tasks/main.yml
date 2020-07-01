@@ -18,6 +18,3 @@
     src: '{{ conda_root }}/bin/conda'
     dest: /usr/local/bin/conda
     state: link
-- name: Jupyter kernel registration
-  include: jupyter.yml
-  when: conda_jupyter_kernel
