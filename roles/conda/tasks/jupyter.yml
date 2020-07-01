@@ -16,5 +16,5 @@
        "PROJ_LIB": "{{ conda_root }}/share/proj",
        "PATH": "{{ conda_root }}/bin:{{ conda_root }}/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
       },
-    insertafter: '\{'
+    insertbefore: '\"argv'
   notify: restart jupyterhub

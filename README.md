@@ -3,23 +3,7 @@
 * Runs on the [SURFSara HPC cloud](https://userinfo.surfsara.nl/systems/hpc-cloud)
 * Provisioned by [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
-# Prerequisites
-
-Install Ansible
-
-```bash
-pipenv --three install
-pipenv shell
-```
-
-Install roles from [galaxy](https://galaxy.ansible.com/)
-```bash
-ansible-galaxy install -r requirements.yml
-```
-
-On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login the Virtual Machines.
-
-# Servers
+## Servers
 
 * lab.ewatercycle.org - entry page to select other servers
 * explore.ewatercycle.org - terriajs with models+datasets and launcher
@@ -28,7 +12,9 @@ On the https://ui.hpccloud.surfsara.nl add your public SSH key so you can login 
 * experiments.ewatercycle.org - cylc web interface
 * forecast.ewatercycle.org - visualization of global low res PCR-GLOBWB model
 
-# Create VMs
+## Create VMs
+
+On the [https://ui.hpccloud.surfsara.nl](https://ui.hpccloud.surfsara.nl) add your public SSH key so you can login the Virtual Machines.
 
 All VMs are based on the same template which should be created as follows:
 
@@ -49,43 +35,62 @@ Create the following Virtual Machines based on the `lab` template with the follo
 | experiments  | 8  | 2  | 50  | 500 |
 | forecast  | 8  | 2  | 50  | 500 |
 
-# Setup domain names
+## Setup domain names
 
 In the DNS admin interface of the `ewatercycle.org` domain setup sub domains for all machines.
 
-# Configure
+## Configure
 
-## Inventory
+### Inventory
 
 Make a copy of `inventory.yml.template` to `inventory.yml` and update if needed.
 
-## Variables
+### Variables
 
 Make a copy of all the `group_vars/*.yml.template` to `group_vars/*.yml`.
 Fields with `REPLACE ME` in the value need to be replaced.
 
-### Authorized keys
+> The group vars files contain secrets like user passwords so they should not be made public. For the eWaterCycle deployment there is a private repo in the GitHub organization, its content should be linked (symlink-ed or rsync-ed) into a local clone of this repo.
+
+#### Authorized keys
 
 To allow multiple users to ssh into servers the Ansible playbooks will inject the public keys listed in `group_vars/all.yml:authorized_keys` file into `~/authorized_keys`.
 
-# Provision VMs
+## Provision VMs
+
+Install Ansible (optionally in a Python Virtual environment) with
+
+```bash
+pip install ansible
+```
+
+Install roles from [galaxy](https://galaxy.ansible.com/)
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
 
 After the VMs haven been created, the subdomain are setup and configuration has been performed then you are ready to provision the VMs with:
 
 ```bash
 ansible-playbook -i inventory.yml site.yml
 ```
-Or to provision a group of machines
+
+Or to provision a single machine
+
 ```bash
 ansible-playbook -i inventory.yml jupyter.yml
 ```
 
 To only configure the authorized keys use
+
 ```bash
 ansible-playbook -i inventory.yml --tags ssh site.yml
 ```
 
-# Backup certificates
+After provisioning goto [https://lab.ewatercycle.org](https://lab.ewatercycle.org) and follow its links to see that everything is working as expected.
+
+## Backup certificates
 
 The servers have let's encrypt https certficates.
 During provisioning the certificates are backuped to the ansible client in the `letsencrypt/<hostname>` directory.
@@ -95,3 +100,31 @@ To backup the renewed certs run the following command:
 ```bash
 ansible remote -i inventory.yml -m synchronize -a 'src=/etc/letsencrypt/ dest="letsencrypt/{{ inventory_hostname }}/" recursive=yes mode=pull'
 ```
+
+## Local test VM
+
+To setup a Jupyter server on your local machine with [vagrant](https://vagrantup.com).
+
+Start VM with
+
+```shell
+vagrant up
+```
+
+Provision VM with Jupyter with
+
+```shell
+ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
+```
+
+Get ip of Jupyter server with
+
+```shell
+vagrant ssh -c 'ifconfig eth1'
+```
+
+Open JupyterHub in web browser at  `https://<ip of eth1>` and ignore cert warning.
+Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users`.
+
+> When rerunning playbook make sure jupyterhub process is killed due to unavailble stop command in systemd
+> The `Vagrantfile` file used by `vagrant up` was generated with `vagrant init hashicorp/bionic64` and later customized.

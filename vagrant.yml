@@ -1,0 +1,39 @@
+all:
+  children:
+    remote:
+      vars:
+        ansible_user: vagrant
+        ansible_become: yes
+      children:
+        lab:
+          hosts:
+            lab.ewatercycle.org:
+        explore:
+          hosts:
+            explore.ewatercycle.org:
+        jupyter:
+          hosts:
+            vagrant.localhost:
+          vars:
+            ansible_user: vagrant 
+            ansible_connection: ssh 
+            ansible_host: 127.0.0.1 
+            ansible_port: 2222
+            ansible_ssh_private_key_file: .vagrant/machines/default/virtualbox/private_key
+            # Newer Ansible expect python to be v3, while in Ubuntu 18.04 it is still v2
+            ansible_python_interpreter: /usr/bin/python3
+            selfsigned: true
+        analytics:
+          hosts:
+            analytics.ewatercycle.org:
+        experiments:
+          hosts:
+            experiments.ewatercycle.org:
+        forecast:
+          hosts:
+            forecast.ewatercycle.org:
+    local:
+      hosts:
+        localhost:
+      vars:
+        ansible_connection: local

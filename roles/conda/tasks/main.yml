@@ -5,7 +5,7 @@
     dest: '{{ conda_tarball_root }}/'
     checksum: '{{ conda_tarball_checksum }}'
 - name: Install conda
-  command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}/conda
+  command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}
   args:
     creates: '{{ conda_root }}'
 - name: Update conda
