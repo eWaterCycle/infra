@@ -5,25 +5,24 @@
     - name: Jupyterlab apt dependencies
       apt:
         update_cache: yes
-        name: "{{ item }}"
-      loop:
-        - libcairo2-dev
-        - libjpeg-dev
-        - libpango1.0-dev
-        - libgif-dev
-        - build-essential
-        - g++
-        - python3-dev
-        - libgeos-dev
-        - libgdal-dev
-        - libproj-dev
-        - libudunits2-dev
-        - cdo
-        - netcdf-bin
-        - nco
-        - gdal-bin
-        - libspatialindex-c4v5
-        - tmux
+        name:
+          - libcairo2-dev
+          - libjpeg-dev
+          - libpango1.0-dev
+          - libgif-dev
+          - build-essential
+          - g++
+          - python3-dev
+          - libgeos-dev
+          - libgdal-dev
+          - libproj-dev
+          - libudunits2-dev
+          - cdo
+          - netcdf-bin
+          - nco
+          - gdal-bin
+          - libspatialindex-c4v5
+          - tmux
     - name: Cython
       pip:
         executable: pip3
