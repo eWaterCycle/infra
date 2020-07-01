@@ -3,6 +3,8 @@
 * Runs on the [SURFSara HPC cloud](https://userinfo.surfsara.nl/systems/hpc-cloud)
 * Provisioned by [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
+![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
+
 ## Servers
 
 * lab.ewatercycle.org - entry page to select other servers
