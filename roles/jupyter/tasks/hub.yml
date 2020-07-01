@@ -38,6 +38,8 @@
     home: /mnt/home/{{ item.name }}
     shell: /bin/bash
   loop: "{{ posix_users }}"
+  loop_control:
+    label: "{{ item.name }}"
 - name: Allow ssh login with password
   lineinfile:
     path: /etc/ssh/sshd_config
