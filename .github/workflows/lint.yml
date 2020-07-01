@@ -1,18 +1,20 @@
-name: Ansible Lint  # feel free to pick your own name
+name: Ansible Lint
 
 on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    # Important: This sets up your GITHUB_WORKSPACE environment variable
     - uses: actions/checkout@v2
-
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Deps
+      run: pip install -r requirements.txt
+    - name: Install Ansible galaxy roles
+      run: ansible-galaxy install -r requirements.yml
     - name: Lint Ansible Playbook
-      # replace "master" with any valid ref
       uses: ansible/ansible-lint-action@master
       with:
         targets: site.yml
