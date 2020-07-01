@@ -55,8 +55,7 @@
     repo: 'deb https://deb.nodesource.com/node_12.x bionic main'
 - name: NodeJS
   apt:
-    name: nodejs
-    state: latest
+    name: nodejs=12.*
     update_cache: yes
 - name: NodeJS dependencies for JupyterHub
   npm:
