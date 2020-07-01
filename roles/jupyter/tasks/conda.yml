@@ -4,12 +4,12 @@
     name: ipykernel
     channels: conda-forge
 - name: Register Jupyter kernel
-  command: '{{ conda_root }}/bin/python -m ipykernel install --name=conda --display-name="Python 3 (Conda)" --prefix={{ conda_jupyter_prefix }}'
+  command: '{{ conda_root }}/bin/python -m ipykernel install --name=conda --display-name="Python 3 (Conda)" --prefix=/usr/local'
   args:
-    creates: '{{ conda_jupyter_prefix }}/share/jupyter/kernels/conda'
+    creates: /usr/local/share/jupyter/kernels/conda
 - name: Set PROJ_LIB and PATH env vars in Jupyter conda kernel
   lineinfile:
-    path: '{{ conda_jupyter_prefix }}/share/jupyter/kernels/conda/kernel.json'
+    path: /usr/local/share/jupyter/kernels/conda/kernel.json
     regexp: '\"env'
     line: |
       "env": {

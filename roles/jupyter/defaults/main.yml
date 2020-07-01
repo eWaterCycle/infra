@@ -20,3 +20,5 @@ grpc4bmi_images:
 jupyterhub_spawner_environment:
   USGS_DATA_HOME: /mnt/data/usgs/streamflow
   GRDC_DATA_HOME: /mnt/data/grdc/dailies
+# Location where conda is installed
+conda_root: /mnt/apps/conda
