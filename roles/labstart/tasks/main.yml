@@ -20,7 +20,7 @@
     dest: /var/www/html/images/
 - name: Certbot renewal hook
   # When certbot renews the cert then nginx has to be reloaded
-  copy: 
+  copy:
     src: certbot-nginx-hook.sh
     dest: /etc/letsencrypt/renewal-hooks/deploy/certbot-nginx-hook.sh
     mode: 0755
