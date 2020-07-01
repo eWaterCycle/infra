@@ -8,11 +8,6 @@
   command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}
   args:
     creates: '{{ conda_root }}'
-- name: Update conda
-  conda:
-    name: conda
-    state: latest
-    executable: '{{ conda_root }}/bin/conda'
 - name: conda in PATH
   file:
     src: '{{ conda_root }}/bin/conda'
