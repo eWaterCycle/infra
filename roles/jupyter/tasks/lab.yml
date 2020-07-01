@@ -41,7 +41,7 @@
         executable: pip3
         name:
           - dask==1.1.1
-          - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'
+          - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'  # noqa 204
           - cf_units==2.1.1
           - cftime==1.0.3.4
           - jupyterlab==2.1.5
@@ -58,15 +58,13 @@
           - tqdm==4.30.0
           - scitools-iris==2.2.0
           - hydrostats==0.75
+- name: Jupyterlab uninstall obsolete extensions
+  command: jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}
+- name: Check if Jupyterlab extensions are installed
+  command: jupyter labextension check --installed {{ jupyterlab_extensions }}
+  register: extensions_installed
+  changed_when: False
+  ignore_errors: True
 - name: Jupyterlab extensions
-  command: >
-    jupyter labextension install
-      @bokeh/jupyter_bokeh@2.0.2
-      @jupyter-widgets/jupyterlab-manager@2.0.0
-      @jupyterlab/geojson-extension@v2.0.1
-      @jupyterlab/toc@4.0.0
-      @pyviz/jupyterlab_pyviz@1.0.4
-      jupyter-leaflet@0.13.0
-      jupyter-matplotlib@0.7.2
-# TODO jupyterlab_thredds incompatible with JupyterLab v2
-#      @ewatercycle/jupyterlab_thredds@0.3.0
+  command: jupyter labextension install {{ jupyterlab_extensions }}
+  when: extensions_installed is failed
