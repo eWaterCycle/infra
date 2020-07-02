@@ -60,11 +60,5 @@
           - hydrostats==0.75
 - name: Jupyterlab uninstall obsolete extensions
   command: jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}
-- name: Check if Jupyterlab extensions are installed
-  command: jupyter labextension check --installed {{ jupyterlab_extensions }}
-  register: extensions_installed
-  changed_when: False
-  ignore_errors: True
 - name: Jupyterlab extensions
   command: jupyter labextension install {{ jupyterlab_extensions }}
-  when: extensions_installed is failed
