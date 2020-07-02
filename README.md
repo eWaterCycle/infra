@@ -90,6 +90,8 @@ ansible-playbook -i inventory.yml --tags ssh site.yml
 
 After provisioning goto [https://lab.ewatercycle.org](https://lab.ewatercycle.org) and follow its links to see that everything is working as expected.
 
+> Provisioning can fail due to network failures, please kill JupyterHub process and try again
+
 ## Backup certificates
 
 The servers have let's encrypt https certficates.
@@ -111,6 +113,8 @@ Start VM with
 vagrant up
 ```
 
+(The `Vagrantfile` file used by `vagrant up` was generated with `vagrant init hashicorp/bionic64` and later customized.)
+
 Provision VM with Jupyter with
 
 ```shell
@@ -126,5 +130,5 @@ vagrant ssh -c 'ifconfig eth1'
 Open JupyterHub in web browser at  `https://<ip of eth1>` and ignore cert warning.
 Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users`.
 
-> When rerunning playbook make sure jupyterhub process is killed due to unavailble stop command in systemd
-> The `Vagrantfile` file used by `vagrant up` was generated with `vagrant init hashicorp/bionic64` and later customized.
+> * When rerunning playbook make sure JupyterHub process is killed due to unavailble stop command in systemd
+> * [Vagrant snapshots](https://www.vagrantup.com/docs/cli/snapshot.html) can be used to rollback VMs to previous state. After rollback sync time with `vagrant ssh -c 'sudo systemctl restart systemd-timesyncd.service'`.
