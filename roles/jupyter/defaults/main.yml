@@ -20,3 +20,21 @@ grpc4bmi_images:
 jupyterhub_spawner_environment:
   USGS_DATA_HOME: /mnt/data/usgs/streamflow
   GRDC_DATA_HOME: /mnt/data/grdc/dailies
+# Location where conda is installed
+conda_root: /mnt/apps/conda
+# TODO jupyterlab_thredds incompatible with JupyterLab v2
+#      @ewatercycle/jupyterlab_thredds@0.3.0
+# JupyterLab extensions that should be installed, space seperated list
+jupyterlab_extensions: >
+  @bokeh/jupyter_bokeh@2.0.2
+  @jupyter-widgets/jupyterlab-manager@2.0.0
+  @jupyterlab/geojson-extension@v2.0.1
+  @jupyterlab/hub-extension@2.1.2
+  @jupyterlab/toc@4.0.0
+  @pyviz/jupyterlab_pyviz@1.0.4
+  jupyter-leaflet@0.13.0
+  jupyter-matplotlib@0.7.2
+# JupyterLab extensions that should not be installed, space seperated list
+jupyterlab_obsolete_extensions: >
+  @ewatercycle/jupyterlab_thredds
+  jupyterlab_bokeh

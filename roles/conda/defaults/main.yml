@@ -5,7 +5,3 @@ conda_tarball_checksum: sha256:bb2e3cedd2e78a8bb6872ab3ab5b1266a90f8c7004a22d8dc
 conda_tarball_root: /mnt/apps
 # Location where conda will be installed
 conda_root: /mnt/apps/conda
-# Whether to register the default conda environment as a kernel in jupyter
-conda_jupyter_kernel: true
-# Location where Jupyter is installed
-conda_jupyter_prefix: /usr/local
