@@ -13,3 +13,10 @@
     src: '{{ conda_root }}/bin/conda'
     dest: /usr/local/bin/conda
     state: link
+- name: Add conda init to bash profiles
+  command: conda init
+  become: yes
+  become_user: "{{ item.name }}"
+  loop: "{{ posix_users }}"
+  loop_control:
+    label: "{{ item.name }}"
