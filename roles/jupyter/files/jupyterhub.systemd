@@ -5,6 +5,7 @@ After=syslog.target network.target
 [Service]
 User=root
 ExecStart=/usr/local/bin/jupyterhub --upgrade-db -f /etc/jupyterhub/jupyterhub_config.py
+ExecReload=/bin/kill -s HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target
