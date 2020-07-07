@@ -35,19 +35,19 @@
     - ufw:
         state: enabled
         policy: deny
-    
+
     # Tomcat & THREDDS
     - name: ensure tomcat directory exists
       file:
         path: /var/lib/tomcat8/webapps/thredds
         state: directory
-        owner: tomcat8 
+        owner: tomcat8
         group: tomcat8
     - name: make tomcat content directory
       file:
         path: /var/lib/content/thredds
         state: directory
-        owner: tomcat8 
+        owner: tomcat8
         group: tomcat8
     - lineinfile:
         path: /etc/default/tomcat8
@@ -57,22 +57,22 @@
     - lineinfile:
         path: /etc/default/tomcat8
         regexp: '^JAVA_OPTS='
-        line: 'JAVA_OPTS="-Djava.awt.headless=true -Xmx4g -XX:+UseConcMarkSweepGC $CONTENT_ROOT"'        
+        line: 'JAVA_OPTS="-Djava.awt.headless=true -Xmx4g -XX:+UseConcMarkSweepGC $CONTENT_ROOT"'
     - name: Get and unzip THREDDS WAR file
-      unarchive: 
-        src: http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/edu/ucar/tds/4.6.11/tds-4.6.11.war 
-        dest: /var/lib/tomcat8/webapps/thredds 
+      unarchive:
+        src: http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/edu/ucar/tds/4.6.11/tds-4.6.11.war
+        dest: /var/lib/tomcat8/webapps/thredds
         creates: /var/lib/tomcat8/webapps/thredds/tds.css
         remote_src: yes
-        mode: 0755 
-        owner: tomcat8 
+        mode: 0755
+        owner: tomcat8
         group: tomcat8
       notify:
         - restart tomcat8
 
     # Data directory (on ceph)
     - name: Mount dir for /data
-      file: 
+      file:
         path: /data
         state: directory
     - name: Create a xfs filesystem on /dev/vdb
@@ -106,7 +106,7 @@
         dest: /var/lib/content/thredds/thredds/threddsConfig.xml
     - copy:
         src: thredds/config/wmsConfig.xml
-        dest: /var/lib/content/thredds/thredds/wmsConfig.xml        
+        dest: /var/lib/content/thredds/thredds/wmsConfig.xml
       notify:
         - restart tomcat8
 

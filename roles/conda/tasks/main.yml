@@ -5,18 +5,11 @@
     dest: '{{ conda_tarball_root }}/'
     checksum: '{{ conda_tarball_checksum }}'
 - name: Install conda
-  command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}/conda
+  command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}
   args:
     creates: '{{ conda_root }}'
-- name: Add conda-forge channel
-  command: '{{ conda_root }}/bin/conda config --add channels conda-forge'
-- name: Update conda
-  command: '{{ conda_root }}/bin/conda update -q -y -n base -c defaults conda'
 - name: conda in PATH
   file:
     src: '{{ conda_root }}/bin/conda'
     dest: /usr/local/bin/conda
     state: link
-- name: Jupyter kernel registration
-  include: jupyter.yml
-  when: conda_jupyter_kernel

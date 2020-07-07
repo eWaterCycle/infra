@@ -7,6 +7,7 @@
 - name: esmvaltool conda deps
   command: conda env update --file environment.yml -q --name base
   args:
+    chdir: '{{ esmvaltool_app }}'
     creates: '{{ conda_root }}/lib/python3.7/site-packages/esmvalcore'
 - name: esmvaltool
   command: '{{ conda_root }}/bin/pip install .'

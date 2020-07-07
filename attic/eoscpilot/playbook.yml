@@ -19,6 +19,6 @@
 
 - name: Cylc Server
   import_playbook: cylc-server.yml
-  
+
 - name: Forecast server
   import_playbook: forecast-server.yml

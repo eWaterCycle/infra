@@ -5,24 +5,24 @@
     - name: Jupyterlab apt dependencies
       apt:
         update_cache: yes
-        name: "{{ item }}"
-      loop:
-        - libcairo2-dev
-        - libjpeg-dev
-        - libpango1.0-dev
-        - libgif-dev
-        - build-essential
-        - g++
-        - python3-dev
-        - libgeos-dev
-        - libgdal-dev
-        - libproj-dev
-        - libudunits2-dev
-        - cdo
-        - netcdf-bin
-        - nco
-        - gdal-bin
-        - libspatialindex-c4v5
+        name:
+          - libcairo2-dev
+          - libjpeg-dev
+          - libpango1.0-dev
+          - libgif-dev
+          - build-essential
+          - g++
+          - python3-dev
+          - libgeos-dev
+          - libgdal-dev
+          - libproj-dev
+          - libudunits2-dev
+          - cdo
+          - netcdf-bin
+          - nco
+          - gdal-bin
+          - libspatialindex-c4v5
+          - tmux
     - name: Cython
       pip:
         executable: pip3
@@ -39,41 +39,32 @@
     - name: Jupyterlab python dependencies
       pip:
         executable: pip3
-        name: "{{ item }}"
-      loop:
-        - dask==1.1.1
-        - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'
-        - cf_units==2.1.1
-        - cftime==1.0.3.4
-        - jupyterlab==0.35.4
-        - ipyleaflet==0.10.0
-        - holoviews==1.11.2
-        - geoviews==1.6.2
-        - xarray==0.11.3
-        - nc_time_axis==1.1.0
-        - notebook==5.7.4
-        - jupyterlab_thredds==0.3.0
-        - datashader==0.6.9
-        - ipympl==0.2.1
-        - tqdm==4.30.0
-        - scitools-iris==2.2.0
-        - tornado==5.1.1  # Downgrade from 6, see https://github.com/jupyter/jupyter/issues/401
-        - hydrostats==0.75
-        - black==19.10b0
-        - yapf==0.29.0
-        - isort==4.3.21
-        - autopep8==1.5
-        - jupyterlab_code_formatter==1.2.2
+        name:
+          - dask==1.1.1
+          - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'  # noqa 204
+          - cf_units==2.1.1
+          - cftime==1.0.3.4
+          - jupyterlab==2.1.5
+          - ipyleaflet==0.13.1
+          - bokeh==2.1.1
+          - holoviews==1.13.3
+          - geoviews==1.8.1
+          - xarray==0.11.3
+          - nc_time_axis==1.1.0
+          - notebook==6.0.3
+# TODO jupyterlab_thredds incompatible with JupyterLab v2
+#          - jupyterlab_thredds==0.3.0
+          - datashader==0.6.9
+          - ipympl==0.5.6
+          - tqdm==4.30.0
+          - scitools-iris==2.2.0
+          - hydrostats==0.75
+          - black==19.10b0
+          - yapf==0.29.0
+          - isort==4.3.21
+          - autopep8==1.5
+          - jupyterlab_code_formatter==1.2.2
+- name: Jupyterlab uninstall obsolete extensions
+  command: jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}
 - name: Jupyterlab extensions
-  command: >
-    jupyter labextension install
-      @jupyter-widgets/jupyterlab-manager@0.38.1
-      @jupyterlab/hub-extension@0.12.0
-      jupyterlab_bokeh@0.6.3
-      jupyter-leaflet@0.10.0
-      @pyviz/jupyterlab_pyviz@0.6.4
-      @ewatercycle/jupyterlab_thredds@0.3.0
-      @jupyterlab/geojson-extension@0.18.1
-      @jupyterlab/toc@0.6.0
-      jupyter-matplotlib@0.3.0
-      @ryantam626/jupyterlab_code_formatter@1.2.2
+  command: jupyter labextension install {{ jupyterlab_extensions }}

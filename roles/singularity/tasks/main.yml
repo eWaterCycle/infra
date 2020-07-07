@@ -1,14 +1,13 @@
 ---
 - name: system dependencies
   apt:
-    name: '{{ item }}'
-  loop:
-    - build-essential
-    - libssl-dev
-    - uuid-dev
-    - libgpgme11-dev
-    - squashfs-tools
-    - cryptsetup-bin
+    name:
+      - build-essential
+      - libssl-dev
+      - uuid-dev
+      - libgpgme11-dev
+      - squashfs-tools
+      - cryptsetup-bin
 - name: Get Go
   include: go.yml
 - name: Build singularity

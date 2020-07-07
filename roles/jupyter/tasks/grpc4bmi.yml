@@ -6,7 +6,7 @@
   pip:
     executable: pip3
     name: git+https://github.com/eWaterCycle/parametersetdb.git@{{ parametersetdb_version }}
-    state: latest
+    state: present
 - name: grpc4bmi
   pip:
     executable: pip3
@@ -14,6 +14,7 @@
 - name: grpc4bmi Docker images
   docker_image:
     name: '{{ item.docker }}'
+    source: pull
   loop: '{{ grpc4bmi_images }}'
 - name: Singularity image dir
   file:

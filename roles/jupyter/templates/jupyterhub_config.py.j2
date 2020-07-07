@@ -15,7 +15,6 @@ c.JupyterHub.services = [
 ]
 c.Authenticator.admin_users = {'admin'}
 c.Spawner.default_url = '/lab'
-c.Spawner.cmd = ['jupyter-labhub']
 c.Spawner.environment = { {% for key, value in jupyterhub_spawner_environment.items() %}
     '{{ key }}': '{{ value }}'{% if not loop.last %},{% endif %}
 {% endfor %} }

@@ -27,6 +27,7 @@
   environment:
     GOPATH: /root/go
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/go/bin
+    GO111MODULE: 'off'
 - name: mconfig
   command: ./mconfig --sysconfdir=/etc
   args:

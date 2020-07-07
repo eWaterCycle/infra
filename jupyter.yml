@@ -33,19 +33,19 @@
     - name: Let's encrypt cerficates
       include_role:
         name: letsencrypt
+    - name: singularity
+      include_role:
+        name: singularity
+    - name: conda
+      include_role:
+        name: conda
     - name: Jupyter environment
       include_role:
         name: jupyter
     - name: hymuse
       include_role:
         name: hymuse
-    - name: singularity
-      include_role:
-        name: singularity
     # TODO give access to read-only ResearchDrive mount
-    - name: conda
-      include_role:
-        name: conda
     - name: esmvaltool
       include_role:
         name: esmvaltool
