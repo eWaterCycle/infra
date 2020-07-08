@@ -7,9 +7,8 @@
 - name: Clean terriamap build
   file:
     path: /mnt/apps/TerriaMap/wwwroot/build
-    state: absent  
+    state: absent
 - name: Clean terriajs build
   file:
     path: /mnt/apps/TerriaMap/packages/terriajs/wwwroot/build
     state: absent
-  
