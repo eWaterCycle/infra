@@ -36,5 +36,4 @@ jupyterlab_extensions: >
   @ewatercycle/jupyterlab_thredds@0.5.0
 # JupyterLab extensions that should not be installed, space seperated list
 jupyterlab_obsolete_extensions: >
-  @ewatercycle/jupyterlab_thredds
   jupyterlab_bokeh
