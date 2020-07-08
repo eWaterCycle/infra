@@ -1,6 +1,15 @@
 ---
-- name: restart terriamap
+- name: Restart terriamap
   systemd:
     name: terriamap
     state: restarted
     daemon_reload: yes
+- name: Clean terriamap build
+  file:
+    path: /mnt/apps/TerriaMap/wwwroot/build
+    state: absent  
+- name: Clean terriajs build
+  file:
+    path: /mnt/apps/TerriaMap/packages/terriajs/wwwroot/build
+    state: absent
+  

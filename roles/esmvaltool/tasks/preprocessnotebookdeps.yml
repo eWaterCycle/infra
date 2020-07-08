@@ -8,6 +8,7 @@
   git:
     repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets.git
     dest: '{{ esmvaltool_rootpath }}/aux'
+    version: '{{ recipes_auxiliary_datasets_version }}'
 - name: cartopy
   command: conda install -c esmvalgroup -c conda-forge -q -y cartopy
   args:

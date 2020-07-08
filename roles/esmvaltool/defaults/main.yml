@@ -8,3 +8,4 @@ esmvaltool_version: 0084e806287417604ef84bfa5ab86063d5d6da26
 esmvaltool_rootpath: /mnt/data/esmvaltool
 # Location where conda is installed
 conda_root: /mnt/apps/conda
+recipes_auxiliary_datasets_version: 70eee28d72ffd6ab28e2cfaafdf9b8d0d8c13bdb

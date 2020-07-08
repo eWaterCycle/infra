@@ -68,6 +68,7 @@
     src: jupyterlab_code_formatter.json
     dest: /usr/local/etc/jupyter/jupyter_notebook_config.d/jupyterlab_code_formatter.json
 - name: Jupyterlab uninstall obsolete extensions
-  command: jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}
+  command: jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }} # noqa 301 unable to check that all extensions have been uninstalled
 - name: Jupyterlab extensions
-  command: jupyter labextension install {{ jupyterlab_extensions }}
+  command: jupyter labextension install {{ jupyterlab_extensions }} # noqa 301 unable to check that all extensions have already installed,
+  # `jupyter labextension check` ignores versions
