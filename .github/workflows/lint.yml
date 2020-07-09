@@ -1,0 +1,18 @@
+name: Ansible Lint
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Deps
+      run: pip install -r requirements.txt
+    - name: Install Ansible galaxy roles
+      run: ansible-galaxy install -r requirements.yml
+    - name: Lint Ansible Playbook
+      run: ansible-lint --force-color site.yml
