@@ -48,6 +48,10 @@
     name:
       - jupyterlab_thredds==0.5.0
       - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'  # noqa 204
+# - name: Jupyter server code formatter extension
+#   copy:
+#     src: jupyterlab_code_formatter.json
+#     dest: /usr/local/etc/jupyter/jupyter_notebook_config.d/jupyterlab_code_formatter.json
 - name: eWaterCycle uninstall obsolete lab extensions
   command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}
 - name: eWaterCycle install lab extensions
