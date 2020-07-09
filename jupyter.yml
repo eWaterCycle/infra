@@ -36,10 +36,13 @@
     - name: singularity
       include_role:
         name: singularity
-    - name: conda
+    - name: Install conda
       include_role:
         name: conda
-    - name: Jupyter environment
+    - name: Create eWaterCycle conda env
+      include_role:
+        name: ewatercycle
+    - name: Set up Jupyter lab/hub
       include_role:
         name: jupyter
     - name: hymuse

@@ -1,0 +1,47 @@
+---
+# tasks file for ewatercycle
+- name: Install ewatercycle conda environment
+  conda:
+    environment: ewatercycle
+    channels:
+      - esmvalgroup
+      - conda-forge
+    name:
+      - python=3.7.7
+      - ipykernel=5.3.1
+      - esmvaltool-python=2.0.0b4
+      - jupyterlab=2.1.5
+      - geoviews=1.8.1
+      - hydrostats=0.78
+      - ipyleaflet=0.13.1
+      - ipympl=0.5.6
+      # Everything below is installed via dependencies but kept here for version reference
+      - bokeh=2.1.1
+      - cartopy=0.18.0
+      - cf-units=2.1.4
+      - cftime=1.2.0
+      - cython=0.29.20
+      - dask=2.20.0
+      - datashader=0.11.0
+      - ecmwf-api-client=1.5.4
+      - eofs=1.4.0
+      - holoviews=1.13.3
+      - iris=2.4.0
+      - joblib=0.16.0
+      - matplotlib=3.2.2
+      - nc-time-axis=1.2.0
+      - notebook=6.0.3
+      - numpy=1.18.5
+      - pip=20.1.1
+      - python-cdo=1.5.3
+      - scikit-learn=0.23.1
+      - seaborn=0.10.1
+      - threadpoolctl=2.1.0
+      - tqdm=4.47.0
+      - xarray=0.15.1
+      - xesmf=0.3.0
+      - xlrd=1.2.0
+      - xlsxwriter=1.2.9
+      # - pip:
+        # - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'  # noqa 204
+        # - jupyterlab_thredds==0.5.0

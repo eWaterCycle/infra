@@ -1,18 +1,14 @@
 ---
-- name: Install ipykernel
-  conda:
-    name: ipykernel
-    channels: conda-forge
-- name: Register Jupyter kernel
-  command: '{{ conda_root }}/bin/python -m ipykernel install --name=conda --display-name="Python 3 (Conda)" --prefix=/usr/local'
+- name: Register Jupyter kernel for ewatercycle environment
+  command: '{{ conda_root }}/bin/python -m ipykernel install --name=ewatercycle --display-name="eWaterCycle (Python)" --prefix=/usr/local'
   args:
-    creates: /usr/local/share/jupyter/kernels/conda
+    creates: /usr/local/share/jupyter/kernels/ewatercycle
 - name: Remove system python kernel
-  command: 'jupyter kernelspec remove -f python3'
+  command: jupyter kernelspec remove -f python3
   args:
     removes: /usr/local/share/jupyter/kernels/python3
-- name: Set PROJ_LIB and PATH env vars in Jupyter conda kernel
-  template:
-    src: conda-kernel.json.j2
-    dest: /usr/local/share/jupyter/kernels/conda/kernel.json
-  notify: restart jupyterhub
+# - name: Set PROJ_LIB and PATH env vars in Jupyter conda kernel
+#   template:
+#     src: conda-kernel.json.j2
+#     dest: /usr/local/share/jupyter/kernels/conda/kernel.json
+#   notify: restart jupyterhub
