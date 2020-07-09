@@ -4,6 +4,7 @@ After=syslog.target network.target
 
 [Service]
 User=root
+Environment="PATH=/mnt/apps/conda/envs/ewatercycle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ExecStart=/mnt/apps/conda/envs/ewatercycle/bin/jupyterhub --upgrade-db -f /etc/jupyterhub/jupyterhub_config.py
 ExecReload=/bin/kill -s HUP $MAINPID
 
