@@ -15,14 +15,14 @@
     state: reloaded
     daemon_reload: yes
     enabled: yes
-- name: Install JupyterHub
-  pip:
-    executable: pip3
-    name:
-      - setuptools==47.3.1
-      - jupyterhub==1.1.0
-  notify:
-    - restart jupyterhub
+# - name: Install JupyterHub
+#   pip:
+#     executable: pip3
+#     name:
+#       - setuptools==47.3.1
+#       - jupyterhub==1.1.0
+#   notify:
+#     - restart jupyterhub
 - name: jupyter posix group
   group:
     name: jupyter
@@ -46,21 +46,22 @@
     line: 'PasswordAuthentication yes'
   notify:
     - restart ssh
-- name: NodeJS ppa key
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
-- name: NodeJS ppa
-  apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_12.x bionic main'
-- name: NodeJS
-  apt:
-    name: nodejs=12.*
-    update_cache: yes
+# - name: NodeJS ppa key
+#   apt_key:
+#     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+#     state: present
+# - name: NodeJS ppa
+#   apt_repository:
+#     repo: 'deb https://deb.nodesource.com/node_12.x bionic main'
+# - name: NodeJS
+#   apt:
+#     name: nodejs=12.*
+#     update_cache: yes
 - name: NodeJS dependencies for JupyterHub
   npm:
     global: yes
     name: configurable-http-proxy
+    executable: /mnt/apps/conda/envs/ewatercycle/bin/npm
 - name: Create /etc/jupyterhub directory
   file:
     path: /etc/jupyterhub

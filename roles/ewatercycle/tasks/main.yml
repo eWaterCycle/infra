@@ -10,11 +10,13 @@
       - python=3.7.7
       - ipykernel=5.3.1
       - esmvaltool-python=2.0.0b4
+      - jupyterhub=1.1.0
       - jupyterlab=2.1.5
       - geoviews=1.8.1
       - hydrostats=0.78
       - ipyleaflet=0.13.1
       - ipympl=0.5.6
+      - setuptools=47.3.1
       # Everything below is installed via dependencies but kept here for version reference
       - bokeh=2.1.1
       - cartopy=0.18.0
