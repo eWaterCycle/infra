@@ -79,6 +79,7 @@
       - 'https://downloads.sourceforge.net/project/pyke/pyke/1.1.1/pyke3-1.1.1.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpyke%2Ffiles%2Fpyke%2F1.1.1%2Fpyke3-1.1.1.zip%2Fdownload&ts=1537463129#egg=pyke'  # noqa 204
       - git+https://github.com/eWaterCycle/grpc4bmi.git@v0.2.6
       - git+https://github.com/eWaterCycle/parametersetdb.git@observation_data
+# It seems this is no longer needed, but I'm not sure...:
 # - name: Jupyter server code formatter extension
 #   copy:
 #     src: jupyterlab_code_formatter.json
