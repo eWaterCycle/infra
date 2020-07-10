@@ -1,44 +1,44 @@
 ---
 - hosts: jupyter
   tasks:
-    - include_role:
-        name: common
-      tags:
-        - ssh
-    - name: Install gcc, git, ntp
-      apt:
-        update_cache: yes
-        name: "{{ item }}"
-      loop:
-        - git
-        - gcc
-        - g++
-        - make
-        - ntp
-    - name: Home root
-      file:
-        path: /mnt/home
-        state: directory
-    - name: Apps root
-      file:
-        path: /mnt/apps
-        state: directory
-    - name: Docker
-      include_role:
-        name: docker
-      vars:
-        - docker_root: "/mnt/docker"
+    # - include_role:
+    #     name: common
+    #   tags:
+    #     - ssh
+    # - name: Install gcc, git, ntp
+    #   apt:
+    #     update_cache: yes
+    #     name: "{{ item }}"
+    #   loop:
+    #     - git
+    #     - gcc
+    #     - g++
+    #     - make
+    #     - ntp
+    # - name: Home root
+    #   file:
+    #     path: /mnt/home
+    #     state: directory
+    # - name: Apps root
+    #   file:
+    #     path: /mnt/apps
+    #     state: directory
+    # - name: Docker
+    #   include_role:
+    #     name: docker
+    #   vars:
+    #     - docker_root: "/mnt/docker"
 - hosts: jupyter
   tasks:
-    - name: Let's encrypt cerficates
-      include_role:
-        name: letsencrypt
-    - name: singularity
-      include_role:
-        name: singularity
-    - name: Install conda
-      include_role:
-        name: conda
+    # - name: Let's encrypt cerficates
+    #   include_role:
+    #     name: letsencrypt
+    # - name: singularity
+    #   include_role:
+    #     name: singularity
+    # - name: Install conda
+    #   include_role:
+    #     name: conda
     - name: Create eWaterCycle conda env
       include_role:
         name: ewatercycle
