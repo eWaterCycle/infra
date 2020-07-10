@@ -64,3 +64,5 @@
     src: certbot-deploy.sh
     dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
     mode: 0755
+- name: Jupyter server extension for dask
+  command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter serverextension enable dask_labextension
