@@ -49,9 +49,6 @@
       include_role:
         name: hymuse
     # TODO give access to read-only ResearchDrive mount
-    - name: esmvaltool
-      include_role:
-        name: esmvaltool
     - name: pymt
       include_role:
         name: pymt
