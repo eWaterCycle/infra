@@ -133,3 +133,7 @@ Open JupyterHub in web browser at  `https://<ip of eth1>` and ignore cert warnin
 Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users`.
 
 > * [Vagrant snapshots](https://www.vagrantup.com/docs/cli/snapshot.html) can be used to rollback VMs to previous state. After rollback sync time with `vagrant ssh -c 'sudo systemctl restart systemd-timesyncd.service'`.
+
+## Docker images
+
+In the eWaterCycle project we make Docker images. The images are hosted on https://hub.docker.com/u/ewatercycle . A project member can create issues here for permisison to push images to Dockuer Hub.
