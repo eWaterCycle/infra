@@ -64,8 +64,7 @@
     src: certbot-deploy.sh
     dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
     mode: 0755
-- name: Jupyter server extension for dask
-  command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter serverextension enable dask_labextension
+
 # TODO: verify that all existing kernels from a previous installation are removed
 # These are old commands used to tune the jupyter kernelspec list before switching to conda. Might be useful for reference.
 # - name: Register Jupyter kernel for ewatercycle environment
