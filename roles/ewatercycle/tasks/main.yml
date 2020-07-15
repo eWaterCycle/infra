@@ -71,7 +71,8 @@
       - xesmf=0.3.0
       - xlrd=1.2.0
       - xlsxwriter=1.2.9
-      - pyke==1.1.1  # required by iris, only available on conda or sourceforge
+      - pyke=1.1.1  # required by iris, only available on conda or sourceforge
+      - iris-sample-data=2.2.0 # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
 - name: eWatercycle pip dependencies
   pip:
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
