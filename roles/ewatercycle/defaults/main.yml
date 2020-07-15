@@ -17,3 +17,5 @@ jupyterlab_extensions: >
 # JupyterLab extensions that should not be installed, space seperated list
 jupyterlab_obsolete_extensions: >
   jupyterlab_bokeh
+# Location where conda is installed
+conda_root: /mnt/apps/conda

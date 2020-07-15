@@ -8,15 +8,12 @@
   command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}
   args:
     creates: '{{ conda_root }}'
-- name: conda in PATH
+- name: Disable loading base environment
+  template:
+    src: condarc.j2
+    dest: '{{ conda_root }}/.condarc'
+- name: Initialize conda system wide
   file:
-    src: '{{ conda_root }}/bin/conda'
-    dest: /usr/local/bin/conda
+    src: '{{ conda_root }}/etc/profile.d/conda.sh'
+    dest: /etc/profile.d/conda.sh
     state: link
-- name: Add conda init and activate to bash profiles
-  command: conda init
-  become: yes
-  become_user: "{{ item.name }}"
-  loop: "{{ posix_users }}"
-  loop_control:
-    label: "{{ item.name }}"
