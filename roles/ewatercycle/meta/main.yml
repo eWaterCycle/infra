@@ -1,6 +1,6 @@
 galaxy_info:
   author: Peter Kalverla
-  description: Research software Engineer
+  description: Conda environment for eWatercycle
   company: Netherlands eScience Center
 
   license: Apache-2.0
@@ -14,4 +14,5 @@ galaxy_info:
 
   galaxy_tags: []
 
-dependencies: []
+dependencies:
+  - role: evandam.conda
