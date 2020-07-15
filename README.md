@@ -133,3 +133,4 @@ Open JupyterHub in web browser at  `https://<ip of eth1>` and ignore cert warnin
 Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users`.
 
 > * [Vagrant snapshots](https://www.vagrantup.com/docs/cli/snapshot.html) can be used to rollback VMs to previous state. After rollback sync time with `vagrant ssh -c 'sudo systemctl restart systemd-timesyncd.service'`.
+> * Use [https://github.com/dotless-de/vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) to keep the VirtualBox guest additions inside VM up to date
