@@ -21,3 +21,5 @@ jupyterhub_spawner_environment:
   UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml  # needed for pymt(?)
 # Location where conda is installed
 conda_root: /mnt/apps/conda
+conda_environment: ewatercycle
+conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
