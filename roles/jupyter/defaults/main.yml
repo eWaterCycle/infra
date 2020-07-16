@@ -27,6 +27,7 @@ conda_root: /mnt/apps/conda
 conda_environment: ewatercycle
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
 # JupyterLab extensions that should be installed, space seperated list
+# Server side dependencies of extension should be added to conda environment in ewatercycle role
 jupyterlab_extensions: >
   @bokeh/jupyter_bokeh@2.0.2
   @jupyter-widgets/jupyterlab-manager@2.0.0
