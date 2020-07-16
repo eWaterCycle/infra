@@ -63,6 +63,7 @@
       - ecmwf-api-client=1.5.4
       - eofs=1.4.0
       - holoviews=1.13.3
+      - hvplot=0.6.0
       - iris=2.4.0
       - joblib=0.16.0
       - matplotlib=3.2.2
