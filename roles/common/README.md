@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Common tasks for the eWatercycle lab infrastructure.
+Common tasks for the eWaterCycle lab infrastructure.
 
 Requirements
 ------------

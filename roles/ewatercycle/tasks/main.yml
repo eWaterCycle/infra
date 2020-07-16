@@ -1,6 +1,6 @@
 ---
 # tasks file for ewatercycle
-- name: Install ewatercycle conda environment
+- name: Install eWaterCycle conda environment
   conda:
     executable: '{{ conda_root }}/condabin/conda'
     environment: ewatercycle
@@ -77,14 +77,14 @@
       - xesmf=0.3.0
       - xlrd=1.2.0
       - xlsxwriter=1.2.9
-- name: eWatercycle pip dependencies
+- name: eWaterCycle pip dependencies
   pip:
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
     name:
       - jupyterlab_thredds==0.5.0
       - grpc4bmi==0.2.6
       - git+https://github.com/eWaterCycle/parametersetdb.git@observation_data
-- name: Activate ewatercycle conda environment during login for all posix_users
+- name: Activate eWaterCycle conda environment during login for all posix_users
   lineinfile:
     path: ~/.bashrc
     line: conda activate ewatercycle

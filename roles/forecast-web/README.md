@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Installs the web frontend of the ewatercycle forecast as a service
+Installs the web frontend of the eWaterCycle forecast as a service
 
 Requirements
 ------------

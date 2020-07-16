@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Main entry web site for eWatercycle lab infrastructure.
+Main entry web site for eWaterCycle lab infrastructure.
 
 Requirements
 ------------

@@ -1,4 +1,4 @@
-# Setup of eWatercycle system
+# Setup of eWaterCycle system
 
 * Runs on the [SURFSara HPC cloud](https://userinfo.surfsara.nl/systems/hpc-cloud)
 * Provisioned by [Ansible](https://docs.ansible.com/ansible/latest/index.html)
