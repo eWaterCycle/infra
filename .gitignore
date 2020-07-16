@@ -6,3 +6,8 @@ group_vars/*.yml
 
 # Default location for letsencrypt backups
 letsencrypt
+
+.vagrant
+poetry.lock
+pyproject.toml
+.vscode
