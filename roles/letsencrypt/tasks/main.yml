@@ -26,7 +26,9 @@
     recursive: yes
   when: not privcert.stat.exists and localprivcert.stat.exists and not selfsigned
 - name: CertBot
-  command: certbot certonly --standalone --preferred-challenges http --non-interactive -d {{ inventory_hostname }} --agree-tos --email {{ certbot_email }}
+  command: >
+    certbot certonly --standalone --preferred-challenges http
+     --non-interactive -d {{ inventory_hostname }} --agree-tos --email {{ certbot_email }}
   args:
     creates: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
   when: not privcert.stat.exists and not localprivcert.stat.exists and not selfsigned
@@ -40,7 +42,11 @@
     path: /etc/letsencrypt/renewal-hooks/deploy
     state: directory
 - name: Self signed cert
-  command: openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem -out /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
+  command: >
+    openssl req -x509 -nodes -days 3650 -newkey rsa:2048
+     -keyout /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
+     -out /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+     -subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Netherlands eScience Center/CN=eWatercycle"
   args:
     creates: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
   when: not privcert.stat.exists and selfsigned and not localprivcert.stat.exists

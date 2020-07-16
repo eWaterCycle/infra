@@ -1,2 +1,10 @@
 ---
 # handlers file for singularity
+- name: Drop go dir
+  file:
+    path: /usr/local/go
+    state: absent
+- name: Clear singularity dir
+  file:
+    path: /root/go/src/github.com/sylabs/singularity
+    state: absent

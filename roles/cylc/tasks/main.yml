@@ -80,6 +80,6 @@
     mode: u=rwX,g=rX,o=rX
     recurse: yes
 - name: Cycl forecast build
-  command: boatswain build -q
+  command: boatswain build -q # noqa 301 only builds what is needed
   args:
     chdir: /mnt/home/cylc/forecast-docker

@@ -1,2 +1,15 @@
 ---
 # handlers file for hymuse
+- name: Clean amuse-framework
+  make:
+    target: clean
+    chdir: /mnt/apps/amuse-framework
+- name: Clean HyMUSE build
+  file:
+    path: /mnt/apps/HyMUSE/build
+    state: absent
+- name: Clean HyMUSE install
+  pip:
+    executable: pip3
+    name: hymuse
+    state: absent

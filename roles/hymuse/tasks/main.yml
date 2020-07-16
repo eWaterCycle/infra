@@ -6,6 +6,8 @@
     version: '{{ amuse_version }}'
     depth: 1
     force: yes
+  notify:
+   - Clean amuse-framework
 - name: amuse-framework - apt deps
   apt:
     update_cache: yes
@@ -36,6 +38,7 @@
   command: ./configure
   args:
     chdir: /mnt/apps/amuse-framework
+    creates: /mnt/apps/amuse-framework/config.mk
   environment:
     PYTHON: '{{ conda_environment_bin }}/python3'
 - name: amuse-framework - install
@@ -49,13 +52,18 @@
     version: '{{ hymuse_version }}'
     depth: 1
     force: yes
+  notify:
+   - Clean HyMUSE build
+   - Clean HyMUSE install
 - name: hymuse - build
   command: '{{ conda_environment_bin }}/python3 setup.py build'
   args:
     chdir: /mnt/apps/HyMUSE
+    creates: /mnt/apps/HyMUSE/build
   environment:
     DOWNLOAD_CODES: '1'
 - name: hymuse - install
   command: '{{ conda_environment_bin }}/python3 setup.py install'
   args:
     chdir: /mnt/apps/HyMUSE
+    creates: /usr/local/lib/python3.6/dist-packages/hymuse
