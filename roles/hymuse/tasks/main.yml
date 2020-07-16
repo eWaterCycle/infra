@@ -9,37 +9,35 @@
 - name: amuse-framework - apt deps
   apt:
     update_cache: yes
-    name: "{{ item }}"
-  loop:
-    - build-essential
-    - curl
-    - g++
-    - gfortran
-    - gettext
-    - zlib1g-dev
-    - libopenmpi-dev
-    - openmpi-bin
-    - libfftw3-3
-    - libfftw3-dev
-    - libmpfr6
-    - libmpfr-dev
-    - libhdf5-serial-dev
-    - libgsl-dev
+    pkg:
+      - build-essential
+      - curl
+      - g++
+      - gfortran
+      - gettext
+      - zlib1g-dev
+      - libopenmpi-dev
+      - openmpi-bin
+      - libfftw3-3
+      - libfftw3-dev
+      - libmpfr6
+      - libmpfr-dev
+      - libhdf5-serial-dev
+      - libgsl-dev
 - name: amuse-framework - Python deps
   pip:
-    executable: pip3
-    name: "{{ item }}"
-  loop:
-    - mpi4py==3.0.0
-    - docutils==0.14
-    - nose==1.3.7
-    - h5py==2.8.0
+    executable: '{{ conda_environment_bin }}/pip3'
+    name:
+      - mpi4py==3.0.0
+      - docutils==0.14
+      - nose==1.3.7
+      - h5py==2.8.0
 - name: amuse-framework - configure
   command: ./configure
   args:
     chdir: /mnt/apps/amuse-framework
   environment:
-    PYTHON: /usr/bin/python3
+    PYTHON: '{{ conda_environment_bin }}/python3'
 - name: amuse-framework - install
   make:
     target: install
@@ -52,12 +50,12 @@
     depth: 1
     force: yes
 - name: hymuse - build
-  command: /usr/bin/python3 setup.py build
+  command: '{{ conda_environment_bin }}/python3 setup.py build'
   args:
     chdir: /mnt/apps/HyMUSE
   environment:
     DOWNLOAD_CODES: '1'
 - name: hymuse - install
-  command: /usr/bin/python3 setup.py install
+  command: '{{ conda_environment_bin }}/python3 setup.py install'
   args:
     chdir: /mnt/apps/HyMUSE

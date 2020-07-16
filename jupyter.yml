@@ -8,13 +8,12 @@
     - name: Install gcc, git, ntp
       apt:
         update_cache: yes
-        name: "{{ item }}"
-      loop:
-        - git
-        - gcc
-        - g++
-        - make
-        - ntp
+        pkg:
+          - git
+          - gcc
+          - g++
+          - make
+          - ntp
     - name: Home root
       file:
         path: /mnt/home
