@@ -90,3 +90,5 @@
   loop: "{{ posix_users }}"
   loop_control:
     label: "{{ item.name }}"
+- name: Data for esmvaltool
+  include: esmvaltool-data.yml
