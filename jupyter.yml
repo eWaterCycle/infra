@@ -15,6 +15,7 @@
           - make
           - ntp
           - tmux
+          - ksh
     - name: Home root
       file:
         path: /mnt/home
