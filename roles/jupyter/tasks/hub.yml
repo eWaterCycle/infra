@@ -64,24 +64,9 @@
     src: certbot-deploy.sh
     dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
     mode: 0755
-
-# TODO: verify that all existing kernels from a previous installation are removed
-# These are old commands used to tune the jupyter kernelspec list before switching to conda. Might be useful for reference.
-# - name: Register Jupyter kernel for ewatercycle environment
-#   command: '{{ conda_root }}/bin/python -m ipykernel install --name=ewatercycle --display-name="eWaterCycle (Python)" --prefix=/usr/local'
-#   args:
-#     creates: /usr/local/share/jupyter/kernels/ewatercycle
-# - name: Remove system python kernel  # remnants
-#   command: jupyter kernelspec remove -f python3
-#   args:
-#     removes: /usr/local/share/jupyter/kernels/python3
-# - name: Remove default conda python kernel
-#   command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter kernelspec remove -f python3
-#   args:
-#     removes: /usr/local/share/jupyter/kernels/python3
-# - name: Set PROJ_LIB and PATH env vars in Jupyter conda kernel
-#   template:
-#     src: conda-kernel.json.j2
-#     dest: /usr/local/share/jupyter/kernels/conda/kernel.json
-#   notify: restart jupyterhub
-
+- name: Remove default conda python kernel
+  command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter kernelspec remove -f conda
+  args:
+    removes: /usr/local/share/jupyter/kernels/conda
+  notify:
+    - restart jupyterhub
