@@ -16,10 +16,30 @@ grpc4bmi_images:
     - docker: sverhoeven/marrmot
       singularity: marrmot.sif
 jupyterhub_spawner_environment:
+  # Cache dir for ewatercycle.observation.usgs.get_usgs_data()
   USGS_DATA_HOME: /mnt/data/usgs/streamflow
+  # Cache dir for ewatercycle.observation.grdc.get_grdc_data()
   GRDC_DATA_HOME: /mnt/data/grdc/dailies
-  UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml  # needed for pymt(?)
+  # TODO needed for pymt(?) and cfunits
+  UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml
 # Location where conda is installed
 conda_root: /mnt/apps/conda
 conda_environment: ewatercycle
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+# JupyterLab extensions that should be installed, space seperated list
+jupyterlab_extensions: >
+  @bokeh/jupyter_bokeh@2.0.2
+  @jupyter-widgets/jupyterlab-manager@2.0.0
+  @jupyterlab/geojson-extension@v2.0.1
+  @jupyterlab/hub-extension@2.1.2
+  @jupyterlab/toc@4.0.0
+  @pyviz/jupyterlab_pyviz@1.0.4
+  jupyter-leaflet@0.13.1
+  jupyter-matplotlib@0.7.2
+  @ryantam626/jupyterlab_code_formatter@1.3.1
+  @ewatercycle/jupyterlab_thredds@0.5.0
+  @jupyterlab/server-proxy
+  dask-labextension
+# JupyterLab extensions that should not be installed, space seperated list
+jupyterlab_obsolete_extensions: >
+  jupyterlab_bokeh
