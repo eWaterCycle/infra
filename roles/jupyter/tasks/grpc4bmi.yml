@@ -1,4 +1,7 @@
 ---
+- name: Docker-py
+  pip:
+    name: docker-py
 - name: grpc4bmi Docker images
   docker_image:
     name: '{{ item.docker }}'
