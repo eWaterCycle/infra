@@ -2,15 +2,20 @@
 
 c.JupyterHub.admin_access = True
 c.JupyterHub.services = [
-     {
-         'name': 'experiment-launcher',
-         'admin': True,
-         'api_token': '{{ launcher_jupyterhub_token }}',
-     },
     {
-        'name': 'cull-idle',
+        'name': 'experiment-launcher',
         'admin': True,
-        'command': ['/usr/local/bin/cull_idle_servers.py', '--timeout={{ cull.timeout }}', '--max_age={{ cull.max_age }}'],
+        'api_token': '{{ launcher_jupyterhub_token }}',
+    },
+    {
+        'name': 'idle-culler',
+        'admin': True,
+        'command': [
+            sys.executable,
+            '-m', 'jupyterhub-idle-culler,
+            '--timeout={{ cull.timeout }}',
+            '--max_age={{ cull.max_age }}'
+        ],
     }
 ]
 c.Authenticator.admin_users = {'admin'}

@@ -46,12 +46,6 @@
   file:
     path: /etc/jupyterhub
     state: directory
-- name: cull_idle_servers
-  get_url:
-    url: https://github.com/jupyterhub/jupyterhub/raw/master/examples/cull-idle/cull_idle_servers.py
-    dest: /usr/local/bin/cull_idle_servers.py
-    mode: 755
-    checksum: sha256:746e60ce0e8fc0a575e96a7362947ca43295f426f4c3d73f5e3d4ac0244df3a3
 - name: jupyterhub_config
   template:
     src: jupyterhub_config.py.j2
