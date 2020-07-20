@@ -29,6 +29,15 @@
         name: docker
       vars:
         - docker_root: "/mnt/docker"
+    - name: Create users for Jupyter Hub
+      user:
+        name: "{{ item.name }}"
+        password: "{{ item.password }}"
+        home: /mnt/home/{{ item.name }}
+        shell: /bin/bash
+      loop: "{{ posix_users }}"
+      loop_control:
+        label: "{{ item.name }}"
 - hosts: jupyter
   tasks:
     - name: Let's encrypt cerficates

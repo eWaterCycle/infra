@@ -19,15 +19,12 @@
   group:
     name: jupyter
     state: present
-- name: Create users for Jupyter Hub with Docker permission
+- name: Grant users Docker permission
   user:
     name: "{{ item.name }}"
-    password: "{{ item.password }}"
     groups:
       - docker
       - jupyter
-    home: /mnt/home/{{ item.name }}
-    shell: /bin/bash
   loop: "{{ posix_users }}"
   loop_control:
     label: "{{ item.name }}"
@@ -43,6 +40,8 @@
     global: yes
     name: configurable-http-proxy
     executable: '{{ conda_environment_bin }}/npm'
+  environment:
+        PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
 - name: Create /etc/jupyterhub directory
   file:
     path: /etc/jupyterhub
