@@ -41,8 +41,9 @@ jupyterlab_extensions: >
   jupyter-matplotlib@0.7.2
   @ryantam626/jupyterlab_code_formatter@1.3.1
   @ewatercycle/jupyterlab_thredds@0.5.0
-  @jupyterlab/server-proxy
-  dask-labextension
+  @jupyterlab/server-proxy@2.1.1
+  dask-labextension@2.0.2
+  @krassowski/jupyterlab-lsp@1.1.0
 # JupyterLab extensions that should not be installed, space seperated list
 jupyterlab_obsolete_extensions: >
   jupyterlab_bokeh
