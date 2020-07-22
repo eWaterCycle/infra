@@ -14,7 +14,7 @@ c.JupyterHub.services = [
         'admin': True,
         'command': [
             sys.executable,
-            '-m', 'jupyterhub-idle-culler',
+            '-m', 'jupyterhub_idle_culler',
             '--timeout={{ cull.timeout }}',
             '--max_age={{ cull.max_age }}'
         ],
