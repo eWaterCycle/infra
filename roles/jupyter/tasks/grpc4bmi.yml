@@ -1,7 +1,17 @@
 ---
-- name: Docker-py
+- name: Docker Python package
+  pip:
+    name: docker
+    executable: pip3
+- name: Remove old Docker-py python2 package
   pip:
     name: docker-py
+    state: absent
+- name: Remove old Docker-py python3 package
+  pip:
+    name: docker-py
+    state: absent
+    executable: pip3
 - name: grpc4bmi Docker images
   docker_image:
     name: '{{ item.docker }}'
