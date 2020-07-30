@@ -1,6 +1,0 @@
----
-- name: restart jupyterhub
-  systemd:
-    name: jupyterhub
-    state: restarted
-    daemon_reload: yes

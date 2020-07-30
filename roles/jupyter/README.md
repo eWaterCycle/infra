@@ -12,6 +12,7 @@ Role Variables
 --------------
 
 Required vars:
+
 ```yaml
 launcher_jupyterhub_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
 jupyterhub_url: https://jupyter.ewatercycle.org
@@ -25,7 +26,10 @@ posix_users:
 Dependencies
 ------------
 
-The Jupyter Hub requires https certificate pair, which is generated in `letsencrypt` role.
+The Jupyter Hub requires
+
+* https certificate pair, which is generated in `letsencrypt` role.
+* eWaterCycle Conda environment
 
 Example Playbook
 ----------------

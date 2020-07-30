@@ -24,6 +24,7 @@
 - name: rclone obscure password
   command: rclone obscure {{ researchdrive.password }}
   register: obscure_output
+  changed_when: False
 - name: Store obscured password as a fact
   set_fact:
     researchdrive_obscured: "{{ obscure_output.stdout }}"

@@ -1,16 +1,17 @@
 ---
-- name: parametersetdb dependencies
-  apt:
-    name: subversion
-- name: parametersetdb
+- name: Docker Python package
   pip:
+    name: docker
     executable: pip3
-    name: git+https://github.com/eWaterCycle/parametersetdb.git@{{ parametersetdb_version }}
-    state: present
-- name: grpc4bmi
+- name: Remove old Docker-py python2 package
   pip:
+    name: docker-py
+    state: absent
+- name: Remove old Docker-py python3 package
+  pip:
+    name: docker-py
+    state: absent
     executable: pip3
-    name: grpc4bmi=={{ grpc4bmi_version }}
 - name: grpc4bmi Docker images
   docker_image:
     name: '{{ item.docker }}'

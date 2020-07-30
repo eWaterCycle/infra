@@ -7,5 +7,3 @@
   include: samples.yml
 - name: grpc4bmi
   include: grpc4bmi.yml
-- name: conda
-  include: conda.yml

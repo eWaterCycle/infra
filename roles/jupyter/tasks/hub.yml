@@ -6,8 +6,8 @@
     proto: tcp
     from_ip: 172.17.0.0/12
 - name: JupyterHub systemd file
-  copy:
-    src: jupyterhub.systemd
+  template:
+    src: jupyterhub.systemd.j2
     dest: /etc/systemd/system/jupyterhub.service
 - name: jupyterhub service enabled
   systemd:
@@ -15,27 +15,16 @@
     state: reloaded
     daemon_reload: yes
     enabled: yes
-- name: Install JupyterHub
-  pip:
-    executable: pip3
-    name:
-      - setuptools==47.3.1
-      - jupyterhub==1.1.0
-  notify:
-    - restart jupyterhub
 - name: jupyter posix group
   group:
     name: jupyter
     state: present
-- name: Create users for Jupyter Hub with Docker permission
+- name: Grant users Docker permission
   user:
     name: "{{ item.name }}"
-    password: "{{ item.password }}"
     groups:
       - docker
       - jupyter
-    home: /mnt/home/{{ item.name }}
-    shell: /bin/bash
   loop: "{{ posix_users }}"
   loop_control:
     label: "{{ item.name }}"
@@ -46,31 +35,17 @@
     line: 'PasswordAuthentication yes'
   notify:
     - restart ssh
-- name: NodeJS ppa key
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
-- name: NodeJS ppa
-  apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_12.x bionic main'
-- name: NodeJS
-  apt:
-    name: nodejs=12.*
-    update_cache: yes
 - name: NodeJS dependencies for JupyterHub
   npm:
     global: yes
     name: configurable-http-proxy
+    executable: '{{ conda_environment_bin }}/npm'
+  environment:
+        PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
 - name: Create /etc/jupyterhub directory
   file:
     path: /etc/jupyterhub
     state: directory
-- name: cull_idle_servers
-  get_url:
-    url: https://github.com/jupyterhub/jupyterhub/raw/master/examples/cull-idle/cull_idle_servers.py
-    dest: /usr/local/bin/cull_idle_servers.py
-    mode: 755
-    checksum: sha256:746e60ce0e8fc0a575e96a7362947ca43295f426f4c3d73f5e3d4ac0244df3a3
 - name: jupyterhub_config
   template:
     src: jupyterhub_config.py.j2
@@ -82,3 +57,9 @@
     src: certbot-deploy.sh
     dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
     mode: 0755
+- name: Remove default conda python kernel
+  command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter kernelspec remove -f conda
+  args:
+    removes: /usr/local/share/jupyter/kernels/conda
+  notify:
+    - restart jupyterhub

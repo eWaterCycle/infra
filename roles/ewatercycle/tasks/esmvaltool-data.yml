@@ -1,24 +1,18 @@
 ---
-# Dependencies required to run the preprocess notebooks
-- name: aux dir
+- name: esmvaltool aux dir
   file:
-    path: '{{ esmvaltool_rootpath }}/aux'
+    path: '{{ esmvaltool_data }}/aux'
     state: directory
-- name: Lorentz Basin shapefiles
+- name: eWaterCycle esmvaltool auxiliary datasets
   git:
     repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets.git
-    dest: '{{ esmvaltool_rootpath }}/aux'
-- name: cartopy
-  command: conda install -c esmvalgroup -c conda-forge -q -y cartopy
-  args:
-    creates: '{{ conda_root }}/lib/python3.7/site-packages/cartopy'
+    dest: '{{ esmvaltool_data }}/aux'
+    version: '{{ esmvaltool_aux_version }}'
 - name: obs6 demo files
   debug:
     msg: |
       # Copy files of ERA-5 and ERA-Interim from cartesius to jupyter server
-
       # To copy without password add public key of cartesius account to ubuntu@jupyter.ewatercylc.org:~/.ssh/authorized_keys
-
       # Login to cartesius
       # rclone config
       cat ~/.config/rclone/rclone.conf
@@ -31,8 +25,7 @@
 
       # Goto data source dir
       cd /projects/0/wtrcycle/preprocessing/obs6/Tier3
-
-      export DEST_I=RD:{{ esmvaltool_rootpath }}/obs6/Tier3/ERA-Interim
+      export DEST_I=RD:{{ esmvaltool_data }}/obs6/Tier3/ERA-Interim
       rclone mkdir $DEST_I
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_tas_200101-200112.nc $DEST_I/
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_pr_200101-200112.nc $DEST_I/
@@ -40,8 +33,7 @@
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_psl_200101-200112.nc $DEST_I/
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_day_rsds_200101-200112.nc $DEST_I/
       rclone copy ERA-Interim/OBS6_ERA-Interim_reanaly_1_CFday_rsdt_200101-200112.nc $DEST_I/
-
-      export DEST_5=RD:{{ esmvaltool_rootpath }}/obs6/Tier3/ERA5
+      export DEST_5=RD:{{ esmvaltool_data }}/obs6/Tier3/ERA5
       rclone mkdir $DEST_5
       rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_tas_200101-200112.nc $DEST_5/
       rclone copy ERA5/OBS6_ERA5_reanaly_1_E1hr_pr_200101-200112.nc $DEST_5/

@@ -1,16 +1,23 @@
 # {{ ansible_managed }}
 
+import sys
+
 c.JupyterHub.admin_access = True
 c.JupyterHub.services = [
-     {
-         'name': 'experiment-launcher',
-         'admin': True,
-         'api_token': '{{ launcher_jupyterhub_token }}',
-     },
     {
-        'name': 'cull-idle',
+        'name': 'experiment-launcher',
         'admin': True,
-        'command': ['/usr/local/bin/cull_idle_servers.py', '--timeout={{ cull.timeout }}', '--max_age={{ cull.max_age }}'],
+        'api_token': '{{ launcher_jupyterhub_token }}',
+    },
+    {
+        'name': 'idle-culler',
+        'admin': True,
+        'command': [
+            sys.executable,
+            '-m', 'jupyterhub_idle_culler',
+            '--timeout={{ cull.timeout }}',
+            '--max_age={{ cull.max_age }}'
+        ],
     }
 ]
 c.Authenticator.admin_users = {'admin'}
@@ -28,3 +35,6 @@ c.Authenticator.whitelist = { {% for user in posix_users %}
 # Don't interrupt users when jupyterhub service is restarted
 c.JupyterHub.cleanup_servers = False
 c.JupyterHub.cleanup_proxy = False
+
+# Remove system python from kernel list
+# c.Spawner.args = ["--KernelSpecManager.ensure_native_kernel=False"]

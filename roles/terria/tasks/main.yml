@@ -17,7 +17,8 @@
     version: "{{ terriamap_version }}"
     force: yes
   notify:
-    - restart terriamap
+    - Restart terriamap
+    - Clean terriamap build
 - name: Yarn
   npm:
     name: yarn
@@ -33,7 +34,8 @@
     version: "{{ terriajs_version }}"
     force: yes
   notify:
-    - restart terriamap
+    - Restart terriamap
+    - Clean terriajs build
 - name: Install TerriaMap dependencies
   yarn:
     path: /mnt/apps/TerriaMap
@@ -41,10 +43,12 @@
   command: npm run gulp
   args:
     chdir: /mnt/apps/TerriaMap/packages/terriajs
+    creates: /mnt/apps/TerriaMap/packages/terriajs/wwwroot/build
 - name: eWaterCycle/TerriaMap build
   command: npm run gulp
   args:
     chdir: /mnt/apps/TerriaMap
+    creates: /mnt/apps/TerriaMap/wwwroot/build
 - name: eWaterCycle/TerriaMap systemd
   copy:
     src: terriamap.systemd
@@ -59,6 +63,12 @@
     daemon_reload: yes
     enabled: yes
 - name: Inject launcher url
-  command: perl -pi -e 's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl:8888!{{ launcher_url }}!' /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
+  command: >  # noqa 301 file will not be changed when OK
+    perl -pi -e
+     's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl:8888!{{ launcher_url }}!'
+     /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
 - name: Inject Jupyter Hub url
-  command: perl -pi -e 's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl!{{ jupyterhub_url }}!' /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
+  command: > # noqa 301 file will not be changed when OK
+   perl -pi -e
+    's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl!{{ jupyterhub_url }}!'
+    /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
