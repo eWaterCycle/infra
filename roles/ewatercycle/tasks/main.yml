@@ -22,6 +22,7 @@
       - regionmask=0.5.0
       - pyke=1.1.1  # required by iris, only available on conda or sourceforge
       - iris-sample-data=2.2.0 # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
+      - subversion=1.14.0  # for eWaterCycle/parametersetdb
       # Lint / formatters
       - autopep8=1.5.3
       - black=19.10b0
