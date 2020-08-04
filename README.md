@@ -5,6 +5,21 @@
 
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 
+## Requirements
+
+Install [Ansible](https://docs.ansible.com/ansible/latest/index.html) (optionally in a Python Virtual environment or Conda environment) with
+
+```bash
+pip install ansible
+```
+
+Install roles from [galaxy](https://galaxy.ansible.com/).
+The command should be run in a local clone of the repo.
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
 ## Servers
 
 * lab.ewatercycle.org - entry page to select other servers
@@ -60,18 +75,6 @@ To allow multiple users to ssh into servers the Ansible playbooks will inject th
 
 ## Provision VMs
 
-Install Ansible (optionally in a Python Virtual environment) with
-
-```bash
-pip install ansible
-```
-
-Install roles from [galaxy](https://galaxy.ansible.com/)
-
-```bash
-ansible-galaxy install -r requirements.yml
-```
-
 After the VMs haven been created, the subdomain are setup and configuration has been performed then you are ready to provision the VMs with:
 
 ```bash
@@ -117,7 +120,7 @@ vagrant up
 
 (The `Vagrantfile` file used by `vagrant up` was generated with `vagrant init hashicorp/bionic64` and later customized.)
 
-Provision VM with Jupyter with
+Provision VM with Jupyter using Ansible (see [Requirements chapter](#requirements) for Ansible installation instructions)
 
 ```shell
 ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml

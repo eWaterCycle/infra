@@ -16,6 +16,7 @@
           - ntp
           - tmux
           - ksh
+          - acl
     - name: Home root
       file:
         path: /mnt/home
