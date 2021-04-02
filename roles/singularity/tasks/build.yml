@@ -10,6 +10,8 @@
     checksum: sha256:{{ singularity_sha256sum }}
   notify:
     - Clear singularity dir
+- name: Flush handlers
+  meta: flush_handlers
 - name: Unpack singularity tarball
   unarchive:
     src: /mnt/apps/singularity-{{ singularity_version }}.tar.gz

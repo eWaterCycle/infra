@@ -87,7 +87,7 @@
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
     name:
       - jupyterlab_thredds==0.5.0
-      - grpc4bmi==0.2.8
+      - grpc4bmi==0.2.12
       - git+https://github.com/eWaterCycle/parametersetdb.git@observation_data
 - name: Activate eWaterCycle conda environment during login for all posix_users
   lineinfile:
