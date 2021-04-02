@@ -8,6 +8,8 @@
     force: yes
   notify:
    - Clean amuse-framework
+- name: Flush handlers
+  meta: flush_handlers
 - name: amuse-framework - apt deps
   apt:
     update_cache: yes
@@ -55,6 +57,8 @@
   notify:
    - Clean HyMUSE build
    - Clean HyMUSE install
+- name: Flush handlers
+  meta: flush_handlers
 - name: hymuse - build
   command: '{{ conda_environment_bin }}/python3 setup.py build'
   args:

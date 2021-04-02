@@ -19,6 +19,8 @@
   notify:
     - Restart terriamap
     - Clean terriamap build
+- name: Flush handlers
+  meta: flush_handlers
 - name: Yarn
   npm:
     name: yarn
@@ -36,6 +38,8 @@
   notify:
     - Restart terriamap
     - Clean terriajs build
+- name: Flush handlers
+  meta: flush_handlers
 - name: Install TerriaMap dependencies
   yarn:
     path: /mnt/apps/TerriaMap
