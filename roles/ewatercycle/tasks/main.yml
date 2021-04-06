@@ -87,7 +87,7 @@
     name:
       - jupyterlab_thredds==0.5.0
       - grpc4bmi==0.2.12
-      - git+https://github.com/eWaterCycle/ewatercycle@8473707e441a9361380fec8a5f9b879fc3cda9a1
+      - git+https://github.com/eWaterCycle/ewatercycle@67951a1b37e6dde2c1bbf6a86a0f456d3acc2f0f
 - name: Activate eWaterCycle conda environment during login for all posix_users
   lineinfile:
     path: ~/.bashrc
