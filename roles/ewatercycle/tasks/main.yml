@@ -14,7 +14,7 @@
       - altair=4.1.0
       - dask-jobqueue=0.7.1
       - distributed=2.20.0
-      - esmvaltool-python=2.0.0b4
+      - esmvaltool-python=2.2.0
       - geoviews=1.8.1
       - hydrostats=0.78
       - nco=4.9.3
@@ -56,39 +56,38 @@
       - jupyterlab_code_formatter=1.3.1
       - dask-labextension=2.0.2
       # Everything below is installed via dependencies but kept here for version reference
-      - bokeh=2.1.1
+      - bokeh=2.3.0
       - cartopy=0.18.0
-      - cf-units=2.1.4
-      - cftime=1.2.0
-      - cython=0.29.20
+      - cfunits=3.3.1
+      - cftime=1.2.1
+      - cython=0.29.22
       - dask=2.20.0
-      - datashader=0.11.0
-      - ecmwf-api-client=1.5.4
+      - datashader=0.12.1
+      - ecmwf-api-client=1.6.1
       - eofs=1.4.0
-      - holoviews=1.13.3
-      - hvplot=0.6.0
-      - iris=2.4.0
-      - joblib=0.16.0
-      - matplotlib=3.2.2
+      - holoviews=1.14.2
+      - hvplot=0.7.1
+      - iris=3.0.1
+      - joblib=1.0.1
+      - matplotlib=3.4.1
       - nc-time-axis=1.2.0
-      - numpy=1.18.5
-      - pip=20.1.1
-      - python-cdo=1.5.3
-      - scikit-learn=0.23.1
-      - seaborn=0.10.1
+      - numpy=1.20.2
+      - pip=21.0.1
+      - python-cdo=1.5.4
+      - scikit-learn=0.24.1
+      - seaborn=0.11.1
       - threadpoolctl=2.1.0
-      - tqdm=4.47.0
-      - xarray=0.15.1
-      - xesmf=0.3.0
-      - xlrd=1.2.0
-      - xlsxwriter=1.2.9
+      - tqdm=4.60.0
+      - xarray=0.17.0
+      - xesmf=0.5.2
+      - xlsxwriter=1.3.8
 - name: eWaterCycle pip dependencies
   pip:
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
     name:
       - jupyterlab_thredds==0.5.0
       - grpc4bmi==0.2.12
-      - git+https://github.com/eWaterCycle/parametersetdb.git@observation_data
+      - git+https://github.com/eWaterCycle/ewatercycle@67951a1b37e6dde2c1bbf6a86a0f456d3acc2f0f
 - name: Activate eWaterCycle conda environment during login for all posix_users
   lineinfile:
     path: ~/.bashrc
