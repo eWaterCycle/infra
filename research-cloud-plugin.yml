@@ -65,6 +65,8 @@
         tool_urls:
           explore: https://{{ ansible_host }}
           jupyter: https://{{ ansible_host }}/jupyter
+        # TODO launcher_jupyterhub_token is now set as RC plugin pararmeter
+        # need to to make random for each instance
 
     # https://explore.ewatercycle.org/ functionality
     - include_role:
