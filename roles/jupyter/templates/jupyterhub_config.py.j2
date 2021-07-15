@@ -20,17 +20,19 @@ c.JupyterHub.services = [
         ],
     }
 ]
-c.Authenticator.admin_users = {'admin'}
+# TODO use var/parameter/group to defined who can admin
+c.Authenticator.admin_users = {'{{ ssh_user | default('ubuntu', true) }}'}
 c.Spawner.default_url = '/lab'
 c.Spawner.environment = { {% for key, value in jupyterhub_spawner_environment.items() %}
     '{{ key }}': '{{ value }}'{% if not loop.last %},{% endif %}
 {% endfor %} }
-c.JupyterHub.ssl_key = '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
-c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
-c.JupyterHub.port = 443
-c.Authenticator.whitelist = { {% for user in posix_users %}
-    '{{ user.name }}'{% if not loop.last %},{% endif %}
-{% endfor %} }
+c.Spawner.notebook_dir = '~'
+# c.JupyterHub.ssl_key = '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
+# c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
+c.JupyterHub.port = 8000
+# c.Authenticator.whitelist = { {% for user in posix_users %}
+#     '{{ user.name }}'{% if not loop.last %},{% endif %}
+# {% endfor %} }
 
 # Don't interrupt users when jupyterhub service is restarted
 c.JupyterHub.cleanup_servers = False
@@ -38,3 +40,6 @@ c.JupyterHub.cleanup_proxy = False
 
 # Remove system python from kernel list
 # c.Spawner.args = ["--KernelSpecManager.ensure_native_kernel=False"]
+
+# Host from /jupyter
+c.JupyterHub.base_url = '/jupyter'

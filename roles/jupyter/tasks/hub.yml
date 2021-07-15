@@ -28,13 +28,14 @@
   loop: "{{ posix_users }}"
   loop_control:
     label: "{{ item.name }}"
-- name: Allow ssh login with password
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: '^PasswordAuthentication'
-    line: 'PasswordAuthentication yes'
-  notify:
-    - restart ssh
+# - name: Allow ssh login with password
+#   lineinfile:
+#     path: /etc/ssh/sshd_config
+#     regexp: '^PasswordAuthentication'
+#     line: 'PasswordAuthentication yes'
+#   notify:
+#     - restart ssh
+# TODO tell users to inject public key in sram to get ssh access
 - name: NodeJS dependencies for JupyterHub
   npm:
     global: yes
@@ -52,14 +53,29 @@
     dest: /etc/jupyterhub/jupyterhub_config.py
   notify:
     - restart jupyterhub
-- name: Restart jupyterhub when cert has been renewed
-  copy:
-    src: certbot-deploy.sh
-    dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
-    mode: 0755
+# - name: Restart jupyterhub when cert has been renewed
+#   copy:
+#     src: certbot-deploy.sh
+#     dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
+#     mode: 0755
 - name: Remove default conda python kernel
   command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter kernelspec remove -f conda
   args:
     removes: /usr/local/share/jupyter/kernels/conda
   notify:
     - restart jupyterhub
+- name: Create nginx location block
+  copy:
+    dest: /etc/nginx/app-location-conf.d/jupyterhub.conf
+    mode: 0644
+    content: |
+      location /jupyter {
+          proxy_pass http://127.0.0.1:8000;
+          proxy_redirect http://localhost:8000/ $scheme://$host/;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $connection_upgrade;
+          client_max_body_size 10G;
+      }

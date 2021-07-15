@@ -10,6 +10,23 @@
     - name: Gather facts for first time
       setup:
 
+    - include_role:
+        name: common
+      tags:
+        - ssh
+    - name: Install gcc, git, ntp
+      apt:
+        update_cache: yes
+        pkg:
+          - git
+          - gcc
+          - g++
+          - make
+          - ntp
+          - tmux
+          - ksh
+          - acl
+
     # TODO roles have hardcoded /mnt/apps, so create it before running roles
     - name: Apps root
       file:
@@ -39,11 +56,11 @@
     # TODO mount scratch disk
     # TODO mount persistent home disk
 
-    # TODO configure roles so they work on research cloud
+    # TODO configure ansible roles so they work on research cloud
 
     # https://lab.ewatercycle.org/ functionality
     - include_role:
-        name: labstart  # TODO use already present nginx
+        name: labstart
       vars:
         tool_urls:
           explore: https://{{ ansible_host }}
@@ -52,19 +69,20 @@
     # https://explore.ewatercycle.org/ functionality
     - include_role:
         name: launcher
+      vars:
+        launcher_encrypted: false
     - include_role:
         name: terria
       vars:
-          jupyterhub_url: https://{{ ansible_host }}/jupyter
-    # TODO setup reverse proxy for /launcher to localhost:3001
+        jupyterhub_url: https://{{ ansible_host }}/jupyter
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
       include_role:
         name: ewatercycle
-    # - name: Set up Jupyter lab/hub
-    #   include_role:
-    #     name: jupyter ## TODO reaplce partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
+    - name: Set up Jupyter lab/hub
+      include_role:
+        name: jupyter ## TODO reaplce partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
     # - name: grdc
     #   include_role:
     #     name: grdc

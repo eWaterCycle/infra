@@ -7,16 +7,18 @@ cull:
 singularity_image_root: /mnt/apps/singularity-images
 # Container images that will be downloaded and converted
 grpc4bmi_images:
-    - docker: ewatercycle/walrus-grpc4bmi
-      singularity: ewatercycle-walrus-grpc4bmi.sif
-    - docker: ewatercycle/pcrg-grpc4bmi
-      singularity: ewatercycle-pcrg-grpc4bmi.sif
-    - docker: ewatercycle/wflow-grpc4bmi
-      singularity: ewatercycle-wflow-grpc4bmi.sif
-    - docker: sverhoeven/marrmot
-      singularity: marrmot.sif
-    - docker: ewatercycle/hype-grpc4bmi
-      singularity: ewatercycle-hype-grpc4bmi.sif
+    # - docker: ewatercycle/walrus-grpc4bmi
+    #   singularity: ewatercycle-walrus-grpc4bmi.sif
+    - docker: ewatercycle/pcrg-grpc4bmi:setters
+      singularity: ewatercycle-pcrg-grpc4bmi-setters.sif
+    - docker: ewatercycle/wflow-grpc4bmi:2020.1.1
+      singularity: ewatercycle-wflow-grpc4bmi_2020.1.1.sif
+    - docker:  ewatercycle/marrmot-grpc4bmi:2020.11
+      singularity: ewatercycle-marrmot-grpc4bmi_2020.11.sif
+    # - docker: ewatercycle/hype-grpc4bmi
+    #   singularity: ewatercycle-hype-grpc4bmi.sif
+    - docker: ewatercycle/lisflood-grpc4bmi:20.10
+      singularity: ewatercycle-lisflood-grpc4bmi_20.10.sif
 jupyterhub_spawner_environment:
   # Cache dir for ewatercycle.observation.usgs.get_usgs_data()
   USGS_DATA_HOME: /mnt/data/usgs/streamflow

@@ -3,7 +3,7 @@
   include: hub.yml
 - name: Jupyter Lab
   include: lab.yml
-- name: Sample notebooks
-  include: samples.yml
+# - name: Sample notebooks
+#   include: samples.yml
 - name: grpc4bmi
   include: grpc4bmi.yml
