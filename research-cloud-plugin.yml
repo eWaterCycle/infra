@@ -17,51 +17,51 @@
         state: directory
 
     # Container engines
-    - name: Docker
-      include_role:
-        name: docker
-        # TODO User needs to be in docker group to use docker without password
-        # See RSC-CO plugin with co_passwordless_sudo for hints
-    - name: singularity
-      include_role:
-        name: singularity
+    # - name: Docker
+    #   include_role:
+    #     name: docker
+    #     # TODO User needs to be in docker group to use docker without password
+    #     # See RSC-CO plugin with co_passwordless_sudo for hints
+    # - name: singularity
+    #   include_role:
+    #     name: singularity
 
-    # Prepare Jupyter kernel
-    - name: Install conda
-      include_role:
-        name: conda
-      vars:
-        conda_tarball_root: /opt
-        conda_root: /opt/conda
+    # # Prepare Jupyter kernel
+    # - name: Install conda
+    #   include_role:
+    #     name: conda
+    #   vars:
+    #     conda_tarball_root: /opt
+    #     conda_root: /opt/conda
 
-    # TODO mount climate disk
-    # TODO mount parameter set disk
-    # TODO mount scratch disk
-    # TODO mount persistent home disk
+    # # TODO mount climate disk
+    # # TODO mount parameter set disk
+    # # TODO mount scratch disk
+    # # TODO mount persistent home disk
 
-    # TODO configure roles so they work on research cloud
+    # # TODO configure roles so they work on research cloud
 
-    # https://lab.ewatercycle.org/ functionality
-    - include_role:
-        name: labstart  # TODO use already present nginx
-      vars:
-        tool_urls:
-          explore: https://{{ ansible_host }}
-          jupyter: https://{{ ansible_host }}/jupyter
+    # # https://lab.ewatercycle.org/ functionality
+    # - include_role:
+    #     name: labstart  # TODO use already present nginx
+    #   vars:
+    #     tool_urls:
+    #       explore: https://{{ ansible_host }}
+    #       jupyter: https://{{ ansible_host }}/jupyter
 
-    # https://explore.ewatercycle.org/ functionality
-    - include_role:
-        name: launcher
-    - include_role:
-        name: terria
-      vars:
-          jupyterhub_url: https://{{ ansible_host }}/jupyter
-    # TODO setup reverse proxy for /launcher to localhost:3001
+    # # https://explore.ewatercycle.org/ functionality
+    # - include_role:
+    #     name: launcher
+    # - include_role:
+    #     name: terria
+    #   vars:
+    #       jupyterhub_url: https://{{ ansible_host }}/jupyter
+    # # TODO setup reverse proxy for /launcher to localhost:3001
 
-    # https://jupyter.ewatercycle.org/ functionality
-    - name: Create eWaterCycle conda env
-      include_role:
-        name: ewatercycle
+    # # https://jupyter.ewatercycle.org/ functionality
+    # - name: Create eWaterCycle conda env
+    #   include_role:
+    #     name: ewatercycle
     # - name: Set up Jupyter lab/hub
     #   include_role:
     #     name: jupyter ## TODO reaplce partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
