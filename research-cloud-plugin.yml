@@ -27,7 +27,7 @@
           - ksh
           - acl
 
-    # TODO roles have hardcoded /mnt/apps, so create it before running roles
+    # roles have hardcoded /mnt/apps, so create it before running roles
     - name: Apps root
       file:
         path: /mnt/apps
