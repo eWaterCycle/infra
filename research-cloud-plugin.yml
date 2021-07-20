@@ -82,12 +82,15 @@
     - name: Create eWaterCycle conda env
       include_role:
         name: ewatercycle
+
     - name: Set up Jupyter lab/hub
       include_role:
         name: jupyter ## TODO replace partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
     # - name: grdc
     #   include_role:
     #     name: grdc
+
+      # TODO do all steps on https://ewatercycle.readthedocs.io/en/latest/system_setup.html
 
     - debug:
         msg: The eWaterCycle Jupyter plugin has completed
