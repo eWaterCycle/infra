@@ -1,5 +1,4 @@
 ---
 singularity_version: '3.8.0'
-singularity_sha256sum: e9608b0e0a8c805218bbe795e9176484837b2f7fcb95e5469b853b3809a2412e
 go_version: '1.16.4'
 go_sha256sum: '7154e88f5a8047aad4b80ebace58a059e36e7e2e4eb3b383127a28c711b4ff59'

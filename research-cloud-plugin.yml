@@ -56,8 +56,6 @@
     # TODO mount scratch disk
     # TODO mount persistent home disk
 
-    # TODO configure ansible roles so they work on research cloud
-
     # https://lab.ewatercycle.org/ functionality
     - include_role:
         name: labstart
@@ -94,3 +92,11 @@
 
     - debug:
         msg: The eWaterCycle Jupyter plugin has completed
+
+# TODO Stuff to ask Research Cloud helpdesk
+# 1. How to use task from Ansible galaxy?
+# 2. How to become root after creation, see https://servicedesk.surfsara.nl/wiki/display/WIKI/RC+plugin+passwordless+sudo
+# 3. How to add users to docker posix group
+# 4. How to generate a random string (launcher_jupyterhub_token) for each instantiation, dont want to ask during new workspace
+# 5. How to get live log from my own plugin installation
+# 6. How to mark certain user as JupyterHub admin

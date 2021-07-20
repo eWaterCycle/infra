@@ -3,20 +3,11 @@
   file:
     path: /root/go/src/github.com/hpcng
     state: directory
-- name: Fetch singularity tarball
-  get_url:
-    url: https://github.com/hpcng/singularity/releases/download/v{{ singularity_version }}/singularity-{{ singularity_version }}.tar.gz
-    dest: /mnt/apps
-    checksum: sha256:{{ singularity_sha256sum }}
-  notify:
-    - Clear singularity dir
-- name: Flush handlers
-  meta: flush_handlers
-- name: Unpack singularity tarball
-  unarchive:
-    src: /mnt/apps/singularity-{{ singularity_version }}.tar.gz
-    dest: /root/go/src/github.com/hpcng
-    remote_src: yes
+- name: Clone experiment-launcher repo
+  git:
+    repo:  https://github.com/hpcng/singularity.git
+    dest: /root/go/src/github.com/hpcng/singularity
+    version: "v{{ singularity_version }}"
 - name: Go dependencies
   command: go get -u -v github.com/golang/dep/cmd/dep
   args:
