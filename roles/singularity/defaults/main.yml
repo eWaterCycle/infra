@@ -1,5 +1,5 @@
 ---
-singularity_version: '3.7.4'
-singularity_sha256sum: c266369a8bf2747f44e0759858c3fc3b2325b975a8818b2668f0b97b124d0164
-go_version: '1.13.8'
-go_sha256sum: '0567734d558aef19112f2b2873caa0c600f1b4a5827930eb5a7f35235219e9d8'
+singularity_version: '3.8.0'
+singularity_sha256sum: e9608b0e0a8c805218bbe795e9176484837b2f7fcb95e5469b853b3809a2412e
+go_version: '1.16.4'
+go_sha256sum: '7154e88f5a8047aad4b80ebace58a059e36e7e2e4eb3b383127a28c711b4ff59'

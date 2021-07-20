@@ -17,3 +17,7 @@
     src: '{{ conda_root }}/etc/profile.d/conda.sh'
     dest: /etc/profile.d/conda.sh
     state: link
+- name: Install mamba
+  command: '{{ conda_root }}/condabin/conda install mamba -n base -c conda-forge'
+  args:
+    creates: '{{ conda_root }}'

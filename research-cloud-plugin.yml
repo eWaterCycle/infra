@@ -34,11 +34,11 @@
         state: directory
 
     # Container engines
-    - name: Docker
-      include_role:
-        name: docker
-        # TODO User needs to be in docker group to use docker without password
-        # See RSC-CO plugin with co_passwordless_sudo for hints
+    # - name: Docker
+    #   include_role:
+    #     name: docker
+    #     # TODO User needs to be in docker group to use docker without password
+    #     # See RSC-CO plugin with co_passwordless_sudo for hints
     - name: singularity
       include_role:
         name: singularity
@@ -84,7 +84,7 @@
         name: ewatercycle
     - name: Set up Jupyter lab/hub
       include_role:
-        name: jupyter ## TODO reaplce partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
+        name: jupyter ## TODO replace partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
     # - name: grdc
     #   include_role:
     #     name: grdc

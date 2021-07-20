@@ -1,11 +1,11 @@
 ---
 - name: Singularity build dir
   file:
-    path: /root/go/src/github.com/sylabs
+    path: /root/go/src/github.com/hpcng
     state: directory
 - name: Fetch singularity tarball
   get_url:
-    url: https://github.com/sylabs/singularity/releases/download/v{{ singularity_version }}/singularity-{{ singularity_version }}.tar.gz
+    url: https://github.com/hpcng/singularity/releases/download/v{{ singularity_version }}/singularity-{{ singularity_version }}.tar.gz
     dest: /mnt/apps
     checksum: sha256:{{ singularity_sha256sum }}
   notify:
@@ -15,12 +15,12 @@
 - name: Unpack singularity tarball
   unarchive:
     src: /mnt/apps/singularity-{{ singularity_version }}.tar.gz
-    dest: /root/go/src/github.com/sylabs
+    dest: /root/go/src/github.com/hpcng
     remote_src: yes
 - name: Go dependencies
   command: go get -u -v github.com/golang/dep/cmd/dep
   args:
-    chdir: /root/go/src/github.com/sylabs/singularity
+    chdir: /root/go/src/github.com/hpcng/singularity
     creates: /root/go/bin/dep
   environment:
     GOPATH: /root/go
@@ -29,21 +29,21 @@
 - name: mconfig
   command: ./mconfig --sysconfdir=/etc
   args:
-    chdir: /root/go/src/github.com/sylabs/singularity
-    creates: /root/go/src/github.com/sylabs/singularity/builddir
+    chdir: /root/go/src/github.com/hpcng/singularity
+    creates: /root/go/src/github.com/hpcng/singularity/builddir
   environment:
     GOPATH: /root/go
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/go/bin
 - name: Make
   make:
-    chdir: /root/go/src/github.com/sylabs/singularity/builddir
+    chdir: /root/go/src/github.com/hpcng/singularity/builddir
   environment:
     GOPATH: /root/go
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/go/bin
 - name: Make install
   make:
     target: install
-    chdir: /root/go/src/github.com/sylabs/singularity/builddir
+    chdir: /root/go/src/github.com/hpcng/singularity/builddir
   environment:
     GOPATH: /root/go
     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/go/bin

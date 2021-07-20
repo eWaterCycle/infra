@@ -1,93 +1,20 @@
 ---
 # tasks file for ewatercycle
+- name: Stage conda env file
+  copy:
+    src: environment.yml
+    dest: '{{ conda_root }}/environment.yml'
+
 - name: Install eWaterCycle conda environment
-  # TODO role not installed from ansible galaxy then this task will fail
-  conda:
-    executable: '{{ conda_root }}/condabin/conda'
-    environment: ewatercycle
-    channels:
-      - esmvalgroup
-      - conda-forge
-    name:
-      - python=3.7.7
-      - setuptools=47.3.1
-      - altair_saver=0.5.0
-      - altair=4.1.0
-      - dask-jobqueue=0.7.1
-      - distributed=2.20.0
-      - esmvaltool-python=2.2.0
-      - geoviews=1.8.1
-      - hydrostats=0.78
-      - nco=4.9.3
-      - ncview==2.1.7
-      - regionmask=0.5.0
-      - pyke=1.1.1  # required by iris, only available on conda or sourceforge
-      - iris-sample-data=2.2.0 # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
-      - subversion=1.14.0  # for eWaterCycle/parametersetdb
-      # Lint / formatters
-      - autopep8=1.5.3
-      - black=19.10b0
-      - flake8=3.8.3
-      - isort=4.3.21
-      - pylint=2.5.3
-      - yapf=0.30.0
-      # Pymt
-      - pymt_cem=0.1.3
-      - pymt_ecsimplesnow=0.2.5
-      - pymt_gipl=0.1
-      - pymt_hydrotrend=0.1.2
-      - pymt_landlab=0.3.0
-      - pymt_permamodel=0.1.3
-      - pymt_rafem=0.1.4
-      - pymt_sedflux=0.1.3
-      - pymt=1.1.3
-      # - pymt_child  # Skipped as only a osx binary is available
-      # - pymt_topoflow  # Skipped not on conda-forge
-      # Jupyter
-      - jupyter-server-proxy=1.5.0
-      - jupyterhub=1.1.0
-      - jupyterlab=2.1.5
-      - notebook=6.0.3
-      - ipykernel=5.3.1
-      - ipympl=0.5.6
-      - ipynb-py-convert=0.4.5
-      - jupyterhub-idle-culler=1.0
-      # JupyterLab extensions server dependencies, lab extension should be added to defaults of jupyter role
-      - ipyleaflet=0.13.1
-      - jupyterlab_code_formatter=1.3.1
-      - dask-labextension=2.0.2
-      # Everything below is installed via dependencies but kept here for version reference
-      - bokeh=2.3.0
-      - cartopy=0.18.0
-      - cfunits=3.3.1
-      - cftime=1.2.1
-      - cython=0.29.22
-      - dask=2.20.0
-      - datashader=0.12.1
-      - ecmwf-api-client=1.6.1
-      - eofs=1.4.0
-      - holoviews=1.14.2
-      - hvplot=0.7.1
-      - iris=3.0.1
-      - joblib=1.0.1
-      - matplotlib=3.4.1
-      - nc-time-axis=1.2.0
-      - numpy=1.20.2
-      - pip=21.0.1
-      - python-cdo=1.5.4
-      - scikit-learn=0.24.1
-      - seaborn=0.11.1
-      - threadpoolctl=2.1.0
-      - tqdm=4.60.0
-      - xarray=0.17.0
-      - xesmf=0.5.2
-      - xlsxwriter=1.3.8
+  command: '{{ conda_root }}/condabin/mamba env update --file {{ conda_root }}/environment.yml'
+
 - name: eWaterCycle pip dependencies
   pip:
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
     name:
       - jupyterlab_thredds==0.5.0
-      - grpc4bmi==0.2.12
+      - grpc4bmi==0.2.13
+      # TODO install ewatercycle from PyPI instead of GH
       - git+https://github.com/eWaterCycle/ewatercycle
 # TODO add to /etc/profile.d/conda.sh instead of ~/.bashrc
 - name: Activate eWaterCycle conda environment during login for all posix_users
