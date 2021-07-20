@@ -53,6 +53,7 @@
 
     # TODO mount climate disk
     # TODO mount parameter set disk
+    # TODO mount singularity images disk
     # TODO mount scratch disk
     # TODO mount persistent home disk
 
