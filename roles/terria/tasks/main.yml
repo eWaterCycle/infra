@@ -5,7 +5,7 @@
     state: present
 - name: NodeJS ppa
   apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_8.x xenial main'
+    repo: 'deb https://deb.nodesource.com/node_12.x bionic main'
 - name: Update apt cache
   apt:
     name: nodejs
@@ -29,6 +29,19 @@
   file:
     path: /mnt/apps/TerriaMap/packages
     state: directory
+- name: eWaterCycle/TerriaMap systemd
+  copy:
+    src: terriamap.systemd
+    dest: /etc/systemd/system/terriamap.service
+- name: eWaterCycle/TerriaMap started & enabled
+  systemd:
+    name: terriamap
+    state: started
+    daemon_reload: yes
+    enabled: yes
+- name: TerriaMap server deps
+  apt:
+    name: gdal-bin
 - name: eWaterCycle/terriajs repo
   git:
     repo: https://github.com/eWaterCycle/terriajs.git
@@ -53,19 +66,6 @@
   args:
     chdir: /mnt/apps/TerriaMap
     creates: /mnt/apps/TerriaMap/wwwroot/build
-- name: eWaterCycle/TerriaMap systemd
-  copy:
-    src: terriamap.systemd
-    dest: /etc/systemd/system/terriamap.service
-- name: TerriaMap server deps
-  apt:
-    name: gdal-bin
-- name: eWaterCycle/TerriaMap started & enabled
-  systemd:
-    name: terriamap
-    state: started
-    daemon_reload: yes
-    enabled: yes
 - name: Inject launcher url
   command: >  # noqa 301 file will not be changed when OK
     perl -pi -e

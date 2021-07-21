@@ -40,6 +40,10 @@
     name: "{{ item.name }}"
     password: "{{ item.password }}"
   loop: "{{ posix_users }}"
+- name: Nginx config root
+  file:
+    path: /etc/nginx/app-location-conf.d
+    state: directory
 - name: Create nginx location block
   copy:
     dest: /etc/nginx/app-location-conf.d/launcher.conf

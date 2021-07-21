@@ -138,6 +138,30 @@ Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users
 > * [Vagrant snapshots](https://www.vagrantup.com/docs/cli/snapshot.html) can be used to rollback VMs to previous state. After rollback sync time with `vagrant ssh -c 'sudo systemctl restart systemd-timesyncd.service'`.
 > * Use [https://github.com/dotless-de/vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) to keep the VirtualBox guest additions inside VM up to date
 
+### Research cloud local test VM
+
+```shell
+vagrant up
+vagrant ssh
+sudo -i
+apt update && apt upgrade -y && apt install python3-pip nginx-light -y
+cd /vagrant
+pip3 install ansible
+ansible-playbook -e launcher_jupyterhub_token=somesecret research-cloud-plugin.yml
+```
+
+As the local Vagrant VM is missing the provisioning done on research cloud like setup nginx and let's encrypt.
+The machine will not be fully working, but the notebooks can be run by starting your own jupyter
+
+```shell
+vagrant ssh
+# Get ip of Jupyter server with
+ifconfig eth1
+jupyter lab --no-browser
+```
+
+Go to `http://<ip of eth1>:<port and token jupyter lab is running on>`
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on https://hub.docker.com/u/ewatercycle . A project member can create issues here for permisison to push images to Dockuer Hub.

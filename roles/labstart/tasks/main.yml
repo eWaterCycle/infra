@@ -10,6 +10,10 @@
 #     dest: /etc/nginx/sites-available/default
 #   notify:
 #     - restart nginx
+- name: Static html root
+  file:
+    path: /var/www/html
+    state: directory
 - name: Copy index.html
   template:
     src: index.html.j2
