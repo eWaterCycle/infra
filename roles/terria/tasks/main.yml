@@ -5,7 +5,7 @@
     state: present
 - name: NodeJS ppa
   apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_12.x bionic main'
+    repo: 'deb https://deb.nodesource.com/node_10.x bionic main'
 - name: Update apt cache
   apt:
     name: nodejs
@@ -51,8 +51,6 @@
   notify:
     - Restart terriamap
     - Clean terriajs build
-- name: Flush handlers
-  meta: flush_handlers
 - name: Install TerriaMap dependencies
   yarn:
     path: /mnt/apps/TerriaMap
@@ -76,3 +74,5 @@
    perl -pi -e
     's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl!{{ jupyterhub_url }}!'
     /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
+- name: Flush handlers
+  meta: flush_handlers

@@ -10,7 +10,7 @@ grpc4bmi_images:
     # - docker: ewatercycle/walrus-grpc4bmi
     #   singularity: ewatercycle-walrus-grpc4bmi.sif
     - docker: ewatercycle/pcrg-grpc4bmi:setters
-      singularity: ewatercycle-pcrg-grpc4bmi-setters.sif
+      singularity: ewatercycle-pcrg-grpc4bmi_setters.sif
     - docker: ewatercycle/wflow-grpc4bmi:2020.1.1
       singularity: ewatercycle-wflow-grpc4bmi_2020.1.1.sif
     - docker:  ewatercycle/marrmot-grpc4bmi:2020.11
@@ -48,3 +48,4 @@ jupyterlab_extensions: >
 # JupyterLab extensions that should not be installed, space seperated list
 jupyterlab_obsolete_extensions: >
   jupyterlab_bokeh
+posix_users: []

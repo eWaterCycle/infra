@@ -36,11 +36,11 @@
         state: directory
 
     # Container engines
-    # - name: Docker
-    #   include_role:
-    #     name: docker
-    #     # TODO User needs to be in docker group to use docker without password
-    #     # See RSC-CO plugin with co_passwordless_sudo for hints
+    - name: Docker
+      include_role:
+        name: docker
+        # TODO User needs to be in docker group to use docker without password
+        # See RSC-CO plugin with co_passwordless_sudo for hints
     - name: singularity
       include_role:
         name: singularity
@@ -75,19 +75,27 @@
       vars:
         launcher_encrypted: false
         jupyterhub_url: https://{{ ansible_host }}/jupyter
-    - include_role:
-        name: terria
-      vars:
-        jupyterhub_url: https://{{ ansible_host }}/jupyter
+
+    # TODO enable for next fresh install
+    # - include_role:
+    #     name: terria
+    #   vars:
+    #     jupyterhub_url: https://{{ ansible_host }}/jupyter
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
       include_role:
         name: ewatercycle
+      vars:
+        conda_root: /opt/conda
 
     - name: Set up Jupyter lab/hub
       include_role:
         name: jupyter ## TODO replace partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
+      vars:
+        conda_root: /opt/conda
+
+    # TODO enable when working datasets
     # - name: grdc
     #   include_role:
     #     name: grdc

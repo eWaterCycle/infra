@@ -1,5 +1,6 @@
 ---
 # tasks file for ewatercycle
+
 - name: Stage conda env file
   copy:
     src: environment.yml
@@ -13,19 +14,12 @@
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
     name:
       - jupyterlab_thredds==0.5.0
-      - grpc4bmi==0.2.13
       # TODO install ewatercycle from PyPI instead of GH
       - git+https://github.com/eWaterCycle/ewatercycle
-# TODO add to /etc/profile.d/conda.sh instead of ~/.bashrc
 - name: Activate eWaterCycle conda environment during login for all posix_users
   lineinfile:
-    path: ~/.bashrc
+    path: /etc/profile.d/conda.sh
     line: conda activate ewatercycle
     regexp: '^conda activate ewatercycle'
-  become: yes
-  become_user: "{{ item.name }}"
-  loop: "{{ posix_users }}"
-  loop_control:
-    label: "{{ item.name }}"
 - name: Data for esmvaltool
   include: esmvaltool-data.yml

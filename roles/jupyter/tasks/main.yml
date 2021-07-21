@@ -3,6 +3,7 @@
   include: hub.yml
 - name: Jupyter Lab
   include: lab.yml
+# TODO replace with github.com/ewatercycle/ewatercycle/docs/examples
 # - name: Sample notebooks
 #   include: samples.yml
 - name: grpc4bmi
