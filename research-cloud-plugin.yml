@@ -112,4 +112,4 @@
 # 4. How to generate a random string (launcher_jupyterhub_token) for each instantiation, dont want to ask during new workspace
 # 5. How to get live log from my own plugin installation
 # 6. How to mark certain user as JupyterHub admin
-# 7. How to put files in homedirs like ~/.esmvaltool/config-user.yml
+# 7. How to put files in homedirs like ~/.esmvaltool/config-user.yml -> /etc/skel/ ?
