@@ -4,4 +4,4 @@
 conda_root: /mnt/apps/conda
 # Location of input data
 esmvaltool_data: /mnt/data/esmvaltool
-esmvaltool_aux_version: b06772e5b6ca8df57b3d9dbca36913164faa5ab1
+esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
