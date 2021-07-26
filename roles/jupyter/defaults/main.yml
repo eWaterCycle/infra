@@ -33,16 +33,16 @@ conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
 # JupyterLab extensions that should be installed, space seperated list
 # Server side dependencies of extension should be added to conda environment in ewatercycle role
 jupyterlab_extensions: >
-  @bokeh/jupyter_bokeh@2.0.2
-  @jupyter-widgets/jupyterlab-manager@2.0.0
-  @jupyterlab/geojson-extension@v2.0.1
-  @jupyterlab/hub-extension@2.1.2
-  @jupyterlab/toc@4.0.0
-  @pyviz/jupyterlab_pyviz@1.0.4
-  jupyter-leaflet@0.13.1
-  jupyter-matplotlib@0.7.2
-  @ryantam626/jupyterlab_code_formatter@1.3.1
-  @ewatercycle/jupyterlab_thredds@0.5.0
+  @bokeh/jupyter_bokeh
+  @jupyter-widgets/jupyterlab-manager
+  @jupyterlab/geojson-extension
+  @jupyterlab/hub-extension
+  @jupyterlab/toc
+  @pyviz/jupyterlab_pyviz
+  jupyter-leaflet
+  jupyter-matplotlib
+  @ryantam626/jupyterlab_code_formatter
+  @ewatercycle/jupyterlab_thredds
   @jupyterlab/server-proxy
   dask-labextension
 # JupyterLab extensions that should not be installed, space seperated list
