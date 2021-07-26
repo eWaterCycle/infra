@@ -1,0 +1,25 @@
+container_engine: singularity
+esmvaltool_config: None
+grdc_location: {{ grdc_location }}
+output_dir: ./ewatercycle_output
+parameter_sets:
+  lisflood_fraser:
+    config: lisflood_fraser/settings_lat_lon-Run.xml
+    directory: lisflood_fraser
+    doi: N/A
+    supported_model_versions: !!set {'20.10': null}
+    target_model: lisflood
+  pcrglobwb_rhinemeuse_30min:
+    config: pcrglobwb_rhinemeuse_30min/setup_natural_test.ini
+    directory: pcrglobwb_rhinemeuse_30min
+    doi: https://doi.org/10.5281/zenodo.1045339
+    supported_model_versions: !!set {setters: null}
+    target_model: pcrglobwb
+  wflow_rhine_sbm_nc:
+    config: wflow_rhine_sbm_nc/wflow_sbm_NC.ini
+    directory: wflow_rhine_sbm_nc
+    doi: N/A
+    supported_model_versions: !!set {2020.1.1: null}
+    target_model: wflow
+parameterset_dir: {{ parameterset_dir }}
+singularity_dir: {{ singularity_dir }}

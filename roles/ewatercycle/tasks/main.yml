@@ -21,5 +21,34 @@
     path: /etc/profile.d/conda.sh
     line: conda activate ewatercycle
     regexp: '^conda activate ewatercycle'
-- name: Data for esmvaltool
-  include: esmvaltool-data.yml
+
+# TODO remove: Disk mounted which already has files
+# - name: Data for esmvaltool
+#   include: esmvaltool-data.yml
+
+# Checklist system setup https://ewatercycle.readthedocs.io/en/latest/system_setup.html :
+# Conda environment -> done on line 10
+# Install ewatercycle package -> done on line 18
+# Configure ESMValTool -> done on line 42-49
+# Download climate data -> mounted on /data/volume_2/esmvaltool
+# Install container engine -> done in singularity role
+# Configure ewatercycle -> done on line 51-54
+# Model container images -> mounted on /data/volume_2/singularity-images
+# Download example parameter sets -> mounted on /data/volume_2/parameter-sets
+# Prepare other parameter sets -> mounted on /data/volume_2/parameter-sets
+# Download example forcing -> mounted on /data/volume_2/forcings
+# Download observation data -> mounted on /data/volume_2/observation
+
+- name: ESMValTool configuration directory
+  file:
+    path: /etc/skel/.esmvaltool
+    state: directory
+- name: ESMValTool config-user.yml
+  template:
+    src: config-user.yml.j2
+    dest: /etc/skel/.esmvaltool/config-user.yml
+
+- name: ewaterycle.yaml
+  template:
+    src: ewaterycle.yaml.j2
+    dest: /etc/ewaterycle.yaml
