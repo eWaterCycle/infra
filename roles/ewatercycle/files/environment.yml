@@ -43,7 +43,7 @@ dependencies:
   # Jupyter
   - jupyter-server-proxy
   - jupyterhub
-  - jupyterlab
+  - jupyterlab=2.3.1
   - notebook
   - ipykernel
   - ipympl

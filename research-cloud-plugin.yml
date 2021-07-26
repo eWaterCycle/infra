@@ -113,3 +113,4 @@
 # 5. How to get live log from my own plugin installation
 # 6. How to mark certain user as JupyterHub admin
 # 7. How to put files in homedirs like ~/.esmvaltool/config-user.yml -> /etc/skel/ ?
+# 8. How to distinquish attached storage /dev/sdb1 -> /data/volume_2 or /data/volume_1?
