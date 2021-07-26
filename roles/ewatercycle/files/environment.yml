@@ -53,6 +53,7 @@ dependencies:
   - ipyleaflet
   - jupyterlab_code_formatter
   - dask-labextension
+  - nbgitpuller
   # TODO pin versions of deps of deps
   # Everything below is installed via dependencies but kept here for version reference
   # - bokeh=2.3.0
