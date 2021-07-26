@@ -53,9 +53,20 @@
         conda_tarball_root: /opt
         conda_root: /opt/conda
 
+    # TODO no access to dcache due to vacation
+    # Use extra storage disk of 500Gb in SRC instead with
+    #
+    # * esmvaltool, files see https://github.com/eWaterCycle/infra/issues/79
+    # * observation
+    # * parameter-sets, example use cases and bigger ones
+    # * singularity-images
+    #
     # TODO mount climate disk
     # TODO mount parameter set disk
     # TODO mount singularity images disk
+
+    # TODO OS disk almost full 11Gb of 15Gb in use
+    # For home/temp/scratch need other storage
     # TODO mount scratch disk
     # TODO mount persistent home disk
 
