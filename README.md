@@ -147,22 +147,26 @@ vagrant up
 vagrant ssh
 sudo -i
 apt update && apt upgrade -y && apt install python3-pip nginx-light -y
+# Add to /etc/nginx/nginx.conf in http section
+#        map $http_upgrade $connection_upgrade {
+#           default upgrade;
+#          ''      close;
+#       }
+# Add `include /etc/nginx/app-location-conf.d/*.conf;` to /etc/nginx/sites-enabled/default in server section
 cd /vagrant
 pip3 install ansible
 ansible-playbook -e launcher_jupyterhub_token=somesecret research-cloud-plugin.yml
 ```
 
-As the local Vagrant VM is missing the provisioning done on research cloud like setup nginx and let's encrypt.
-The machine will not be fully working, but the notebooks can be run by starting your own jupyter
+Visit site
 
 ```shell
 vagrant ssh
-# Get ip of Jupyter server with
+# Get ip of server with
 ifconfig eth1
-jupyter lab --no-browser
 ```
 
-Go to `http://<ip of eth1>:<port and token jupyter lab is running on>`
+Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
 
 ## Docker images
 
