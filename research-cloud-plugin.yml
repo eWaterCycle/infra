@@ -46,7 +46,7 @@
       include_role:
         name: singularity
 
-    # Prepare Jupyter kernel
+    # Install Conda + mamba
     - name: Install conda
       include_role:
         name: conda

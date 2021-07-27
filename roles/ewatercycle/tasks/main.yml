@@ -50,5 +50,5 @@
 
 - name: ewaterycle.yaml
   template:
-    src: ewaterycle.yaml.j2
+    src: ewatercycle.yaml.j2
     dest: /etc/ewaterycle.yaml
