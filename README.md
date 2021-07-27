@@ -140,6 +140,8 @@ Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users
 
 ### Research cloud local test VM
 
+To setup a Explore/Jupyter server on your local machine with [vagrant](https://vagrantup.com).
+
 ```shell
 vagrant up
 vagrant ssh

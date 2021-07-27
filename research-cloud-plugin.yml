@@ -10,6 +10,12 @@
     - name: Gather facts for first time
       setup:
 
+    - debug:
+        msg: '{{ vars | to_nice_json }}'
+    - debug:
+        var: hostvars[inventory_hostname]
+        verbosity: 4
+
     - include_role:
         name: common
       tags:
@@ -70,8 +76,8 @@
         name: labstart
       vars:
         tool_urls:
-          explore: https://{{ ansible_host }}
-          jupyter: https://{{ ansible_host }}/jupyter
+          explore: /explore
+          jupyter: /jupyter
         # TODO launcher_jupyterhub_token is now set as RC plugin pararmeter
         # need to to make random for each instance
 
@@ -80,13 +86,14 @@
         name: launcher
       vars:
         launcher_encrypted: false
+        # TODO determine which var can be used for external domain name, as ansible_host == localhost
         jupyterhub_url: https://{{ ansible_host }}/jupyter
 
-    # TODO enable for next fresh install
-    # - include_role:
-    #     name: terria
-    #   vars:
-    #     jupyterhub_url: https://{{ ansible_host }}/jupyter
+    - include_role:
+        # TODO check terria is running OK from /explore instead of /
+        name: terria
+      vars:
+        jupyterhub_url: https://{{ ansible_host }}/jupyter
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
