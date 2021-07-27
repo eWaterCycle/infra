@@ -3,7 +3,6 @@
 name: ewatercycle
 channels:
   - conda-forge
-  - esmvalgroup
   - defaults
 dependencies:
   - python>=3.7
@@ -18,9 +17,9 @@ dependencies:
   - nco
   - ncview
   - regionmask
-  - pyke=1.1.1  # required by iris, only available on conda or sourceforge
-  - iris-sample-data=2.2.0 # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
-  - subversion=1.14.0  # for ewatercycle.parameter_sets
+  - pyke  # required by iris, only available on conda or sourceforge
+  - iris-sample-data # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
+  - subversion # for ewatercycle.parameter_sets
   # Lint / formatters
   - autopep8
   - black
@@ -43,7 +42,7 @@ dependencies:
   # Jupyter
   - jupyter-server-proxy
   - jupyterhub
-  - jupyterlab=2.3.1
+  - jupyterlab=2.3.1 # Version pinned due to not all wanted extensions support v3
   - notebook
   - ipykernel
   - ipympl
@@ -82,3 +81,5 @@ dependencies:
   # - xesmf=0.5.2
   # - xlsxwriter=1.3.8
 # TODO add jupyterlab-git==0.30.0b3 and nbdime see https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
+
+# TODO mpi versions of hdf5 are installed causing libmpi not found errors
