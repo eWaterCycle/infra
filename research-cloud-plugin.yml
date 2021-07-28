@@ -76,7 +76,7 @@
         name: labstart
       vars:
         tool_urls:
-          explore: /explore
+          explore: /
           jupyter: /jupyter
         # TODO launcher_jupyterhub_token is now set as RC plugin pararmeter
         # need to to make random for each instance
@@ -90,10 +90,9 @@
         jupyterhub_url: https://{{ ansible_host }}/jupyter
 
     - include_role:
-        # TODO check terria is running OK from /explore instead of /
         name: terria
       vars:
-        jupyterhub_url: https://{{ ansible_host }}/jupyter
+        jupyterhub_url: /jupyter
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env

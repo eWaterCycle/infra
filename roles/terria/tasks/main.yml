@@ -85,7 +85,7 @@
     dest: /etc/nginx/app-location-conf.d/explore.conf
     mode: 0644
     content: |
-      location /explore {
+      location / {
           proxy_pass http://127.0.0.1:3001;
           proxy_redirect http://localhost:3001/ $scheme://$host/;
           proxy_set_header X-Real-IP $remote_addr;

@@ -152,6 +152,7 @@ apt update && apt upgrade -y && apt install python3-pip nginx-light -y
 #           default upgrade;
 #          ''      close;
 #       }
+# In /etc/nginx/sites-enabled/default comment out `location / {}` section
 # Add `include /etc/nginx/app-location-conf.d/*.conf;` to /etc/nginx/sites-enabled/default in server section
 cd /vagrant
 pip3 install ansible
