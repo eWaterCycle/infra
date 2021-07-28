@@ -30,22 +30,14 @@ jupyterhub_spawner_environment:
 conda_root: /mnt/apps/conda
 conda_environment: ewatercycle
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+# TODO All lab extensions are now shipped as pip/conda package, remove section
 # JupyterLab extensions that should be installed, space seperated list
 # Server side dependencies of extension should be added to conda environment in ewatercycle role
-jupyterlab_extensions: >
-  @bokeh/jupyter_bokeh
-  @jupyter-widgets/jupyterlab-manager
-  @jupyterlab/geojson-extension
-  @jupyterlab/hub-extension
-  @jupyterlab/toc
-  @pyviz/jupyterlab_pyviz
-  jupyter-leaflet
-  jupyter-matplotlib
-  @ryantam626/jupyterlab_code_formatter
-  @ewatercycle/jupyterlab_thredds
-  @jupyterlab/server-proxy
-  dask-labextension
+# jupyterlab_extensions: >
+#  nbgather
 # JupyterLab extensions that should not be installed, space seperated list
-jupyterlab_obsolete_extensions: >
-  jupyterlab_bokeh
+# Disabled extensions, because they dont work with latest JL
+# -  @ewatercycle/jupyterlab_thredds
+# jupyterlab_obsolete_extensions: >
+#   jupyterlab_bokeh
 posix_users: []

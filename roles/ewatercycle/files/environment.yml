@@ -42,7 +42,7 @@ dependencies:
   # Jupyter
   - jupyter-server-proxy
   - jupyterhub
-  - jupyterlab=2.3.1 # Version pinned due to not all wanted extensions support v3
+  - jupyterlab # Version pinned due to not all wanted extensions support v3
   - notebook
   - ipykernel
   - ipympl
@@ -52,7 +52,15 @@ dependencies:
   - ipyleaflet
   - jupyterlab_code_formatter
   - dask-labextension
+  - jupyterlab-geojson
+  - jupyter_bokeh
+  - pyviz_comms
+  # jupyterlab-git + nbdime see https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
+  - jupyterlab-git
+  - nbdime
   - nbgitpuller
+  - papermill
+  - elyra  # https://github.com/elyra-ai/elyra/ has Ability to run a notebook, Python or R script as a batch job
   # TODO pin versions of deps of deps
   # Everything below is installed via dependencies but kept here for version reference
   # - bokeh=2.3.0
@@ -80,6 +88,3 @@ dependencies:
   # - xarray=0.17.0
   # - xesmf=0.5.2
   # - xlsxwriter=1.3.8
-# TODO add jupyterlab-git==0.30.0b3 and nbdime see https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
-
-# TODO mpi versions of hdf5 are installed causing libmpi not found errors

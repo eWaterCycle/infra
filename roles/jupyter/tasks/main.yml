@@ -1,8 +1,9 @@
 ---
 - name: Jupyter Hub
   include: hub.yml
-- name: Jupyter Lab
-  include: lab.yml
+# TODO All lab extensions are now shipped as pip/conda package, lab.yml no longer needed, remove?
+# - name: Jupyter Lab
+#   include: lab.yml
 # TODO replace with github.com/ewatercycle/ewatercycle/docs/examples
 # - name: Sample notebooks
 #   include: samples.yml

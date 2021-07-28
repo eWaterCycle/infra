@@ -1,8 +1,4 @@
 ---
-- name: Jupyter server code formatter extension
-  copy:
-    src: jupyterlab_code_formatter.json
-    dest: '{{ conda_root }}/envs/ewatercycle/etc/jupyter/jupyter_notebook_config.d/jupyterlab_code_formatter.json'
 - name: eWaterCycle uninstall obsolete lab extensions
   command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}' # noqa 204 301 unable to check that all extensions have been uninstalled
   environment:

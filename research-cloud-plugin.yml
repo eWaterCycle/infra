@@ -90,6 +90,7 @@
         jupyterhub_url: https://{{ ansible_host }}/jupyter
 
     - include_role:
+        # TODO upgrade to latest release of terriajs, to try if latest version can hosted on /explore
         name: terria
       vars:
         jupyterhub_url: /jupyter
@@ -127,3 +128,4 @@
 # 6. How to mark certain user as JupyterHub admin
 # 7. How to put files in homedirs like ~/.esmvaltool/config-user.yml -> /etc/skel/ ?
 # 8. How to distinquish attached storage /dev/sdb1 -> /data/volume_2 or /data/volume_1?
+# 9. How to put home dirs on attached storage

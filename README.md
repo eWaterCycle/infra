@@ -152,8 +152,9 @@ apt update && apt upgrade -y && apt install python3-pip nginx-light -y
 #           default upgrade;
 #          ''      close;
 #       }
-# In /etc/nginx/sites-enabled/default comment out `location / {}` section
-# Add `include /etc/nginx/app-location-conf.d/*.conf;` to /etc/nginx/sites-enabled/default in server section
+# In /etc/nginx/sites-enabled/default
+# * comment out `location / {}` section
+# * Add `include /etc/nginx/app-location-conf.d/*.conf;` in server section
 cd /vagrant
 pip3 install ansible
 ansible-playbook -e launcher_jupyterhub_token=somesecret research-cloud-plugin.yml
@@ -168,6 +169,23 @@ ifconfig eth1
 ```
 
 Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
+
+### Research cloud VM deployment
+
+1. Log into Research Cloud
+1. Create new workspace
+1. Select eWaterCycle application
+1. Select collaborative organisation (CO) `ewatercycle-nlesc`
+1. Select size of VM (cpus/memory) based on use case
+1. Select data and home storage items
+1. Wait for machine to be running
+1. Visit URL/IP
+1. When done delete machine
+
+For a new CO make sure
+
+* application is allowed to be used by CO.
+* data storage item and home dir are created for the CO
 
 ## Docker images
 

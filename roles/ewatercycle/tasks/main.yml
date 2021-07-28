@@ -6,8 +6,9 @@
     src: environment.yml
     dest: '{{ conda_root }}/environment.yml'
 
-- name: Install eWaterCycle conda environment
-  command: '{{ conda_root }}/condabin/mamba env update --file {{ conda_root }}/environment.yml'
+- name: Install/update eWaterCycle conda environment
+  # TODO mamba installs packages requiring mpi, falling back to conda to get nompi packages?
+  command: '{{ conda_root }}/condabin/conda env update --file {{ conda_root }}/environment.yml'
 
 - name: eWaterCycle pip dependencies
   pip:
