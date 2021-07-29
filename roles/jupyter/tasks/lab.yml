@@ -1,10 +1,12 @@
 ---
-- name: eWaterCycle uninstall obsolete lab extensions
-  command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}' # noqa 204 301 unable to check that all extensions have been uninstalled
-  environment:
-        PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
-- name: eWaterCycle install lab extensions
-  command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter labextension install {{ jupyterlab_extensions }}' # noqa 204 301 unable to check that all extensions have already installed,
-  # `jupyter labextension check` ignores versions
-  environment:
-        PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
+# - name: eWaterCycle uninstall obsolete lab extensions
+#   command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter labextension uninstall {{ jupyterlab_obsolete_extensions }}' # noqa 204 301 unable to check that all extensions have been uninstalled
+#   environment:
+#         PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
+# - name: eWaterCycle install lab extensions
+#   command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter labextension install {{ jupyterlab_extensions }}' # noqa 204 301 unable to check that all extensions have already installed,
+#   # `jupyter labextension check` ignores versions
+#   environment:
+#         PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
+- name: Build
+  command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter lab build'

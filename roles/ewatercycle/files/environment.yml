@@ -60,7 +60,8 @@ dependencies:
   - nbdime
   - nbgitpuller
   - papermill
-  - elyra  # https://github.com/elyra-ai/elyra/ has Ability to run a notebook, Python or R script as a batch job
+  # TODO enable elyra?
+  # - elyra  # https://github.com/elyra-ai/elyra/ has Ability to run a notebook, Python or R script as a batch job
   # TODO pin versions of deps of deps
   # Everything below is installed via dependencies but kept here for version reference
   # - bokeh=2.3.0
