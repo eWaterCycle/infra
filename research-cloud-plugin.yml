@@ -56,6 +56,7 @@
 
     # TODO no access to dcache due to vacation
     # Use extra storage disk of 500Gb in SRC instead with
+    # On SRC dashboard this disk is called `ewatercycle-dcache-alternative` aka data disk
     #
     # * esmvaltool, files see https://github.com/eWaterCycle/infra/issues/79
     # * observation
@@ -69,7 +70,11 @@
     # TODO OS disk almost full 11Gb of 15Gb in use
     # For home/temp/scratch need other storage
     # TODO mount scratch disk
-    # TODO mount persistent home disk
+    # TODO mount persistent home disk on SRC dashboard this disk is called `home-disk`
+
+    # Data disk and homedir are now mounted as /data/volume_2 and /data/volume_3
+    # and user has symlink ~/data -> /data, which has disks as subdirs
+    # and user has symlink ~/scratch -> /scratch , which points to root disk
 
     # https://lab.ewatercycle.org/ functionality
     - include_role:
@@ -84,10 +89,15 @@
     # https://explore.ewatercycle.org/ functionality
     - include_role:
         name: launcher
+        # TODO launcher is failing to start with
+        # Aug 02 08:26:57 localhost gunicorn[4415]:   File "/usr/local/lib/python3.6/dist-packages/openapi_schema_validator/validators.py", line 1, in <module>
+        # Aug 02 08:26:57 localhost gunicorn[4415]:     from jsonschema import _legacy_validators, _utils, _validators
+        # Aug 02 08:26:57 localhost gunicorn[4415]: ImportError: cannot import name '_legacy_validators'
       vars:
         launcher_encrypted: false
         # TODO determine which var can be used for external domain name, as ansible_host == localhost
         jupyterhub_url: https://{{ ansible_host }}/jupyter
+        launcher_base_path: /launcher
 
     - include_role:
         # TODO upgrade to latest release of terriajs, to try if latest version can hosted on /explore
@@ -125,7 +135,8 @@
 # 3. How to add users to docker posix group
 # 4. How to generate a random string (launcher_jupyterhub_token) for each instantiation, dont want to ask during new workspace
 # 5. How to get live log from my own plugin installation
+# 10. When plugin ran OK there is no log. Can log of plugin be included always?
 # 6. How to mark certain user as JupyterHub admin
-# 7. How to put files in homedirs like ~/.esmvaltool/config-user.yml -> /etc/skel/ ?
 # 8. How to distinquish attached storage /dev/sdb1 -> /data/volume_2 or /data/volume_1?
 # 9. How to put home dirs on attached storage
+# 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?
