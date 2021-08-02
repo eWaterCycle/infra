@@ -128,14 +128,9 @@
         msg: The eWaterCycle Jupyter plugin has completed
 
 # TODO Stuff to ask Research Cloud helpdesk
-# 1. How to use task from Ansible galaxy?
 # 2. How to become root after creation, see https://servicedesk.surfsara.nl/wiki/display/WIKI/RC+plugin+passwordless+sudo
 # 3. How to add users to docker posix group
 # 4. How to generate a random string (launcher_jupyterhub_token) for each instantiation, dont want to ask during new workspace
-# 5. How to get live log from my own plugin installation
-# 10. When plugin ran OK there is no log. Can log of plugin be included always?
 # 6. How to mark certain user as JupyterHub admin
-# 8. How to distinquish attached storage /dev/sdb1 -> /data/volume_2 or /data/volume_1?
 # 9. How to put home dirs on attached storage
 # 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?
-# 12. Can service url be provided to plugin tasks? So redirect to self works.
