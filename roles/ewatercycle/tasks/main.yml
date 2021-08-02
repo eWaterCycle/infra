@@ -52,4 +52,4 @@
 - name: ewaterycle.yaml
   template:
     src: ewatercycle.yaml.j2
-    dest: /etc/ewaterycle.yaml
+    dest: /etc/ewatercycle.yaml
