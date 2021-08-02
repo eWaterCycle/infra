@@ -187,6 +187,11 @@ For a new CO make sure
 * application is allowed to be used by CO.
 * data storage item and home dir are created for the CO
 
+End user should be invited to CO and then
+
+1. to login to Jupyter, he/she should setup TOTP on SRC dashboard profile page
+2. optionally to ssh into machine, the ssh pub key must be added to https://sbs.sram.surf.nl/profile
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on https://hub.docker.com/u/ewatercycle . A project member can create issues here for permisison to push images to Dockuer Hub.
