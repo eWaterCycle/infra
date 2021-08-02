@@ -89,14 +89,10 @@
     # https://explore.ewatercycle.org/ functionality
     - include_role:
         name: launcher
-        # TODO launcher is failing to start with
-        # Aug 02 08:26:57 localhost gunicorn[4415]:   File "/usr/local/lib/python3.6/dist-packages/openapi_schema_validator/validators.py", line 1, in <module>
-        # Aug 02 08:26:57 localhost gunicorn[4415]:     from jsonschema import _legacy_validators, _utils, _validators
-        # Aug 02 08:26:57 localhost gunicorn[4415]: ImportError: cannot import name '_legacy_validators'
       vars:
         launcher_encrypted: false
         # TODO determine which var can be used for external domain name, as ansible_host == localhost
-        jupyterhub_url: https://{{ ansible_host }}/jupyter
+        jupyterhub_url: '{{ service_url | default("http://localhost") }} /jupyter'
         launcher_base_path: /launcher
 
     - include_role:
@@ -140,3 +136,4 @@
 # 8. How to distinquish attached storage /dev/sdb1 -> /data/volume_2 or /data/volume_1?
 # 9. How to put home dirs on attached storage
 # 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?
+# 12. Can service url be provided to plugin tasks? So redirect to self works.
