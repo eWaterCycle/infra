@@ -10,9 +10,11 @@
     - name: Gather facts for first time
       setup:
 
-    - debug:
+    - name: Show current available vars
+      debug:
         msg: '{{ vars | to_nice_json }}'
-    - debug:
+    - name: Show current available hostvars
+      debug:
         var: hostvars[inventory_hostname]
         verbosity: 4
 
