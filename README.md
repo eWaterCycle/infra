@@ -146,7 +146,7 @@ To setup a Explore/Jupyter server on your local machine with [vagrant](https://v
 vagrant up
 vagrant ssh
 sudo -i
-apt update && apt upgrade -y && apt install python3-pip nginx-light -y
+apt update && apt upgrade -y && apt install python3-pip nginx-light -y && pip3 install ansible && cd /vagrant
 # Add to /etc/nginx/nginx.conf in http section
 #        map $http_upgrade $connection_upgrade {
 #           default upgrade;
@@ -155,8 +155,6 @@ apt update && apt upgrade -y && apt install python3-pip nginx-light -y
 # In /etc/nginx/sites-enabled/default
 # * comment out `location / {}` section
 # * Add `include /etc/nginx/app-location-conf.d/*.conf;` in server section
-cd /vagrant
-pip3 install ansible
 ansible-playbook -e launcher_jupyterhub_token=somesecret research-cloud-plugin.yml
 ```
 
