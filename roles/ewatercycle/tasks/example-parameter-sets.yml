@@ -1,0 +1,7 @@
+---
+- name: Parameter sets root
+  file:
+    path: '{{ data_root }}/parameter-sets'
+    state: directory
+# TODO put `ewatercycle.parameter_sets.available_parameter_sets()` in file
+# and run with ewatercycle conda python

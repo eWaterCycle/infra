@@ -190,6 +190,22 @@ End user should be invited to CO and then
 1. to login to Jupyter, he/she should setup TOTP on SRC dashboard profile page
 2. optionally to ssh into machine, the ssh pub key must be added to https://sbs.sram.surf.nl/profile
 
+### Fill shared data disk
+
+The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
+For the Research cloud virtual machines we will mount a dcache bucket.
+
+To fill the dcache bucket you can run
+
+```shell
+ansible-playbook \
+  -e cds_uid=1234 -e cds_api_key <cds api key> \
+  -e dcache_token=<dcache macaroon with write permissions>
+  research-cloud-plugin.yml
+```
+
+Runnig this script will download all data files to /mnt/data and upload them to dcache.
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on https://hub.docker.com/u/ewatercycle . A project member can create issues here for permisison to push images to Dockuer Hub.

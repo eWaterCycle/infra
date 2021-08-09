@@ -12,21 +12,7 @@
     name: docker-py
     state: absent
     executable: pip3
-# TODO get bigger disk as VM provisioning failed with `no space left on device` error
-# - name: grpc4bmi Docker images
-#   docker_image:
-#     name: '{{ item.docker }}'
-#     source: pull
-#   loop: '{{ grpc4bmi_images }}'
-# - name: Singularity image dir
-#   file:
-#     path: '{{ singularity_image_root }}'
-#     state: directory
-# - name: grpc4bmi Singularity images
-#   command: singularity build {{ singularity_image_root }}/{{ item.singularity }} docker://{{ item.docker }}
-#   args:
-#     creates: '{{ singularity_image_root }}/{{ item.singularity }}'
-  loop: '{{ grpc4bmi_images }}'
+- include: singularity-images.yml
 - name: USGS data home directory
   file:
     path: '{{ jupyterhub_spawner_environment.USGS_DATA_HOME }}'

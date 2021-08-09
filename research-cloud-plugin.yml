@@ -117,11 +117,6 @@
       vars:
         conda_root: /opt/conda
 
-    # TODO enable when working datasets
-    # - name: grdc
-    #   include_role:
-    #     name: grdc
-
       # TODO do all steps on https://ewatercycle.readthedocs.io/en/latest/system_setup.html
 
     - debug:

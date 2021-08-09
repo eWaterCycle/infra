@@ -1,0 +1,80 @@
+- name: Download data from internet and upload to dcache
+  hosts:
+    - localhost
+  vars:
+    data_root: /mnt/data
+    conda_root: /opt/conda
+    climate_begin_year: 1990
+    climate_end_year: 1990
+    # Creds from https://cds.climate.copernicus.eu Climate Data Store
+    cds_uid: null # Must be filled from other place
+    cds_api_key: null # Must be filled from other place
+    singularity_image_root: '{{ data_root }}/singularity-images'
+    # Container images that will be downloaded and converted
+    grpc4bmi_images:
+        # - docker: ewatercycle/walrus-grpc4bmi
+        #   singularity: ewatercycle-walrus-grpc4bmi.sif
+        - docker: ewatercycle/pcrg-grpc4bmi:setters
+          singularity: ewatercycle-pcrg-grpc4bmi_setters.sif
+        - docker: ewatercycle/wflow-grpc4bmi:2020.1.1
+          singularity: ewatercycle-wflow-grpc4bmi_2020.1.1.sif
+        - docker:  ewatercycle/marrmot-grpc4bmi:2020.11
+          singularity: ewatercycle-marrmot-grpc4bmi_2020.11.sif
+        # - docker: ewatercycle/hype-grpc4bmi
+        #   singularity: ewatercycle-hype-grpc4bmi.sif
+        - docker: ewatercycle/lisflood-grpc4bmi:20.10
+          singularity: ewatercycle-lisflood-grpc4bmi_20.10.sif
+    esmvaltool_data: '{{ data_root }}/esmvaltool'
+    grdc_root_dir: '{{ data_root }}/observation/grdc'
+    dcache_url: https://webdav.grid.surfsara.nl:2880
+    dcache_token: null # Must be filled from other place
+    dcache_root: '/'
+  tasks:
+    # Container engines
+    - name: singularity
+      include_role:
+        name: singularity
+
+    # Install Conda + mamba
+    - name: Install conda
+      include_role:
+        name: conda
+      vars:
+        conda_tarball_root: /opt
+        conda_root: /opt/conda
+
+    # Install ewatercycle python package
+    - name: Create eWaterCycle conda env
+      include_role:
+        name: ewatercycle
+
+    - name: Data root
+      file:
+        path: '{{ data_root }}'
+        state: directory
+
+    - name: Download climate data
+      include: roles/ewatercycle/tasks/climate-data.yml
+
+    - name: ESMValTool aux data
+      include: roles/ewatercycle/tasks/esmvaltool-data.yml
+
+    - name: Build singularity image files (sif) for each model
+      include: roles/jupyter/tasks/singularity-images.yml
+
+    - name: Download example parameter sets
+      include: roles/ewatercycle/tasks/example-parameter-sets.yml
+
+    - name: Download example forcing
+      include: roles/ewatercycle/tasks/example-forcing.yml
+
+    - name: Download observation data
+      include_role:
+         name: grdc
+
+    # TODO install rclone
+
+    # TODO configure rclone
+
+    - name: Upload data root to dcache
+      command: rclone copy {{ data_root }} dcache:{{ dcache_root }}
