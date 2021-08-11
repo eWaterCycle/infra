@@ -155,7 +155,7 @@ apt update && apt upgrade -y && apt install python3-pip nginx-light -y && pip3 i
 # In /etc/nginx/sites-enabled/default
 # * comment out `location / {}` section
 # * Add `include /etc/nginx/app-location-conf.d/*.conf;` in server section
-ansible-playbook -e launcher_jupyterhub_token=somesecret dcache_ro_token=<a macaroon from password manager> research-cloud-plugin.yml
+ansible-playbook -e launcher_jupyterhub_token=somesecret -e dcache_ro_token=<a macaroon from password manager> research-cloud-plugin.yml
 ```
 
 Visit site

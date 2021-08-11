@@ -110,6 +110,7 @@
         mode: 0644
         content: |
           [{{ dcache_rclone_name }}]
+          type = webdav
           url = {{ dcache_url }}
           vendor = other
           user =
@@ -136,7 +137,7 @@
           ExecStart=/usr/bin/rclone mount \
                   --config=/etc/rclone.conf \
                   --read-only \
-                  --vfs-cache-mode full
+                  --vfs-cache-mode full \
                   {{ dcache_rclone_name }}:{{ dcache_root }} {{ data_root }}
           ExecStop=/bin/fusermount -u {{ data_root }}
           Restart=always
