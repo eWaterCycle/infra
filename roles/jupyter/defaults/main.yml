@@ -22,8 +22,6 @@ grpc4bmi_images:
 jupyterhub_spawner_environment:
   # Cache dir for ewatercycle.observation.usgs.get_usgs_data()
   USGS_DATA_HOME: /mnt/data/usgs/streamflow
-  # Cache dir for ewatercycle.observation.grdc.get_grdc_data()
-  GRDC_DATA_HOME: /mnt/data/grdc/dailies
   # TODO needed for pymt(?) and cfunits
   UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml
 # Location where conda is installed

@@ -23,6 +23,9 @@
     jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
     launcher_base_path: /launcher
     jupyterhub_url: /jupyter
+    jupyterhub_spawner_environment:
+      # TODO move to config see https://github.com/eWaterCycle/ewatercycle/issues/240
+      USGS_DATA_HOME: /tmp
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
