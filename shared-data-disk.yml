@@ -27,7 +27,7 @@
     esmvaltool_data: '{{ data_root }}/esmvaltool'
     grdc_root_dir: '{{ data_root }}/observation/grdc'
     dcache_url: https://webdav.grid.surfsara.nl:2880
-    dcache_token: null # Must be filled from other place
+    dcache_rw_token: null # Must be filled from other place
     dcache_root: '/'
   tasks:
     # Container engines
@@ -72,9 +72,29 @@
       include_role:
          name: grdc
 
-    # TODO install rclone
+    # TODO replace with https://galaxy.ansible.com/stefangweichinger/ansible_rclone
+    # once requirements.yml is processed by RSC external plugin
+    - name: Install rclone
+      shell: |
+        curl https://rclone.org/install.sh | bash
+      args:
+        creates: /usr/bin/rclone
 
-    # TODO configure rclone
+    - name: rclone config directory
+      file:
+        path: ~/.config/rclone
+        state: directory
+    - name: Configure rclone
+      copy:
+        dest: ~/.config/rclone/rclone.conf
+        mode: 0644
+        content: |
+          [dcache]
+          url = {{ dcache_url }}
+          vendor = other
+          user =
+          pass =
+          bearer_token = {{ dcache_rw_token }}
 
     - name: Upload data root to dcache
       command: rclone copy {{ data_root }} dcache:{{ dcache_root }}
