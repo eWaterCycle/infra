@@ -2,6 +2,27 @@
   hosts:
     - localhost
   gather_facts: false
+  vars:
+    data_root: /mnt/data
+    conda_root: /opt/conda
+    singularity_image_root: '{{ data_root }}/singularity-images'
+    esmvaltool_data: '{{ data_root }}/esmvaltool'
+    grdc_root_dir: '{{ data_root }}/observation/grdc'
+    dcache_rclone_name: dcache
+    dcache_url: https://webdav.grid.surfsara.nl:2880
+    dcache_rw_token: null # Must be filled from other place
+    dcache_root: '/'
+    tool_urls:
+      explore: /
+      jupyter: /jupyter
+      # TODO launcher_jupyterhub_token is now set as RC plugin parameter
+      # need to to make random for each instance
+      launcher_jupyterhub_token: null
+    launcher_encrypted: false
+    # TODO determine which var can be used for external domain name, as ansible_host == localhost
+    jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
+    launcher_base_path: /launcher
+    jupyterhub_url: /jupyter
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
@@ -54,7 +75,6 @@
         name: conda
       vars:
         conda_tarball_root: /opt
-        conda_root: /opt/conda
 
     # TODO no access to dcache due to vacation
     # Use extra storage disk of 500Gb in SRC instead with
@@ -78,46 +98,80 @@
     # and user has symlink ~/data -> /data, which has disks as subdirs
     # and user has symlink ~/scratch -> /scratch , which points to root disk
 
+    - name: Install rclone
+      shell: |
+        curl https://rclone.org/install.sh | bash
+      args:
+        creates: /usr/bin/rclone
+
+    - name: Configure rclone
+      copy:
+        dest: /etc/rclone.conf
+        mode: 0644
+        content: |
+          [{{ dcache_rclone_name }}]
+          url = {{ dcache_url }}
+          vendor = other
+          user =
+          pass =
+          bearer_token = {{ dcache_ro_token }}
+
+    - name: Data root
+      file:
+        path: '{{ data_root }}'
+        state: directory
+
+    - name: Mount dcache
+      copy:
+        dest: /etc/systemd/system/rclone.service
+        mode: 0644
+        content: |
+          [Unit]
+          Description=DCache shared data disk (rclone)
+          AssertPathIsDirectory={{ data_root }}
+          After=plexdrive.service
+
+          [Service]
+          Type=simple
+          ExecStart=/usr/bin/rclone mount \
+                  --config=/etc/rclone.conf \
+                  --read-only \
+                  --vfs-cache-mode full
+                  {{ dcache_rclone_name }}:{{ dcache_root }} {{ data_root }}
+          ExecStop=/bin/fusermount -u {{ data_root }}
+          Restart=always
+          RestartSec=10
+
+          [Install]
+          WantedBy=default.target
+
+    - name: rclone mount started & enabled
+      systemd:
+        name: rclone
+        state: started
+        daemon_reload: yes
+        enabled: yes
+
     # https://lab.ewatercycle.org/ functionality
     - include_role:
         name: labstart
-      vars:
-        tool_urls:
-          explore: /
-          jupyter: /jupyter
-        # TODO launcher_jupyterhub_token is now set as RC plugin pararmeter
-        # need to to make random for each instance
 
     # https://explore.ewatercycle.org/ functionality
     - include_role:
         name: launcher
-      vars:
-        launcher_encrypted: false
-        # TODO determine which var can be used for external domain name, as ansible_host == localhost
-        jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
-        launcher_base_path: /launcher
 
     - include_role:
         # TODO upgrade to latest release of terriajs, to try if latest version can hosted on /explore
         name: terria
-      vars:
-        jupyterhub_url: /jupyter
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
       include_role:
         name: ewatercycle
-      vars:
-        conda_root: /opt/conda
-        esmvaltool_data: /data/volume_2/esmvaltool
 
     - name: Set up Jupyter lab/hub
       include_role:
         name: jupyter ## TODO replace partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
-      vars:
-        conda_root: /opt/conda
-
-      # TODO do all steps on https://ewatercycle.readthedocs.io/en/latest/system_setup.html
 
     - debug:
         msg: The eWaterCycle Jupyter plugin has completed
@@ -126,6 +180,6 @@
 # 2. How to become root after creation, see https://servicedesk.surfsara.nl/wiki/display/WIKI/RC+plugin+passwordless+sudo
 # 3. How to add users to docker posix group
 # 4. How to generate a random string (launcher_jupyterhub_token) for each instantiation, dont want to ask during new workspace
-# 6. How to mark certain user as JupyterHub admin
+# 6. How to mark certain user as JupyterHub admin -> use sram api to sync posix group
 # 9. How to put home dirs on attached storage
 # 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?
