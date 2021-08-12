@@ -79,7 +79,7 @@
       shell: |
         set -o pipefail && curl https://rclone.org/install.sh | bash
       args:
-        executable: /usr/bin/bash
+        executable: /bin/bash
         creates: /usr/bin/rclone
 
     - name: rclone config directory
