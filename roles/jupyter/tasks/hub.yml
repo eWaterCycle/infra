@@ -2,13 +2,14 @@
 - name: Allow Jupyter server internal traffic
   ufw:
     rule: allow
-    port: 8081
+    port: '8081'
     proto: tcp
     from_ip: 172.17.0.0/12
 - name: JupyterHub systemd file
   template:
     src: jupyterhub.systemd.j2
     dest: /etc/systemd/system/jupyterhub.service
+    mode: '0644'
 - name: jupyterhub service enabled
   systemd:
     name: jupyterhub
@@ -47,10 +48,12 @@
   file:
     path: /etc/jupyterhub
     state: directory
+    mode: '0755'
 - name: jupyterhub_config
   template:
     src: jupyterhub_config.py.j2
     dest: /etc/jupyterhub/jupyterhub_config.py
+    mode: '0644'
   notify:
     - restart jupyterhub
 # - name: Restart jupyterhub when cert has been renewed

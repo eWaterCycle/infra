@@ -20,9 +20,9 @@
       launcher_jupyterhub_token: null
     launcher_encrypted: false
     # TODO determine which var can be used for external domain name, as ansible_host == localhost
-    jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
-    launcher_base_path: /launcher
+    # jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
     jupyterhub_url: /jupyter
+    launcher_base_path: /launcher
     jupyterhub_spawner_environment:
       # TODO move to config see https://github.com/eWaterCycle/ewatercycle/issues/240
       USGS_DATA_HOME: /tmp
@@ -42,7 +42,8 @@
         var: hostvars[inventory_hostname]
         verbosity: 4
 
-    - include_role:
+    - name: Common stuff
+      include_role:
         name: common
       tags:
         - ssh
@@ -66,6 +67,7 @@
       file:
         path: /mnt/apps
         state: directory
+        mode: 0755
 
     # Container engines
     - name: singularity
@@ -103,7 +105,7 @@
 
     - name: Install rclone
       shell: |
-        curl https://rclone.org/install.sh | bash
+        set -o pipefail && curl https://rclone.org/install.sh | bash
       args:
         creates: /usr/bin/rclone
 
@@ -124,6 +126,7 @@
       file:
         path: '{{ data_root }}'
         state: directory
+        mode: 0755
 
     - name: Mount dcache
       copy:
@@ -157,14 +160,17 @@
         enabled: yes
 
     # https://lab.ewatercycle.org/ functionality
-    - include_role:
+    - name: Welcome page
+      include_role:
         name: labstart
 
     # https://explore.ewatercycle.org/ functionality
-    - include_role:
+    - name: Experiment launcher
+      include_role:
         name: launcher
 
-    - include_role:
+    - name: Explorer
+      include_role:
         # TODO upgrade to latest release of terriajs, to try if latest version can hosted on /explore
         name: terria
 
@@ -182,7 +188,8 @@
         autoclean: yes
         autoremove: yes
 
-    - debug:
+    - name: Debug
+      debug:
         msg: The eWaterCycle Jupyter plugin has completed
 
 # TODO Stuff to ask Research Cloud helpdesk

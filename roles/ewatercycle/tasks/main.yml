@@ -5,11 +5,11 @@
   copy:
     src: environment.yml
     dest: '{{ conda_root }}/environment.yml'
-
+    mode: '0644'
 - name: Install/update eWaterCycle conda environment
   # TODO mamba installs packages requiring mpi, falling back to conda to get nompi packages?
-  command: '{{ conda_root }}/condabin/conda env update --file {{ conda_root }}/environment.yml'
-
+  # TODO replace with task from ansible galaxy
+  command: '{{ conda_root }}/condabin/conda env update --file {{ conda_root }}/environment.yml'  # noqa no-changed-when
 - name: eWaterCycle pip dependencies
   pip:
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
@@ -44,15 +44,18 @@
   file:
     path: /etc/skel/.esmvaltool
     state: directory
+    mode: '0755'
 - name: ESMValTool config-user.yml
   template:
     src: config-user.yml.j2
     dest: /etc/skel/.esmvaltool/config-user.yml
-
+    mode: '0644'
 - name: ewaterycle.yaml
   template:
     src: ewatercycle.yaml.j2
     dest: /etc/ewatercycle.yaml
+    mode: '0644'
 
 - name: conda clean
-  command: '{{ conda_root }}/condabin/conda clean -a -y'
+  # TODO check if cleaning is needed
+  command: '{{ conda_root }}/condabin/conda clean -a -y'  # noqa no-changed-when

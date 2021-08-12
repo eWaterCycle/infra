@@ -27,6 +27,7 @@
   template:
     src: experiment-launcher.systemd.j2
     dest: /etc/systemd/system/experiment-launcher.service
+    mode: 0644
   notify:
     - restart experiment-launcher
 - name: Experiment launcher started & enabled
@@ -44,6 +45,7 @@
   file:
     path: /etc/nginx/app-location-conf.d
     state: directory
+    mode: 0755
 - name: Create nginx location block
   copy:
     dest: /etc/nginx/app-location-conf.d/launcher.conf

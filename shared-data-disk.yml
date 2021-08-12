@@ -52,6 +52,7 @@
       file:
         path: '{{ data_root }}'
         state: directory
+        mode: '0755'
 
     - name: Download climate data
       include: roles/ewatercycle/tasks/climate-data.yml
@@ -76,7 +77,7 @@
     # once requirements.yml is processed by RSC external plugin
     - name: Install rclone
       shell: |
-        curl https://rclone.org/install.sh | bash
+        set -o pipefail && curl https://rclone.org/install.sh | bash
       args:
         creates: /usr/bin/rclone
 
@@ -84,6 +85,7 @@
       file:
         path: ~/.config/rclone
         state: directory
+        mode: '0755'
     - name: Configure rclone
       copy:
         dest: ~/.config/rclone/rclone.conf
@@ -97,4 +99,5 @@
           bearer_token = {{ dcache_rw_token }}
 
     - name: Upload data root to dcache
-      command: rclone copy {{ data_root }} dcache:{{ dcache_root }}
+      # TODO only run when needed
+      command: rclone copy {{ data_root }} dcache:{{ dcache_root }}  # noqa no-changed-when

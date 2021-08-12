@@ -27,10 +27,12 @@
   file:
     path: /mnt/apps/TerriaMap/packages
     state: directory
+    mode: 0755
 - name: eWaterCycle/TerriaMap systemd
   copy:
     src: terriamap.systemd
     dest: /etc/systemd/system/terriamap.service
+    mode: 0644
 - name: eWaterCycle/TerriaMap started & enabled
   systemd:
     name: terriamap
@@ -80,6 +82,7 @@
   file:
     path: /etc/nginx/app-location-conf.d
     state: directory
+    mode: 0755
 - name: Create nginx location block
   copy:
     dest: /etc/nginx/app-location-conf.d/explore.conf

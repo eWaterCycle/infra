@@ -15,4 +15,4 @@ jobs:
     - name: Install Ansible galaxy roles
       run: ansible-galaxy install -r requirements.yml
     - name: Lint Ansible Playbook
-      run: ansible-lint --force-color site.yml
+      run: ansible-lint --force-color site.yml research-cloud-plugin.yml shared-data-disk.yml

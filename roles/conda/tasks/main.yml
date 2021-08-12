@@ -11,6 +11,7 @@
   template:
     src: condarc.j2
     dest: '{{ conda_root }}/.condarc'
+    mode: '0644'
 - name: Initialize conda system wide
   file:
     src: '{{ conda_root }}/etc/profile.d/conda.sh'

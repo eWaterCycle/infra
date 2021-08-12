@@ -3,6 +3,7 @@
   file:
     path: '{{ esmvaltool_data }}/aux'
     state: directory
+    mode: '0755'
 - name: eWaterCycle esmvaltool auxiliary datasets
   git:
     repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets.git

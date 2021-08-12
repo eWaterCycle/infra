@@ -14,14 +14,17 @@
   file:
     path: /var/www/html
     state: directory
+    mode: 0755
 - name: Copy index.html
   template:
     src: index.html.j2
     dest: /var/www/html/index.html
+    mode: 0644
 - name: Copy images
   copy:
     src: images/
     dest: /var/www/html/images/
+    mode: 0644
 # - name: Certbot renewal hook
 #   # When certbot renews the cert then nginx has to be reloaded
 #   copy:

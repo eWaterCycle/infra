@@ -12,8 +12,10 @@
   file:
     path: '{{ esmvaltool_data }}'
     state: directory
+    mode: '0755'
 - name: Download ERA5 climate data
-  command: '{{ conda_root }}/envs/ewatercycle/bin/era5cli hourly --startyear {{ climate_begin_year }} --endyear {{ climate_end_year }} --variables {{ item }}'
+  # TODO only run when needed
+  command: '{{ conda_root }}/envs/ewatercycle/bin/era5cli hourly --startyear {{ climate_begin_year }} --endyear {{ climate_end_year }} --variables {{ item }}'  # noqa no-changed-when
   args:
     chdir: '{{ esmvaltool_data }}'
   loop:
@@ -31,7 +33,8 @@
 
 - name: Prep ERA5 climate data for ESMValTool processing
   command:
-    name: '{{ conda_root }}/envs/ewatercycle/bin/esmvaltool run cmorizers/recipe_era5.yml'
+    # TODO only run when needed
+    name: '{{ conda_root }}/envs/ewatercycle/bin/esmvaltool run cmorizers/recipe_era5.yml'  # noqa no-changed-when
 
 # TODO download ERA-Interim
 
