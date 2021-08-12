@@ -143,6 +143,7 @@
           Type=simple
           ExecStart=/usr/bin/rclone mount \
                   --config=/etc/rclone.conf \
+                  --allow-other \
                   --read-only \
                   --vfs-cache-mode full \
                   {{ dcache_rclone_name }}:{{ dcache_root }} {{ data_root }}
