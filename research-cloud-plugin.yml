@@ -177,6 +177,11 @@
       include_role:
         name: jupyter ## TODO replace partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
 
+    - name: Clean apt cache
+      apt:
+        autoclean: yes
+        autoremove: yes
+
     - debug:
         msg: The eWaterCycle Jupyter plugin has completed
 

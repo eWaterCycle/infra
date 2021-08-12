@@ -12,3 +12,10 @@
   include: go.yml
 - name: Build singularity
   include: build.yml
+- name: Reclaim disk space
+  file:
+    path: '{{ item }}'
+    state: absent
+  loop:
+    - ~root/go/
+    - /mnt/apps/go{{ go_version }}.linux-amd64.tar.gz

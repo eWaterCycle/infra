@@ -53,3 +53,6 @@
   template:
     src: ewatercycle.yaml.j2
     dest: /etc/ewatercycle.yaml
+
+- name: conda clean
+  command: '{{ conda_root }}/condabin/conda clean -a -y'
