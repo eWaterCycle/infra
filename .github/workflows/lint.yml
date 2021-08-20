@@ -12,7 +12,5 @@ jobs:
         python-version: '3.x'
     - name: Deps
       run: pip install -r requirements.txt
-    - name: Install Ansible galaxy roles
-      run: ansible-galaxy install -r requirements.yml
     - name: Lint Ansible Playbook
       run: ansible-lint --force-color research-cloud-plugin.yml shared-data-disk.yml
