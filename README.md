@@ -38,6 +38,7 @@ vagrant up
 vagrant ssh
 sudo -i
 ansible-playbook -e launcher_jupyterhub_token=somesecret -e dcache_ro_token=<dcache macaroon with read permission> research-cloud-plugin.yml
+sudo -u vagrant cp -r /etc/skel/.esmvaltool ~vagrant/
 ```
 
 Visit site
