@@ -37,6 +37,7 @@ vagrant plugin install vagrant-vbguest
 vagrant up
 vagrant ssh
 sudo -i
+cd /vagrant
 ansible-playbook -e launcher_jupyterhub_token=somesecret -e dcache_ro_token=<dcache macaroon with read permission> research-cloud-plugin.yml
 sudo -u vagrant cp -r /etc/skel/.esmvaltool ~vagrant/
 ```
