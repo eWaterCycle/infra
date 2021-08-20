@@ -93,6 +93,7 @@
         mode: 0644
         content: |
           [dcache]
+          type = webdav
           url = {{ dcache_url }}
           vendor = other
           user =

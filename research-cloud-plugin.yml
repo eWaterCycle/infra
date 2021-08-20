@@ -8,6 +8,9 @@
     singularity_image_root: '{{ data_root }}/singularity-images'
     esmvaltool_data: '{{ data_root }}/esmvaltool'
     grdc_root_dir: '{{ data_root }}/observation/grdc'
+    grdc_location: '{{ data_root }}/observation/grdc/dailies'
+    parameterset_dir: '{{ data_root }}/parameter-sets'
+    singularity_dir: '{{ data_root }}/singularity-images'
     dcache_rclone_name: dcache
     dcache_url: https://webdav.grid.surfsara.nl:2880
     dcache_rw_token: null # Must be filled from other place
@@ -61,6 +64,7 @@
           - tmux
           - ksh
           - acl
+          - net-tools
 
     # roles have hardcoded /mnt/apps, so create it before running roles
     - name: Apps root

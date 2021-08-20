@@ -1,11 +1,11 @@
 ---
 - name: Forcing root
   file:
-    path: '{{ data_root }}/forcing'
+    path: '{{ data_root }}/forcing/MARRMoT'
     state: directory
     mode: '0755'
 - name: MARRMoT example
   get_url:
-    url: https://github.com/wknoben/MARRMoT/blob/master/BMI/Config/BMI_testcase_m01_BuffaloRiver_TN_USA.mat
+    url: https://github.com/wknoben/MARRMoT/raw/master/BMI/Config/BMI_testcase_m01_BuffaloRiver_TN_USA.mat
     dest: '{{ data_root }}/forcing/MARRMoT/BMI_testcase_m01_BuffaloRiver_TN_USA.mat'
     mode: '0444'

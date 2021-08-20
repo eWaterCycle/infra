@@ -50,6 +50,8 @@ ifconfig eth1
 
 Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
 
+You will get some complaints about unsecure serving, this is OK for local testing and this will not happen on Research Cloud.
+
 ## Application registration
 
 This chapter is dedicated for application developers.
@@ -94,7 +96,7 @@ End user should be invited to CO and then
 To get example notebooks end users should use following URL (with `<workspace id>` with your currently running workspace)
 
 ```html
-https://<workspace id>.workspaces.live.surfresearchcloud.nl/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2Fewatercycle&urlpath=lab%2Ftree%2Fewatercycle%2Fdocs%2Fexamples%2FMarrmotM01.ipynb&branch=main
+https://<workspace id>.workspaces.live.surfresearchcloud.nl/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2Fewatercycle&urlpath=lab%2Ftree%2Fewatercycle%2Fdocs%2Fexamples%2FMarrmotM01.ipynb&branch=main
 ```
 
 TODO add this link to home page of server at
