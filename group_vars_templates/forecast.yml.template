@@ -1,9 +1,0 @@
----
-forecast_admin:
-  name: admin
-  password: <REPLACE ME with actual password>
-forecast_domain: lowres-forecast.ewatercycle.org
-forecast_port: 443
-forecast_encrypted: True
-forecast_public_domain: "https://{{ forecast_domain }}:{{ forecast_port }}"
-forecast_cron_enabled: False

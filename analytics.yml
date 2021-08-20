@@ -1,7 +1,0 @@
----
-- hosts: analytics
-  tasks:
-    - include_role:
-        name: common
-      tags:
-        - ssh

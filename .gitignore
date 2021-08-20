@@ -11,3 +11,4 @@ letsencrypt
 poetry.lock
 pyproject.toml
 .vscode
+env

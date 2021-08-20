@@ -8,6 +8,6 @@ galaxy_info:
   platforms:
     - name: ubuntu
       versions:
-        - bionic
+        - focal
   galaxy_tags: []
 dependencies: []

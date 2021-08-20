@@ -1,0 +1,61 @@
+- name: Install and configure stuff already available on SURF Research Cloud before the research-cloud-plugin.yml playbook is run
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+        timeout: 300
+
+    - name: Gather facts for first time
+      setup:
+
+    - name: Update APT Cache
+      apt:
+        update_cache: yes
+
+    - name: Apt upgrade
+      apt:
+        upgrade: yes
+
+    - name: Nginx
+      apt:
+        name: nginx-light
+
+    - name: Websocket support
+      copy:
+        dest: /etc/nginx/conf.d/websocket.conf
+        mode: 0644
+        content: |
+          map $http_upgrade $connection_upgrade {
+            default upgrade;
+            ''      close;
+          }
+
+    - name: /etc/nginx/app-location-conf.d
+      file:
+        path: /etc/nginx/app-location-conf.d
+        mode: 0755
+        state: directory
+
+    - name: Site
+      copy:
+        dest: /etc/nginx/sites-enabled/default
+        mode: 0644
+        content: |
+          server {
+            listen 80 default_server;
+            listen [::]:80 default_server;
+            root /var/www/html;
+            index index.html index.htm index.nginx-debian.html;
+            server_name _;
+            include /etc/nginx/app-location-conf.d/*.conf;
+          }
+
+    - name: Restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+
+    - name: Next
+      debug:
+        msg: Next is to call the ansible command to provision the eWatercycle platform. See README.md#local-test-vm

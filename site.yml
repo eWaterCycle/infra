@@ -1,7 +1,0 @@
----
-- import_playbook: lab.yml
-- import_playbook: explore.yml
-- import_playbook: jupyter.yml
-- import_playbook: analytics.yml
-- import_playbook: experiments.yml
-- import_playbook: forecast.yml
