@@ -67,6 +67,7 @@ For eWatercycle application following specialization was done
 * Set a fixed plugin parameter for dcache read-only token
 * Set a fixed plugin parameter for launchers jupyter hub token
 * Set application paremeter `co_roles_enabled` to False
+    TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
 
 ## Research cloud VM deployment

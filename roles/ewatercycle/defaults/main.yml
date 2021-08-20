@@ -8,3 +8,4 @@ esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
 grdc_location: /data/volume_2/observation/grdc/dailies
 parameterset_dir: /data/volume_2/parameter-sets
 singularity_dir: /data/volume_2/singularity-images
+home_root: /home

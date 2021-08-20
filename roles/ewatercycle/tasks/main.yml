@@ -40,16 +40,39 @@
 # Download example forcing -> mounted on /data/volume_2/forcings
 # Download observation data -> mounted on /data/volume_2/observation
 
+# Loop over users in wheel to copy .esmvaltool/config-user.yml using home_root=/home var
+- name: List my users
+  command: ls -1
+  args:
+    chdir: '{{ home_root }}'
+  register: myusers
+
+- name: Myusers
+  debug:
+    var: myusers
+
 - name: ESMValTool configuration directory
   file:
-    path: /etc/skel/.esmvaltool
+    path: '{{ home_root }}/{{ item }}/.esmvaltool'
     state: directory
     mode: '0755'
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  loop: "{{ myusers.stdout_lines }}"
+  loop_control:
+    label: "{{ item }}"
+
 - name: ESMValTool config-user.yml
   template:
     src: config-user.yml.j2
-    dest: /etc/skel/.esmvaltool/config-user.yml
+    dest: '{{ home_root }}/{{ item }}/.esmvaltool/config-user.yml'
     mode: '0644'
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  loop: "{{ myusers.stdout_lines }}"
+  loop_control:
+    label: "{{ item }}"
+
 - name: ewaterycle.yaml
   template:
     src: ewatercycle.yaml.j2

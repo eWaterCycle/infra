@@ -20,6 +20,7 @@
       jupyter: /jupyter
       # TODO launcher_jupyterhub_token is now set as RC plugin parameter
       # need to to make random for each instance
+      # use https://docs.ansible.com/ansible/latest/collections/ansible/builtin/password_lookup.html ?
       launcher_jupyterhub_token: null
     launcher_encrypted: false
     # TODO determine which var can be used for external domain name, as ansible_host == localhost
