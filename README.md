@@ -11,6 +11,17 @@ On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/a
 
 Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
 
+## Technical specs
+
+A application on the SURF Research cloud is provisioned by running a Ansible playbook (research-cloud-plugin.yml).
+
+The read only datasets are mounted at `/mnt/data` from dcache using rclone. The read only datasets are things like
+
+* climate data for esmvaltool, files see <https://github.com/eWaterCycle/infra/issues/79>
+* observation
+* parameter-sets, example use cases and bigger ones
+* singularity-images of Hydrological models wrapped in grpc4bmi servers
+
 ## Local test VM
 
 This chapter is dedicated for application developers.
@@ -26,7 +37,7 @@ vagrant plugin install vagrant-vbguest
 vagrant up
 vagrant ssh
 sudo -i
-ansible-playbook -e launcher_jupyterhub_token=somesecret -e dcache_ro_token=<a macaroon from password manager> research-cloud-plugin.yml
+ansible-playbook -e launcher_jupyterhub_token=somesecret -e dcache_ro_token=<dcache macaroon with read permission> research-cloud-plugin.yml
 ```
 
 Visit site
