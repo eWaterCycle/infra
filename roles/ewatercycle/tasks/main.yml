@@ -7,9 +7,8 @@
     dest: '{{ conda_root }}/environment.yml'
     mode: '0644'
 - name: Install/update eWaterCycle conda environment
-  # TODO mamba installs packages requiring mpi, falling back to conda to get nompi packages?
   # TODO replace with task from ansible galaxy
-  command: '{{ conda_root }}/condabin/conda env update --file {{ conda_root }}/environment.yml'  # noqa no-changed-when
+  command: '{{ conda_root }}/condabin/mamba env update --file {{ conda_root }}/environment.yml'  # noqa no-changed-when
 - name: eWaterCycle pip dependencies
   pip:
     executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
