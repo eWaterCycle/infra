@@ -28,7 +28,6 @@ Dependencies
 
 The Jupyter Hub requires
 
-* https certificate pair, which is generated in `letsencrypt` role.
 * eWaterCycle Conda environment
 
 Example Playbook

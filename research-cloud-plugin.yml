@@ -1,6 +1,5 @@
 - name: Install and configure eWaterCycle Jupyter
-  hosts:
-    - localhost
+  hosts: all
   gather_facts: false
   vars:
     data_root: /mnt/data

@@ -12,3 +12,5 @@ poetry.lock
 pyproject.toml
 .vscode
 env
+research-cloud-plugin.vagrant.vars
+

@@ -29,25 +29,26 @@ This chapter is dedicated for application developers.
 To setup a Explore/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
  [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
+Create config file `research-cloud-plugin.vagrant.vars` with
+
+```yaml
+---
+dcache_ro_token: <dcache macaroon with read permission>
+```
+
 ```shell
 vagrant --version
 # Vagrant 2.2.18
 vagrant plugin install vagrant-vbguest
 # Installed the plugin 'vagrant-vbguest (0.30.0)'
 vagrant up
-vagrant ssh
-sudo -i
-cd /vagrant
-ansible-playbook -e launcher_jupyterhub_token=somesecret -e dcache_ro_token=<dcache macaroon with read permission> research-cloud-plugin.yml
-sudo -u vagrant cp -r /etc/skel/.esmvaltool ~vagrant/
 ```
 
 Visit site
 
 ```shell
-vagrant ssh
 # Get ip of server with
-ifconfig eth1
+vagrant ssh -c 'ifconfig eth1'
 ```
 
 Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
