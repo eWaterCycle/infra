@@ -20,8 +20,6 @@
       explore: /
       jupyter: /jupyter
     launcher_encrypted: false
-    # TODO determine which var can be used for external domain name, as ansible_host == localhost
-    # jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
     jupyterhub_url: /jupyter
     launcher_base_path: /launcher
     jupyterhub_spawner_environment:
