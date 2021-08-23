@@ -17,10 +17,6 @@
     tool_urls:
       explore: /
       jupyter: /jupyter
-      # TODO launcher_jupyterhub_token is now set as RC plugin parameter
-      # need to to make random for each instance
-      # use https://docs.ansible.com/ansible/latest/collections/ansible/builtin/password_lookup.html ?
-      launcher_jupyterhub_token: null
     launcher_encrypted: false
     # TODO determine which var can be used for external domain name, as ansible_host == localhost
     # jupyterhub_url: 'http://{{ ansible_host }}:8000/jupyter'
@@ -192,7 +188,6 @@
 # TODO Stuff to ask Research Cloud helpdesk
 # 2. How to become root after creation, see https://servicedesk.surfsara.nl/wiki/display/WIKI/RC+plugin+passwordless+sudo
 # 3. How to add users to docker posix group
-# 4. How to generate a random string (launcher_jupyterhub_token) for each instantiation, dont want to ask during new workspace
 # 6. How to mark certain user as JupyterHub admin -> use sram api to sync posix group
 # 9. How to put home dirs on attached storage
 # 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?

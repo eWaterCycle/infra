@@ -13,8 +13,6 @@ Role Variables
 
 Required vars:
 ```yaml
-# JupyterHub token that can be use by launcher to communicate with JupyterHub api
-launcher_jupyterhub_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
 # URL of JupyterHub server
 jupyterhub_url: https://hub.ewatercycle2-nlesc.surf-hosted.nl
 ```
