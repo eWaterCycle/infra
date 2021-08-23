@@ -29,14 +29,6 @@
   loop: "{{ posix_users }}"
   loop_control:
     label: "{{ item.name }}"
-# - name: Allow ssh login with password
-#   lineinfile:
-#     path: /etc/ssh/sshd_config
-#     regexp: '^PasswordAuthentication'
-#     line: 'PasswordAuthentication yes'
-#   notify:
-#     - restart ssh
-# TODO tell users to inject public key in sram to get ssh access
 - name: NodeJS dependencies for JupyterHub
   npm:
     global: yes

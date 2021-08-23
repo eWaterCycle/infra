@@ -92,8 +92,8 @@ For a new CO make sure
 
 End user should be invited to CO and then
 
-1. to login to Jupyter, he/she should setup TOTP on SRC dashboard profile page
-2. optionally to ssh into machine, the ssh pub key must be added to https://sbs.sram.surf.nl/profile
+1. to login to Jupyter, he/she should setup TOTP on [SRC dashboard profile page](https://sbs.sram.surf.nl/profile)
+2. optionally to ssh into machine, the ssh pub key must be added to [https://sbs.sram.surf.nl/profile](https://sbs.sram.surf.nl/profile)
 
 ### Example notebooks
 

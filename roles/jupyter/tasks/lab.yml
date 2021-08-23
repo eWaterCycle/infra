@@ -1,9 +1,0 @@
----
-- name: Lab clean
-  command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter lab clean'
-  args:
-    removes: '{{ conda_root }}/envs/ewatercycle/share/jupyter/lab/staging'
-- name: Lab build
-  command: '{{ conda_root }}/envs/ewatercycle/bin/jupyter lab build'
-  args:
-    creates: '{{ conda_root }}/envs/ewatercycle/share/jupyter/lab/staging'
