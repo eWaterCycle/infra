@@ -6,6 +6,7 @@ channels:
   - defaults
 dependencies:
   - python>=3.7
+  - ansible
   - subversion # for ewatercycle.parameter_sets
   - esmvaltool-python>=2.3.0
   # Pin esmpy so we dont get forced to run all parallel tasks on single cpu
