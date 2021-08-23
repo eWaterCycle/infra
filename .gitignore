@@ -13,4 +13,4 @@ pyproject.toml
 .vscode
 env
 research-cloud-plugin.vagrant.vars
-
+jupyterhub.launcher.token

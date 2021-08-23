@@ -7,7 +7,7 @@ c.JupyterHub.services = [
     {
         'name': 'experiment-launcher',
         'admin': True,
-        'api_token': '{{ lookup('password', '/etc/jupyterhub.launcher.token length=32 chars=ascii_letters,digits') }}',
+        'api_token': '{{ lookup('password', 'jupyterhub.launcher.token length=32 chars=ascii_letters,digits') }}',
     },
     {
         'name': 'idle-culler',

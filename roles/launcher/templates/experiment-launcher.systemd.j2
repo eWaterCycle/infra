@@ -6,7 +6,7 @@ After=syslog.target network.target
 
 [Service]
 User=root
-Environment=JUPYTERHUB_TOKEN={{ lookup('password', '/etc/jupyterhub.launcher.token length=32 chars=ascii_letters,digits') }}
+Environment=JUPYTERHUB_TOKEN={{ lookup('password', 'jupyterhub.launcher.token length=32 chars=ascii_letters,digits') }}
 Environment=JUPYTERHUB_URL={{ jupyterhub_url }}
 Environment=BASE_PATH={{ launcher_base_path }}
 {% if launcher_encrypted %}
