@@ -89,6 +89,7 @@
     # For home/temp/scratch need other storage
     # TODO mount scratch disk
     # TODO mount persistent home disk on SRC dashboard this disk is called `home-disk`
+    # TODO mount rclone cache disk. Disk where rclone mount can put its vfs cache. Should give enough room for a singularity image, a big parameter set and some climate data.
 
     # Data disk and homedir are now mounted as /data/volume_2 and /data/volume_3
     # and user has symlink ~/data -> /data, which has disks as subdirs
