@@ -174,7 +174,7 @@
 
     - name: Set up Jupyter lab/hub
       include_role:
-        name: jupyter ## TODO replace partly with https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
+        name: jupyter
 
     - name: Clean apt cache
       apt:
@@ -191,3 +191,4 @@
 # 6. How to mark certain user as JupyterHub admin -> use sram api to sync posix group
 # 9. How to put home dirs on attached storage
 # 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?
+# 12. Fetch workspace.json from https//gw.live.surfresearchcloud.nl/workspace/workspaces gives "Access to this API has been disallowed" error
