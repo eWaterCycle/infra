@@ -1,4 +1,4 @@
-# Q for SRC support
+# Questions send to for SURF Research cloud support
 
 I am writing my own plugin where I need to set the public URL in an application config file using an Ansible task.
 In the logs of a workspace I see a `service_url` key with value `https://d08d27c8-d63d-492f-9479-70aa98b90f81.workspaces.live.surfresearchcloud.nl`.
@@ -18,3 +18,15 @@ Can the output of external plugins always be logged just like the internal plugi
 
 For my plugin I need to install conda. There are some ready made roles on Ansible Galaxy like https://galaxy.ansible.com/evandam/conda that I would like to use.
 To use locally I would create `requirements.yml` for example https://github.com/eWaterCycle/infra/blob/5efee1c5915aa4a8157c50053b093557944ccd5c/requirements.yml . And then run `ansible-galaxy install -r requirements.yml` to install those roles. Can the RSC-External plugin be extended to install the roles from Ansible Galaxy?
+
+## More potential questions
+
+Stuff to ask Research Cloud helpdesk
+
+1. How to become root after creation, see https://servicedesk.surfsara.nl/wiki/display/WIKI/RC+plugin+passwordlesssudo
+2. How to add users to docker posix group
+3. How to mark certain user as JupyterHub admin -> use sram api to sync posix group
+4. How to put home dirs on attached storage
+5. What is symlink to /scratch doing in homedir? How to tie storage item to it?
+6. Fetch workspace.json from https//gw.live.surfresearchcloud.nl/workspace/workspaces gives "Access to this API has been disallowed" error
+7. Show set chosen parameters in running workspace, now don't know what I picked

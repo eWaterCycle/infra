@@ -191,11 +191,3 @@
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
-
-# TODO Stuff to ask Research Cloud helpdesk
-# 2. How to become root after creation, see https://servicedesk.surfsara.nl/wiki/display/WIKI/RC+plugin+passwordless+sudo
-# 3. How to add users to docker posix group
-# 6. How to mark certain user as JupyterHub admin -> use sram api to sync posix group
-# 9. How to put home dirs on attached storage
-# 11. What is symlink to /scratch doing in homedir? How to tie storage item to it?
-# 12. Fetch workspace.json from https//gw.live.surfresearchcloud.nl/workspace/workspaces gives "Access to this API has been disallowed" error
