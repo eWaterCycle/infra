@@ -16,6 +16,10 @@
     dcache_url: https://webdav.grid.surfsara.nl:2880
     dcache_rw_token: null # Must be filled from other place
     dcache_root: '/'
+    # TODO if a storage item is attached for cache use the change this var
+    rclone_cache_dir: /tmp/rclone
+    # TODO if rclone cache dir is on root disk prevent cache filling it 100% as this will cause OS problems
+    rclone_max_gsize: 500
     tool_urls:
       explore: /
       jupyter: /jupyter
@@ -137,6 +141,8 @@
                   --config=/etc/rclone.conf \
                   --allow-other \
                   --read-only \
+                  --cache-dir {{ rclone_cache_dir }} \
+                  --vfs-cache-max-size {{ rclone_max_gsize }}G\
                   --vfs-cache-mode full \
                   {{ dcache_rclone_name }}:{{ dcache_root }} {{ data_root }}
           ExecStop=/bin/fusermount -u {{ data_root }}
