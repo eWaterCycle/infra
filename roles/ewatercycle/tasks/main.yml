@@ -42,6 +42,7 @@
   args:
     chdir: '{{ home_root }}'
   register: myusers
+  changed_when: False
 
 - name: Myusers
   debug:
