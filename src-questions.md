@@ -28,5 +28,7 @@ Stuff to ask Research Cloud helpdesk
 3. How to mark certain user as JupyterHub admin -> use sram api to sync posix group
 4. How to put home dirs on attached storage
 5. What is symlink to /scratch doing in homedir? How to tie storage item to it?
+    * each user has symlink ~/data -> /data, which has disks as subdirs
+    * each user has symlink ~/scratch -> /scratch , which points to root disk
 6. Fetch workspace.json from https//gw.live.surfresearchcloud.nl/workspace/workspaces gives "Access to this API has been disallowed" error
 7. Show set chosen parameters in running workspace, now don't know what I picked

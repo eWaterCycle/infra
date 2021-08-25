@@ -36,6 +36,8 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 dcache_ro_token: <dcache macaroon with read permission>
 ```
 
+The token can be found in the eWaterCycle password manager.
+
 ```shell
 vagrant --version
 # Vagrant 2.2.18
@@ -65,8 +67,8 @@ The steps to do this are documented [here](https://servicedesk.surfsara.nl/wiki/
 For eWatercycle application following specialization was done
 
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
-* Set a fixed plugin parameter for dcache read-only token
-* Set a fixed plugin parameter for launchers jupyter hub token
+* Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token
+* TODO add cache dir
 * Set application paremeter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
@@ -80,7 +82,8 @@ This chapter is dedicated for application deployers.
 1. Select eWaterCycle application
 1. Select collaborative organisation (CO) `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
-1. Select data and home storage items
+1. Select cache and home storage items
+    * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
 1. Wait for machine to be running
 1. Visit URL/IP
 1. When done delete machine

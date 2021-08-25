@@ -6,7 +6,7 @@
     src: environment.yml
     dest: '{{ conda_root }}/environment.yml'
     mode: '0644'
-- name: Install/update eWaterCycle conda environment
+- name: Install/update eWaterCycle platform conda environment + Jupyter and its extensions
   # TODO replace with task from ansible galaxy
   command: '{{ conda_root }}/condabin/mamba env update --file {{ conda_root }}/environment.yml'  # noqa no-changed-when
 - name: eWaterCycle pip
@@ -19,22 +19,18 @@
     line: conda activate ewatercycle
     regexp: '^conda activate ewatercycle'
 
-# TODO remove: Disk mounted which already has files
-# - name: Data for esmvaltool
-#   include: esmvaltool-data.yml
-
 # Checklist system setup https://ewatercycle.readthedocs.io/en/latest/system_setup.html :
 # Conda environment -> done on line 10
 # Install ewatercycle package -> done on line 18
 # Configure ESMValTool -> done on line 42-49
-# Download climate data -> mounted on /data/volume_2/esmvaltool
+# Download climate data -> from dcache mounted on /mnt/data
 # Install container engine -> done in singularity role
 # Configure ewatercycle -> done on line 51-54
-# Model container images -> mounted on /data/volume_2/singularity-images
-# Download example parameter sets -> mounted on /data/volume_2/parameter-sets
-# Prepare other parameter sets -> mounted on /data/volume_2/parameter-sets
-# Download example forcing -> mounted on /data/volume_2/forcings
-# Download observation data -> mounted on /data/volume_2/observation
+# Model container images -> from dcache mounted on /mnt/data
+# Download example parameter sets -> from dcache mounted on /mnt/data
+# Prepare other parameter sets -> from dcache mounted on /mnt/data
+# Download example forcing -> from dcache mounted on /mnt/data
+# Download observation data -> from dcache mounted on /mnt/data
 
 # Loop over users in /home to copy .esmvaltool/config-user.yml using home_root=/home var
 - name: List my users

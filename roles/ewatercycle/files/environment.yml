@@ -1,5 +1,9 @@
-
 ---
+# This conda environment are eWaterCycle platform which include
+# - the eWaterCycle pyhon package dependencies
+# - PyMT models
+# - JupyterHub and Jupyter extensions and their deps
+# - ansible as this env will be the default python for all users including the ubuntu used for running ansible.
 name: ewatercycle
 channels:
   - conda-forge
@@ -60,7 +64,6 @@ dependencies:
   - jupyterlab-geojson
   - jupyter_bokeh
   - pyviz_comms
-  # jupyterlab-git + nbdime see https://gitlab.com/rsc-surf-nl/rsc-plugins/-/blob/master/ansible/application-jupyter/application-jupyter.yml
   - jupyterlab-git
   - nbdime
   - nbgitpuller

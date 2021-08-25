@@ -48,11 +48,6 @@
     mode: '0644'
   notify:
     - restart jupyterhub
-# - name: Restart jupyterhub when cert has been renewed
-#   copy:
-#     src: certbot-deploy.sh
-#     dest: /etc/letsencrypt/renewal-hooks/deploy/jupyterhub-restart
-#     mode: 0755
 - name: Remove default conda python kernel
   command: /mnt/apps/conda/envs/ewatercycle/bin/jupyter kernelspec remove -f conda
   args:

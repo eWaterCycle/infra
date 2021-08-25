@@ -14,11 +14,12 @@
     singularity_dir: '{{ data_root }}/singularity-images'
     dcache_rclone_name: dcache
     dcache_url: https://webdav.grid.surfsara.nl:2880
-    dcache_rw_token: null # Must be filled from other place
+    dcache_ro_token: null # Must be filled from external place like var config file or SRC
     dcache_root: '/'
     # TODO if a storage item is attached for cache use the change this var
     rclone_cache_dir: /tmp/rclone
     # TODO if rclone cache dir is on root disk prevent cache filling it 100% as this will cause OS problems
+    # TODO if free space on rclone_cache_dir is less than rclone_max_gsize then set rclone_max_gsize to available freespace
     rclone_max_gsize: 500
     tool_urls:
       explore: /
@@ -85,19 +86,11 @@
       vars:
         conda_tarball_root: /opt
 
-    # When dcache does not work use extra storage disk of 500Gb in SRC instead
-    # On SRC dashboard this disk is called `ewatercycle-dcache-alternative` aka data disk
-    # And mounted as /data/volume_2 or /data/volume_3
-
-    # TODO OS disk almost full 11Gb of 15Gb in use
+    # OS disk almost full 11Gb of 15Gb in use.
     # For home/temp/scratch need other storage
     # TODO mount scratch disk
     # TODO mount persistent home disk on SRC dashboard this disk is called `home-disk`
-    # TODO mount rclone cache disk. Disk where rclone mount can put its vfs cache. Should give enough room for a singularity image, a big parameter set and some climate data.
-
-    # Data disk and homedir are now mounted as /data/volume_2 and /data/volume_3
-    # and user has symlink ~/data -> /data, which has disks as subdirs
-    # and user has symlink ~/scratch -> /scratch , which points to root disk
+    # TODO mount cache disk and use for rclone mount cache dir
 
     - name: Install rclone
       shell: |

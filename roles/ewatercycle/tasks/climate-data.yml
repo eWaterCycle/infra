@@ -19,6 +19,7 @@
   args:
     chdir: '{{ esmvaltool_data }}'
   loop:
+    # TODO move to defaults/
     - total_precipitation
     - mean_sea_level_pressure
     - 2m_temperature
