@@ -1,7 +1,13 @@
 Role Name
 =========
 
-Conda environment for eWatercycle
+Role for eWatercycle platform
+
+Contains:
+
+* ewatercycle conda environment
+* JupyterHub installation with bunch of extensions
+* task files to perform [system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) steps so the data can be uploaded to dCache.
 
 Requirements
 ------------
@@ -14,11 +20,20 @@ Role Variables
 Required vars:
 
 ```yaml
-posix_users:
-  - name: student1
-    password: <generated using `mkpasswd --method=sha-512`>
-  - name: admin
-    password: <generated using `mkpasswd --method=sha-512`>
+# Location where conda is installed
+conda_root: /mnt/apps/conda
+# Location of input data
+esmvaltool_data: /mnt/data/esmvaltool
+# Version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to checkout to {{ esmvaltool_data }}/aux
+esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
+# Location where GRDC data should be downloaded
+grdc_location: /mnt/data/observation/grdc/dailies
+# Location where example parameter sets should be downloaded and where any other read-only pararmeter set can be put
+parameterset_dir: /mnt/data/parameter-sets
+# Location where Singularity image files (*sif) of hydrological models should be stored
+singularity_dir: /mnt/data/singularity-images
+# Location where all home-directories are located
+home_root: /home
 ```
 
 Dependencies

@@ -1,6 +1,6 @@
 ---
 # This conda environment are eWaterCycle platform which include
-# - the eWaterCycle pyhon package dependencies
+# - the eWaterCycle Python package dependencies
 # - PyMT models
 # - JupyterHub and Jupyter extensions and their deps
 # - ansible as this env will be the default python for all users including the ubuntu used for running ansible.
