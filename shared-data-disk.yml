@@ -6,8 +6,8 @@
     # Creds from https://cds.climate.copernicus.eu Climate Data Store
     cds_uid: null # Must be filled from other place
     cds_api_key: null # Must be filled from other place
-    # To add more ERA5 variables edit or overwrite roles/prep-shared-data/defaults/main.yml#era5_variables
-    # To add more singularity images of hydrological models edit or overwrite roles/prep-shared-data/defaults/main.yml#era5_variables#grpc4bmi_images
+    # To add more ERA5 variables edit or overwrite roles/prep_shared_data/defaults/main.yml#era5_variables
+    # To add more singularity images of hydrological models edit or overwrite roles/prep_shared_data/defaults/main.yml#era5_variables#grpc4bmi_images
     climate_begin_year: 1990
     climate_end_year: 1990
     # dCache token for uploading files
@@ -27,7 +27,7 @@
 
     - name: Prepare shared data
       include_role:
-         name: prep-shared-data
+         name: prep_shared_data
 
     - name: Download observation data
       include_role:
