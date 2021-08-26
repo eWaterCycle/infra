@@ -36,11 +36,6 @@
     state: started
     daemon_reload: yes
     enabled: yes
-- name: Create posix_users that can use the launcher
-  user:
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-  loop: "{{ posix_users }}"
 - name: Nginx config root
   file:
     path: /etc/nginx/app-location-conf.d

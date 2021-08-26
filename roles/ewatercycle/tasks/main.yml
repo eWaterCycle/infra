@@ -2,7 +2,7 @@
 # tasks file for ewatercycle
 
 - name: Stage conda env file
-  template:
+  copy:
     src: environment.yml
     dest: '{{ conda_root }}/environment.yml'
     mode: '0644'
