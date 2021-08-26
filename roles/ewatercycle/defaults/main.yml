@@ -7,8 +7,8 @@ conda_environment: ewatercycle
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
 # Where all shared data is available
 data_root: /mnt/data
-# Location of input data
-esmvaltool_data: '{{ data_root }}/esmvaltool'
+# Location of climate data
+climate_data_root_dir: '{{ data_root }}/climate-data'
 # Location where GRDC data should be downloaded
 grdc_location: '{{ data_root }}/observation/grdc/dailies'
 # Location where example parameter sets should be downloaded and where any other read-only pararmeter set can be put

@@ -11,7 +11,7 @@ output_file_type: png
 # Destination directory
 output_dir: ./esmvaltool_output
 # Auxiliary data directory (used for some additional datasets)
-auxiliary_data_dir: {{ esmvaltool_data }}/aux
+auxiliary_data_dir: {{ climate_data_root_dir }}/aux
 # Use netCDF compression true/[false]
 compress_netcdf: false
 # Save intermediary cubes in the preprocessor true/[false]
@@ -38,9 +38,9 @@ profile_diagnostic: false
 # For site-specific entries, see below
 rootpath:
 #   CMIP5: [~/cmip5_inputpath1, ~/cmip5_inputpath2]
-  OBS6: {{ esmvaltool_data }}/obs6
+  OBS6: {{ climate_data_root_dir }}/obs6
 #   RAWOBS: ~/rawobs_inputpath
-  default: {{ esmvaltool_data }}
+  default: {{ climate_data_root_dir }}
 #   CORDEX: ~/default_inputpath
 
 # Directory structure for input data: [default]/BADC/DKRZ/ETHZ/etc

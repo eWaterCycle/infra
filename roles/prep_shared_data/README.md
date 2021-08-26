@@ -77,8 +77,10 @@ conda_environment: ewatercycle
 # Path to conda environments bin directory
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
 # Location where climate data should be placed
-esmvaltool_data: '{{ data_root }}/esmvaltool'
-# Version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to checkout to {{ esmvaltool_data }}/aux
+climate_data_root_dir: '{{ data_root }}/climate-data'
+# Location where esmvaltool aux data should be placed
+auxiliary_data_dir: '{{ climate_data_root_dir }}/aux'
+# Version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to checkout to {{ auxiliary_data_dir }}
 esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
 # Location where eWatercycle example parameter sets will be downloaded to
 parameter_set_root_dir: '{{ data_root }}/parameter-sets'

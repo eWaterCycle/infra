@@ -4,16 +4,16 @@
     src: csdapirc.j2
     dest: ~/.csdapirc
     mode: '0440'
-- name: esmvaltool data dir
+- name: climate data dir
   file:
-    path: '{{ esmvaltool_data }}'
+    path: '{{ climate_data_root_dir }}'
     state: directory
     mode: '0755'
 - name: Download ERA5 climate data
   # TODO only run when needed
   command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ climate_begin_year }} --endyear {{ climate_end_year }} --variables {{ item }}'  # noqa no-changed-when
   args:
-    chdir: '{{ esmvaltool_data }}'
+    chdir: '{{ climate_data_root_dir }}'
   loop: '{{ era5_variables }}'
 
 
