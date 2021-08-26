@@ -2,7 +2,7 @@
 
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 
-On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/about.html) a eWatercycle application will be available that when started will give
+On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/about.html) an eWatercycle application will be available that when started will give
 
 * Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
 * Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
@@ -13,9 +13,9 @@ Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, 
 
 ## Technical specs
 
-A application on the SURF Research cloud is provisioned by running a Ansible playbook (research-cloud-plugin.yml).
+An application on the SURF Research cloud is provisioned by running an Ansible playbook (research-cloud-plugin.yml).
 
-The read only datasets are mounted at `/mnt/data` from dcache using rclone. The read only datasets are things like
+In addition to the standard VM storage, additional read-only datasets are mounted at `/mnt/data` from dCache using rclone. They may contain things like:
 
 * climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 * observation
