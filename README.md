@@ -57,6 +57,17 @@ Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
 
 You will get some complaints about unsecure serving, this is OK for local testing and this will not happen on Research Cloud.
 
+### Test on Windows Subsystem for Linux 2
+
+WSL2 users should follow steps on [https://www.vagrantup.com/docs/other/wsl](https://www.vagrantup.com/docs/other/wsl).
+
+Importantly:
+
+* Work on a folder on the windows file system.
+* Export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/.../infra"
+* Install [virtualbox_WSL2 vagrant plugin](https://github.com/Karandash8/virtualbox_WSL2)
+* Approve the firewall popup
+
 ## Application registration
 
 This chapter is dedicated for application developers.
@@ -67,7 +78,7 @@ The steps to do this are documented [here](https://servicedesk.surfsara.nl/wiki/
 For eWatercycle application following specialization was done
 
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
-* Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token
+* Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
 * TODO add cache dir
 * Set application paremeter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
