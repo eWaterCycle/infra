@@ -11,6 +11,8 @@ Creates conda environment with
 - JupyterHub and Jupyter extensions and their deps
 - ansible as this env will be the default python for all users including the ubuntu used for running ansible.
 
+For the SRC application this is the only conda environment and single Jupyter kernel that can be picked. So if any extra ordifferent Python and/or Conda packages are required then `files/environment.yml` should be edited.
+
 Role also adds /etc/ewatercycle.yaml and ~/.esmvaltool/config-user.yml config files.
 
 Requirements
