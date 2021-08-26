@@ -57,12 +57,12 @@
   yarn:
     path: /mnt/apps/TerriaMap
 - name: eWaterCycle/terriajs build
-  command: npm run gulp build
+  command: /usr/bin/npm run gulp build
   args:
     chdir: /mnt/apps/TerriaMap/packages/terriajs
     creates: /mnt/apps/TerriaMap/packages/terriajs/wwwroot/build
 - name: eWaterCycle/TerriaMap build
-  command: npm run gulp
+  command: /usr/bin/npm run gulp
   args:
     chdir: /mnt/apps/TerriaMap
     creates: /mnt/apps/TerriaMap/wwwroot/build
