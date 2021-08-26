@@ -2,22 +2,18 @@
 # tasks file for ewatercycle
 
 - name: Stage conda env file
-  copy:
+  template:
     src: environment.yml
     dest: '{{ conda_root }}/environment.yml'
     mode: '0644'
 - name: Install/update eWaterCycle platform conda environment + Jupyter and its extensions
   # TODO replace with task from ansible galaxy
-  command: '{{ conda_root }}/condabin/mamba env update --file {{ conda_root }}/environment.yml'  # noqa no-changed-when
-- name: eWaterCycle pip
-  pip:
-    executable: '{{ conda_root }}/envs/ewatercycle/bin/pip3'
-    name: ewatercycle
+  command: '{{ conda_root }}/condabin/mamba env update --name {{ conda_environment }} --file {{ conda_root }}/environment.yml'  # noqa no-changed-when
 - name: Activate eWaterCycle conda environment during login for all posix_users
   lineinfile:
     path: /etc/profile.d/conda.sh
-    line: conda activate ewatercycle
-    regexp: '^conda activate ewatercycle'
+    line: conda activate {{ conda_environment }}
+    regexp: '^conda activate {{ conda_environment }}'
 
 # Checklist system setup https://ewatercycle.readthedocs.io/en/latest/system_setup.html :
 # Conda environment -> done on line 10

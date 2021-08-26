@@ -1,0 +1,23 @@
+---
+- name: Install
+  include: install.yml
+- name: Config directory
+  file:
+    path: ~/.config/rclone
+    state: directory
+    mode: '0755'
+- name: Configure rclone
+  copy:
+    dest: ~/.config/rclone/rclone.conf
+    mode: 0644
+    content: |
+      [{{ dcache_rclone_name }}]
+      type = webdav
+      url = {{ dcache_url }}
+      vendor = other
+      user =
+      pass =
+      bearer_token = {{ dcache_rw_token }}
+- name: Upload data root to dcache
+  # TODO only run when needed
+  command: rclone copy {{ data_root }} {{ dcache_rclone_name }}:{{ dcache_root }}  # noqa no-changed-when

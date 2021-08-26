@@ -9,11 +9,7 @@ User=root
 Environment=JUPYTERHUB_TOKEN={{ lookup('password', 'jupyterhub.launcher.token length=32 chars=ascii_letters,digits') }}
 Environment=JUPYTERHUB_URL={{ jupyterhub_url }}
 Environment=BASE_PATH={{ launcher_base_path }}
-{% if launcher_encrypted %}
-ExecStart=/usr/local/bin/gunicorn -w 4 -b 0.0.0.0:8888 --keyfile /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem --certfile /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem ewatercycle_experiment_launcher.serve:app
-{% else %}
 ExecStart=/usr/local/bin/gunicorn -w 4 -b 0.0.0.0:8888 ewatercycle_experiment_launcher.serve:app
-{% endif %}
 
 [Install]
 WantedBy=multi-user.target

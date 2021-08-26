@@ -2,7 +2,7 @@ container_engine: singularity
 grdc_location: {{ grdc_location }}
 output_dir: ./ewatercycle_output
 parameter_sets:
-  # Following parameter sets are coming from dcache.
+  # Following parameter sets are coming from dCache.
   # The dcache was filled once with by running shared-data-disk.yml playbook.
   lisflood_fraser:
     config: lisflood_fraser/settings_lat_lon-Run.xml
@@ -23,4 +23,4 @@ parameter_sets:
     supported_model_versions: !!set {2020.1.1: null}
     target_model: wflow
 parameterset_dir: {{ parameterset_dir }}
-singularity_dir: {{ singularity_dir }}
+singularity_dir: {{ singularity_image_root }}

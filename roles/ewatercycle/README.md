@@ -3,16 +3,20 @@ Role Name
 
 Role for eWatercycle platform
 
-Contains:
+Creates conda environment with
 
-* ewatercycle conda environment
-* JupyterHub installation with bunch of extensions
-* task files to perform [system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) steps so the data can be uploaded to dCache.
+- the eWaterCycle Python package dependencies
+- era5cli to download ERA5 climate data
+- PyMT models
+- JupyterHub and Jupyter extensions and their deps
+- ansible as this env will be the default python for all users including the ubuntu used for running ansible.
+
+Role also adds /etc/ewatercycle.yaml and ~/.esmvaltool/config-user.yml config files.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role expects `data_root` to be filled with files prepared by [../../shared-data-disk.yml](../../shared-data-disk.yml) playbook.
 
 Role Variables
 --------------
@@ -20,18 +24,23 @@ Role Variables
 Required vars:
 
 ```yaml
+---
 # Location where conda is installed
-conda_root: /mnt/apps/conda
+conda_root: /opt/conda
+# Name of conda environment to use
+conda_environment: ewatercycle
+# Path to conda environments bin directory
+conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+# Where all shared data is available
+data_root: /mnt/data
 # Location of input data
-esmvaltool_data: /mnt/data/esmvaltool
-# Version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to checkout to {{ esmvaltool_data }}/aux
-esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
+esmvaltool_data: '{{ data_root }}/esmvaltool'
 # Location where GRDC data should be downloaded
-grdc_location: /mnt/data/observation/grdc/dailies
+grdc_location: '{{ data_root }}/observation/grdc/dailies'
 # Location where example parameter sets should be downloaded and where any other read-only pararmeter set can be put
-parameterset_dir: /mnt/data/parameter-sets
+parameterset_dir: '{{ data_root }}/parameter-sets'
 # Location where Singularity image files (*sif) of hydrological models should be stored
-singularity_dir: /mnt/data/singularity-images
+singularity_image_root: '{{ data_root }}/singularity-images'
 # Location where all home-directories are located
 home_root: /home
 ```
@@ -39,7 +48,9 @@ home_root: /home
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Conda should be installed in `conda_root` directory. Use [../conda](../conda) role to install conda.
+
+Requires singularity executable which can be installed with [../singularity](../singularity) role.
 
 Example Playbook
 ----------------

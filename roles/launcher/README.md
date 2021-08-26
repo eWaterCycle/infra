@@ -1,36 +1,27 @@
 Role Name
 =========
 
-Ansible role to install eWaterCycle experiment launcher.
+Ansible role to install [eWaterCycle experiment launcher](https://github.com/eWaterCycle/experiment-launcher).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
 Role Variables
 --------------
 
-Required vars:
+Optional variables
+
 ```yaml
 # URL of JupyterHub server
-jupyterhub_url: https://hub.ewatercycle2-nlesc.surf-hosted.nl
-```
-
-Optional variables
-```yaml
-# Base path under which launcher will accept requests
-launcher_base_path: /
+jupyterhub_url: /jupyter
+# version|commit of https://github.com/eWaterCycle/experiment-launcher
+launcher_version: '71eccf537f1e32bf0569b975fdf2e7a8a46a0a94'
 # Under which uri path the launcher is running
 launcher_base_path: /
-# Whether the launcher web server should host encrypted or not. When unencrypted it should be reversed proxied with nginx
-launcher_encrypted: true
 ```
 
 Dependencies
 ------------
-
-The experiment launcher requires https certificate pair, which is generated in `letsencrypt` role.
 
 Example Playbook
 ----------------

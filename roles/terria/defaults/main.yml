@@ -2,4 +2,4 @@
 terriamap_version: 92bb1c1b45607d5fe40127b8da38d5dd3b1e4e8b
 terriajs_version: c6e3cc1df26fbebafa1950b588628a85c4318a18
 launcher_url: /launcher
-jupyterhub_url: https://jupyter.ewatercycle.org
+jupyterhub_url: /jupyter

@@ -20,19 +20,15 @@ c.JupyterHub.services = [
         ],
     }
 ]
-# TODO use var/parameter/group to defined who can admin
-c.Authenticator.admin_users = {'{{ ssh_user | default('ubuntu', true) }}'}
+c.Authenticator.admin_users = { {% for user in jupyterhub_admins %}
+     '{{ user.name }}'{% if not loop.last %},{% endif %}
+ {% endfor %} }
 c.Spawner.default_url = '/lab'
 c.Spawner.environment = { {% for key, value in jupyterhub_spawner_environment.items() %}
     '{{ key }}': '{{ value }}'{% if not loop.last %},{% endif %}
 {% endfor %} }
 c.Spawner.notebook_dir = '~'
-# c.JupyterHub.ssl_key = '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
-# c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
 c.JupyterHub.port = 8000
-# c.Authenticator.whitelist = { {% for user in posix_users %}
-#     '{{ user.name }}'{% if not loop.last %},{% endif %}
-# {% endfor %} }
 
 # Don't interrupt users when jupyterhub service is restarted
 c.JupyterHub.cleanup_servers = False

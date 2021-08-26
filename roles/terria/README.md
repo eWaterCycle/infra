@@ -21,7 +21,7 @@ terriajs_version: c6e3cc1df26fbebafa1950b588628a85c4318a18
 # Location of experiment launcher web service. Launcher is called when start experiment button is pressed
 launcher_url: /launcher
 # Location of JupyterHub, sets link of JH button in upper right corner of explorer
-jupyterhub_url: https://jupyter.ewatercycle.org
+jupyterhub_url: /jupyter
 ```
 
 Dependencies

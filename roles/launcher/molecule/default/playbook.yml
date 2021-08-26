@@ -11,5 +11,4 @@
     - include_role:
         name: launcher
       vars:
-        launcher_encrypted: false
         jupyterhub_url: https://hub.example.com

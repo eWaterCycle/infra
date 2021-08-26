@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Role to install conda
+Role to install rclone, upload files to dCache and mount dCache.
 
 Requirements
 ------------
@@ -11,17 +11,26 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 Role Variables
 --------------
 
+Required for uploading
+
 ```yaml
-# Location where conda tarball is downloaded to
-conda_tarball_root: /opt
-# Location where conda will be installed
-conda_root: /opt/conda
+# dCache token for mounting shared data
+# Must be filled from external place like var config file or SRC
+dcache_rw_token: null
+```
+
+Required for mounting
+
+```yaml
+# dCache token for mounting shared data
+# Must be filled from external place like var config file or SRC
+dcache_ro_token: null
 ```
 
 Dependencies
 ------------
 
-Requires Jupyter to be installed when `conda_jupyter_kernel` variable is True.
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
@@ -35,7 +44,7 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-Apache v2
+Apache-2.0
 
 Author Information
 ------------------

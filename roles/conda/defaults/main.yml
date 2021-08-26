@@ -1,5 +1,5 @@
 ---
 # Location where conda tarball is downloaded to
-conda_tarball_root: /mnt/apps
+conda_tarball_root: /opt
 # Location where conda will be installed
-conda_root: /mnt/apps/conda
+conda_root: /opt/conda

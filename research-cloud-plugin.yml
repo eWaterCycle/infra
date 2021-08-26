@@ -4,32 +4,8 @@
     - localhost
   gather_facts: false
   vars:
-    data_root: /mnt/data
-    conda_root: /opt/conda
-    singularity_image_root: '{{ data_root }}/singularity-images'
-    esmvaltool_data: '{{ data_root }}/esmvaltool'
-    grdc_root_dir: '{{ data_root }}/observation/grdc'
-    grdc_location: '{{ data_root }}/observation/grdc/dailies'
-    parameterset_dir: '{{ data_root }}/parameter-sets'
-    singularity_dir: '{{ data_root }}/singularity-images'
-    dcache_rclone_name: dcache
-    dcache_url: https://webdav.grid.surfsara.nl:2880
-    dcache_ro_token: null # Must be filled from external place like var config file or SRC
-    dcache_root: '/'
-    # TODO if a storage item is attached for cache then change this var
-    rclone_cache_dir: /tmp/rclone
-    # TODO if rclone cache dir is on root disk prevent cache filling it 100% as this will cause OS problems
-    # TODO if free space on rclone_cache_dir is less than rclone_max_gsize then set rclone_max_gsize to available freespace
-    rclone_max_gsize: 500
-    tool_urls:
-      explore: /
-      jupyter: /jupyter
-    launcher_encrypted: false
-    jupyterhub_url: /jupyter
-    launcher_base_path: /launcher
-    jupyterhub_spawner_environment:
-      # TODO move to config see https://github.com/eWaterCycle/ewatercycle/issues/240
-      USGS_DATA_HOME: /tmp
+    # dCache token for mounting shared data
+    dcache_ro_token: null # Must be filled from command line
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
@@ -38,21 +14,10 @@
     - name: Gather facts for first time
       setup:
 
-    - name: Show current available vars
-      debug:
-        msg: '{{ vars | to_nice_json }}'
-    - name: Show current available hostvars
-      debug:
-        var: hostvars[inventory_hostname]
-        verbosity: 4
-
     - name: Common stuff
       include_role:
         name: common
-      tags:
-        - ssh
-      vars:
-         extra_disks: []
+
     - name: Install gcc, git, ntp
       apt:
         update_cache: yes
@@ -83,8 +48,6 @@
     - name: Install conda
       include_role:
         name: conda
-      vars:
-        conda_tarball_root: /opt
 
     # OS disk almost full 11Gb of 15Gb in use.
     # For home/temp/scratch need other storage
@@ -92,73 +55,10 @@
     # TODO mount persistent home disk on SRC dashboard this disk is called `home-disk`
     # TODO mount cache disk and use for rclone mount cache dir
 
-    - name: Install rclone
-      shell: |
-        set -o pipefail && curl https://rclone.org/install.sh | bash
-      args:
-        executable: /bin/bash
-        creates: /usr/bin/rclone
-
-    - name: Configure rclone
-      copy:
-        dest: /etc/rclone.conf
-        mode: 0644
-        content: |
-          [{{ dcache_rclone_name }}]
-          type = webdav
-          url = {{ dcache_url }}
-          vendor = other
-          user =
-          pass =
-          bearer_token = {{ dcache_ro_token }}
-
-    - name: Data root
-      file:
-        path: '{{ data_root }}'
-        state: directory
-        mode: 0755
-
-    - name: rclone cache dir
-      file:
-        path: '{{ rclone_cache_dir }}'
-        state: directory
-        mode: 0700
-        user: root
-        group: root
-
-    - name: Mount dcache
-      copy:
-        dest: /etc/systemd/system/rclone.service
-        mode: 0644
-        content: |
-          [Unit]
-          Description=DCache shared data disk (rclone)
-          AssertPathIsDirectory={{ data_root }}
-          After=network.target
-
-          [Service]
-          Type=simple
-          ExecStart=/usr/bin/rclone mount \
-                  --config=/etc/rclone.conf \
-                  --allow-other \
-                  --read-only \
-                  --cache-dir {{ rclone_cache_dir }} \
-                  --vfs-cache-max-size {{ rclone_max_gsize }}G\
-                  --vfs-cache-mode full \
-                  {{ dcache_rclone_name }}:{{ dcache_root }} {{ data_root }}
-          ExecStop=/bin/fusermount -u {{ data_root }}
-          Restart=always
-          RestartSec=10
-
-          [Install]
-          WantedBy=default.target
-
-    - name: rclone mount started & enabled
-      systemd:
+    - name: Mount shared data dcache with rclone
+      include_role:
         name: rclone
-        state: started
-        daemon_reload: yes
-        enabled: yes
+        tasks_from: mount
 
     # https://lab.ewatercycle.org/ functionality
     - name: Welcome page
