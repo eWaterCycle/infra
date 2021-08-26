@@ -17,16 +17,16 @@ A application on the SURF Research cloud is provisioned by running a Ansible pla
 
 The read only datasets are mounted at `/mnt/data` from dcache using rclone. The read only datasets are things like
 
-* climate data for esmvaltool, files see <https://github.com/eWaterCycle/infra/issues/79>
+* climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 * observation
 * parameter-sets, example use cases and bigger ones
-* singularity-images of Hydrological models wrapped in grpc4bmi servers
+* singularity-images of hydrological models wrapped in grpc4bmi servers
 
 ## Local test VM
 
 This chapter is dedicated for application developers.
 
-To setup a Explore/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
+To set up an Explorer/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
  [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
 Create config file `research-cloud-plugin.vagrant.vars` with
@@ -80,7 +80,7 @@ For eWatercycle application following specialization was done
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
 * Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
 * TODO add cache dir
-* Set application paremeter `co_roles_enabled` to False
+* Set application parameter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
 
