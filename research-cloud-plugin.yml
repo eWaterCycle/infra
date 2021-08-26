@@ -49,11 +49,20 @@
       include_role:
         name: conda
 
-    # OS disk almost full 11Gb of 15Gb in use.
-    # For home/temp/scratch need other storage
-    # TODO mount scratch disk
-    # TODO mount persistent home disk on SRC dashboard this disk is called `home-disk`
-    # TODO mount cache disk and use for rclone mount cache dir
+    # OS disk almost full need more room for users. Lets have a scratch and home as additional SRC storage items
+    # TODO mount a scratch disk, it should not persist and mabye even remove files older than 14 days
+    # - name: Scratch disk
+    #   mount:
+    #     path: /scratch
+    #     src: TODO # Some value extracted from SRC API or ansible vars/facts
+    #     state: present
+    # TODO mount persistent home disk
+    # TODO will need to copy /home mounted on root disk to temp home, perform mount, copy temp home to new home and remove temp home
+    # - name: Home disk
+    #   mount:
+    #     path: /home
+    #     src: TODO # Some value extracted from SRC API or ansible vars/facts
+    #     state: present
 
     - name: Mount shared data dcache with rclone
       include_role:

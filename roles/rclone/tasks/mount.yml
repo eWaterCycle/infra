@@ -28,6 +28,13 @@
     user: root
     group: root
 
+# TODO mount a cache disk and use for rclone mount cache dir
+# - name: Cache disk
+#   mount:
+#     path: '{{ rclone_cache_dir }}'
+#     src: TODO # Some value extracted from SRC API or ansible vars/facts
+#     state: present
+
 - name: Mount dcache
   copy:
     dest: /etc/systemd/system/rclone.service
