@@ -25,7 +25,7 @@
     path: '{{ rclone_cache_dir }}'
     state: directory
     mode: 0700
-    user: root
+    owner: root
     group: root
 
 # TODO mount a cache disk and use for rclone mount cache dir
