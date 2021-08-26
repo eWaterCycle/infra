@@ -16,7 +16,7 @@
     dcache_url: https://webdav.grid.surfsara.nl:2880
     dcache_ro_token: null # Must be filled from external place like var config file or SRC
     dcache_root: '/'
-    # TODO if a storage item is attached for cache use the change this var
+    # TODO if a storage item is attached for cache then change this var
     rclone_cache_dir: /tmp/rclone
     # TODO if rclone cache dir is on root disk prevent cache filling it 100% as this will cause OS problems
     # TODO if free space on rclone_cache_dir is less than rclone_max_gsize then set rclone_max_gsize to available freespace
@@ -118,6 +118,14 @@
         state: directory
         mode: 0755
 
+    - name: rclone cache dir
+      file:
+        path: '{{ rclone_cache_dir }}'
+        state: directory
+        mode: 0700
+        user: root
+        group: root
+
     - name: Mount dcache
       copy:
         dest: /etc/systemd/system/rclone.service
@@ -164,7 +172,6 @@
 
     - name: Explorer
       include_role:
-        # TODO upgrade to latest release of terriajs, to try if latest version can hosted on /explore
         name: terria
 
     # https://jupyter.ewatercycle.org/ functionality
