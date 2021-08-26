@@ -79,7 +79,7 @@ For eWatercycle application following specialization was done
 
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
 * Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
-* TODO add cache dir
+* Set a fixed plugin parameter called `rclone_cache_dir` for directory where rclone can store its cache. Also expose the parameter in application and application offer.
 * Set application parameter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
@@ -95,6 +95,7 @@ This chapter is dedicated for application deployers.
 1. Select size of VM (cpus/memory) based on use case
 1. Select cache and home storage items
     * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
+1. Set workspace parameter called `rclone_cache_dir` to the storage item. Depending on order of storage items this should be set to `/data/volume_2` or `/data/volume_3`.
 1. Wait for machine to be running
 1. Visit URL/IP
 1. When done delete machine
