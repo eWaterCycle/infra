@@ -66,12 +66,12 @@
   command: >  # noqa 301 file will not be changed when OK
     perl -pi -e
      's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl:8888!{{ launcher_url }}!'
-     /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
+     /mnt/apps/TerriaMap/wwwroot/build/index.TerriaMap.js
 - name: Inject Jupyter Hub url
   command: > # noqa 301 file will not be changed when OK
    perl -pi -e
     's!https://hub\.ewatercycle2-nlesc\.surf-hosted\.nl!{{ jupyterhub_url }}!'
-    /mnt/apps/TerriaMap/wwwroot/build/TerriaMap.js
+    /mnt/apps/TerriaMap/wwwroot/build/index.TerriaMap.js
 - name: Flush handlers
   meta: flush_handlers
 - name: Nginx config root
