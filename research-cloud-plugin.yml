@@ -6,9 +6,9 @@
   vars:
     # dCache token for mounting shared data
     dcache_ro_token: null # Must be filled from command line
-    terriamap_version: 44d412efac4d031d7e31af7727459156644dec32
-    terriajs_version: b137ef40108f6897ee4d382314dde99a79de80d5
-    launcher_version: cee61d0c0c4ca1f4bd28a0a56467f42176ffd78b
+    terriamap_version: 6993348eeb2fd35e9d2f3d2b87853de2d88b83b1
+    terriajs_version: 7aec58d4362ecef99f1a74602e9bed837e85cac4
+    launcher_version: fa5cfbfb1de7e32d13ddbf6d14c397d534f491e2
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
@@ -34,6 +34,7 @@
           - ksh
           - acl
           - net-tools
+          - jq
 
     # roles have hardcoded /mnt/apps, so create it before running roles
     - name: Apps root
