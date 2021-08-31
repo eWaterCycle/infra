@@ -56,13 +56,9 @@
 - name: Install TerriaMap dependencies
   yarn:
     path: /mnt/apps/TerriaMap
-- name: eWaterCycle/terriajs build
-  command: /usr/bin/npm run gulp build
-  args:
-    chdir: /mnt/apps/TerriaMap/packages/terriajs
-    creates: /mnt/apps/TerriaMap/packages/terriajs/wwwroot/build
+    executable: /usr/bin/yarn
 - name: eWaterCycle/TerriaMap build
-  command: /usr/bin/npm run gulp
+  command: /usr/bin/yarn run gulp
   args:
     chdir: /mnt/apps/TerriaMap
     creates: /mnt/apps/TerriaMap/wwwroot/build

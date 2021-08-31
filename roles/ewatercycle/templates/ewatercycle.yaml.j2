@@ -4,6 +4,8 @@ output_dir: ./ewatercycle_output
 parameter_sets:
   # Following parameter sets are coming from dCache.
   # The dcache was filled once with by running shared-data-disk.yml playbook.
+
+  # Example parameter sets
   lisflood_fraser:
     config: lisflood_fraser/settings_lat_lon-Run.xml
     directory: lisflood_fraser
@@ -22,5 +24,60 @@ parameter_sets:
     doi: N/A
     supported_model_versions: !!set {2020.1.1: null}
     target_model: wflow
+
+  # Comparison
+  wflow_rhine_calibrated:
+    directory: wflow_rhine_calibrated
+    config: wflow_rhine_calibrated/wflow_sbm_era5.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
+  wflow_savannah_calibrated:
+    directory: wflow_savannah_calibrated
+    config: wflow_savannah_calibrated/wflow_sbm_era5.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
+  wflow_great-kei_calibrated:
+    directory: wflow_great-kei_calibrated
+    config: wflow_great-kei_calibrated/wflow_sbm_era5.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
+  wflow_doring_calibrated:
+    directory: wflow_doring_calibrated
+    config: wflow_doring_calibrated/wflow_sbm_era5.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
+  wflow_merrimack_calibrated:
+    directory: wflow_merrimack_calibrated
+    config: wflow_merrimack_calibrated/wflow_sbm_era5.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
+  wflow_meuse_calibrated:
+    directory: wflow_meuse_calibrated
+    config: wflow_meuse_calibrated/wflow_sbm_era5.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
+  lisflood_global-masked_01degree:
+    directory: lisflood_global-masked_01degree
+    config: lisflood_global-masked_01degree/settings_lisflood_ERA5.xml
+    target_model: lisflood
+
+  # Tech paper
+  pcrglobwb_merrimack_05min:
+    directory: pcrglobwb_global
+    config: pcrglobwb_global/merrimack_05min_era5.ini
+    target_model: pcrglobwb
+    doi: https://doi.org/10.5281/zenodo.1045339
+    supported_model_versions: !!set {setters: null}
+  pcrglobwb_rhine_05min:
+    directory: pcrglobwb_global
+    config: pcrglobwb_global/rhine_05min_era5.ini
+    target_model: pcrglobwb
+    doi: https://doi.org/10.5281/zenodo.1045339
+    supported_model_versions: !!set {setters: null}
+  wflow_merrimack_techpaper:
+    directory: wflow_merrimack_techpaper
+    config: wflow_merrimack_techpaper/wflow_sbm_era5_test.ini
+    target_model: wflow
+    supported_model_versions: !!set {2020.1.1: null}
 parameterset_dir: {{ parameterset_dir }}
 singularity_dir: {{ singularity_image_root }}
