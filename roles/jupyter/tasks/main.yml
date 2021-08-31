@@ -33,6 +33,7 @@
     state: directory
     mode: 0775
     group: jupyter
+  when: jupyterhub_spawner_environment.USGS_DATA_HOME != '/tmp'
 - name: Create /etc/jupyterhub directory
   file:
     path: /etc/jupyterhub
