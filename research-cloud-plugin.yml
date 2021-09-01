@@ -6,8 +6,8 @@
   vars:
     # dCache token for mounting shared data
     dcache_ro_token: null # Must be filled from command line
-    terriamap_version: 6993348eeb2fd35e9d2f3d2b87853de2d88b83b1
-    terriajs_version: 7aec58d4362ecef99f1a74602e9bed837e85cac4
+    terriamap_version: c820da288c7665e6c13d3c050bbcd641e82c724d
+    terriajs_version: 35ae583f8d3bfb73d3b9253abee81d58ad57c0f3
     launcher_version: ead304d497bdadc622231a2a33ec93803beee20d
   tasks:
     - name: Wait for system to become reachable

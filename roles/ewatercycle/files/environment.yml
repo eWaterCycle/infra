@@ -5,16 +5,16 @@ channels:
   - defaults
 dependencies:
   - python>=3.7
-  - ansible
   - subversion # for ewatercycle.parameter_sets
   - esmvaltool-python>=2.3.0
   # Pin esmpy so we dont get forced to run all parallel tasks on single cpu
   # Can be removed once https://github.com/ESMValGroup/ESMValCore/issues/1208 is resolved.
   - esmpy!=8.1.0
+  # Line above are copy from https://github.com/eWaterCycle/ewatercycle/blob/main/environment.yml
+  - ansible
   - pip:
       - ewatercycle
       - era5cli
-  # Line above are copy from https://github.com/eWaterCycle/ewatercycle/blob/main/environment.yml
   - setuptools
   - altair_saver
   - altair
