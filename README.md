@@ -1,6 +1,7 @@
 # Setup of eWaterCycle system on Research cloud
 
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
+[![Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1462548.svg)](https://doi.org/10.5281/zenodo.1462548)
 
 On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/about.html) an eWatercycle application will be available that when started will give
 

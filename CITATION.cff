@@ -1,0 +1,43 @@
+# YAML 1.2
+---
+authors:
+  -
+    affiliation: "Netherlands eScience Center"
+    family-names: Verhoeven
+    given-names: Stefan
+    orcid: "https://orcid.org/0000-0002-5821-2060"
+  -
+    affiliation: "Netherlands eScience Center"
+    family-names: Drost
+    given-names: Niels
+    orcid: "https://orcid.org/0000-0001-9795-7981"
+  -
+    affiliation: "Netherlands eScience Center"
+    family-names: Weel
+    given-names: Berend
+    orcid: "https://orcid.org/0000-0002-9693-9332"
+  -
+    affiliation: "Netherlands eScience Center"
+    family-names: Kalverla
+    given-names: Peter
+    orcid: "https://orcid.org/0000-0002-5025-7862"
+  -
+    affiliation: "Netherlands eScience Center"
+    family-names: Alidoost
+    given-names: Fakhereh
+    orcid: "https://orcid.org/0000-0001-8407-6472"
+  -
+    affiliation: "Netherlands eScience Center"
+    family-names: Andela
+    given-names: Bouwe
+    orcid: "https://orcid.org/0000-0001-9005-8940"
+
+cff-version: "1.2.0"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.1462548
+    description: This the identifier used to uniquely identify the software as a concept (i.e., version-agnostic).
+license: Apache-2.0
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/eWaterCycle/infra"
+title: "eWaterCycle infra"
