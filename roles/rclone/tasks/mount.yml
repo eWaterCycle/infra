@@ -28,7 +28,7 @@
     owner: root
     group: root
 
-# TODO mount a cache disk and use for rclone mount cache dir
+# TODO mount a cache disk and use for rclone mount cache dir, for now use SRC mount (/mnt/volume_?)
 # - name: Cache disk
 #   mount:
 #     path: '{{ rclone_cache_dir }}'

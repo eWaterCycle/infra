@@ -2,8 +2,6 @@
 # URL of JupyterHub server
 jupyterhub_url: /jupyter
 # version|commit of https://github.com/eWaterCycle/experiment-launcher
-# TODO merge https://github.com/eWaterCycle/experiment-launcher/pull/25 PR
-# into main branch as it fixes launcher not able to find JH
-launcher_version: '71eccf537f1e32bf0569b975fdf2e7a8a46a0a94'
+launcher_version: ead304d497bdadc622231a2a33ec93803beee20d
 # Under which uri path the launcher is running
 launcher_base_path: /launcher

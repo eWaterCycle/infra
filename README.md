@@ -89,12 +89,15 @@ For eWatercycle application following specialization was done
 This chapter is dedicated for application deployers.
 
 1. Log into Research Cloud
+1. Create new storage item
+    * To store cached files from dCache by rclone
+    * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
+    * Use 50GB size for simple usage, use 500GB size to able to perform 20 year forcing generation or other big IO jobs.
 1. Create new workspace
 1. Select eWaterCycle application
 1. Select collaborative organisation (CO) `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
-1. Select cache and home storage items
-    * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
+1. Select cache storage item
 1. Set workspace parameter called `rclone_cache_dir` to the storage item. Depending on order of storage items this should be set to `/data/volume_2` or `/data/volume_3`.
 1. Wait for machine to be running
 1. Visit URL/IP

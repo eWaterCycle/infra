@@ -27,6 +27,16 @@ Required for mounting
 dcache_ro_token: null
 ```
 
+Optional for mounting
+
+```yaml
+# Location where rlcone stores it cached files
+# if a storage item is attached for cache then change this var
+rclone_cache_dir: /tmp/rclone
+# Maximum size of rclone cache in Gigabytes
+rclone_max_gsize: 500
+```
+
 Dependencies
 ------------
 
