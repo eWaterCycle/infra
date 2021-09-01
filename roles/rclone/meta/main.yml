@@ -1,0 +1,12 @@
+galaxy_info:
+  author: Stefan Verhoeven
+  description: rclone dcache uploader & mounter
+  company: Netherlands eScience Center
+  license: Apache
+  min_ansible_version: 2.4
+  platforms:
+  - name: Ubuntu
+    versions:
+      - focal
+  galaxy_tags: []
+dependencies: []

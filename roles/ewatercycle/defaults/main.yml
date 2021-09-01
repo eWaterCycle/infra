@@ -1,7 +1,19 @@
 ---
-# defaults file for ewatercycle
 # Location where conda is installed
-conda_root: /mnt/apps/conda
-# Location of input data
-esmvaltool_data: /mnt/data/esmvaltool
-esmvaltool_aux_version: b06772e5b6ca8df57b3d9dbca36913164faa5ab1
+conda_root: /opt/conda
+# Name of conda environment to use
+conda_environment: ewatercycle
+# Path to conda environments bin directory
+conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+# Where all shared data is available
+data_root: /mnt/data
+# Location of climate data
+climate_data_root_dir: '{{ data_root }}/climate-data'
+# Location where GRDC data should be downloaded
+grdc_location: '{{ data_root }}/observation/grdc/dailies'
+# Location where example parameter sets should be downloaded and where any other read-only pararmeter set can be put
+parameterset_dir: '{{ data_root }}/parameter-sets'
+# Location where Singularity image files (*sif) of hydrological models should be stored
+singularity_image_root: '{{ data_root }}/singularity-images'
+# Location where all home-directories are located
+home_root: /home

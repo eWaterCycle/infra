@@ -1,0 +1,11 @@
+---
+- name: Example forcing root for MARRMoT
+  file:
+    path: '{{ example_forcing_root_dir }}/MARRMoT/BuffaloRiver'
+    state: directory
+    mode: '0755'
+- name: MARRMoT example
+  get_url:
+    url: https://github.com/wknoben/MARRMoT/raw/master/BMI/Config/BMI_testcase_m01_BuffaloRiver_TN_USA.mat
+    dest: '{{ example_forcing_root_dir }}/marrmot-m01_example_1989-1992_buffalo-river/BMI_testcase_m01_BuffaloRiver_TN_USA.mat'
+    mode: '0444'

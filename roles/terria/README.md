@@ -3,6 +3,8 @@ Role Name
 
 Ansible role for [terria](https://terria.io) web application for eWaterCycle project.
 
+Uses forks (https://github.com/eWaterCycle/TerriaMap + https://github.com/eWaterCycle/terriajs) of terria repos as the web application.
+
 Requirements
 ------------
 
@@ -12,8 +14,14 @@ Role Variables
 --------------
 
 ```yaml
-terriamap_version: ewa_1.0
-teriajs_version: ewa_1.0
+# Version of https://github.com/eWaterCycle/TerriaMap to use
+terriamap_version: 92bb1c1b45607d5fe40127b8da38d5dd3b1e4e8b
+# Version of https://github.com/eWaterCycle/terriajs to use
+terriajs_version: c6e3cc1df26fbebafa1950b588628a85c4318a18
+# Location of experiment launcher web service. Launcher is called when start experiment button is pressed
+launcher_url: /launcher
+# Location of JupyterHub, sets link of JH button in upper right corner of explorer
+jupyterhub_url: /jupyter
 ```
 
 Dependencies
@@ -33,7 +41,7 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-Apache2
+Apache-2.0
 
 Author Information
 ------------------

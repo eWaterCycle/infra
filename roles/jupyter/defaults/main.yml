@@ -1,48 +1,19 @@
 ---
-sample_notebooks_version: '0.1.0'
 cull:
-  timeout: '3600' # 1 hour
-  max_age: '86400' # 1 day
-# Directory where singularity sif files can be stored and read by other
-singularity_image_root: /mnt/apps/singularity-images
-# Container images that will be downloaded and converted
-grpc4bmi_images:
-    - docker: ewatercycle/walrus-grpc4bmi
-      singularity: ewatercycle-walrus-grpc4bmi.sif
-    - docker: ewatercycle/pcrg-grpc4bmi
-      singularity: ewatercycle-pcrg-grpc4bmi.sif
-    - docker: ewatercycle/wflow-grpc4bmi
-      singularity: ewatercycle-wflow-grpc4bmi.sif
-    - docker: sverhoeven/marrmot
-      singularity: marrmot.sif
-    - docker: ewatercycle/hype-grpc4bmi
-      singularity: ewatercycle-hype-grpc4bmi.sif
+  # Servers and notebooks that have been idle for longer then timeout (in seconds) will be culled.
+  timeout: '86400' # 1 day
+  # The maximum age (in seconds) of servers that should be culled even if they are active.
+  max_age: '604800' # 7 days
 jupyterhub_spawner_environment:
   # Cache dir for ewatercycle.observation.usgs.get_usgs_data()
-  USGS_DATA_HOME: /mnt/data/usgs/streamflow
-  # Cache dir for ewatercycle.observation.grdc.get_grdc_data()
-  GRDC_DATA_HOME: /mnt/data/grdc/dailies
+  USGS_DATA_HOME: /tmp
   # TODO needed for pymt(?) and cfunits
   UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml
 # Location where conda is installed
-conda_root: /mnt/apps/conda
+conda_root: /opt/conda
+# Name of conda environment to use
 conda_environment: ewatercycle
+# Path to conda environments bin directory
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
-# JupyterLab extensions that should be installed, space seperated list
-# Server side dependencies of extension should be added to conda environment in ewatercycle role
-jupyterlab_extensions: >
-  @bokeh/jupyter_bokeh@2.0.2
-  @jupyter-widgets/jupyterlab-manager@2.0.0
-  @jupyterlab/geojson-extension@v2.0.1
-  @jupyterlab/hub-extension@2.1.2
-  @jupyterlab/toc@4.0.0
-  @pyviz/jupyterlab_pyviz@1.0.4
-  jupyter-leaflet@0.13.1
-  jupyter-matplotlib@0.7.2
-  @ryantam626/jupyterlab_code_formatter@1.3.1
-  @ewatercycle/jupyterlab_thredds@0.5.0
-  @jupyterlab/server-proxy
-  dask-labextension
-# JupyterLab extensions that should not be installed, space seperated list
-jupyterlab_obsolete_extensions: >
-  jupyterlab_bokeh
+# List of posix users who should have JupyterHub admin rights
+jupyterhub_admins: []

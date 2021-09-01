@@ -22,6 +22,7 @@
   copy:
     src: CITATION
     dest: '{{ item }}'
+    mode: 'u=rw,g=r,o=r'
   loop:
     - '{{ grdc_root_dir }}'
     - '{{ grdc_root_dir }}/stations'

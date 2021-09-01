@@ -1,0 +1,27 @@
+---
+- name: Copernicus Climate Data Service token
+  template:
+    src: csdapirc.j2
+    dest: ~/.csdapirc
+    mode: '0440'
+- name: climate data dir
+  file:
+    path: '{{ climate_data_root_dir }}'
+    state: directory
+    mode: '0755'
+- name: Download ERA5 climate data
+  # TODO only run when needed
+  command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ climate_begin_year }} --endyear {{ climate_end_year }} --variables {{ item }}'  # noqa no-changed-when
+  args:
+    chdir: '{{ climate_data_root_dir }}'
+  loop: '{{ era5_variables }}'
+
+
+- name: Prep ERA5 climate data for ESMValTool processing
+  command:
+    # TODO only run when needed
+    name: '{{ conda_environment_bin }}/esmvaltool run cmorizers/recipe_era5.yml'  # noqa no-changed-when
+
+# TODO download ERA-Interim
+
+# TODO cmorize ERA-Interim

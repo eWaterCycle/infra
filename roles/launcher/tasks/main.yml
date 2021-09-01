@@ -27,6 +27,7 @@
   template:
     src: experiment-launcher.systemd.j2
     dest: /etc/systemd/system/experiment-launcher.service
+    mode: 0644
   notify:
     - restart experiment-launcher
 - name: Experiment launcher started & enabled
@@ -35,8 +36,23 @@
     state: started
     daemon_reload: yes
     enabled: yes
-- name: Create posix_users that can use the launcher
-  user:
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-  loop: "{{ posix_users }}"
+- name: Nginx config root
+  file:
+    path: /etc/nginx/app-location-conf.d
+    state: directory
+    mode: 0755
+- name: Create nginx location block
+  copy:
+    dest: /etc/nginx/app-location-conf.d/launcher.conf
+    mode: 0644
+    content: |
+      location /launcher {
+          proxy_pass http://127.0.0.1:8888;
+          proxy_redirect http://localhost:8888/ $scheme://$host/;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $connection_upgrade;
+          client_max_body_size 10G;
+      }

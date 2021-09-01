@@ -14,13 +14,24 @@ Role Variables
 Required vars:
 
 ```yaml
-launcher_jupyterhub_token: '297cee229574135ae2f6721d9b3f0b9dd138c831cc15084c01d68f145b70b5b2'
-jupyterhub_url: https://jupyter.ewatercycle.org
-posix_users:
-  - name: student1
-    password: <generated using `mkpasswd --method=sha-512`>
-  - name: admin
-    password: <generated using `mkpasswd --method=sha-512`>
+cull:
+  # Servers and notebooks that have been idle for longer then timeout (in seconds) will be culled.
+  timeout: '86400' # 1 day
+  # The maximum age (in seconds) of servers that should be culled even if they are active.
+  max_age: '604800' # 7 days
+jupyterhub_spawner_environment:
+  # Cache dir for ewatercycle.observation.usgs.get_usgs_data()
+  USGS_DATA_HOME: /tmp
+  # TODO needed for pymt(?) and cfunits
+  UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml
+# Location where conda is installed
+conda_root: /opt/conda
+# Name of conda environment to use
+conda_environment: ewatercycle
+# Path to conda environments bin directory
+conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+# List of posix users who should have JupyterHub admin rights
+jupyterhub_admins: []
 ```
 
 Dependencies
@@ -28,8 +39,7 @@ Dependencies
 
 The Jupyter Hub requires
 
-* https certificate pair, which is generated in `letsencrypt` role.
-* eWaterCycle Conda environment
+* eWaterCycle Conda environment which can be installed using [ewatercycle role](../ewatercycle).
 
 Example Playbook
 ----------------

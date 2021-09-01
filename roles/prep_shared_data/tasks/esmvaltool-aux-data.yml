@@ -1,0 +1,11 @@
+---
+- name: esmvaltool aux dir
+  file:
+    path: '{{ auxiliary_data_dir }}'
+    state: directory
+    mode: '0755'
+- name: eWaterCycle esmvaltool auxiliary datasets
+  git:
+    repo: https://github.com/eWaterCycle/recipes_auxiliary_datasets.git
+    dest: '{{ auxiliary_data_dir }}'
+    version: '{{ esmvaltool_aux_version }}'

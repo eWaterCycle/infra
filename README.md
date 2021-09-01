@@ -1,143 +1,145 @@
-# Setup of eWaterCycle system
-
-* Runs on the [SURFSara HPC cloud](https://userinfo.surfsara.nl/systems/hpc-cloud)
-* Provisioned by [Ansible](https://docs.ansible.com/ansible/latest/index.html)
+# Setup of eWaterCycle system on Research cloud
 
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 
-## Requirements
+On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/about.html) an eWatercycle application will be available that when started will give
 
-Install [Ansible](https://docs.ansible.com/ansible/latest/index.html) (optionally in a Python Virtual environment or Conda environment) with
+* Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
+* Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
+* ERA5 and ERA-Interim global climate data, which can be used to generate forcings
+* Installed models and their example parameter sets
 
-```bash
-pip install ansible
-```
+Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
 
-Install roles from [galaxy](https://galaxy.ansible.com/).
-The command should be run in a local clone of the repo.
+## Technical specs
 
-```bash
-ansible-galaxy install -r requirements.yml
-```
+An application on the SURF Research cloud is provisioned by running an Ansible playbook (research-cloud-plugin.yml).
 
-## Servers
+In addition to the standard VM storage, additional read-only datasets are mounted at `/mnt/data` from dCache using rclone. They may contain things like:
 
-* lab.ewatercycle.org - entry page to select other servers
-* explore.ewatercycle.org - terriajs with models+datasets and launcher
-* jupyter.ewatercycle.org - jupyterhub
-* analytics.ewatercycle.org -
-* experiments.ewatercycle.org - cylc web interface
-* forecast.ewatercycle.org - visualization of global low res PCR-GLOBWB model
-
-## Create VMs
-
-On the [https://ui.hpccloud.surfsara.nl](https://ui.hpccloud.surfsara.nl) add your public SSH key so you can login the Virtual Machines.
-
-All VMs are based on the same template which should be created as follows:
-
-1. Create `lab` template from App called `Ubuntu-18.04.1-Server (...)`
-    1. Select the ssd datastore for the image
-2. Update `lab` template
-    1. Set to 8Gb RAM and 2 cpus/vcpus
-    2. Add Volatile disk of 500Gb, type=FS and format=raw, for storage of apps, docker and homedirs
-
-Create the following Virtual Machines based on the `lab` template with the following settings:
-
-|VM name   | Memory (GB) | VCPU  | DISK 0 (GB) | DISK 1 (GB)  |
-|---|---|---|---|---|
-| lab  | 1  | 1  | 10  | 10  |
-| explore  | 1  | 1  | 10  | 10  |
-| jupyter  | 8  | 2  | 50  | 1500  |
-| analytics  | 1  | 1  | 2 | 10  |
-| experiments  | 8  | 2  | 50  | 500 |
-| forecast  | 8  | 2  | 50  | 500 |
-
-## Setup domain names
-
-In the DNS admin interface of the `ewatercycle.org` domain setup sub domains for all machines.
-
-## Configure
-
-### Inventory
-
-Make a copy of `inventory.yml.template` to `inventory.yml` and update if needed.
-
-### Variables
-
-Make a copy of all the `group_vars/*.yml.template` to `group_vars/*.yml`.
-Fields with `REPLACE ME` in the value need to be replaced.
-
-> The group vars files contain secrets like user passwords so they should not be made public. For the eWaterCycle deployment there is a private repo in the GitHub organization, its content should be linked (symlink-ed or rsync-ed) into a local clone of this repo.
-
-#### Authorized keys
-
-To allow multiple users to ssh into servers the Ansible playbooks will inject the public keys listed in `group_vars/all.yml:authorized_keys` file into `~/authorized_keys`.
-
-## Provision VMs
-
-After the VMs haven been created, the subdomain are setup and configuration has been performed then you are ready to provision the VMs with:
-
-```bash
-ansible-playbook -i inventory.yml site.yml
-```
-
-Or to provision a single machine
-
-```bash
-ansible-playbook -i inventory.yml jupyter.yml
-```
-
-To only configure the authorized keys use
-
-```bash
-ansible-playbook -i inventory.yml --tags ssh site.yml
-```
-
-After provisioning goto [https://lab.ewatercycle.org](https://lab.ewatercycle.org) and follow its links to see that everything is working as expected.
-
-> Provisioning can fail due to network failures, please try again
-
-## Backup certificates
-
-The servers have let's encrypt https certficates.
-During provisioning the certificates are backuped to the ansible client in the `letsencrypt/<hostname>` directory.
-The certs are automaticly renewed when they expire (cert has 90 day lifetime).
-To backup the renewed certs run the following command:
-
-```bash
-ansible remote -i inventory.yml -m synchronize -a 'src=/etc/letsencrypt/ dest="letsencrypt/{{ inventory_hostname }}/" recursive=yes mode=pull'
-```
+* climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
+* observation
+* parameter-sets, example use cases and bigger ones
+* singularity-images of hydrological models wrapped in grpc4bmi servers
 
 ## Local test VM
 
-To setup a Jupyter server on your local machine with [vagrant](https://vagrantup.com).
+This chapter is dedicated for application developers.
 
-Start VM with
+To set up an Explorer/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
+ [Ansible](https://docs.ansible.com/ansible/latest/index.html)
+
+Create config file `research-cloud-plugin.vagrant.vars` with
+
+```yaml
+---
+dcache_ro_token: <dcache macaroon with read permission>
+```
+
+The token can be found in the eWaterCycle password manager.
 
 ```shell
+vagrant --version
+# Vagrant 2.2.18
+vagrant plugin install vagrant-vbguest
+# Installed the plugin 'vagrant-vbguest (0.30.0)'
 vagrant up
 ```
 
-(The `Vagrantfile` file used by `vagrant up` was generated with `vagrant init hashicorp/bionic64` and later customized.)
-
-Provision VM with Jupyter using Ansible (see [Requirements chapter](#requirements) for Ansible installation instructions)
+Visit site
 
 ```shell
-ansible-playbook -i vagrant.yml -e '{"extra_disks": []}' jupyter.yml
-```
-
-Get ip of Jupyter server with
-
-```shell
+# Get ip of server with
 vagrant ssh -c 'ifconfig eth1'
 ```
 
-Open JupyterHub in web browser at  `https://<ip of eth1>` and ignore cert warning.
-Login with credentials from a user listed in `group_vars/jupyter.yml:posix_users`.
+Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
 
-> * [Vagrant snapshots](https://www.vagrantup.com/docs/cli/snapshot.html) can be used to rollback VMs to previous state. After rollback sync time with `vagrant ssh -c 'sudo systemctl restart systemd-timesyncd.service'`.
-> * Use [https://github.com/dotless-de/vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) to keep the VirtualBox guest additions inside VM up to date
+You will get some complaints about unsecure serving, this is OK for local testing and this will not happen on Research Cloud.
+
+### Test on Windows Subsystem for Linux 2
+
+WSL2 users should follow steps on [https://www.vagrantup.com/docs/other/wsl](https://www.vagrantup.com/docs/other/wsl).
+
+Importantly:
+
+* Work on a folder on the windows file system.
+* Export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/.../infra"
+* Install [virtualbox_WSL2 vagrant plugin](https://github.com/Karandash8/virtualbox_WSL2)
+* Approve the firewall popup
+
+## Application registration
+
+This chapter is dedicated for application developers.
+
+On the Research cloud the application developer can add an application for other people to use.
+The steps to do this are documented [here](https://servicedesk.surfsara.nl/wiki/display/WIKI/Create+your+own+applications).
+
+For eWatercycle application following specialization was done
+
+* Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
+* Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
+* Set a fixed plugin parameter called `rclone_cache_dir` for directory where rclone can store its cache. Also expose the parameter in application and application offer.
+* Set application parameter `co_roles_enabled` to False
+    TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
+* Set application offer flavours to Ubuntu 20.04 operating system
+
+## Research cloud VM deployment
+
+This chapter is dedicated for application deployers.
+
+1. Log into Research Cloud
+1. Create new workspace
+1. Select eWaterCycle application
+1. Select collaborative organisation (CO) `ewatercycle-nlesc`
+1. Select size of VM (cpus/memory) based on use case
+1. Select cache and home storage items
+    * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
+1. Set workspace parameter called `rclone_cache_dir` to the storage item. Depending on order of storage items this should be set to `/data/volume_2` or `/data/volume_3`.
+1. Wait for machine to be running
+1. Visit URL/IP
+1. When done delete machine
+
+For a new CO make sure
+
+* application is allowed to be used by CO.
+* data storage item and home dir are created for the CO
+
+End user should be invited to CO and then
+
+1. to login to Jupyter, he/she should setup TOTP on [SRC dashboard profile page](https://sbs.sram.surf.nl/profile)
+2. optionally to ssh into machine, the ssh pub key must be added to [https://sbs.sram.surf.nl/profile](https://sbs.sram.surf.nl/profile)
+
+### Example notebooks
+
+To get example notebooks end users should use following URL (with `<workspace id>` with your currently running workspace)
+
+```html
+https://<workspace id>.workspaces.live.surfresearchcloud.nl/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2Fewatercycle&urlpath=lab%2Ftree%2Fewatercycle%2Fdocs%2Fexamples%2FMarrmotM01.ipynb&branch=main
+```
+
+TODO add this link to home page of server at
+
+This link uses [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync a git repo and open a notebook in it.
+
+## Fill shared data disk
+
+This chapter is dedicated for application data preparer.
+
+The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
+For the Research cloud virtual machines we will mount a dcache bucket.
+
+To fill the dcache bucket you can run
+
+```shell
+ansible-playbook \
+  -e cds_uid=1234 -e cds_api_key <cds api key> \
+  -e dcache_rw_token=<dcache macaroon with read/write permissions>
+  research-cloud-plugin.yml
+```
+
+Runnig this script will download all data files to /mnt/data and upload them to dcache.
 
 ## Docker images
 
-In the eWaterCycle project we make Docker images. The images are hosted on https://hub.docker.com/u/ewatercycle . A project member can create issues here for permisison to push images to Dockuer Hub.
+In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Dockuer Hub.

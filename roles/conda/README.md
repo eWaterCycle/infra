@@ -12,12 +12,10 @@ Role Variables
 --------------
 
 ```yaml
-# Checksum of conda tarball, prevents re-download
-conda_tarball_checksum: sha256:bb2e3cedd2e78a8bb6872ab3ab5b1266a90f8c7004a22d8dc2ea5effeb6a439a.
 # Location where conda tarball is downloaded to
-conda_tarball_root: /mnt/apps
+conda_tarball_root: /opt
 # Location where conda will be installed
-conda_root: /mnt/apps/conda
+conda_root: /opt/conda
 ```
 
 Dependencies

@@ -1,9 +1,9 @@
 ---
+# URL of JupyterHub server
+jupyterhub_url: /jupyter
 # version|commit of https://github.com/eWaterCycle/experiment-launcher
-launcher_version: '966272e17e89c013f9662ed4a378d0e49ae548bd'
+# TODO merge https://github.com/eWaterCycle/experiment-launcher/pull/25 PR
+# into main branch as it fixes launcher not able to find JH
+launcher_version: '71eccf537f1e32bf0569b975fdf2e7a8a46a0a94'
 # Under which uri path the launcher is running
-launcher_base_path: /
-# Whether the launcher web server should host encrypted or not. When unencrypted it should be reversed proxied with nginx
-launcher_encrypted: true
-# Users that can use the launcher
-posix_users: []
+launcher_base_path: /launcher

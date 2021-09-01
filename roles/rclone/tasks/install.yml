@@ -1,0 +1,9 @@
+---
+# TODO replace with https://galaxy.ansible.com/stefangweichinger/ansible_rclone
+# once requirements.yml is processed by RSC external plugin
+- name: Install rclone
+  shell: |
+    set -o pipefail && curl https://rclone.org/install.sh | bash
+  args:
+    executable: /bin/bash
+    creates: /usr/bin/rclone

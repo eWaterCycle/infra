@@ -1,0 +1,11 @@
+---
+- name: Download climate data
+  include: climate-data.yml
+- name: ESMValTool aux data
+  include: esmvaltool-aux-data.yml
+- name: Build singularity image files (sif) for each model
+  include: singularity-images.yml
+- name: Download example parameter sets
+  include: example-parameter-sets.yml
+- name: Download example forcing
+  include: example-forcing.yml

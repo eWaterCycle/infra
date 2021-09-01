@@ -1,7 +1,0 @@
----
-# handlers file for cylc-web
-- name: restart nginx
-  systemd:
-    daemon_reload: yes
-    name: nginx
-    state: restarted

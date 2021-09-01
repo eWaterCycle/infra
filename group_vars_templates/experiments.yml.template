@@ -1,5 +1,0 @@
----
-cylc_web_users:
-  - name: admin
-    password: <REPLACE ME with actual password>
-cylc_domain: experiments.ewatercycle.org

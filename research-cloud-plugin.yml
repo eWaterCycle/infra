@@ -1,0 +1,106 @@
+- name: Install and configure eWaterCycle Jupyter
+  hosts:
+    - all
+    - localhost
+  gather_facts: false
+  vars:
+    # dCache token for mounting shared data
+    dcache_ro_token: null # Must be filled from command line
+    terriamap_version: c820da288c7665e6c13d3c050bbcd641e82c724d
+    terriajs_version: 35ae583f8d3bfb73d3b9253abee81d58ad57c0f3
+    launcher_version: ead304d497bdadc622231a2a33ec93803beee20d
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+        timeout: 300
+
+    - name: Gather facts for first time
+      setup:
+
+    - name: Common stuff
+      include_role:
+        name: common
+
+    - name: Install gcc, git, ntp
+      apt:
+        update_cache: yes
+        pkg:
+          - git
+          - gcc
+          - g++
+          - make
+          - ntp
+          - tmux
+          - ksh
+          - acl
+          - net-tools
+          - jq
+
+    # roles have hardcoded /mnt/apps, so create it before running roles
+    - name: Apps root
+      file:
+        path: /mnt/apps
+        state: directory
+        mode: 0755
+
+    # Container engines
+    - name: singularity
+      include_role:
+        name: singularity
+
+    # Install Conda + mamba
+    - name: Install conda
+      include_role:
+        name: conda
+
+    # OS disk almost full need more room for users. Lets have a scratch and home as additional SRC storage items
+    # TODO mount a scratch disk, it should not persist and mabye even remove files older than 14 days
+    # - name: Scratch disk
+    #   mount:
+    #     path: /scratch
+    #     src: TODO # Some value extracted from SRC API or ansible vars/facts
+    #     state: present
+    # TODO mount persistent home disk
+    # TODO will need to copy /home mounted on root disk to temp home, perform mount, copy temp home to new home and remove temp home
+    # - name: Home disk
+    #   mount:
+    #     path: /home
+    #     src: TODO # Some value extracted from SRC API or ansible vars/facts
+    #     state: present
+
+    - name: Mount shared data dcache with rclone
+      include_role:
+        name: rclone
+        tasks_from: mount
+
+    # https://lab.ewatercycle.org/ functionality
+    - name: Welcome page
+      include_role:
+        name: labstart
+
+    # https://explore.ewatercycle.org/ functionality
+    - name: Experiment launcher
+      include_role:
+        name: launcher
+
+    - name: Explorer
+      include_role:
+        name: terria
+
+    # https://jupyter.ewatercycle.org/ functionality
+    - name: Create eWaterCycle conda env
+      include_role:
+        name: ewatercycle
+
+    - name: Set up Jupyter lab/hub
+      include_role:
+        name: jupyter
+
+    - name: Clean apt cache
+      apt:
+        autoclean: yes
+        autoremove: yes
+
+    - name: Debug
+      debug:
+        msg: The eWaterCycle Jupyter plugin has completed

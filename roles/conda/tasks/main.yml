@@ -1,19 +1,31 @@
 ---
+- name: Tarball dir
+  file:
+    path: '{{ conda_tarball_root }}'
+    mode: 0755
 - name: Download miniconda tarball
   get_url:
     url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     dest: '{{ conda_tarball_root }}/'
-    checksum: '{{ conda_tarball_checksum }}'
 - name: Install conda
   command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}
   args:
     creates: '{{ conda_root }}'
+- name: Drop tarball
+  file:
+    path: '{{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh'
+    state: absent
 - name: Disable loading base environment
   template:
     src: condarc.j2
     dest: '{{ conda_root }}/.condarc'
+    mode: '0644'
 - name: Initialize conda system wide
   file:
     src: '{{ conda_root }}/etc/profile.d/conda.sh'
     dest: /etc/profile.d/conda.sh
     state: link
+- name: Install mamba
+  command: '{{ conda_root }}/condabin/conda install mamba -n base -c conda-forge'
+  args:
+    creates: '{{ conda_root }}/condabin/mamba'
