@@ -4,7 +4,7 @@ data_root: /mnt/data
 # Where all observation data should be put
 observation_root_dir: '{{ data_root }}/observation'
 # Directory to put grdc data
-grdc_root_dir: '{{ observation_root_dir }}//grdc'
+grdc_root_dir: '{{ observation_root_dir }}/grdc'
 # Station catalogs of freely non-commercial available datasets
 grdc_station_zips:
   - ftp://ftp.bafg.de/pub/REFERATE/GRDC/catalogue/grdc_gcosgtnh_stations.zip
