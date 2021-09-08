@@ -2,6 +2,6 @@
 # URL of JupyterHub server
 jupyterhub_url: /jupyter
 # version|commit of https://github.com/eWaterCycle/experiment-launcher
-launcher_version: 6e5a603d7ce1a82115a9c0025e1412c2ad65c3db
+launcher_version: 9a2dfffadab34bd63258af748e96e021c662e7ec
 # Under which uri path the launcher is running
 launcher_base_path: /launcher
