@@ -35,6 +35,7 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 ```yaml
 ---
 dcache_ro_token: <dcache macaroon with read permission>
+rclone_cache_dir: /cache
 ```
 
 The token can be found in the eWaterCycle password manager.

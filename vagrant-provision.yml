@@ -65,6 +65,13 @@
         dev: /dev/sdc
         fstype: ext4
 
+    - name: Mount /cache
+      mount:
+        path: /cache
+        src: /dev/sdc
+        fstype: ext4
+        state: mounted
+
     - name: Next
       debug:
         msg: Next is to call the ansible command to provision the eWatercycle platform. See README.md#local-test-vm
