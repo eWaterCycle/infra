@@ -56,6 +56,15 @@
         name: nginx
         state: restarted
 
+    - name: Format home2 disk
+      filesystem:
+        dev: /dev/sdb
+        fstype: ext4
+    - name: Format cache disk
+      filesystem:
+        dev: /dev/sdc
+        fstype: ext4
+
     - name: Next
       debug:
         msg: Next is to call the ansible command to provision the eWatercycle platform. See README.md#local-test-vm

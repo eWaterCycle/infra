@@ -1,0 +1,34 @@
+- name: Put new home in fstab
+  mount:
+    path: '{{ home_location }}'
+    src: '{{ home_device }}'
+    fstype: ext4
+    state: present
+  register: new_home_in_fstab
+
+- name: Move home
+  block:
+    - name: Mount new home in temp place
+      file:
+        path: '{{ alt_home_location }}'
+        state: directory
+    - mount:
+        src: '{{ home_device }}'
+        path: '{{ alt_home_location }}'
+        fstype: ext4
+        state: mounted
+    - name: Copy /home to temp place
+      synchronize:
+        src: '{{ home_location }}/'
+        dest: '{{ alt_home_location }}/'
+    - name: Unmount new home in temp place
+      mount:
+        path: '{{ alt_home_location }}'
+        state: absent
+    - name: Mount new home on /home
+      mount:
+        path: '{{ home_location }}'
+        src: '{{ home_device }}'
+        fstype: ext4
+        state: mounted
+  when: new_home_in_fstab.changed # /dev/sdb is not mounted as /home

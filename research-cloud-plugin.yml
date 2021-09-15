@@ -33,6 +33,10 @@
           - net-tools
           - jq
 
+    - name: Storage items
+      include_role:
+        name: storage
+
     # roles have hardcoded /mnt/apps, so create it before running roles
     - name: Apps root
       file:

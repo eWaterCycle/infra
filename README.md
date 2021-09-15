@@ -44,6 +44,7 @@ vagrant --version
 # Vagrant 2.2.18
 vagrant plugin install vagrant-vbguest
 # Installed the plugin 'vagrant-vbguest (0.30.0)'
+export VAGRANT_EXPERIMENTAL="disks"
 vagrant up
 ```
 
