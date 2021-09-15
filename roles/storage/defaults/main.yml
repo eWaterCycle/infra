@@ -1,5 +1,5 @@
 ---
 # defaults file for storage
-home_device: sdb
+home_device: /dev/sdb
 home_location: /home
 alt_home_location: /home2
