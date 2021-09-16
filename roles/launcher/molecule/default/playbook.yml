@@ -8,7 +8,8 @@
     - name: Installing setuptools so Ansible modules work
       package:
         name: python-setuptools
-    - include_role:
+    - name: Launcher role
+      include_role:
         name: launcher
       vars:
         jupyterhub_url: https://hub.example.com

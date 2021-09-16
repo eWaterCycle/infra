@@ -8,11 +8,13 @@
 
 - name: Move home
   block:
-    - name: Mount new home in temp place
+    - name: Mount point for new home in temp place
       file:
         path: '{{ alt_home_location }}'
         state: directory
-    - mount:
+        mode: 0755
+    - name: Mount new home in temp place
+      mount:
         src: '{{ home_device }}'
         path: '{{ alt_home_location }}'
         fstype: ext4
