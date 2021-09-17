@@ -1,3 +1,4 @@
+# TODO ON SRC unmount device from /data/volume2|3 or bind /data/volume2 to /home
 - name: Put new home in fstab
   mount:
     path: '{{ home_location }}'
