@@ -16,4 +16,4 @@ rclone_cache_dir: /tmp/rclone
 # Maximum size of rclone cache in Gigabytes
 # TODO if rclone cache dir is on root disk prevent cache filling it 100% as this will cause OS problems
 # TODO if free space on rclone_cache_dir is less than rclone_max_gsize then set rclone_max_gsize to available freespace
-rclone_max_gsize: 48
+rclone_max_gsize: 45
