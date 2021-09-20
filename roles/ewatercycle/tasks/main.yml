@@ -33,6 +33,7 @@
   shell: set -o pipefail && ls -1 | grep -v lost+found
   args:
     chdir: '{{ home_root }}'
+    executable: /bin/bash
   register: myusers
   changed_when: False
 
