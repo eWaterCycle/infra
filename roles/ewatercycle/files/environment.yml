@@ -28,6 +28,10 @@ dependencies:
   - regionmask
   - pyke  # required by iris, only available on conda or sourceforge
   - iris-sample-data # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
+  # Pangeo deps, see https://pangeo.io/setup_guides/hpc.html
+  - zarr
+  - hvplot
+  - numcodecs
   # Lint / formatters
   - autopep8
   - black
