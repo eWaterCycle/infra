@@ -1,41 +1,24 @@
-- name: Unmount home storage item from initial mountpoint
-  mount:
-    path: '{{ home_storage_item_mountpoint }}'
-    state: absent
-
-- name: Put new home in fstab
+- name: Put /home in fstab
   mount:
     path: '{{ home_location }}'
-    src: '{{ home_device }}'
-    fstype: ext4
+    src: '{{ alt_home_location }}'
+    opts: bind
+    fstype: none
     state: present
   register: new_home_in_fstab
 
 - name: Move home
   block:
-    - name: Mount point for new home in temp place
-      file:
-        path: '{{ alt_home_location }}'
-        state: directory
-        mode: 0755
-    - name: Mount new home in temp place
-      mount:
-        src: '{{ home_device }}'
-        path: '{{ alt_home_location }}'
-        fstype: ext4
-        state: mounted
-    - name: Copy /home to temp place
+    - name: Copy /home to alt location
       synchronize:
         src: '{{ home_location }}/'
         dest: '{{ alt_home_location }}/'
-    - name: Unmount new home in temp place
-      mount:
-        path: '{{ alt_home_location }}'
-        state: absent
-    - name: Mount new home on /home
+    # TODO clean /home before mounting over it?
+    - name: Bind mount alt location on /home
       mount:
         path: '{{ home_location }}'
-        src: '{{ home_device }}'
-        fstype: ext4
+        src: '{{ alt_home_location }}'
         state: mounted
-  when: new_home_in_fstab.changed # /dev/sdb is not mounted as /home
+        opts: bind
+        fstype: none
+  when: new_home_in_fstab.changed # /data/volume_3 is not mounted as /home

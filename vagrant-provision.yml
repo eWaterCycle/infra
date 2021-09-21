@@ -65,10 +65,17 @@
         dev: /dev/sdc
         fstype: ext4
 
-    - name: Mount /cache
+    - name: Mount cache as /data/volume_2
       mount:
-        path: /cache
+        path: /data/volume_2
         src: /dev/sdc
+        fstype: ext4
+        state: mounted
+
+    - name: Mount home as /data/volume_3
+      mount:
+        path: /data/volume_3
+        src: /dev/sdb
         fstype: ext4
         state: mounted
 
