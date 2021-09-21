@@ -21,20 +21,20 @@
     - name: List my users
       shell: set -o pipefail && ls -1 | grep -v lost+found
       args:
-        chdir: '{{ home_root }}'
+        chdir: '{{ home_location }}'
         executable: /bin/bash
       register: myusers
       changed_when: False
     - name: Remove symlinks to /data
       file:
-        path: '{{ home_root }}/{{ item }}/data'
+        path: '{{ home_location }}/{{ item }}/data'
         state: absent
       loop: "{{ myusers.stdout_lines }}"
       loop_control:
         label: "{{ item }}"
     - name: Remove symlinks to /scratch
       file:
-        path: '{{ home_root }}/{{ item }}/scratch'
+        path: '{{ home_location }}/{{ item }}/scratch'
         state: absent
       loop: "{{ myusers.stdout_lines }}"
       loop_control:
