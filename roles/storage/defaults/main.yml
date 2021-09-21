@@ -1,5 +1,11 @@
 ---
 # defaults file for storage
+# Device which should be used for home directories
 home_device: /dev/sdb
+# Mount point for home directories
 home_location: /home
+# Mount point for alternative home directories, used for syncing old home
 alt_home_location: /home2
+# Mount point where SRC storage item will be mounted on,
+# will be unmounted so device can be remounted on home_location
+home_storage_item_mountpoint: /data/volume_3
