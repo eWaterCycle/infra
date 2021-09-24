@@ -109,10 +109,9 @@ For a new CO make sure
 * application is allowed to be used by CO.
 * data storage item and home dir are created for the CO
 
-End user should be invited to CO and then
+End user should be invited to CO so they can login.
 
-1. to login to Jupyter, he/she should setup TOTP on [SRC dashboard profile page](https://sbs.sram.surf.nl/profile)
-2. optionally to ssh into machine, the ssh pub key must be added to [https://sbs.sram.surf.nl/profile](https://sbs.sram.surf.nl/profile)
+See [User guide](USER.md) to see what users have to do to login or use GitHub repository.
 
 ### Example notebooks
 
