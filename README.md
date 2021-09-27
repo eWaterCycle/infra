@@ -156,7 +156,7 @@ Runnig this script will download all data files to /mnt/data and upload them to 
 
 ## Docker images
 
-In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Dockuer Hub.
+In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Docker Hub.
 
 ## Logs
 
