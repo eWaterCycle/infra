@@ -10,6 +10,8 @@ On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/a
 * ERA5 and ERA-Interim global climate data, which can be used to generate forcings
 * Installed models and their example parameter sets
 
+For people who got access to eWatercycle server can read the [User guide](USER.md), the rest of this document is aimed at eWatercycle developers and deployers.
+
 Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
 
 ## Technical specs
