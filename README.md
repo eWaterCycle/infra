@@ -10,6 +10,8 @@ On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/a
 * ERA5 and ERA-Interim global climate data, which can be used to generate forcings
 * Installed models and their example parameter sets
 
+For people who got access to eWatercycle server can read the [User guide](USER.md), the rest of this document is aimed at eWatercycle developers and deployers.
+
 Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
 
 ## Technical specs
@@ -109,10 +111,9 @@ For a new CO make sure
 * application is allowed to be used by CO.
 * data storage item and home dir are created for the CO
 
-End user should be invited to CO and then
+End user should be invited to CO so they can login.
 
-1. to login to Jupyter, he/she should setup TOTP on [SRC dashboard profile page](https://sbs.sram.surf.nl/profile)
-2. optionally to ssh into machine, the ssh pub key must be added to [https://sbs.sram.surf.nl/profile](https://sbs.sram.surf.nl/profile)
+See [User guide](USER.md) to see what users have to do to login or use GitHub repository.
 
 ### Example notebooks
 
