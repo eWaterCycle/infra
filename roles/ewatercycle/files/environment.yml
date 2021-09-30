@@ -14,9 +14,7 @@ dependencies:
   # Line above are copy from https://github.com/eWaterCycle/ewatercycle/blob/main/environment.yml
   - ansible
   - pip:
-      # - ewatercycle
-      # TODO use ewatercycle from pypi
-      - git+https://github.com/eWaterCycle/ewatercycle.git@565f45d1f3f30a1f336c75e56fd69423ccf057b4
+      - ewatercycle
       - era5cli
   - setuptools
   - altair_saver
