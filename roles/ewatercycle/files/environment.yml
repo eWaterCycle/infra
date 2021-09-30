@@ -16,7 +16,7 @@ dependencies:
   - pip:
       # - ewatercycle
       # TODO use ewatercycle from pypi
-      - git+https://github.com/eWaterCycle/ewatercycle.git@ee43e4c7494e9f5c2db059bda1288da6a7d44f69
+      - git+https://github.com/eWaterCycle/ewatercycle.git@565f45d1f3f30a1f336c75e56fd69423ccf057b4
       - era5cli
   - setuptools
   - altair_saver
