@@ -127,11 +127,15 @@ git pull
 The default Jupyter kernel is read-only and has the eWaterCycle Python package and friends installed.
 To install additional Python or Conda packages you need to create your own conda environment with a Jupyter kernel.
 
-1. Install eWaterCycle Python package dependencies with user chosen Conda environmmnent name.
+1. Install eWaterCycle Python package dependencies with user chosen Conda environment name.
+`mamba env create --file environment.yml --name testewatercycle` 
 
 2. Install eWaterCycle Python package
+`conda activate testewatercycle`
+`pip install -e .[dev]`
 
 3. Install Jupyter kernel
+`mamba install -c conda-forge ipykernel`
 
 4. Restart your own Jupyter server
 
