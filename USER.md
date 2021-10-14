@@ -121,3 +121,20 @@ git pull
 ```
 
 > The git commands can also be done using the [Git tab](https://github.com/jupyterlab/jupyterlab-git) in the Jupyter Lab environment.
+
+## Install own software
+
+The default Jupyter kernel is read-only and has the eWaterCycle Python package and friends installed.
+To install additional Python or Conda packages you need to create your own conda environment with a Jupyter kernel.
+
+1. Install eWaterCycle Python package dependencies with user chosen Conda environmmnent name.
+
+2. Install eWaterCycle Python package
+
+3. Install Jupyter kernel
+
+4. Restart your own Jupyter server
+
+5. Open notebook and pick the new kernel
+
+6. Install additional software
