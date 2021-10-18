@@ -12,12 +12,14 @@ none
 Role Variables
 --------------
 
-| | |
-|---------------|-----------------|
-| singularity_version | Singularity version |
-| singularity_sha256sum | sha256 checksum of Singularity release tarball |
-| go_version | Go version |
-| go_sha256sum | sha256 checksum of Go binary tarball |
+```yaml
+# Version of singularity release at https://github.com/hpcng/singularity
+singularity_version: '3.8.3'
+# Version of go release at https://golang.org/dl/
+go_version: '1.17.1'
+# SHA256 Checksum of linux-amd64 os-arch version of go at https://golang.org/dl/
+go_sha256sum: 'dab7d9c34361dc21ec237d584590d72500652e7c909bf082758fb63064fca0ef'
+```
 
 Example Playbook
 ----------------

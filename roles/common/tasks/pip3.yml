@@ -10,7 +10,6 @@
   get_url:
     url: https://bootstrap.pypa.io/get-pip.py
     dest: /opt/get-pip.py
-    checksum: sha256:{{ getpip_checksum }}
 - name: Install latest pip
   command: python3 /opt/get-pip.py
   args:
