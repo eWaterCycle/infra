@@ -129,63 +129,63 @@ To install additional Python or Conda packages you need to create your own conda
 
 1. Install eWaterCycle Python package dependencies with user chosen Conda environment name.
 
-  - Get the eWaterCycle `environment.yml` file:
+- Get the eWaterCycle `environment.yml` file:
 
-  ```shell
-  wget https://raw.githubusercontent.com/eWaterCycle/ewatercycle/main/environment.yml
-  ```
+```shell
+wget https://raw.githubusercontent.com/eWaterCycle/ewatercycle/main/environment.yml
+```
 
-  - Create your own conda environment e.g. `testewatercycle`:
+- Create your own conda environment e.g. `testewatercycle`:
 
-  ```shell
-  mamba env create --file environment.yml --name testewatercycle
-  ```
+```shell
+mamba env create --file environment.yml --name testewatercycle
+```
 
 2. Install eWaterCycle Python package
 
-  - Activate your own conda environment e.g. `testewatercycle`:
+- Activate your own conda environment e.g. `testewatercycle`:
 
-  ```shell
-  conda activate testewatercycle
-  ```
+```shell
+conda activate testewatercycle
+```
 
-  - Install eWaterCycle Python package:
+- Install eWaterCycle Python package:
 
-  ```shell
-  pip install ewatercycle
-  ```
+```shell
+pip install ewatercycle
+```
 
-  or 
+or 
 
-  ```shell
-  pip install -e .[dev]
-  ```
+```shell
+pip install -e .[dev]
+```
 
-  to be in development mode if you have the source code.
+to be in development mode if you have the source code.
 
 3. Install Jupyter kernel
 
-  - Install `ipykernel`:
+- Install `ipykernel`:
 
-  ```shell
-  mamba install -c conda-forge ipykernel
-  ```
+```shell
+mamba install -c conda-forge ipykernel
+```
 
-  - Get the path to python in our own conda environment:
+- Get the path to python in our own conda environment:
 
-  ```shell
-  which python
-  ```
+```shell
+which python
+```
 
-  > that returns `/home/usr/.conda/envs/testewatercycle/bin/python`
+> that returns `/home/usr/.conda/envs/testewatercycle/bin/python`
 
-  - Add it to Jupyter: 
+- Add it to Jupyter: 
 
-  ```shell
-  /home/usr/.conda/envs/testewatercycle/bin/python -m ipykernel install --user --name 'testewatercycle'
-  ```
+```shell
+/home/usr/.conda/envs/testewatercycle/bin/python -m ipykernel install --user --name 'testewatercycle'
+```
 
-  > that returns `Installed kernelspec testewatercycle in /home/usr/.local/share/jupyter/kernels/testewatercycle`
+> that returns `Installed kernelspec testewatercycle in /home/usr/.local/share/jupyter/kernels/testewatercycle`
 
 4. Restart your own Jupyter server from tab `File > Hub Control Panel`
 
