@@ -38,6 +38,7 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 ---
 dcache_ro_token: <dcache macaroon with read permission>
 rclone_cache_dir: /data/volume_2
+# Directory where /home should point to
 alt_home_location: /data/volume_3
 ```
 

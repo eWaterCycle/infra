@@ -2,5 +2,6 @@
 # defaults file for storage
 # Mount point for home directories
 home_location: /home
-# Mount point for alternative home directories, used for syncing old home and as bind mount source
+# Directory where /home (`home_location`) should point to
+# It is directory where extra disk is mounted at and where existing home dirs should be copied to
 alt_home_location: /data/volume_3
