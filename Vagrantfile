@@ -21,6 +21,9 @@ Vagrant.configure("2") do |config|
     vb.cpus = 4
   end
 
+  config.vm.disk :disk, size: "20GB", name: "home2"
+  config.vm.disk :disk, size: "50GB", name: "cache"
+
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "vagrant-provision.yml"
     ansible.become = true

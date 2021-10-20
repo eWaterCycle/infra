@@ -30,9 +30,10 @@
 
 # Loop over users in /home to copy .esmvaltool/config-user.yml using home_root=/home var
 - name: List my users
-  command: ls -1
+  shell: set -o pipefail && ls -1 | grep -v lost+found
   args:
     chdir: '{{ home_root }}'
+    executable: /bin/bash
   register: myusers
   changed_when: False
 

@@ -23,6 +23,10 @@ c.JupyterHub.services = [
 c.Authenticator.admin_users = set([ {% for user in jupyterhub_admins %}
      '{{ user.name }}'{% if not loop.last %},{% endif %}
  {% endfor %} ])
+
+c.JupyterHub.spawner_class = 'systemdspawner.SystemdSpawner'
+c.SystemdSpawner.default_shell = '/bin/bash'
+
 c.Spawner.default_url = '/lab'
 c.Spawner.environment = { {% for key, value in jupyterhub_spawner_environment.items() %}
     '{{ key }}': '{{ value }}'{% if not loop.last %},{% endif %}
@@ -39,3 +43,5 @@ c.JupyterHub.cleanup_proxy = False
 
 # Host from /jupyter
 c.JupyterHub.base_url = '/jupyter'
+
+c.JupyterHub.template_vars = {'announcement_login': 'By logging in you accept the GRDC observation data policy at https://www.bafg.de/GRDC/EN/01_GRDC/12_plcy/data_policy_node.html'}

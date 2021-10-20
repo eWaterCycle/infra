@@ -5,7 +5,7 @@
     state: present
 - name: NodeJS ppa
   apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_10.x focal main'
+    repo: 'deb https://deb.nodesource.com/node_14.x focal main'
 - name: Update apt cache
   apt:
     name: nodejs
@@ -58,10 +58,12 @@
     path: /mnt/apps/TerriaMap
     executable: /usr/bin/yarn
 - name: eWaterCycle/TerriaMap build
-  command: /usr/bin/yarn run gulp
+  command: /usr/bin/yarn run gulp release
   args:
     chdir: /mnt/apps/TerriaMap
     creates: /mnt/apps/TerriaMap/wwwroot/build
+  environment:
+    NODE_OPTIONS: '--max_old_space_size=4096'
 - name: Flush handlers
   meta: flush_handlers
 - name: Nginx config root

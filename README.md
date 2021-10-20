@@ -37,6 +37,9 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 ```yaml
 ---
 dcache_ro_token: <dcache macaroon with read permission>
+rclone_cache_dir: /data/volume_2
+# Directory where /home should point to
+alt_home_location: /data/volume_3
 ```
 
 The token can be found in the eWaterCycle password manager.
@@ -46,6 +49,7 @@ vagrant --version
 # Vagrant 2.2.18
 vagrant plugin install vagrant-vbguest
 # Installed the plugin 'vagrant-vbguest (0.30.0)'
+export VAGRANT_EXPERIMENTAL="disks"
 vagrant up
 ```
 
@@ -82,7 +86,10 @@ For eWatercycle application following specialization was done
 
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
 * Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
-* Set a fixed plugin parameter called `rclone_cache_dir` for directory where rclone can store its cache. Also expose the parameter in application and application offer.
+* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_2` for directory where rclone can store its cache. Also expose the parameter in application and application offer.
+* Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Also expose the parameter in application and application offer.
+* Set a fixed plugin parameter called `alt_home_location` to `/data/volume_3` for mount point of the storage item which should hold homes
+mounted. Also expose the parameter in application and application offer.
 * Set application parameter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
@@ -92,15 +99,19 @@ For eWatercycle application following specialization was done
 This chapter is dedicated for application deployers.
 
 1. Log into Research Cloud
-1. Create new storage item
+1. Create new storage item for cache
     * To store cached files from dCache by rclone
     * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
     * Use 50GB size for simple usage, use 500GB size to able to perform 20 year forcing generation or other big IO jobs.
+1. Create new storage item for home directories
+   * To store user files
+   * Use 50Gb size for simple experiments or bigger when required for experiment.
 1. Create new workspace
 1. Select eWaterCycle application
 1. Select collaborative organisation (CO) `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
 1. Select cache storage item
+1. Select home storage item
 1. Set workspace parameter called `rclone_cache_dir` to the storage item. Depending on order of storage items this should be set to `/data/volume_2` or `/data/volume_3`.
 1. Wait for machine to be running
 1. Visit URL/IP
@@ -147,4 +158,15 @@ Runnig this script will download all data files to /mnt/data and upload them to 
 
 ## Docker images
 
-In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Dockuer Hub.
+In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Docker Hub.
+
+## Logs
+
+All services are running with systemd. Their logs can be viewed with `journalctl`.
+The log of the Jupyter server for each user can be followed with
+
+```shell
+journalctl -f -u jupyter-vagrant-singleuser.service
+```
+
+(replace `vagrant` with own username)

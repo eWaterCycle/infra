@@ -12,8 +12,8 @@ dcache_rw_token: null
 dcache_ro_token: null
 # Location where rlcone stores it cached files
 # if a storage item is attached for cache then change this var
-rclone_cache_dir: /tmp/rclone
+rclone_cache_dir: /data/volume_2
 # Maximum size of rclone cache in Gigabytes
 # TODO if rclone cache dir is on root disk prevent cache filling it 100% as this will cause OS problems
 # TODO if free space on rclone_cache_dir is less than rclone_max_gsize then set rclone_max_gsize to available freespace
-rclone_max_gsize: 48
+rclone_max_gsize: 45
