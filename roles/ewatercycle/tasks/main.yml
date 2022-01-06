@@ -51,6 +51,7 @@
   loop: "{{ myusers.stdout_lines }}"
   loop_control:
     label: "{{ item }}"
+  ignore_errors: True
 
 - name: ESMValTool config-user.yml
   template:
@@ -62,6 +63,7 @@
   loop: "{{ myusers.stdout_lines }}"
   loop_control:
     label: "{{ item }}"
+  ignore_errors: True
 
 - name: ESMValTool configuration directory in new user skeleton
   file:
