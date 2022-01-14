@@ -13,6 +13,8 @@ grpc4bmi_images:
       singularity: ewatercycle-wflow-grpc4bmi_2020.1.1.sif
     - docker: ewatercycle/wflow-grpc4bmi:2020.1.2
       singularity: ewatercycle-wflow-grpc4bmi_2020.1.2.sif
+    - docker: ewatercycle/wflow-grpc4bmi:2020.1.3
+      singularity: ewatercycle-wflow-grpc4bmi_2020.1.3.sif
     - docker:  ewatercycle/marrmot-grpc4bmi:2020.11
       singularity: ewatercycle-marrmot-grpc4bmi_2020.11.sif
     # - docker: ewatercycle/hype-grpc4bmi
