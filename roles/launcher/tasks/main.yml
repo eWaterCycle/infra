@@ -11,7 +11,7 @@
     - restart experiment-launcher
 - name: Install experiment-launcher
   pip:
-    executable: pip3
+    executable: /usr/local/bin/pip3
     editable: true
     # pip >=10 no longer uninstalls distutils packages, so use force to upgrade PyYAML
     extra_args: --ignore-installed
@@ -21,7 +21,7 @@
 # extras do not get installed from setup.py, so do it manually
 - name: Swagger UI for connexion
   pip:
-    executable: pip3
+    executable: /usr/local/bin/pip3
     name: connexion[swagger-ui]
 - name: Experiment launcher systemd file
   template:
