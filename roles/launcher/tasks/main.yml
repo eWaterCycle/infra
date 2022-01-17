@@ -13,8 +13,6 @@
   pip:
     executable: /usr/local/bin/pip3
     editable: true
-    # pip >=10 no longer uninstalls distutils packages, so use force to upgrade PyYAML
-    extra_args: --ignore-installed
     name: /mnt/apps/launcher
   notify:
     - restart experiment-launcher
