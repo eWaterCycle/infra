@@ -86,3 +86,14 @@
 - name: conda clean
   # TODO check if cleaning is needed
   command: '{{ conda_root }}/condabin/conda clean -a -y'  # noqa no-changed-when
+
+- name: nbgitpuller workaround
+  # See https://github.com/jupyterhub/nbgitpuller/issues/235
+  # TODO remove once new version of nbgitpuller is released
+  file:
+    src: '{{ conda_root }}/envs/{{ conda_environment }}/lib/python3.9/site-packages/nbgitpuller/templates/status.html'
+    dest: '{{ conda_root }}/envs/{{ conda_environment }}/lib/python3.9/site-packages/notebook/templates/status.html'
+    owner: root
+    group: root
+    mode: '0644'
+    state: link
