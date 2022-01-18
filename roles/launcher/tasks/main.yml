@@ -12,15 +12,9 @@
 - name: Install experiment-launcher
   pip:
     executable: /usr/local/bin/pip3
-    editable: true
     name: /mnt/apps/launcher
   notify:
     - restart experiment-launcher
-# extras do not get installed from setup.py, so do it manually
-- name: Swagger UI for connexion
-  pip:
-    executable: /usr/local/bin/pip3
-    name: connexion[swagger-ui]
 - name: Experiment launcher systemd file
   template:
     src: experiment-launcher.systemd.j2
