@@ -87,9 +87,9 @@ For eWatercycle application following specialization was done
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
 * Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
 * Set a fixed plugin parameter called `alt_home_location` to `/data/volume_2` for mount point of the storage item which should hold homes
-mounted.
-* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache.
-* Set a fixed plugin parameter called `rclone_max_gsize` to `45`.
+mounted. Set parameter in plugin and application.
+* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache. Set parameter in plugin and application.
+* Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Set parameter in plugin and application.
 * Set application parameter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
