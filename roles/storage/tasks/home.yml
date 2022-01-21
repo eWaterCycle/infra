@@ -19,7 +19,7 @@
 - name: Move home
   block:
     - name: List my users
-      shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v vfs
+      shell: set -o pipefail && ls -1 | grep -v lost+found
       args:
         chdir: '{{ home_location }}'
         executable: /bin/bash
@@ -52,26 +52,3 @@
         opts: bind
         fstype: none
   when: new_home_in_fstab.changed # /data/volume_3 is not mounted as /home
-
-# A storage items with home directories can already be used by another VM in the past
-# Each VM can have different user ids for the users of the CO
-# By chowning we make sure a user has permission in his/her own home dir.
-- name: Chown homes
-  block:
-    - name: List my users
-      shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v vfs
-      args:
-        chdir: '{{ home_location }}'
-        executable: /bin/bash
-      register: myusers
-      changed_when: False
-    - name: Chown
-      file:
-        path: '{{ home_location }}/{{ item }}'
-        recurse: yes
-        state: directory
-        owner: '{{ item }}'
-        group: '{{ item }}'
-      loop: "{{ myusers.stdout_lines }}"
-      loop_control:
-        label: "{{ item }}"
