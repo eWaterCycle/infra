@@ -86,10 +86,10 @@ For eWatercycle application following specialization was done
 
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
 * Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
-* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_2` for directory where rclone can store its cache. Also expose the parameter in application and application offer.
-* Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Also expose the parameter in application and application offer.
-* Set a fixed plugin parameter called `alt_home_location` to `/data/volume_3` for mount point of the storage item which should hold homes
-mounted. Also expose the parameter in application and application offer.
+* Set a fixed plugin parameter called `alt_home_location` to `/data/volume_2` for mount point of the storage item which should hold homes
+mounted.
+* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache.
+* Set a fixed plugin parameter called `rclone_max_gsize` to `45`.
 * Set application parameter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
@@ -99,20 +99,21 @@ mounted. Also expose the parameter in application and application offer.
 This chapter is dedicated for application deployers.
 
 1. Log into Research Cloud
+1. Create new storage item for home directories
+    * To store user files
+    * Use 50Gb size for simple experiments or bigger when required for experiment.
+    * As each storage item can only be used by a single workspace, give it a name and description so you to which workspace you want to connect later.
 1. Create new storage item for cache
     * To store cached files from dCache by rclone
-    * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
-    * Use 50GB size for simple usage, use 500GB size to able to perform 20 year forcing generation or other big IO jobs.
-1. Create new storage item for home directories
-   * To store user files
-   * Use 50Gb size for simple experiments or bigger when required for experiment.
+    * Use 50GB size as size
+    * As each storage item can only be used by a single workspace, give it a name and description so you to which workspace you want to connect later.
 1. Create new workspace
 1. Select eWaterCycle application
-1. Select collaborative organisation (CO) `ewatercycle-nlesc`
+1. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
+1. Select home storage item.
+    * Order in which the storage items are select is important, make sure to select home before cache storage item.
 1. Select cache storage item
-1. Select home storage item
-1. Set workspace parameter called `rclone_cache_dir` to the storage item. Depending on order of storage items this should be set to `/data/volume_2` or `/data/volume_3`.
 1. Wait for machine to be running
 1. Visit URL/IP
 1. When done delete machine
