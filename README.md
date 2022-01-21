@@ -1,9 +1,9 @@
-# Setup of eWaterCycle system on Research cloud
+# Setup of eWaterCycle system on SURF Research cloud
 
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 [![Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1462548.svg)](https://doi.org/10.5281/zenodo.1462548)
 
-On the [SURF ResearchCloud](https://researchclouddocs.readthedocs.io/en/latest/about.html) an eWatercycle application will be available that when started will give
+On the [SURF Research Cloud](https://servicedesk.surfsara.nl/wiki/display/WIKI/Research+Cloud+Documentation) an eWatercycle application will be available that when started will give
 
 * Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
 * Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
@@ -86,40 +86,41 @@ For eWatercycle application following specialization was done
 
 * Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
 * Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
-* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_2` for directory where rclone can store its cache. Also expose the parameter in application and application offer.
-* Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Also expose the parameter in application and application offer.
-* Set a fixed plugin parameter called `alt_home_location` to `/data/volume_3` for mount point of the storage item which should hold homes
-mounted. Also expose the parameter in application and application offer.
+* Set a fixed plugin parameter called `alt_home_location` to `/data/volume_2` for mount point of the storage item which should hold homes
+mounted. Set parameter in plugin and application.
+* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache. Set parameter in plugin and application.
+* Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Set parameter in plugin and application.
 * Set application parameter `co_roles_enabled` to False
     TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
 
-## Research cloud VM deployment
+## SURF Research cloud VM deployment
 
 This chapter is dedicated for application deployers.
 
 1. Log into Research Cloud
+1. Create new storage item for home directories
+    * To store user files
+    * Use 50Gb size for simple experiments or bigger when required for experiment.
+    * As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
 1. Create new storage item for cache
     * To store cached files from dCache by rclone
-    * Disk which holds cache should have enough room for a singularity image, a big parameter set and some climate data.
-    * Use 50GB size for simple usage, use 500GB size to able to perform 20 year forcing generation or other big IO jobs.
-1. Create new storage item for home directories
-   * To store user files
-   * Use 50Gb size for simple experiments or bigger when required for experiment.
-1. Create new workspace
+    * Use 50GB size as size
+    * As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
+1. Create a new workspace
 1. Select eWaterCycle application
-1. Select collaborative organisation (CO) `ewatercycle-nlesc`
+1. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
+1. Select home storage item.
+    * Order in which the storage items are select is important, make sure to select home before cache storage item.
 1. Select cache storage item
-1. Select home storage item
-1. Set workspace parameter called `rclone_cache_dir` to the storage item. Depending on order of storage items this should be set to `/data/volume_2` or `/data/volume_3`.
 1. Wait for machine to be running
 1. Visit URL/IP
 1. When done delete machine
 
 For a new CO make sure
 
-* application is allowed to be used by CO.
+* application is allowed to be used by CO. See [Sharing catalog items](https://servicedesk.surfsara.nl/wiki/display/WIKI/Sharing+catalog+items)
 * data storage item and home dir are created for the CO
 
 End user should be invited to CO so they can login.
