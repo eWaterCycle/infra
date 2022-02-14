@@ -14,6 +14,10 @@
     - name: Gather facts for first time
       setup:
 
+    - name: Extra vols
+      debug: 
+        var: external_volumes
+
     - name: Common stuff
       include_role:
         name: common
