@@ -159,8 +159,9 @@ Runnig this script will download all data files to /mnt/data and upload them to 
 
 ## Sync dcache with existing folder elsewhere
 
-The steps above download the data from source. If you want to add data to dcache from 
-another location, say, Snellius, you can use rclone directly.
+The steps above fetch the data from original sources. If you want to sync some files from 
+another location, say, Snellius, you can use rclone directly. In our experience, it works
+better to sync entire directories than to try and copy single files.
 
 Create the file `~/.config/rclone/rclone.conf` and add the following content:
 
@@ -175,7 +176,8 @@ bearer_token = <dcache macaroon with read/write permissions>
 ```
 
 You can verify your access by running an innocent `rclone ls  dcache:parameter-sets`. 
-The command to sync directories is `rclone copy somedir dcache:parameter-sets/somedir`
+The command to sync directories is `rclone copy somedir dcache:parameter-sets/somedir`.
+Beware that this will overwrite any existing files, if different!
 
 ## Docker images
 
