@@ -157,6 +157,25 @@ ansible-playbook \
 
 Runnig this script will download all data files to /mnt/data and upload them to dcache.
 
+## Sync dcache with existing folder elsewhere
+
+The steps above download the data from source. If you want to add data to dcache from another location, say, Snellius, you can use rclone directly.
+Create the following file:
+
+~/.config/rclone/rclone.conf
+```
+[ dcache ]
+type = webdav
+url = https://webdav.grid.surfsara.nl:2880
+vendor = other
+user =
+pass =
+bearer_token = <dcache macaroon with read/write permissions>
+```
+
+You can verify your access by running e.g. an innocent `rclone ls  dcache:parameter-sets/pcrglobwb_global/`. 
+The command to sync directories is `rclone copy somedir dcache:parameter-sets/somedir`
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Docker Hub.
