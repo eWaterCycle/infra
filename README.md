@@ -152,7 +152,7 @@ To fill the dcache bucket you can run
 ansible-playbook \
   -e cds_uid=1234 -e cds_api_key <cds api key> \
   -e dcache_rw_token=<dcache macaroon with read/write permissions>
-  research-cloud-plugin.yml
+  shared-data-disk.yml
 ```
 
 Runnig this script will download all data files to /mnt/data and upload them to dcache.
