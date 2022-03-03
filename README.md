@@ -179,6 +179,8 @@ You can verify your access by running an innocent `rclone ls  dcache:parameter-s
 The command to sync directories is `rclone copy somedir dcache:parameter-sets/somedir`.
 Beware that this will overwrite any existing files, if different!
 
+Note: password manager can be used for exchanging macaroons.
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Docker Hub.
