@@ -3,7 +3,7 @@
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 [![Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1462548.svg)](https://doi.org/10.5281/zenodo.1462548)
 
-This repo contains (codified) instructions for deploying the eWaterCycle platform. The target audience of these instructions are system administrators. For more information on the eWaterCycle platform see the [eWaterCycle documentation[(https://ewatercycle.readthedocs.io/).
+This repo contains (codified) instructions for deploying the eWaterCycle platform. The target audience of these instructions are system administrators. For more information on the eWaterCycle platform (and how to deloy it) see the [eWaterCycle documentation[(https://ewatercycle.readthedocs.io/).
 
 For instructions on how to use the machine as deployed by this repo see the [User guide](USER.md).
 
@@ -32,7 +32,7 @@ Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, 
 
 ## Setup of eWaterCycle platform on a local test VM
 
-Deplying a local test VM is mostly useful for developing the SURF Research Cloid applications.
+Deplying a local test VM is mostly useful for developing the SURF Research Cloid applications. This vagrant setup should work on any Linux or Windows machine with sufficient memory (8Gb, mostly depends on the models you run), cpu (More is better, one core will do if needed), and storage (At least 200Gb) available.
 
 To set up an Explorer/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
  [Ansible](https://docs.ansible.com/ansible/latest/index.html)
