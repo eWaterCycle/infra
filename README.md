@@ -27,7 +27,7 @@ In addition to the standard VM storage, additional read-only datasets are mounte
 
 * climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 * observation
-* parameter-sets, example use cases and bigger ones
+* parameter-sets
 * singularity-images of hydrological models wrapped in grpc4bmi servers
 
 Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
