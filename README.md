@@ -1,20 +1,25 @@
-# Setup of eWaterCycle system on SURF Research cloud
+# Instructions for system administrators to deploy the eWaterCycle platform
 
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 [![Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1462548.svg)](https://doi.org/10.5281/zenodo.1462548)
 
-On the [SURF Research Cloud](https://servicedesk.surfsara.nl/wiki/display/WIKI/Research+Cloud+Documentation) an eWatercycle application will be available that when started will give
+This repo contains (codified) instructions for deploying the eWaterCycle platform. The target audience of these instructions are system administrators. For more information on the eWaterCycle platform (and how to deloy it) see the [eWaterCycle documentation[(https://ewatercycle.readthedocs.io/).
+
+For instructions on how to use the machine as deployed by this repo see the [User guide](USER.md).
+
+These instructions assume you have some basic knowledge of [vagrant](https://vagrantup.com) and
+ [Ansible](https://docs.ansible.com/ansible/latest/index.html).
+
+## Setup of eWaterCycle platform on the SURF Research cloud
+
+The hardware environment used by the eWaterCycle platform development team is the [SURF Research Cloud](https://servicedesk.surfsara.nl/wiki/display/WIKI/Research+Cloud+Documentation). Starting a machine on the Surf Research Cloud requires that you have research budget with SURF, for more info see the website of [SURF](https://www.surf.nl/en/research-it/apply-for-access-to-compute-services). Once running, access to the machine can be shared to anyone.
+
+The setup instructions in this repo will create an eWatercycle application(a sort-of VM template) that when started will create a machine with:
 
 * Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
 * Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
 * ERA5 and ERA-Interim global climate data, which can be used to generate forcings
 * Installed models and their example parameter sets
-
-For people who got access to eWatercycle server can read the [User guide](USER.md), the rest of this document is aimed at eWatercycle developers and deployers.
-
-Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
-
-## Technical specs
 
 An application on the SURF Research cloud is provisioned by running an Ansible playbook (research-cloud-plugin.yml).
 
@@ -22,12 +27,14 @@ In addition to the standard VM storage, additional read-only datasets are mounte
 
 * climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 * observation
-* parameter-sets, example use cases and bigger ones
+* parameter-sets
 * singularity-images of hydrological models wrapped in grpc4bmi servers
 
-## Local test VM
+Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
 
-This chapter is dedicated for application developers.
+## Setup of eWaterCycle platform on a local test VM
+
+Deplying a local test VM is mostly useful for developing the SURF Research Cloid applications. This vagrant setup should work on any Linux or Windows machine with sufficient memory (8Gb, mostly depends on the models you run), cpu (More is better, one core will do if needed), and storage (At least 200Gb) available.
 
 To set up an Explorer/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
  [Ansible](https://docs.ansible.com/ansible/latest/index.html)
