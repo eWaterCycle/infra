@@ -4,9 +4,9 @@
     path: /root/go/src/github.com/hpcng
     state: directory
     mode: 0755
-- name: Clone experiment-launcher repo
+- name: Clone singularity repo
   git:
-    repo: https://github.com/hpcng/singularity.git
+    repo: https://github.com/apptainer/singularity.git
     dest: /root/go/src/github.com/hpcng/singularity
     version: "v{{ singularity_version }}"
 - name: Go dependencies
