@@ -9,6 +9,8 @@ jupyterhub_spawner_environment:
   USGS_DATA_HOME: /tmp
   # TODO needed for pymt(?) and cfunits
   UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml
+  # Make proj work in notebook, if not set get `ERROR 1: PROJ: proj_create_from_database: Open of /opt/conda/envs/ewatercycle/share/proj failed` error
+  PROJ_LIB: /opt/conda/envs/ewatercycle/share/proj
 # Location where conda is installed
 conda_root: /opt/conda
 # Name of conda environment to use
