@@ -8,14 +8,6 @@
       - libgpgme11-dev
       - squashfs-tools
       - cryptsetup-bin
-- name: Get Go
-  include: go.yml
-- name: Build singularity
-  include: build.yml
-- name: Reclaim disk space
-  file:
-    path: '{{ item }}'
-    state: absent
-  loop:
-    - ~root/go/
-    - /mnt/apps/go{{ go_version }}.linux-amd64.tar.gz
+- name: Install singularity deb binary 
+  ansible.builtin.apt:
+    deb: https://github.com/apptainer/singularity/releases/download/v{{ singularity_version }}/singularity-container_{{ singularity_version }}_amd64.deb
