@@ -97,9 +97,10 @@ For eWatercycle application following specialization was done
 mounted. Set parameter in plugin and application.
 * Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache. Set parameter in plugin and application.
 * Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Set parameter in plugin and application.
-* Set application parameter `co_roles_enabled` to False
-    TODO use a group members in SRAM (https://github.com/SURFscz/SBS#api or https://wiki.surfnet.nl/display/SRAM/Connect+a+service+to+LDAP) to define who can do sudo and who can admin JupyterHub
 * Set application offer flavours to Ubuntu 20.04 operating system
+
+To become root on a VM the user needs to be member of the `src_co_admin` group on [SRAM](https://sram.surf.nl/).
+See [docs](https://servicedesk.surf.nl/wiki/display/WIKI/Workspace+roles%3A+Appoint+a+CO-member+a+SRC+administrator).
 
 ## SURF Research cloud VM deployment
 
