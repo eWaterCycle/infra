@@ -19,7 +19,7 @@
   # Fixes X509_V_FLAG_CB_ISSUER_CHECK error
   ansible.builtin.pip:
     executable: /usr/local/bin/pip3
-    name: pyOpenSSL==22.1.0
+    name: pyOpenSSL>=22.1.0
 - name: Experiment launcher systemd file
   template:
     src: experiment-launcher.systemd.j2
