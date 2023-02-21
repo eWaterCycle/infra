@@ -15,19 +15,6 @@
     line: conda activate {{ conda_environment }}
     regexp: '^conda activate {{ conda_environment }}'
 
-# Checklist system setup https://ewatercycle.readthedocs.io/en/latest/system_setup.html :
-# Conda environment -> done on line 10
-# Install ewatercycle package -> done on line 18
-# Configure ESMValTool -> done on line 42-49
-# Download climate data -> from dcache mounted on /mnt/data
-# Install container engine -> done in singularity role
-# Configure ewatercycle -> done on line 51-54
-# Model container images -> from dcache mounted on /mnt/data
-# Download example parameter sets -> from dcache mounted on /mnt/data
-# Prepare other parameter sets -> from dcache mounted on /mnt/data
-# Download example forcing -> from dcache mounted on /mnt/data
-# Download observation data -> from dcache mounted on /mnt/data
-
 # Loop over users in /home to copy .esmvaltool/config-user.yml using home_root=/home var
 - name: List my users
   shell: set -o pipefail && ls -1 | grep -v lost+found
