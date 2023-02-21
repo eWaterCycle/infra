@@ -49,9 +49,9 @@
         mode: 0755
 
     # Container engines
-    - name: singularity
+    - name: apptainer
       include_role:
-        name: singularity
+        name: ewatercycle.apptainer
 
     # Install Conda + mamba
     - name: Install conda

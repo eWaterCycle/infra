@@ -1,7 +1,0 @@
----
-# Version of singularity release at https://github.com/apptainer/singularity
-singularity_version: '3.8.7'
-# Version of go release at https://golang.org/dl/
-go_version: '1.17.12'
-# SHA256 Checksum of linux-amd64 os-arch version of go at https://golang.org/dl/
-go_sha256sum: '6e5203fbdcade4aa4331e441fd2e1db8444681a6a6c72886a37ddd11caa415d4'

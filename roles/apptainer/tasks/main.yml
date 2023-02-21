@@ -1,0 +1,5 @@
+---
+# tasks file for roles/apptainer
+- name: Install apptainer deb binary
+  ansible.builtin.apt:
+    deb: https://github.com/apptainer/apptainer/releases/download/v{{ apptainer_version }}/apptainer_{{ apptainer_version }}_amd64.deb
