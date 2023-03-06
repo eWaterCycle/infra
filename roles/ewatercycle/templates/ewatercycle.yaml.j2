@@ -1,4 +1,3 @@
-container_engine: singularity
 grdc_location: {{ grdc_location }}
 output_dir: ./ewatercycle_output
 parameter_sets:
@@ -102,4 +101,11 @@ parameter_sets:
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
 parameterset_dir: {{ parameterset_dir }}
+{# ewatercycle>1.4.1 will use apptainer instead of singularity #}
+{% if pyewatercycle_version == '1.4.1' %}
+container_engine: singularity
 singularity_dir: {{ apptainer_image_root }}
+{% else %}
+container_engine: apptainer
+apptainer_dir: {{ apptainer_image_root }}
+{% endif %}

@@ -2,8 +2,8 @@
 # tasks file for ewatercycle
 
 - name: Stage conda env file
-  copy:
-    src: environment.yml
+  template:
+    src: environment.yml.j2
     dest: '{{ conda_root }}/environment.yml'
     mode: '0644'
 - name: Install/update eWaterCycle platform conda environment + Jupyter and its extensions
