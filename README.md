@@ -82,22 +82,37 @@ Importantly:
 * Install [virtualbox_WSL2 vagrant plugin](https://github.com/Karandash8/virtualbox_WSL2)
 * Approve the firewall popup
 
-## Application registration
+## Catalog item registration
 
-This chapter is dedicated for application developers.
+This chapter is dedicated for catalog item developers.
 
-On the Research cloud the application developer can add an application for other people to use.
-The steps to do this are documented [here](https://servicedesk.surfsara.nl/wiki/display/WIKI/Create+your+own+applications).
+On the Research cloud the [developer](https://servicedesk.surf.nl/wiki/display/WIKI/Appoint+a+CO-member+a+developer) can add an catalog item for other people to use.
+The steps to do this are documented [here](https://servicedesk.surf.nl/wiki/display/WIKI/Create+your+own+catalog+items).
 
-For eWatercycle application following specialization was done
+For eWatercycle component following specialization was done
 
-* Set `research-cloud-plugin.yml` file in [this repo](https://github.com/eWaterCycle/infra) as plugin script source
-* Set a fixed plugin parameter called `dcache_ro_token` for dcache read-only token. The token can be found in the eWaterCycle password manager.
-* Set a fixed plugin parameter called `alt_home_location` to `/data/volume_2` for mount point of the storage item which should hold homes
-mounted. Set parameter in plugin and application.
-* Set a fixed plugin parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache. Set parameter in plugin and application.
-* Set a fixed plugin parameter called `rclone_max_gsize` to `45`. Set parameter in plugin and application.
-* Set application offer flavours to Ubuntu 20.04 operating system
+* Use Ansible playbook as component script type
+* Use `https://github.com/eWaterCycle/infra.git`as repository URL and `main` as tag
+* Use `research-cloud-plugin.yml` as script path
+* Set a fixed component parameter called `dcache_ro_token` for dcache read-only token aka macaroon. 
+  The token can be found in the eWaterCycle password manager.
+  This token has an expiration date, so it needs to be updated every now and then. 
+* Set a fixed component parameter called `alt_home_location` to `/data/volume_2` for mount point of the storage item which should hold homes
+mounted.
+* Set a fixed component parameter called `rclone_cache_dir` to `/data/volume_3` for directory where rclone can store its cache.
+* Set a fixed component parameter called `rclone_max_gsize` to `45`.
+* Select the organizations (CO) that are allowed to use the component.
+
+For eWatercycle catalog item following specialization was done
+
+* Clone from Ubuntu 20.04 catalog item
+* Select the eWatercycle component
+* Set boot disk size to 15Gb, 
+  as default size will be mostly used by the conda environment and will trigger out of space warnings.
+* Set workspace acces button behavior to `Webinterface (https:)`, 
+  so clicking on `access button` will open up the eWatercycle experiment explorer web interface
+* In cloud provider step use Ubuntu 20.04 as operating system
+* Select the organizations (CO) that are allowed to use the catalog item.
 
 To become root on a VM the user needs to be member of the `src_co_admin` group on [SRAM](https://sram.surf.nl/).
 See [docs](https://servicedesk.surf.nl/wiki/display/WIKI/Workspace+roles%3A+Appoint+a+CO-member+a+SRC+administrator).
