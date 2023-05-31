@@ -1,3 +1,4 @@
+# code: language=ansible
 - name: Install and configure eWaterCycle Jupyter
   hosts:
     - all
@@ -8,23 +9,23 @@
     dcache_ro_token: null # Must be filled from command line
   tasks:
     - name: Wait for system to become reachable
-      wait_for_connection:
+      ansible.builtin.wait_for_connection:
         timeout: 300
 
     - name: Gather facts for first time
-      setup:
+      ansible.builtin.setup:
 
     - name: Extra vols
-      debug: 
+      ansible.builtin.debug:
         var: external_volumes
 
     - name: Common stuff
-      include_role:
+      ansible.builtin.include_role:
         name: common
 
     - name: Install gcc, git, ntp
-      apt:
-        update_cache: yes
+      ansible.builtin.apt:
+        update_cache: true
         pkg:
           - git
           - gcc
@@ -38,24 +39,24 @@
           - jq
 
     - name: Storage items
-      include_role:
+      ansible.builtin.include_role:
         name: storage
 
     # roles have hardcoded /mnt/apps, so create it before running roles
     - name: Apps root
-      file:
+      ansible.builtin.file:
         path: /mnt/apps
         state: directory
-        mode: 0755
+        mode: '0755'
 
     # Container engines
-    - name: apptainer
-      include_role:
+    - name: Apptainer
+      ansible.builtin.include_role:
         name: apptainer
 
     # Install Conda + mamba
     - name: Install conda
-      include_role:
+      ansible.builtin.include_role:
         name: conda
 
     # TODO mount a home and scratch disk, see https://github.com/eWaterCycle/infra/issues/89
@@ -71,38 +72,38 @@
     #     state: present
 
     - name: Mount shared data dcache with rclone
-      include_role:
+      ansible.builtin.include_role:
         name: rclone
         tasks_from: mount
 
     # https://lab.ewatercycle.org/ functionality
     - name: Welcome page
-      include_role:
+      ansible.builtin.include_role:
         name: labstart
 
     # https://explore.ewatercycle.org/ functionality
     - name: Experiment launcher
-      include_role:
+      ansible.builtin.include_role:
         name: launcher
 
     - name: Explorer
-      include_role:
+      ansible.builtin.include_role:
         name: terria
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
-      include_role:
+      ansible.builtin.include_role:
         name: ewatercycle
 
     - name: Set up Jupyter lab/hub
-      include_role:
+      ansible.builtin.include_role:
         name: jupyter
 
     - name: Clean apt cache
-      apt:
-        autoclean: yes
-        autoremove: yes
+      ansible.builtin.apt:
+        autoclean: true
+        autoremove: true
 
     - name: Debug
-      debug:
+      ansible.builtin.debug:
         msg: The eWaterCycle Jupyter plugin has completed

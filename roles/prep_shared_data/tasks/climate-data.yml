@@ -18,9 +18,8 @@
 
 
 - name: Prep ERA5 climate data for ESMValTool processing
-  command:
-    # TODO only run when needed
-    name: '{{ conda_environment_bin }}/esmvaltool run cmorizers/recipe_era5.yml'  # noqa no-changed-when
+  # TODO only run when needed
+  command: '{{ conda_environment_bin }}/esmvaltool run cmorizers/recipe_era5.yml'  # noqa no-changed-when
 
 # TODO download ERA-Interim
 

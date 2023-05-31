@@ -1,14 +1,14 @@
 ---
-- name: ufw firewall command must be present
-  apt:
+- name: Ufw firewall command must be present
+  ansible.builtin.apt:
     name: ufw
     state: present
 - name: Allow ssh from anywhere
-  ufw:
+  community.general.ufw:
     rule: limit
     name: OpenSSH
 - name: Allow http + https traffic
-  ufw:
+  community.general.ufw:
     rule: allow
     port: '{{ item }}'
     proto: tcp
@@ -16,7 +16,7 @@
     - 80
     - 443
 - name: Deny all other incoming traffic
-  ufw:
+  community.general.ufw:
     state: enabled
     policy: deny
     direction: incoming
