@@ -95,7 +95,7 @@ For eWatercycle component following specialization was done
   - Use `https://github.com/eWaterCycle/infra.git` as repository URL
   - Use `research-cloud-plugin.yml` as script path
   - Use `main` as tag
-- Component parameters, all fixed source type and non-overwitable
+- Component parameters, all fixed source type and non-overwitable unless otherwise stated
   - Add `dcache_ro_token` parameter for dcache read-only token aka macaroon.
     The token can be found in the eWaterCycle password manager.
     This token has an expiration date, so it needs to be updated every now and then.
@@ -105,6 +105,7 @@ For eWatercycle component following specialization was done
     For directory where rclone can store its cache.
   - Add `rclone_max_gsize` with value `45`.
     For maximum size of cache on `rclone_cache_dir` volume. In Gb.
+  - Add `external_volumes` with Resource as source type
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Do not allow every org to use this component. Data on the dcache should not be made public.
 - Select the organizations (CO) that are allowed to use the component.
