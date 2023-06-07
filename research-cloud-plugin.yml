@@ -13,7 +13,7 @@
         timeout: 300
 
     - name: Gather facts for first time
-      ansible.builtin.setup:
+      setup:
 
     - name: Extra vols
       ansible.builtin.debug:
