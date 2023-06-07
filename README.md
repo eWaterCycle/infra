@@ -105,7 +105,7 @@ For eWatercycle component following specialization was done
     For directory where rclone can store its cache.
   - Add `rclone_max_gsize` with value `45`.
     For maximum size of cache on `rclone_cache_dir` volume. In Gb.
-  - Add `external_volumes` with Resource as source type
+  - Add `external_volumes` with value `[]` and with `Resource` as source type.
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Do not allow every org to use this component. Data on the dcache should not be made public.
 - Select the organizations (CO) that are allowed to use the component.
