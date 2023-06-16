@@ -14,6 +14,7 @@ dependencies:
   # Line above are copy from https://github.com/eWaterCycle/ewatercycle/blob/main/environment.yml
   - ansible
   - pip:
+      - typeguard<3  # Pinned for eWatercycle 1.4.1 compatibility.
       - ewatercycle
       - era5cli
   - setuptools
