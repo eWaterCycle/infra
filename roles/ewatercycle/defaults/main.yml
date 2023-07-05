@@ -4,7 +4,7 @@ conda_root: /opt/conda
 # Name of conda environment to use
 conda_environment: ewatercycle
 # Path to conda environments bin directory
-conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+conda_environment_bin: '{{ conda_root }}/envs/{{ conda_environment }}/bin'
 # Where all shared data is available
 data_root: /mnt/data
 # Location of climate data
@@ -13,7 +13,10 @@ climate_data_root_dir: '{{ data_root }}/climate-data'
 grdc_location: '{{ data_root }}/observation/grdc/dailies'
 # Location where example parameter sets should be downloaded and where any other read-only pararmeter set can be put
 parameterset_dir: '{{ data_root }}/parameter-sets'
-# Location where Singularity image files (*sif) of hydrological models should be stored
-singularity_image_root: '{{ data_root }}/singularity-images'
+# Location where Apptainer image files (*sif) of hydrological models should be stored
+apptainer_image_root: '{{ data_root }}/singularity-images'
 # Location where all home-directories are located
 home_root: /home
+# Version of ewatercycle Python package
+# /etc/ewatercycle.yaml will be slightly different depending on version.
+pyewatercycle_version: 1.4.1

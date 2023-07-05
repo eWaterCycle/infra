@@ -41,8 +41,8 @@ climate_data_root_dir: '{{ data_root }}/climate-data'
 grdc_location: '{{ data_root }}/observation/grdc/dailies'
 # Location where example parameter sets should be downloaded and where any other read-only pararmeter set can be put
 parameterset_dir: '{{ data_root }}/parameter-sets'
-# Location where Singularity image files (*sif) of hydrological models should be stored
-singularity_image_root: '{{ data_root }}/singularity-images'
+# Location where Apptainer image files (*sif) of hydrological models should be stored
+apptainer_image_root: '{{ data_root }}/singularity-images'
 # Location where all home-directories are located
 home_root: /home
 ```
@@ -52,7 +52,7 @@ Dependencies
 
 Conda should be installed in `conda_root` directory. Use [../conda](../conda) role to install conda.
 
-Requires singularity executable which can be installed with [../singularity](../singularity) role.
+Requires apptainer executable which can be installed with [../apptainer](../apptainer) role.
 
 Example Playbook
 ----------------

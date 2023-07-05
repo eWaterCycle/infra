@@ -47,20 +47,20 @@ era5_variables:
 Variables for hydrological models
 
 ```yaml
-# Docker container images that will be downloaded and converted to singularity image files
+# Docker container images that will be downloaded and converted to Apptainer image files
 grpc4bmi_images:
     # - docker: ewatercycle/walrus-grpc4bmi
-    #   singularity: ewatercycle-walrus-grpc4bmi.sif
+    #   apptainer: ewatercycle-walrus-grpc4bmi.sif
     - docker: ewatercycle/pcrg-grpc4bmi:setters
-      singularity: ewatercycle-pcrg-grpc4bmi_setters.sif
+      apptainer: ewatercycle-pcrg-grpc4bmi_setters.sif
     - docker: ewatercycle/wflow-grpc4bmi:2020.1.1
-      singularity: ewatercycle-wflow-grpc4bmi_2020.1.1.sif
+      apptainer: ewatercycle-wflow-grpc4bmi_2020.1.1.sif
     - docker:  ewatercycle/marrmot-grpc4bmi:2020.11
-      singularity: ewatercycle-marrmot-grpc4bmi_2020.11.sif
+      apptainer: ewatercycle-marrmot-grpc4bmi_2020.11.sif
     # - docker: ewatercycle/hype-grpc4bmi
-    #   singularity: ewatercycle-hype-grpc4bmi.sif
+    #   apptainer: ewatercycle-hype-grpc4bmi.sif
     - docker: ewatercycle/lisflood-grpc4bmi:20.10
-      singularity: ewatercycle-lisflood-grpc4bmi_20.10.sif
+      apptainer: ewatercycle-lisflood-grpc4bmi_20.10.sif
 ```
 
 Other optional variables
@@ -68,8 +68,8 @@ Other optional variables
 ```yaml
 # Where all data should be put
 data_root: /mnt/data
-# Directory where singularity sif files can be stored and read by other
-singularity_image_root: '{{ data_root }}/singularity-images'
+# Directory where apptainer sif files can be stored and read by other
+apptainer_image_root: '{{ data_root }}/singularity-images'
 # Location where conda is installed
 conda_root: /opt/conda
 # Name of conda environment to use

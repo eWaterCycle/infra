@@ -4,7 +4,7 @@
 - name: Configure rclone
   copy:
     dest: /etc/rclone.conf
-    mode: 0644
+    mode: 0640
     content: |
       [{{ dcache_rclone_name }}]
       type = webdav

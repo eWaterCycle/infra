@@ -1,0 +1,11 @@
+---
+- name: Apptainer image dir
+  file:
+    path: '{{ apptainer_image_root }}'
+    state: directory
+    mode: 0755
+- name: grpc4bmi Apptainer images
+  command: apptainer build {{ apptainer_image_root }}/{{ item.apptainer }} docker://{{ item.docker }}
+  args:
+    creates: '{{ apptainer_image_root }}/{{ item.apptainer }}'
+  loop: '{{ grpc4bmi_images }}'

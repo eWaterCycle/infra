@@ -10,12 +10,12 @@ jupyterhub_spawner_environment:
   # TODO needed for pymt(?) and cfunits
   UDUNITS2_XML_PATH: /usr/share/xml/udunits/udunits2.xml
   # Make proj work in notebook, if not set get `ERROR 1: PROJ: proj_create_from_database: Open of /opt/conda/envs/ewatercycle/share/proj failed` error
-  PROJ_LIB: '{{ conda_root}}/envs/{{ conda_environment }}/share/proj'
+  PROJ_LIB: '{{ conda_root }}/envs/{{ conda_environment }}/share/proj'
 # Location where conda is installed
 conda_root: /opt/conda
 # Name of conda environment to use
 conda_environment: ewatercycle
 # Path to conda environments bin directory
-conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+conda_environment_bin: '{{ conda_root }}/envs/{{ conda_environment }}/bin'
 # List of posix users who should have JupyterHub admin rights
 jupyterhub_admins: []

@@ -1,3 +1,4 @@
+# code: language=ansible
 - name: Install and configure eWaterCycle Jupyter
   hosts:
     - all
@@ -15,7 +16,7 @@
       setup:
 
     - name: Extra vols
-      debug: 
+      debug:
         var: external_volumes
 
     - name: Common stuff
@@ -24,7 +25,7 @@
 
     - name: Install gcc, git, ntp
       apt:
-        update_cache: yes
+        update_cache: true
         pkg:
           - git
           - gcc
@@ -46,12 +47,12 @@
       file:
         path: /mnt/apps
         state: directory
-        mode: 0755
+        mode: '0755'
 
     # Container engines
-    - name: singularity
+    - name: Apptainer
       include_role:
-        name: singularity
+        name: apptainer
 
     # Install Conda + mamba
     - name: Install conda
@@ -100,8 +101,8 @@
 
     - name: Clean apt cache
       apt:
-        autoclean: yes
-        autoremove: yes
+        autoclean: true
+        autoremove: true
 
     - name: Debug
       debug:
