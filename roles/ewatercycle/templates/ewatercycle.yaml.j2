@@ -102,7 +102,7 @@ parameter_sets:
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
 parameterset_dir: {{ parameterset_dir }}
 {# ewatercycle<1.4.1 will use singularity instead of apptainer #}
-{% set pyewatercycle_pre_apptainer_versions = ('1.4.0', '1.3.0', '1.2.0', '1.1.4', '1.1.3', '1.1.2', '1.1.1', '1.1.0', '1.0.0')  %}
+{% set pyewatercycle_pre_apptainer_versions = ('1.4.1', '1.4.0', '1.3.0', '1.2.0', '1.1.4', '1.1.3', '1.1.2', '1.1.1', '1.1.0', '1.0.0')  %}
 {% if pyewatercycle_version in pyewatercycle_pre_apptainer_versions %}
 container_engine: singularity
 singularity_dir: {{ apptainer_image_root }}
