@@ -223,6 +223,28 @@ Beware that this will overwrite any existing files, if different!
 
 Note: password manager can be used for exchanging macaroons.
 
+## Mount dcache on local machine
+
+Create the file `~/.config/rclone/rclone.conf` and add the following content:
+
+```
+[ dcache ]
+type = webdav
+url = https://webdav.grid.surfsara.nl:2880
+vendor = other
+user =
+pass =
+bearer_token = <dcache macaroon with read permissions>
+```
+
+Install [rclone](https://rclone.org/) and run following command to mount dcache at `~/dcache` directory.
+
+```shell
+clone mount --read-only --cache-dir /tmp/rclone-cache --vfs-cache-max-size 30G --vfs-cache-mode full dcache:/ ~/dcache
+```
+
+In ESMValTool config files you can use `~/dcache/climate-data/obs6` for `rootpah:OBS6`.
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Docker Hub.
