@@ -244,7 +244,7 @@ mkdir ~/dcache
 rclone mount --read-only --cache-dir /tmp/rclone-cache --vfs-cache-max-size 30G --vfs-cache-mode full dcache:/ ~/dcache
 ```
 
-In ESMValTool config files you can use `~/dcache/climate-data/obs6` for `rootpah:OBS6`.
+In ESMValTool config files you can use `~/dcache/climate-data/obs6` for `rootpath:OBS6`.
 
 ## Docker images
 
