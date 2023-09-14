@@ -227,8 +227,8 @@ Note: password manager can be used for exchanging macaroons.
 
 Create the file `~/.config/rclone/rclone.conf` and add the following content:
 
-```
-[ dcache ]
+```ini
+[dcache]
 type = webdav
 url = https://webdav.grid.surfsara.nl:2880
 vendor = other
@@ -240,7 +240,8 @@ bearer_token = <dcache macaroon with read permissions>
 Install [rclone](https://rclone.org/) and run following command to mount dcache at `~/dcache` directory.
 
 ```shell
-clone mount --read-only --cache-dir /tmp/rclone-cache --vfs-cache-max-size 30G --vfs-cache-mode full dcache:/ ~/dcache
+mkdir ~/dcache
+rclone mount --read-only --cache-dir /tmp/rclone-cache --vfs-cache-max-size 30G --vfs-cache-mode full dcache:/ ~/dcache
 ```
 
 In ESMValTool config files you can use `~/dcache/climate-data/obs6` for `rootpah:OBS6`.
