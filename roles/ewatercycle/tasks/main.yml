@@ -64,6 +64,12 @@
     dest: '/etc/skel/.esmvaltool/config-user.yml'
     mode: '0644'
 
+- name: Create esmvaltool downloads dir
+  file:
+    path: '/etc/skel/.esmvaltool/downloads'
+    state: directory
+    mode: '0755'
+
 - name: ewaterycle.yaml
   template:
     src: ewatercycle.yaml.j2
