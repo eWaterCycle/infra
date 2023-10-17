@@ -41,7 +41,11 @@ rootpath:
   OBS6: {{ climate_data_root_dir }}/obs6
 #   RAWOBS: ~/rawobs_inputpath
   default: {{ climate_data_root_dir }}
+  CMIP6: ~/.esmvaltool/downloads/CMIP6
 #   CORDEX: ~/default_inputpath
+
+search_esgf: when_missing
+download_dir: ~/.esmvaltool/downloads
 
 # Directory structure for input data: [default]/BADC/DKRZ/ETHZ/etc
 # See config-developer.yml for definitions.
@@ -49,4 +53,5 @@ drs:
   CMIP5: default
   CORDEX: default
   OBS: default
+  CMIP6: ESGF
 extra_facets_dir: []

@@ -5,16 +5,20 @@ channels:
   - defaults
 dependencies:
   # TODO pin versions for reproducibility. Use `conda env export` and `pip list` to get versions
-  - python>=3.7,<3.11
-  - subversion # for ewatercycle.parameter_sets
-  - esmvaltool-python==2.4.0
-  # Pin esmpy so we dont get forced to run all parallel tasks on single cpu
-  # Can be removed once https://github.com/ESMValGroup/ESMValCore/issues/1208 is resolved.
-  - esmpy!=8.1.0,<8.4
-  # Line above are copy from https://github.com/eWaterCycle/ewatercycle/blob/main/environment.yml
+  - python==3.10
+  - esmvaltool-python>=2.3.0
   - ansible
   - pip:
       - ewatercycle=={{ pyewatercycle_version }}
+      - ewatercycle-hype
+      - ewatercycle-lisflood
+      - ewatercycle-marrmot
+      - ewatercycle-pcrglobwb
+      - ewatercycle-wflow
+      - ewatercycle-leakybucket
+      # TODO Once available uncomment the following lines
+      # - ewatercycle-sfincs
+      # - ewatercycle-wflowjl
       - era5cli
   - setuptools
   - altair_saver

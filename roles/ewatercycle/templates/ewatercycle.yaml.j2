@@ -1,103 +1,103 @@
 grdc_location: {{ grdc_location }}
-output_dir: ./ewatercycle_output
+output_dir: .
 parameter_sets:
   # Following parameter sets are coming from dCache.
   # The dcache was filled once with by running shared-data-disk.yml playbook.
 
   # Example parameter sets
   lisflood_fraser:
-    config: lisflood_fraser/settings_lat_lon-Run.xml
+    config: settings_lat_lon-Run.xml
     directory: lisflood_fraser
     doi: N/A
     supported_model_versions: !!set {'20.10': null}
     target_model: lisflood
   pcrglobwb_rhinemeuse_30min:
-    config: pcrglobwb_rhinemeuse_30min/setup_natural_test.ini
+    config: setup_natural_test.ini
     directory: pcrglobwb_rhinemeuse_30min
     doi: https://doi.org/10.5281/zenodo.1045339
     supported_model_versions: !!set {setters: null}
     target_model: pcrglobwb
   wflow_rhine_sbm_nc:
-    config: wflow_rhine_sbm_nc/wflow_sbm_NC.ini
+    config: wflow_sbm_NC.ini
     directory: wflow_rhine_sbm_nc
     doi: N/A
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
     target_model: wflow
 
-  # Comparison
+  # From comparison study
   wflow_Rhine_ERA5-calibrated:
     directory: wflow_Rhine_ERA5-calibrated
-    config: wflow_Rhine_ERA5-calibrated/wflow_sbm_era5.ini
+    config: wflow_sbm_era5.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Great-Kei_ERA5-calibrated:
     directory: wflow_Great-Kei_ERA5-calibrated
-    config: wflow_Great-Kei_ERA5-calibrated/wflow_sbm_era5.ini
+    config: wflow_sbm_era5.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Doring_ERA5-calibrated:
     directory: wflow_Doring_ERA5-calibrated
-    config: wflow_Doring_ERA5-calibrated/wflow_sbm_era5.ini
+    config: wflow_sbm_era5.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Merrimack_ERA5-calibrated:
     directory: wflow_Merrimack_ERA5-calibrated
-    config: wflow_Merrimack_ERA5-calibrated/wflow_sbm_era5.ini
+    config: wflow_sbm_era5.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Meuse_ERA5-calibrated:
     directory: wflow_Meuse_ERA5-calibrated
-    config: wflow_Meuse_ERA5-calibrated/wflow_sbm_era5.ini
+    config: wflow_sbm_era5.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_rhine_ERA_Interim-calibrated:
-    directory: wflow_rhine_ERA_Interim-calibrated
-    config: wflow_rhine_ERA_Interim-calibrated/wflow_sbm_era-interim.ini
+    directory: wflow_Rhine_ERA-Interim-calibrated
+    config: wflow_sbm_era-interim.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Savannah_ERA-Interim-calibrated:
     directory: wflow_Savannah_ERA-Interim-calibrated
-    config: wflow_Savannah_ERA-Interim-calibrated/wflow_sbm_era-interim.ini
+    config: wflow_sbm_era-interim.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Great-Kei_ERA_Interim-calibrated:
-    directory: wflow_Great-Kei_ERA_Interim-calibrated
-    config: wflow_Great-Kei_ERA_Interim-calibrated/wflow_sbm_era-interim.ini
+    directory: wflow_Great-Kei_ERA-Interim-calibrated
+    config: wflow_sbm_era-interim.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Merrimack_ERA_Interim-calibrated:
-    directory: wflow_Merrimack_ERA_Interim-calibrated
-    config: wflow_Merrimack_ERA_Interim-calibrated/wflow_sbm_era-interim.ini
+    directory: wflow_Merrimack_ERA-Interim-calibrated
+    config: wflow_sbm_era-interim.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
   wflow_Meuse_ERA_Interim-calibrated:
-    directory: wflow_Meuse_ERA_Interim-calibrated
-    config: wflow_Meuse_ERA_Interim-calibrated/wflow_sbm_era-interim.ini
+    directory: wflow_Meuse_ERA-Interim-calibrated
+    config: wflow_sbm_era-interim.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
 
   lisflood_global-masked_01degree:
     directory: lisflood_global-masked_01degree
-    config: lisflood_global-masked_01degree/settings_lisflood_ERA5.xml
+    config: settings_lisflood_ERA5.xml
     target_model: lisflood
     supported_model_versions: !!set {'20.10': null}
 
   # Tech paper
   pcrglobwb_merrimack_05min:
     directory: pcrglobwb_global
-    config: pcrglobwb_global/merrimack_05min_era5.ini
+    config: merrimack_05min_era5.ini
     target_model: pcrglobwb
     doi: https://doi.org/10.5281/zenodo.1045339
     supported_model_versions: !!set {setters: null}
   pcrglobwb_rhine_05min:
     directory: pcrglobwb_global
-    config: pcrglobwb_global/rhine_05min_era5.ini
+    config: rhine_05min_era5.ini
     target_model: pcrglobwb
     doi: https://doi.org/10.5281/zenodo.1045339
     supported_model_versions: !!set {setters: null}
   wflow_merrimack_techpaper:
     directory: wflow_merrimack_techpaper
-    config: wflow_merrimack_techpaper/wflow_sbm_era5_test.ini
+    config: wflow_sbm_era5_test.ini
     target_model: wflow
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
 parameterset_dir: {{ parameterset_dir }}
