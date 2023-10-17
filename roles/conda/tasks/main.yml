@@ -3,17 +3,17 @@
   file:
     path: '{{ conda_tarball_root }}'
     mode: 0755
-- name: Download miniconda tarball
+- name: Download miniforge tarball
   get_url:
-    url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    url: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
     dest: '{{ conda_tarball_root }}/'
-- name: Install conda
-  command: /bin/bash {{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh -f -b -p {{ conda_root }}
+- name: Install miniforge
+  command: /bin/bash {{ conda_tarball_root }}/Miniforge3-Linux-x86_64.sh -f -b -p {{ conda_root }}
   args:
     creates: '{{ conda_root }}'
 - name: Drop tarball
   file:
-    path: '{{ conda_tarball_root }}/Miniconda3-latest-Linux-x86_64.sh'
+    path: '{{ conda_tarball_root }}/Miniforge3-Linux-x86_64.sh'
     state: absent
 - name: Disable loading base environment
   template:
@@ -25,7 +25,3 @@
     src: '{{ conda_root }}/etc/profile.d/conda.sh'
     dest: /etc/profile.d/conda.sh
     state: link
-- name: Install mamba
-  command: '{{ conda_root }}/condabin/conda install mamba -n base -c conda-forge'
-  args:
-    creates: '{{ conda_root }}/condabin/mamba'
