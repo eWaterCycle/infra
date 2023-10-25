@@ -52,7 +52,7 @@ climate_data_root_dir: '{{ data_root }}/climate-data'
 # Location where esmvaltool aux data should be placed
 auxiliary_data_dir: '{{ climate_data_root_dir }}/aux'
 # Version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to checkout to {{ auxiliary_data_dir }}
-esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
+esmvaltool_aux_version: 279e39b3815d9779e13d93376b42732495ef6330
 # Location where eWatercycle example parameter sets will be downloaded to
 parameter_set_root_dir: '{{ data_root }}/parameter-sets'
 # Location where eWatercycle example forcings will be downloaded to
