@@ -13,8 +13,7 @@ jupyterhub_spawner_environment:
   PROJ_LIB: '{{ conda_root }}/envs/{{ conda_environment }}/share/proj'
   ESMFMKFILE: '{{ conda_root }}/envs/{{ conda_environment }}/lib/esmf.mk'
   # allow users to use juliacall, by writing to home dir instead of read-only conda root.
-  # opening nb in ~/subdir/ will create ~/subdir/.conda
-  CONDA_PREFIX: .conda
+  PYTHON_JULIAPKG_PROJECT: ~/.julia/environments/pyjuliapkg
 # Location where conda is installed
 conda_root: /opt/conda
 # Name of conda environment to use

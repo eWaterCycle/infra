@@ -1,0 +1,3 @@
+{% for key, value in jupyterhub_spawner_environment.items() %}
+export {{ key }}={{ value }}
+{% endfor %}
