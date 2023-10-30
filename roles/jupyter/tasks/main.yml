@@ -69,3 +69,8 @@
       }
   notify:
     - restart nginx
+- name: Create profile
+  template:
+    src: profile.sh.j2
+    dest: /etc/profile.d/ewatercycle.sh
+    mode: '0644'

@@ -16,10 +16,16 @@ dependencies:
       - ewatercycle-pcrglobwb
       - ewatercycle-wflow
       - ewatercycle-leakybucket
-      # TODO Once available uncomment the following lines
-      # - ewatercycle-sfincs
+      # TODO Once available uncomment the following lines and remove the git+https lines
       # - ewatercycle-wflowjl
+      # - ewatercycle-sfincs
+      - git+https://github.com//eWaterCycle/pywflow@ewatercycle_plugin
+      - git+https://github.com/eWaterCycle/ewatercycle-sfincs
       - era5cli
+      # For using ewatercycle-wflowjl
+      # pyjuliapkg fork that accepts ~
+      - git+https://github.com/eWaterCycle/pyjuliapkg@expanduser
+      - juliacall
   - setuptools
   - altair_saver
   - altair
