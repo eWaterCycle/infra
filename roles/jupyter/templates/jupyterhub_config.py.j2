@@ -28,9 +28,6 @@ c.JupyterHub.spawner_class = 'systemdspawner.SystemdSpawner'
 c.SystemdSpawner.default_shell = '/bin/bash'
 
 c.Spawner.default_url = '/lab'
-c.Spawner.env_keep = ['PATH', 'PYTHONPATH', 'CONDA_ROOT', 'CONDA_DEFAULT_ENV', 'VIRTUAL_ENV', 'LANG', 'LC_ALL', 'JUPYTERHUB_SINGLEUSER_APP', {% for key in jupyterhub_spawner_environment.keys() %}
-    '{{ key }}'{% if not loop.last %},{% endif %}
-{% endfor %}]
 c.Spawner.environment = { {% for key, value in jupyterhub_spawner_environment.items() %}
     '{{ key }}': '{{ value }}'{% if not loop.last %},{% endif %}
 {% endfor %} }
