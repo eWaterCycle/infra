@@ -5,7 +5,7 @@ channels:
   - defaults
 dependencies:
   # TODO pin versions for reproducibility. Use `conda env export` and `pip list` to get versions
-  - python==3.10
+  - python=3.10
   - esmvaltool-python>=2.3.0
   - ansible
   - pip:
@@ -16,10 +16,9 @@ dependencies:
       - ewatercycle-pcrglobwb
       - ewatercycle-wflow
       - ewatercycle-leakybucket
-      # TODO Once available uncomment the following lines and remove the git+https lines
-      # - ewatercycle-wflowjl
+      - ewatercycle-wflowjl
+      # TODO Once available uncomment the following line and remove the git+https line
       # - ewatercycle-sfincs
-      - git+https://github.com//eWaterCycle/pywflow@ewatercycle_plugin
       - git+https://github.com/eWaterCycle/ewatercycle-sfincs
       - era5cli
       # For using ewatercycle-wflowjl
