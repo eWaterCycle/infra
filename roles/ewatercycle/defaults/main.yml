@@ -2,7 +2,7 @@
 # Location where conda is installed
 conda_root: /opt/conda
 # Name of conda environment to use
-conda_environment: ewatercycle
+conda_environment: ewatercycle2
 # Path to conda environments bin directory
 conda_environment_bin: '{{ conda_root }}/envs/{{ conda_environment }}/bin'
 # Where all shared data is available
