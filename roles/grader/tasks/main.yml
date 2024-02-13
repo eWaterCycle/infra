@@ -15,26 +15,44 @@
     dest: /etc/jupyter/nbgrader_config.py
     mode: 0644
     content: |
+      from e2xgrader.config import configure_exchange
       c = get_config()
       c.Exchange.root = '{{ exchange_root }}'
+      configure_exchange(c)
 - name: Grader jupyter dir
   file:
     path: /home/{{ grader_user }}/.jupyter
     state: directory
     owner: '{{ grader_user }}'
     mode: '0755'
+- name: Activate student e2xgrader mode globally
+  # TODO get conda bin path from somewhere
+  command: /opt/conda/envs/ewatercycle2/bin/e2xgrader activate student --sys-prefix
+- name: Activate teacher e2xgrader mode for grader_user
+  command: /opt/conda/envs/ewatercycle2/bin/e2xgrader activate teacher --user
+  become: true
+  become_user: "{{ grader_user }}" 
 - name: nbgrader config for grader user
   copy:
     dest: /home/{{ grader_user }}/.jupyter/nbgrader_config.py
     mode: 0644
     owner: '{{ grader_user }}'
     content: |
+      from e2xgrader.config import configure_base
       c = get_config()
       c.CourseDirectory.course_id = '{{ course_id }}'
       c.CourseDirectory.root = '/home/{{ grader_user }}/{{ course_id }}'
+      configure_base(c)
 - name: Course directory
   file:
     path: '/home/{{ grader_user }}/{{ course_id }}'
     state: directory
     owner: '{{ grader_user }}'
     mode: '0755'
+- name: Create students
+  when: students is defined
+  user: 
+    name: "{{ item[0] }}"
+    password: "{{ item[1] | password_hash(hashtype='sha512') }}"
+    shell: /bin/bash
+  loop: "{{ students | from_json }}"
