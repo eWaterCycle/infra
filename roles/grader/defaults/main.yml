@@ -1,0 +1,5 @@
+---
+# defaults file for grader
+exchange_root: /var/local/nbgrader/exchange
+grader_user: vagrant
+course_id: hydrolog101

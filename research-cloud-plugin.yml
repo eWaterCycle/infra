@@ -99,6 +99,10 @@
       include_role:
         name: jupyter
 
+    - name: Set up grader
+      include_role:
+        name: grader
+
     - name: Clean apt cache
       apt:
         autoclean: true

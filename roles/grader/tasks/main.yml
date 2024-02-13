@@ -1,0 +1,40 @@
+---
+# tasks file for grader
+- name: Exchange directory
+  file:
+    path: '{{ exchange_root }}'
+    state: directory
+    mode: '0777'   
+- name: /etc/jupyter
+  file:
+    path: /etc/jupyter
+    state: directory
+    mode: '0755'
+- name: Global nbgrader config
+  copy:
+    dest: /etc/jupyter/nbgrader_config.py
+    mode: 0644
+    content: |
+      c = get_config()
+      c.Exchange.root = '{{ exchange_root }}'
+- name: Grader jupyter dir
+  file:
+    path: /home/{{ grader_user }}/.jupyter
+    state: directory
+    owner: '{{ grader_user }}'
+    mode: '0755'
+- name: nbgrader config for grader user
+  copy:
+    dest: /home/{{ grader_user }}/.jupyter/nbgrader_config.py
+    mode: 0644
+    owner: '{{ grader_user }}'
+    content: |
+      c = get_config()
+      c.CourseDirectory.course_id = '{{ course_id }}'
+      c.CourseDirectory.root = '/home/{{ grader_user }}/{{ course_id }}'
+- name: Course directory
+  file:
+    path: '/home/{{ grader_user }}/{{ course_id }}'
+    state: directory
+    owner: '{{ grader_user }}'
+    mode: '0755'

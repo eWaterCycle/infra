@@ -1,0 +1,29 @@
+# Teaching with eWaterCycle infra
+
+The grading setup is [one class, one grader](https://nbgrader.readthedocs.io/en/stable/configuration/jupyterhub_config.html#example-use-case-one-class-one-grader).
+
+## Surf Research Cloud configuration
+
+In the SRC component
+
+- Add `grader_user` parameter with username of person who will be grading.
+  This user will also be responsible for setting up the course and assignments.
+
+## Students
+
+Students can be managed with [nbgrader labextension & cli](https://nbgrader.readthedocs.io/en/stable/user_guide/managing_the_database.html#managing-students)
+
+The student id is a posix username in the VM.
+In a ewatercycle VM users can be created with `sudo adduser` or with [Surf Research Access Management](https://sram.surf.nl/). After invite a cronjob will add the user to the VM. Login with totp as password.
+
+## Create assignment
+
+1. In menu goto Nbgrader -> Formgrader -> Manage Assignments -> Add new Assignment.
+2. Click on edit to navigate to folder (`~/hydrolog101/source/<name of assignment>`).
+3. Create a notebook with assignment annotations using the `Create Assignment` sidebar.
+4. In FormGrader press Generate, Preview, Release buttons.
+
+## Fetch assignment
+
+1. In menu got Nbgrader -> Assignments
+2. Press fetch button
