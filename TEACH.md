@@ -18,7 +18,7 @@ After sram invite a cronjob will add the user to the VM. Login with totp as pass
 ## Create assignment
 
 1. In menu goto Nbgrader -> Formgrader -> Manage Assignments -> Add new Assignment.
-2. Click on edit to navigate to folder (`~/course/source/<name of assignment>`).
+2. Click on edit to navigate to folder (`~/course1/source/<name of assignment>`).
 3. Create a notebook with assignment annotations using the `Create Assignment` sidebar.
 4. In FormGrader press Generate, Preview, Release buttons.
 
