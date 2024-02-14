@@ -2,4 +2,11 @@
 # defaults file for grader
 exchange_root: /var/local/nbgrader/exchange
 grader_user: vagrant
-course_id: hydrolog101
+course_id: course1
+course_repo: https://github.com/eWaterCycle/teaching.git
+course_version: nbgrader-quickstart
+conda_root: /opt/conda
+# Name of conda environment to use
+conda_environment: ewatercycle2
+# Path to conda environments bin directory
+conda_environment_bin: '{{ conda_root }}/envs/{{ conda_environment }}/bin'

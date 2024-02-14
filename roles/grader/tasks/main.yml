@@ -1,48 +1,65 @@
 ---
 # tasks file for grader
 - name: Exchange directory
-  file:
+  ansible.builtin.file:
     path: '{{ exchange_root }}'
     state: directory
-    mode: '0777'   
+    mode: '0777'
 - name: /etc/jupyter
-  file:
+  ansible.builtin.file:
     path: /etc/jupyter
     state: directory
     mode: '0755'
 - name: Global nbgrader config
-  copy:
+  ansible.builtin.copy:
     dest: /etc/jupyter/nbgrader_config.py
     mode: 0644
     content: |
       c = get_config()
       c.Exchange.root = '{{ exchange_root }}'
 - name: Grader jupyter dir
-  file:
+  ansible.builtin.file:
     path: /home/{{ grader_user }}/.jupyter
     state: directory
     owner: '{{ grader_user }}'
+    group: '{{ grader_user }}'
     mode: '0755'
-
-- name: nbgrader config for grader user
-  copy:
+- name: Nbgrader config for grader user
+  ansible.builtin.copy:
     dest: /home/{{ grader_user }}/.jupyter/nbgrader_config.py
     mode: 0644
     owner: '{{ grader_user }}'
+    group: '{{ grader_user }}'
     content: |
       c = get_config()
       c.CourseDirectory.course_id = '{{ course_id }}'
       c.CourseDirectory.root = '/home/{{ grader_user }}/{{ course_id }}'
 - name: Course directory
-  file:
+  ansible.builtin.file:
     path: '/home/{{ grader_user }}/{{ course_id }}'
     state: directory
     owner: '{{ grader_user }}'
+    group: '{{ grader_user }}'
     mode: '0755'
+- name: Clone course repo
+  ansible.builtin.git:
+    repo: '{{ course_repo }}'
+    dest: '/home/{{ grader_user }}/{{ course_id }}/source'
+    version: '{{ course_version }}'
+  become: true
+  become_user: "{{ grader_user }}"
 - name: Create students
   when: students is defined
-  user: 
+  ansible.builtin.user:
     name: "{{ item[0] }}"
     password: "{{ item[1] | password_hash(hashtype='sha512') }}"
     shell: /bin/bash
   loop: "{{ students | from_json }}"
+- name: Add students to course
+  when: students is defined
+  ansible.builtin.command: '{{ conda_environment_bin }}/nbgrader db student add "{{ item[0] }}"'
+  loop: "{{ students | from_json }}"
+  args:
+    chdir: "/home/{{ grader_user }}/{{ course_id }}"
+  become: true
+  become_user: "{{ grader_user }}"

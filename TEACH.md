@@ -2,20 +2,6 @@
 
 The grading setup is [one class, one grader](https://nbgrader.readthedocs.io/en/stable/configuration/jupyterhub_config.html#example-use-case-one-class-one-grader).
 
-## Surf Research Cloud configuration
-
-In the SRC component
-
-- Add `grader_user` parameter with username of person who will be grading.
-  Use `==USERNAME==` as default value, which will be replaced by the actual username of the user creating the workspace.
-  This user will also be responsible for setting up the course and assignments.
-- Add `students` parameter with list of student usernames and passwords.
-  The value should be a JSON string in format of `[["username1", "password1"]]`.
-
-In the SRC catalog item
-
-- Expose `grader_user` and `student_users` as interactive parameters.
-
 ## SRC workspace creation
 
 During creation you can set the `students` parameter to create local posix accounts for students.
@@ -32,7 +18,7 @@ After sram invite a cronjob will add the user to the VM. Login with totp as pass
 ## Create assignment
 
 1. In menu goto Nbgrader -> Formgrader -> Manage Assignments -> Add new Assignment.
-2. Click on edit to navigate to folder (`~/hydrolog101/source/<name of assignment>`).
+2. Click on edit to navigate to folder (`~/course/source/<name of assignment>`).
 3. Create a notebook with assignment annotations using the `Create Assignment` sidebar.
 4. In FormGrader press Generate, Preview, Release buttons.
 

@@ -47,6 +47,9 @@ dcache_ro_token: <dcache macaroon with read permission>
 rclone_cache_dir: /data/volume_2
 # Directory where /home should point to
 alt_home_location: /data/volume_3
+# Vagrant user is instructor
+# The students defined below can be used to login as a student
+students: '[["student1", "student1"], ["student2", "student2"]]'
 ```
 
 The token can be found in the eWaterCycle password manager.
@@ -104,6 +107,15 @@ For eWatercycle component following specialization was done
     For directory where rclone can store its cache.
   - Add `rclone_max_gsize` with value `45`.
     For maximum size of cache on `rclone_cache_dir` volume. In Gb.
+  - Add `grader_user` parameter with username of person who will be grading.
+    Use `==USERNAME==` as default value, which will be replaced by the actual username of the user creating the workspace.
+    This user will also be responsible for setting up the course and assignments.
+  - Add `students` parameter with list of student usernames and passwords.
+    The value should be a JSON string in format of `[["username1", "password1"]]`.
+  - Add `course_repo` parameter with git repository url of the course source material.
+    Use default value of `https://github.com/eWaterCycle/teaching.git`
+  - Add `course_version` paramneter with the version,branch or tag of the course repository to use.
+    Default value of `main`.
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Do not allow every org to use this component. Data on the dcache should not be made public.
 - Select the organizations (CO) that are allowed to use the component.
@@ -123,6 +135,7 @@ For eWatercycle catalog item following specialization was done
 - In parameter settings step keep all values as is except
   - Set `co_irods` to `false` as we do not use irods
   - Set `co_research_drive` to `false` as we do not use research drive
+  - Expose `grader_user`, `students`, `course_repo` and `course_version` as interactive parameters.
 - Set boot disk size to 150Gb,
   as default size will be mostly used by the conda environment and will trigger out of space warnings.
 - Set workspace acces button behavior to `Webinterface (https:)`,
