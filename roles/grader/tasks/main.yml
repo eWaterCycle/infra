@@ -57,7 +57,7 @@
   loop: "{{ students | from_json }}"
 - name: Add students to course
   when: students is defined
-  ansible.builtin.command: '{{ conda_environment_bin }}/nbgrader db student add "{{ item[0] }}"'
+  ansible.builtin.shell: '. {{ conda_root }}/bin/activate {{ conda_environment }} && {{ conda_environment_bin }}/nbgrader db student add "{{ item[0] }}"'
   loop: "{{ students | from_json }}"
   args:
     chdir: "/home/{{ grader_user }}/{{ course_id }}"
