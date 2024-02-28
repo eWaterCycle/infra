@@ -57,10 +57,9 @@
   loop: "{{ students | from_json }}"
 
 - name: List all non-grader_user non-system users to course
-  ansible.builtin.shell: set -o pipefail && ls -1 /| grep -v lost+found | grep -v '{{ grader_user }}'
+  ansible.builtin.shell: set -o pipefail && ls -1 /home | grep -v lost+found | grep -v '{{ grader_user }}'
   register: non_grader_users
   args:
-    chdir: /home
     executable: /bin/bash
 - name: Register non_grader_users as nbgrader student
   when: non_grader_users.stdout_lines is defined
