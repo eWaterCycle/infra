@@ -26,6 +26,7 @@ Assigning students to courses can be managed with [nbgrader labextension & cli](
 The student id is a posix username in the VM.
 In a ewatercycle VM, users can be added during workspace creation or with [Surf Research Access Management](https://sram.surf.nl/) or later with `sudo adduser`.
 After sram invite a cronjob will add the user to the VM. Login with totp as password.
+Users added to sram need to be added to nbgrader manually.
 
 ### Create assignment
 
