@@ -98,7 +98,7 @@ For eWatercycle component following specialization was done
 - Use Ansible playbook as component script type
   - Use `https://github.com/eWaterCycle/infra.git` as repository URL
   - Use `research-cloud-plugin.yml` as script path
-  - Use `main` as tag
+  - Use `grader` as tag
   - Select cloud providers:
     - SURF HPC Cloud, with all non-gpu sizes selected
     - SURF HPC Cloud cluster, with all non-gpu sizes selected
