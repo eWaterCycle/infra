@@ -1,8 +1,47 @@
+# From https://github.com/RS-DAT/JupyterDaskOnSRC/blob/953f2b2d8f258f9793bbb18cb3cedc061e5bb9e8/research-cloud-plugin.yml#L11-L38
+- name: Enable ansible to configure workers
+  hosts: localhost
+  gather_facts: false
+  vars: {}
+  tasks:
+
+    - name: Wait for system to become reachable
+      wait_for_connection:
+        timeout: 300
+
+    - name: Create group workers with workers' IPs
+      add_host:
+        name: "{{ item }}"
+        groups: workers
+        ansible_user: ubuntu
+        ansible_connection: ssh
+        ansible_ssh_private_key_file: ~/.ssh/id_rsa
+        ansible_become: yes
+      loop: '{{ worker_ip_addresses }}'
+
+    - name: Alias name for jumphost
+      add_host:
+        name: jumphost
+        hostname: localhost
+
+    - name: Scan for worker keys.
+      shell:
+        cmd: ssh-keyscan {{ item }}
+      register: ssh_scan
+      loop: '{{ worker_ip_addresses }}'
+
+    - name: Write the worker keys to known hosts
+      known_hosts:
+        name: "{{ item.0.item }}"
+        key: "{{ item.1 }}"
+      with_subelements:
+        - "{{ ssh_scan.results }}"
+        - stdout_lines
+
 # code: language=ansible
 - name: Install and configure eWaterCycle Jupyter
   hosts:
-    - all
-    - localhost
+    - jumphost
   gather_facts: false
   vars:
     # dCache token for mounting shared data
@@ -18,6 +57,16 @@
     - name: Extra vols
       debug:
         var: external_volumes
+
+    - name: Extra vols
+      shell: echo {{ external_volumes }} > /etc/external_volumes
+
+    - name: Extra vols
+      shell: df
+
+    - name: Workers
+      debug:
+        var: worker_ip_addresses
 
     - name: Common stuff
       include_role:
@@ -49,65 +98,85 @@
         state: directory
         mode: '0755'
 
-    # Container engines
-    - name: Apptainer
-      include_role:
-        name: apptainer
+    # # Container engines
+    # - name: Apptainer
+    #   include_role:
+    #     name: apptainer
 
-    # Install Conda + mamba
-    - name: Install conda
-      include_role:
-        name: conda
+    # # Install Conda + mamba
+    # - name: Install conda
+    #   include_role:
+    #     name: conda
 
-    # TODO mount a home and scratch disk, see https://github.com/eWaterCycle/infra/issues/89
-    # - name: Scratch disk
-    #   mount:
-    #     path: /scratch
-    #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
-    #     state: present
-    # - name: Home disk
-    #   mount:
-    #     path: /home
-    #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
-    #     state: present
+    # # TODO mount a home and scratch disk, see https://github.com/eWaterCycle/infra/issues/89
+    # # - name: Scratch disk
+    # #   mount:
+    # #     path: /scratch
+    # #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
+    # #     state: present
+    # # - name: Home disk
+    # #   mount:
+    # #     path: /home
+    # #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
+    # #     state: present
 
     - name: Mount shared data dcache with rclone
       include_role:
         name: rclone
         tasks_from: mount
+        
 
-    # https://lab.ewatercycle.org/ functionality
-    - name: Welcome page
-      include_role:
-        name: labstart
+    # # https://lab.ewatercycle.org/ functionality
+    # - name: Welcome page
+    #   include_role:
+    #     name: labstart
 
-    # https://explore.ewatercycle.org/ functionality
-    - name: Experiment launcher
-      include_role:
-        name: launcher
+    # # https://explore.ewatercycle.org/ functionality
+    # - name: Experiment launcher
+    #   include_role:
+    #     name: launcher
 
-    - name: Explorer
-      include_role:
-        name: terria
+    # - name: Explorer
+    #   include_role:
+    #     name: terria
 
-    # https://jupyter.ewatercycle.org/ functionality
-    - name: Create eWaterCycle conda env
-      include_role:
-        name: ewatercycle
+    # # https://jupyter.ewatercycle.org/ functionality
+    # - name: Create eWaterCycle conda env
+    #   include_role:
+    #     name: ewatercycle
 
-    - name: Set up Jupyter lab/hub
-      include_role:
-        name: jupyter
+    # - name: Set up Jupyter lab/hub
+    #   include_role:
+    #     name: jupyter
 
-    - name: Set up grader
-      include_role:
-        name: grader
+    # - name: Set up grader
+    #   include_role:
+    #     name: grader
 
-    - name: Clean apt cache
-      apt:
-        autoclean: true
-        autoremove: true
+    # - name: Clean apt cache
+    #   apt:
+    #     autoclean: true
+    #     autoremove: true
 
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
+
+- name: Setup worker nodes
+  hosts:
+    - workers
+  gather_facts: false
+  vars:
+    # dCache token for mounting shared data
+    dcache_ro_token: null # Must be filled from command line
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+        timeout: 300
+
+    - name: Gather facts for first time
+      setup:
+
+    - name: Name
+      debug:
+        var: inventory_hostname
