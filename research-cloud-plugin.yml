@@ -41,7 +41,7 @@
 # code: language=ansible
 - name: Install and configure eWaterCycle Jupyter on jumphost
   hosts:
-    - jumphhost
+    - localhost
   gather_facts: false
   vars:
     # dCache token for mounting shared data
