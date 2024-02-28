@@ -59,7 +59,6 @@
 - name: List all non-grader_user non-system users to course
   ansible.builtin.shell: set -o pipefail && ls -1 /| grep -v lost+found | grep -v '{{ grader_user }}'
   register: non_grader_users
-  changed_when: false
   args:
     chdir: /home
     executable: /bin/bash
