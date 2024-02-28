@@ -14,7 +14,7 @@ These instructions assume you have some basic knowledge of [vagrant](https://vag
 
 The hardware environment used by the eWaterCycle platform development team is the [SURF Research Cloud](https://servicedesk.surfsara.nl/wiki/display/WIKI/Research+Cloud+Documentation). Starting a machine on the Surf Research Cloud requires that you have research budget with SURF, for more info see the website of [SURF](https://www.surf.nl/en/research-it/apply-for-access-to-compute-services). Once running, access to the machine can be shared to anyone.
 
-The setup instructions in this repo will create an eWaterCycle application(a sort-of VM template) that when started will create a machine with:
+The setup instructions in this repo will create an eWaterCycle application(a sort-of VM template) that when started will create a machine with:****
 
 - Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
 - Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
@@ -97,21 +97,26 @@ For eWatercycle component following specialization was done
   - Use `https://github.com/eWaterCycle/infra.git` as repository URL
   - Use `research-cloud-plugin.yml` as script path
   - Use `main` as tag
-- Component parameters, all fixed source type and non-overwitable unless otherwise stated
+  - Select cloud providers:
+    - SURF HPC Cloud, with all non-gpu sizes selected
+    - SURF HPC Cloud cluster, with all non-gpu sizes selected
+- Component parameters, all fixed source type and overwitable unless otherwise stated
   - Add `dcache_ro_token` parameter for dcache read-only token aka macaroon.
     The token can be found in the eWaterCycle password manager.
     This token has an expiration date, so it needs to be updated every now and then.
-  - Add `alt_home_location` parameter with value `/data/volume_2`.
+  - Add `alt_home_location` parameter with value `/data/<storage item name for homes>`.
     For mount point of the storage item which should hold homes mounted.
-  - Add `rclone_cache_dir` parameter with value `/data/volume_3`.
+  - Add `rclone_cache_dir` parameter with value `/data/<storage item name for rclone cache>`.
     For directory where rclone can store its cache.
   - Add `rclone_max_gsize` with value `45`.
     For maximum size of cache on `rclone_cache_dir` volume. In Gb.
   - Add `grader_user` parameter with username of person who will be grading.
     Use `==USERNAME==` as default value, which will be replaced by the actual username of the user creating the workspace.
+    Description should be `User who will be grading. User should be created on sram.`.
     This user will also be responsible for setting up the course and assignments.
   - Add `students` parameter with list of student usernames and passwords.
     The value should be a JSON string in format of `[["username1", "password1"]]`.
+    Description should be `List of student user name and passwords. Format `[["<username1>","<password1>"]]`.
   - Add `course_repo` parameter with git repository url of the course source material.
     Use default value of `https://github.com/eWaterCycle/teaching.git`
   - Add `course_version` paramneter with the version,branch or tag of the course repository to use.
@@ -135,7 +140,23 @@ For eWatercycle catalog item following specialization was done
 - In parameter settings step keep all values as is except
   - Set `co_irods` to `false` as we do not use irods
   - Set `co_research_drive` to `false` as we do not use research drive
-  - Expose `grader_user`, `students`, `course_repo` and `course_version` as interactive parameters.
+  - As interactive parameters expose following:
+    - rclone_cache_dir:
+      - label: "Rclone cache directory"
+      - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
+    - alt_home_location:
+      - label: Homes path
+      - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
+    - grader_user:
+      - label: "Grader user"
+      - description: "User who will be grading. User should be created on sram."
+    - students
+      - label: "Students"
+      - description: "List of student user name and passwords. Format `[["<username1>","<password1"]]`."
+    - num_nodes
+      - label: "Number of nodes"
+      - description: Only used when cloud provider `SURF HPC Cloud cluster` is selected.
+      - default: 2
 - Set boot disk size to 150Gb,
   as default size will be mostly used by the conda environment and will trigger out of space warnings.
 - Set workspace acces button behavior to `Webinterface (https:)`,
