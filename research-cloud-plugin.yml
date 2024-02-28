@@ -41,7 +41,7 @@
 # code: language=ansible
 - name: Install and configure eWaterCycle Jupyter
   hosts:
-    - jumphost
+    - all
   gather_facts: false
   vars:
     # dCache token for mounting shared data
@@ -66,7 +66,7 @@
 
     - name: Workers
       debug:
-        var: worker_ip_addresses
+        var: groups['workers']
 
     - name: Common stuff
       include_role:
@@ -90,13 +90,14 @@
     - name: Storage items
       include_role:
         name: storage
+      when: inventory_hostname == "jumphost"
 
-    # roles have hardcoded /mnt/apps, so create it before running roles
-    - name: Apps root
-      file:
-        path: /mnt/apps
-        state: directory
-        mode: '0755'
+    # # roles have hardcoded /mnt/apps, so create it before running roles
+    # - name: Apps root
+    #   file:
+    #     path: /mnt/apps
+    #     state: directory
+    #     mode: '0755'
 
     # # Container engines
     # - name: Apptainer
@@ -124,7 +125,7 @@
       include_role:
         name: rclone
         tasks_from: mount
-        
+      when: inventory_hostname == "jumphost"
 
     # # https://lab.ewatercycle.org/ functionality
     # - name: Welcome page
@@ -161,22 +162,3 @@
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
-
-- name: Setup worker nodes
-  hosts:
-    - workers
-  gather_facts: false
-  vars:
-    # dCache token for mounting shared data
-    dcache_ro_token: null # Must be filled from command line
-  tasks:
-    - name: Wait for system to become reachable
-      wait_for_connection:
-        timeout: 300
-
-    - name: Gather facts for first time
-      setup:
-
-    - name: Name
-      debug:
-        var: inventory_hostname
