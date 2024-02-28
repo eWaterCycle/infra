@@ -38,71 +38,59 @@
       include_role:
         name: storage
 
-    # # roles have hardcoded /mnt/apps, so create it before running roles
-    # - name: Apps root
-    #   file:
-    #     path: /mnt/apps
-    #     state: directory
-    #     mode: '0755'
+    # roles have hardcoded /mnt/apps, so create it before running roles
+    - name: Apps root
+      file:
+        path: /mnt/apps
+        state: directory
+        mode: '0755'
 
-    # # Container engines
-    # - name: Apptainer
-    #   include_role:
-    #     name: apptainer
+    # Container engines
+    - name: Apptainer
+      include_role:
+        name: apptainer
 
-    # # Install Conda + mamba
-    # - name: Install conda
-    #   include_role:
-    #     name: conda
-
-    # # TODO mount a home and scratch disk, see https://github.com/eWaterCycle/infra/issues/89
-    # # - name: Scratch disk
-    # #   mount:
-    # #     path: /scratch
-    # #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
-    # #     state: present
-    # # - name: Home disk
-    # #   mount:
-    # #     path: /home
-    # #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
-    # #     state: present
+    # Install Conda + mamba
+    - name: Install conda
+      include_role:
+        name: conda
 
     - name: Mount shared data dcache with rclone
       include_role:
         name: rclone
         tasks_from: mount
 
-    # # https://lab.ewatercycle.org/ functionality
-    # - name: Welcome page
-    #   include_role:
-    #     name: labstart
+    # https://lab.ewatercycle.org/ functionality
+    - name: Welcome page
+      include_role:
+        name: labstart
 
-    # # https://explore.ewatercycle.org/ functionality
-    # - name: Experiment launcher
-    #   include_role:
-    #     name: launcher
+    # https://explore.ewatercycle.org/ functionality
+    - name: Experiment launcher
+      include_role:
+        name: launcher
 
-    # - name: Explorer
-    #   include_role:
-    #     name: terria
+    - name: Explorer
+      include_role:
+        name: terria
 
-    # # https://jupyter.ewatercycle.org/ functionality
-    # - name: Create eWaterCycle conda env
-    #   include_role:
-    #     name: ewatercycle
+    # https://jupyter.ewatercycle.org/ functionality
+    - name: Create eWaterCycle conda env
+      include_role:
+        name: ewatercycle
 
-    # - name: Set up Jupyter lab/hub
-    #   include_role:
-    #     name: jupyter
+    - name: Set up Jupyter lab/hub
+      include_role:
+        name: jupyter
 
-    # - name: Set up grader
-    #   include_role:
-    #     name: grader
+    - name: Set up grader
+      include_role:
+        name: grader
 
-    # - name: Clean apt cache
-    #   apt:
-    #     autoclean: true
-    #     autoremove: true
+    - name: Clean apt cache
+      apt:
+        autoclean: true
+        autoremove: true
 
     - name: Debug
       debug:
