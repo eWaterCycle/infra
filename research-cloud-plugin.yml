@@ -90,7 +90,6 @@
     - name: Storage items
       include_role:
         name: storage
-      when: inventory_hostname == "jumphost"
 
     # # roles have hardcoded /mnt/apps, so create it before running roles
     # - name: Apps root
@@ -125,7 +124,6 @@
       include_role:
         name: rclone
         tasks_from: mount
-      when: inventory_hostname == "jumphost"
 
     # # https://lab.ewatercycle.org/ functionality
     # - name: Welcome page
