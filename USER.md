@@ -1,5 +1,44 @@
 # User guide
 
+- [User guide](#user-guide)
+  - [Grading](#grading)
+    - [Students](#students)
+    - [Create assignment](#create-assignment)
+    - [Fetch assignment](#fetch-assignment)
+  - [Logging into server](#logging-into-server)
+  - [Save notebooks to GitHub](#save-notebooks-to-github)
+    - [1. Create GitHub account](#1-create-github-account)
+    - [2. Create GitHub repository](#2-create-github-repository)
+    - [3. Setup GitHub authentication on server](#3-setup-github-authentication-on-server)
+    - [4. Clone repository](#4-clone-repository)
+    - [5. Add \& commit \& push notebooks on server to GitHub](#5-add--commit--push-notebooks-on-server-to-github)
+    - [6. Pull changes from GitHub to server](#6-pull-changes-from-github-to-server)
+  - [Install own software](#install-own-software)
+
+## Grading
+
+One user is the grader on the machine following section is for that user.
+
+### Students
+
+Assigning students to courses can be managed with [nbgrader labextension & cli](https://nbgrader.readthedocs.io/en/stable/user_guide/managing_the_database.html#managing-students).
+
+The student id is a posix username in the VM.
+In a ewatercycle VM, users can be added during workspace creation or with [Surf Research Access Management](https://sram.surf.nl/) or later with `sudo adduser`.
+After sram invite a cronjob will add the user to the VM. Login with totp as password.
+
+### Create assignment
+
+1. In menu goto Nbgrader -> Formgrader -> Manage Assignments -> Add new Assignment.
+2. Click on edit to navigate to folder (`~/course1/source/<name of assignment>`).
+3. Create a notebook with assignment annotations using the `Create Assignment` sidebar.
+4. In FormGrader press Generate, Preview, Release buttons.
+
+### Fetch assignment
+
+1. In menu got Nbgrader -> Assignments
+2. Press fetch button
+
 ## Logging into server
 
 You should have recieved a invitation to a eWatercycle collaborative organization, please follow instructions in email.
@@ -14,12 +53,6 @@ The username you should use to login can be found on on [SRC dashboard profile p
 The Jupyter notebooks that you write should be saved outside the Jupyter server.
 Code like notebooks can be saved git repositories on [GitHub](https://github.com/).
 
-- [1. Create GitHub account](#1-create-github-account)
-- [2. Create GitHub repository](#2-create-github-repository)
-- [3. Setup authenication on server](#3-setup-authenication-on-server)
-- [4. Clone repository](#4-clone-repository)
-- [5. Add & commit & push notebooks on server to GitHub](#5-add--commit--push-notebooks-on-server-to-github)
-- [6. Pull changes from GitHub to server](#6-pull-changes-from-github-to-server)
 
 ### 1. Create GitHub account
 
