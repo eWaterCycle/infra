@@ -115,12 +115,13 @@ For eWatercycle component following specialization was done
     Description should be `User who will be grading. User should be created on sram.`.
     This user will also be responsible for setting up the course and assignments.
   - Add `students` parameter with list of student usernames and passwords.
-    The value should be a JSON string in format of `[["username1", "password1"]]`.
-    Description should be `List of student user name and passwords. Format `[["<username1>","<password1>"]]`.
+    The value should be a JSON string in format of `[["username1", "password1"]]`. 
+    Description should be `List of student user name and passwords. Format '[["<username1>","<password1>"]]'. Use '[]' for no students.`.
   - Add `course_repo` parameter with git repository url of the course source material.
     Use default value of `https://github.com/eWaterCycle/teaching.git`
-  - Add `course_version` paramneter with the version,branch or tag of the course repository to use.
+  - Add `course_version` parameter with the version,branch or tag of the course repository to use.
     Default value of `main`.
+  - Add `worker_ip_addresses` parameter with source type `Resource` and value `worker_ip_addresses`.
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Do not allow every org to use this component. Data on the dcache should not be made public.
 - Select the organizations (CO) that are allowed to use the component.
@@ -149,10 +150,10 @@ For eWatercycle catalog item following specialization was done
       - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
     - grader_user:
       - label: "Grader user"
-      - description: "User who will be grading. User should be created on sram."
+      - description: User who will be grading. User should be created on sram.
     - students
       - label: "Students"
-      - description: "List of student user name and passwords. Format `[["<username1>","<password1"]]`."
+      - description: List of student user name and passwords. Format '[["<username1>","<password1>"]]'. Use '[]' for no students.
     - num_nodes
       - label: "Number of nodes"
       - description: Only used when cloud provider `SURF HPC Cloud cluster` is selected.
