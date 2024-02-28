@@ -61,6 +61,7 @@
   register: non_grader_users
   args:
     executable: /bin/bash
+# TODO use import subcommand on non_grader_users.stdout
 - name: Register non_grader_users as nbgrader student
   when: non_grader_users.stdout_lines is defined
   ansible.builtin.command: '{{ conda_environment_bin }}/nbgrader db student add "{{ item }}"'
