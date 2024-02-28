@@ -39,9 +39,9 @@
         - stdout_lines
 
 # code: language=ansible
-- name: Install and configure eWaterCycle Jupyter
+- name: Install and configure eWaterCycle Jupyter on jumphost
   hosts:
-    - all
+    - jumphhost
   gather_facts: false
   vars:
     # dCache token for mounting shared data
@@ -54,19 +54,19 @@
     - name: Gather facts for first time
       setup:
 
-    - name: Extra vols
+    - name: Volumes
       debug:
-        var: external_volumes
+        var: volumes
 
-    - name: Extra vols
-      shell: echo {{ external_volumes }} > /etc/external_volumes
-
-    - name: Extra vols
+    - name: df
       shell: df
+
+    - name: ls /data
+      shell: ls /data
 
     - name: Workers
       debug:
-        var: groups['workers']
+        var: worker_ip_addresses
 
     - name: Common stuff
       include_role:
@@ -162,3 +162,24 @@
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
+- name: Setup worker nodes
+  hosts:
+    - workers
+  gather_facts: false
+  vars:
+    # dCache token for mounting shared data
+    dcache_ro_token: null # Must be filled from command line
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+        timeout: 300
+
+    - name: Gather facts for first time
+      setup:
+
+    - name: Name
+      debug:
+        var: inventory_hostname
+    
+    - name: df
+      shell: df
