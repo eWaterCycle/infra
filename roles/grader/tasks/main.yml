@@ -55,11 +55,24 @@
     shell: /bin/bash
   loop: "{{ students | from_json | default([]) }}"
 
-- name: List all non-grader_user non-system users
-  ansible.builtin.shell: |
-    set -o pipefail
-    ls -1 /home | grep -v lost+found | grep -v '{{ grader_user }}'
+- name: List my users
+  shell: set -o pipefail && ls -1 | grep -v lost+found
   args:
+    chdir: /home
+    executable: /bin/bash
+  register: myusers
+  changed_when: False
+
+- name: Myusers
+  debug:
+    var: myusers
+
+- name: List all non-grader_user non-system users
+  shell: |
+    set -o pipefail
+    ls -1 | grep -v lost+found | grep -v {{ grader_user }}
+  args:
+    chdir: /home
     executable: /bin/bash
   register: non_grader_users
   changed_when: false
@@ -80,6 +93,9 @@
     {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:assignment-list
     {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:assignment-list
     {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:course-list
   args:
     executable: /bin/bash
   become: true
@@ -96,6 +112,7 @@
     {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:assignment-list
     {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:assignment-list
     {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:course-list
   args:
     executable: /bin/bash
   become: true
