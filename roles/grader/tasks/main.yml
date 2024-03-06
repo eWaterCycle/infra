@@ -48,58 +48,66 @@
     version: '{{ course_version }}'
   become: true
   become_user: "{{ grader_user }}"
-# TODO remove debug
-- name: List students
-  debug:
-    var: students
-  when: students is defined
-- name: Create students
-  when: students is defined
+- name: Create student posix users
   ansible.builtin.user:
     name: "{{ item[0] }}"
     password: "{{ item[1] | password_hash(hashtype='sha512') }}"
     shell: /bin/bash
-  loop: "{{ students | from_json }}"
+  loop: "{{ students | from_json | default([]) }}"
 
-- name: List all non-grader_user non-system users to course
-  ansible.builtin.shell: set -o pipefail && ls -1 /home | grep -v lost+found | grep -v '{{ grader_user }}'
-  register: non_grader_users
+- name: List all non-grader_user non-system users
+  ansible.builtin.shell: |
+    set -o pipefail
+    ls -1 /home | grep -v lost+found | grep -v '{{ grader_user }}'
   args:
     executable: /bin/bash
-# TODO use import subcommand on non_grader_users.stdout
+  register: non_grader_users
+  changed_when: false
+
+# TODO remove debug
+- name: Debug list
+  ansible.builtin.debug:
+    var: non_grader_users
+
+# TODO when user is added to sram after provisioning then
+# add user to nbgrader as student + enable assignment-list extension for that user
+
+# enable/disable labextensions like https://github.com/jupyter/nbgrader/blob/main/demos/demo_one_class_one_grader/setup_demo.sh
+- name: Enable lab assignment list all non-grader users
+  loop: "{{ non_grader_users.stdout_lines | default([]) }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ item }}"
+  changed_when: true
+- name: Enable nbgrader extensions for grader_user
+  ansible.builtin.shell: |
+    set -o pipefail
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.formgrader
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ grader_user }}"
+  changed_when: true
 - name: Register non_grader_users as nbgrader student
-  when: non_grader_users.stdout_lines is defined
+  loop: "{{ non_grader_users.stdout_lines | default([]) }}"
   ansible.builtin.command: '{{ conda_environment_bin }}/nbgrader db student add "{{ item }}"'
   environment:
     PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
-  loop: "{{ non_grader_users.stdout_lines }}"
   args:
     chdir: "/home/{{ grader_user }}/{{ course_id }}"
   become: true
   become_user: "{{ grader_user }}"
-
-# TODO when user is added to sram also add to nbgrader as student
-
-# enable/disable labextensions like https://github.com/jupyter/nbgrader/blob/main/demos/demo_one_class_one_grader/setup_demo.sh
-- name: Disable ngrader labextensions system wide
-  ansible.builtin.command: '{{ conda_environment_bin }}/jupyter labextension disable nbgrader:{{ item }}}'
-  loop:
-    - formgrader
-    - create-assignment
-    - course-list
-- name: Enable nbgrader labextensions for grader_user
-  ansible.builtin.command: '{{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:{{ item }}'
-  loop:
-    - formgrader
-    - create-assignment
-  become: true
-  become_user: "{{ grader_user }}"
-- name: Disable formgrader server extension system wide
-  ansible.builtin.command: '{{ conda_environment_bin }}/jupyter server extension disable nbgrader.server_extensions.{{ item }}'
-  loop:
-    - formgrader
-    - course_list
-- name: Enable formgrader server extension for grader_user
-  ansible.builtin.command: '{{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.formgrader'
-  become: true
-  become_user: "{{ grader_user }}"
+  changed_when: true
