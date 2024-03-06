@@ -48,6 +48,11 @@
     version: '{{ course_version }}'
   become: true
   become_user: "{{ grader_user }}"
+# TODO remove debug
+- name: List students
+  debug:
+    var: students
+  when: students is defined
 - name: Create students
   when: students is defined
   ansible.builtin.user:
@@ -82,6 +87,13 @@
     - formgrader
     - create-assignment
     - course-list
+- name: Enable nbgrader labextensions for grader_user
+  ansible.builtin.command: '{{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:{{ item }}'
+  loop:
+    - formgrader
+    - create-assignment
+  become: true
+  become_user: "{{ grader_user }}"
 - name: Disable formgrader server extension system wide
   ansible.builtin.command: '{{ conda_environment_bin }}/jupyter server extension disable nbgrader.server_extensions.{{ item }}'
   loop:
@@ -89,12 +101,5 @@
     - course_list
 - name: Enable formgrader server extension for grader_user
   ansible.builtin.command: '{{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.formgrader'
-  become: true
-  become_user: "{{ grader_user }}"
-- name: Enable nbgrader labextensions for grader_user
-  ansible.builtin.command: '{{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:{{ item }}'
-  loop:
-    - formgrader
-    - create-assignment
   become: true
   become_user: "{{ grader_user }}"
