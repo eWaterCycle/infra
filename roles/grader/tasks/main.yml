@@ -55,18 +55,6 @@
     shell: /bin/bash
   loop: "{{ students | from_json | default([]) }}"
 
-- name: List my users
-  shell: set -o pipefail && ls -1 | grep -v lost+found
-  args:
-    chdir: /home
-    executable: /bin/bash
-  register: myusers
-  changed_when: False
-
-- name: Myusers
-  debug:
-    var: myusers
-
 - name: List all non-grader_user non-system users
   shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v {{ grader_user }}
   args:
@@ -75,32 +63,12 @@
   register: non_grader_users
   changed_when: false
 
-# TODO remove debug
-- name: Debug list
-  ansible.builtin.debug:
-    var: non_grader_users
-
 # TODO when user is added to sram after provisioning then
 # add user to nbgrader as student + enable assignment-list extension for that user
 
 # enable/disable labextensions like https://github.com/jupyter/nbgrader/blob/main/demos/demo_one_class_one_grader/setup_demo.sh
-- name: Enable lab assignment list all non-grader users
-  loop: "{{ non_grader_users.stdout_lines | default([]) }}"
-  ansible.builtin.shell: |
-    set -o pipefail
-    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:assignment-list
-    {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:assignment-list
-    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
-    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:create-assignment
-    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:formgrader
-    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:course-list
-  args:
-    executable: /bin/bash
-  become: true
-  become_user: "{{ item }}"
-  changed_when: true
 - name: Enable nbgrader extensions for grader_user
-  ansible.builtin.shell: |
+  shell: |
     set -o pipefail
     {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:create-assignment
     {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:create-assignment
@@ -116,6 +84,22 @@
   become: true
   become_user: "{{ grader_user }}"
   changed_when: true
+- name: Enable lab assignment list all non-grader users
+  loop: "{{ non_grader_users.stdout_lines | default([]) }}"
+  shell: |
+    set -o pipefail
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user nbgrader:course-list
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ item }}"
+  changed_when: true
+
 - name: Register non_grader_users as nbgrader student
   loop: "{{ non_grader_users.stdout_lines | default([]) }}"
   ansible.builtin.command: '{{ conda_environment_bin }}/nbgrader db student add "{{ item }}"'
