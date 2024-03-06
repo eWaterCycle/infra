@@ -102,11 +102,12 @@
 
 - name: Register non_grader_users as nbgrader student
   loop: "{{ non_grader_users.stdout_lines | default([]) }}"
-  ansible.builtin.command: '{{ conda_environment_bin }}/nbgrader db student add "{{ item }}"'
-  environment:
-    PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
-  args:
+  command:
+    cmd: '{{ conda_environment_bin }}/nbgrader db student add {{ item }}'
     chdir: "/home/{{ grader_user }}/{{ course_id }}"
+  environment:
+    # nbgrader calls subcprocess which is not in path by default
+    PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
   become: true
   become_user: "{{ grader_user }}"
   changed_when: true
