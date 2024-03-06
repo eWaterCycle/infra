@@ -68,9 +68,7 @@
     var: myusers
 
 - name: List all non-grader_user non-system users
-  shell: |
-    set -o pipefail
-    ls -1 | grep -v lost+found | grep -v {{ grader_user }}
+  shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v {{ grader_user }}
   args:
     chdir: /home
     executable: /bin/bash
