@@ -200,10 +200,11 @@ This chapter is dedicated for application deployers.
 1. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
 1. Select home storage item and cache storage item. Remember items you picked as you will need them in the workspace parameters.
-1. Fill all the workspace parameters. 
-1. Wait for machine to be running
-1. Visit URL/IP
-1. When done delete machine
+1. Fill **all** the workspace parameters. They should look something like
+   ![workspace-parameters](workspace-parameters.png) 
+2. Wait for machine to be running
+3. Visit URL/IP
+4. When done delete machine
 
 For a new CO make sure
 
