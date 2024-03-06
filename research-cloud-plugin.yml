@@ -15,6 +15,10 @@
     - name: Gather facts for first time
       setup:
 
+    - name: Ansible version
+      debug:
+        var: ansible_version
+
     - name: Set up workers
       debug:
         var: worker_ip_addresses
