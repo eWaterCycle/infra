@@ -21,6 +21,9 @@ dependencies:
       # TODO Once available uncomment the following line
       # - git+https://github.com/eWaterCycle/ewatercycle-sfincs
       - era5cli
+      # Latest published nbgrader does not work (validate button gives error) with latest jupyterlab,notebook
+      # So install bleeding edge version from github
+      - git+https://github.com/jupyter/nbgrader.git@9876829b6be4fccce621ffee907bd5f9ac400c44
   - setuptools
   - altair_saver
   - altair
@@ -77,4 +80,8 @@ dependencies:
   - nbdime
   - nbgitpuller
   - papermill
-  - nbgrader
+  # nbgrader deps
+  - rapidfuzz
+  - nbconvert
+  - nbconvert-pandoc
+  - pandoc
