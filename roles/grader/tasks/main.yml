@@ -100,14 +100,6 @@
   become_user: "{{ item }}"
   changed_when: true
 
-# TODO remove debugs
-- name: Debug path
-  debug:
-    var: ansible_env.PATH
-- name : Debug bin
-  debug:
-    var: conda_environment_bin
-
 - name: Register non_grader_users as nbgrader student
   loop: "{{ non_grader_users.stdout_lines | default([]) }}"
   command:
