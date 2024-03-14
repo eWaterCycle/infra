@@ -122,7 +122,7 @@ For eWatercycle component following specialization was done
       (==USERNAME== which will be replaced by the actual username of the user creating the workspace)   
   - students:
     - default: []
-    - description: List of student user name and passwords. Format '[["<username1>","<password1>"]]'. Use '[]' for no students.
+    - description: List of student user name and passwords. Format '[[\"<username1>\",\"<password1>\"]]'. Use '[]' for no students.
   - course_repo:
     - default: https://github.com/eWaterCycle/teaching.git
     - description: Git repository url with the course source material.
@@ -169,7 +169,7 @@ For eWatercycle catalog item following specialization was done
       - description: User who will be grading. User should be created on sram.
     - students
       - label: Students
-      - description: List of student user name and passwords. Format '[["<username1>","<password1>"]]'. Use '[]' for no students.
+      - description: List of student user name and passwords. Format '[[\"<username1>\",\"<password1>\"]]'. Use '[]' for no students.
     - num_nodes
       - label: Number of nodes
       - description: Only used when cloud provider `SURF HPC Cloud cluster` is selected.
