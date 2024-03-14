@@ -51,7 +51,7 @@ rclone_cache_dir: /data/volume_2
 alt_home_location: /data/volume_3
 # Vagrant user is instructor
 # The students defined below can be used to login as a student
-students: '[["student1", "student1"], ["student2", "student2"]]'
+students: 'student1:student1,student2:student2'
 ```
 
 The token can be found in the eWaterCycle password manager.
@@ -122,7 +122,7 @@ For eWatercycle component following specialization was done
       (==USERNAME== which will be replaced by the actual username of the user creating the workspace)   
   - students:
     - default: []
-    - description: List of student user name and passwords. Format '[[\"<username1>\",\"<password1>\"]]'. Use '[]' for no students.
+    - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students.
   - course_repo:
     - default: https://github.com/eWaterCycle/teaching.git
     - description: Git repository url with the course source material.
@@ -169,7 +169,7 @@ For eWatercycle catalog item following specialization was done
       - description: User who will be grading. User should be created on sram.
     - students
       - label: Students
-      - description: List of student user name and passwords. Format '[[\"<username1>\",\"<password1>\"]]'. Use '[]' for no students.
+      - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students.
     - num_nodes
       - label: Number of nodes
       - description: Only used when cloud provider `SURF HPC Cloud cluster` is selected.

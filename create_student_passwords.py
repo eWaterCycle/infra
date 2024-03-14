@@ -27,7 +27,7 @@ def main():
             usernames.append(line.strip())
         except EOFError:
             break
-    userpws = [(username, token_urlsafe(password_length)) for username in usernames]
-    print(json.dumps(userpws))
+    userpws = [':'.join([username, token_urlsafe(password_length)]) for username in usernames]
+    print(','.join(userpws))
 
 main()

@@ -53,7 +53,7 @@
     name: "{{ item[0] }}"
     password: "{{ item[1] | password_hash(hashtype='sha512') }}"
     shell: /bin/bash
-  loop: "{{ students | from_json | default([]) }}"
+  loop: "{{ students | split(',') | map('split',':') | default([]) }}"
 
 - name: List all non-grader_user non-system users
   shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v {{ grader_user }}
