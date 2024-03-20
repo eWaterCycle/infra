@@ -50,10 +50,10 @@
   become_user: "{{ grader_user }}"
 - name: Create student posix users
   ansible.builtin.user:
-    name: "{{ item | split(':') | first }}"
-    password: "{{ item | split(':') | last | password_hash(hashtype='sha512') }}"
+    name: "{{ item.split(':') | first }}"
+    password: "{{ item.split(':') | last | password_hash(hashtype='sha512') }}"
     shell: /bin/bash
-  loop: "{{ students | split(',') | default([]) }}"
+  loop: "{{ students.split(',') | default([]) }}"
 
 - name: List all non-grader_user non-system users
   shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v {{ grader_user }}
