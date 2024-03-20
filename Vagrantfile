@@ -24,6 +24,10 @@ Vagrant.configure("2") do |config|
   config.vm.disk :disk, size: "20GB", name: "home2"
   config.vm.disk :disk, size: "50GB", name: "cache"
 
+  # Disable guest updates
+  config.vbguest.auto_update = false
+  config.vbguest.no_install = true
+
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "vagrant-provision.yml"
     ansible.become = true
