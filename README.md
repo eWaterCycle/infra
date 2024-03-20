@@ -52,6 +52,7 @@ alt_home_location: /data/volume_3
 # Vagrant user is instructor
 # The students defined below can be used to login as a student
 students: 'student1:pw1,student2:pw2'
+worker_ip_addresses: []
 ```
 
 The token can be found in the eWaterCycle password manager.
@@ -59,8 +60,6 @@ The token can be found in the eWaterCycle password manager.
 ```shell
 vagrant --version
 # Vagrant 2.4.1
-vagrant plugin install vagrant-vbguest
-# Installed the plugin 'vagrant-vbguest (0.32.0)'
 vagrant up
 ```
 
