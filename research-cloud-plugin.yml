@@ -125,9 +125,9 @@
     - name: Setup nfs server
       when: worker_ip_addresses
       block:
-        -name: nfs-server
-         apt:
-            name:
+        - name: nfs-server
+          apt:
+            pkg:
               - nfs-common
               - nfs-kernel-server
             state: present
