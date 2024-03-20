@@ -122,6 +122,34 @@
         autoclean: true
         autoremove: true
 
+    - name: Setup nfs server
+      when: worker_ip_addresses
+      block:
+        -name: nfs-server
+         apt:
+            name:
+              - nfs-common
+              - nfs-kernel-server
+            state: present
+        - name: nfs export /home
+          lineinfile:
+            path: /etc/exports
+            line: "/home {{ item }}(rw,async,no_subtree_check)"
+            create: yes
+          loop: '{{ worker_ip_addresses }}'
+        - name: nfs export /mnt/data
+          lineinfile:
+            path: /etc/exports
+            line: "/mnt/data {{ item }}(ro,async,no_subtree_check)"
+            create: yes
+          loop: '{{ worker_ip_addresses }}'
+        - name: nfsd service
+          service:
+            name: nfs-kernel-server
+            state: started
+            state: started
+            enabled: true
+
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
