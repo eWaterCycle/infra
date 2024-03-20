@@ -167,6 +167,7 @@ For eWatercycle catalog item following specialization was done
     - grader_user:
       - label: Username of grader
       - description: User who will be grading. User should be created on sram.
+      - default: empty string
     - students
       - label: Students
       - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students. Use secure passwords as anyone on the internet can access the machine.
