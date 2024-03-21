@@ -14,6 +14,14 @@
     - name: Gather facts for first time
       setup:
 
+    - name: Ansible version
+      debug:
+        var: ansible_version
+
+    - name: Jinja version
+      debug:
+        msg: "{{ lookup('pipe', 'pip show jinja2 | grep Version') }}"
+
     - name: Alias name for jumphost
       add_host:
         name: jumphost
