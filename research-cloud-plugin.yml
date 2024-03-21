@@ -36,13 +36,12 @@
             cmd: ssh-keyscan {{ item }}
           register: ssh_scan
           loop: '{{ worker_ip_addresses }}'
-
-    - name: Write the worker keys to known hosts
-      known_hosts:
-        name: "{{ item.0.item }}"
-        key: "{{ item.1 }}"
-      loop:
-        "{{ ssh_scan.results | subelements('stdout_lines') | default([])}}"
+      - name: Write the worker keys to known hosts
+        known_hosts:
+          name: "{{ item.0.item }}"
+          key: "{{ item.1 }}"
+        loop:
+          "{{ ssh_scan.results | subelements('stdout_lines') }}"
 
 - name: Install and configure eWaterCycle Jupyter on jumphost
   hosts:
