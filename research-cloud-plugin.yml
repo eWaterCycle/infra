@@ -149,7 +149,6 @@
           service:
             name: nfs-kernel-server
             state: started
-            state: started
             enabled: true
 
     - name: Debug
@@ -158,7 +157,8 @@
 
 
 - name: Install Workers
-  hosts: workers
+  hosts:
+  - workers
   tasks:
     - name: Hello
       debug:
