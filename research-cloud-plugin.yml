@@ -14,17 +14,13 @@
     - name: Gather facts for first time
       setup:
 
-    - name: Ansible version
-      debug:
-        var: ansible_version
-
     - name: Alias name for jumphost
       add_host:
         name: jumphost
         hostname: localhost
 
     - name: SSH to workers configuration
-      when: worker_ip_addresses
+      when: worker_ip_addresses is defined
       block:
         - name: Create group workers with workers' IPs
           add_host:
@@ -125,7 +121,7 @@
         autoremove: true
 
     - name: Setup nfs server
-      when: worker_ip_addresses
+      when: worker_ip_addresses is defined
       block:
         - name: nfs-server
           apt:
