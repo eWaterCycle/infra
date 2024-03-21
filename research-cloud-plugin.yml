@@ -14,41 +14,33 @@
     - name: Gather facts for first time
       setup:
 
-    - name: Ansible version
-      debug:
-        var: ansible_version
-
-    - name: Jinja version
-      debug:
-        msg: "{{ lookup('pipe', 'pip show jinja2 | grep Version') }}"
-
     - name: Alias name for jumphost
       add_host:
         name: jumphost
         hostname: localhost
 
-    - name: SSH to workers configuration
-      when: worker_ip_addresses is defined
-      block:
-        - name: Create group workers with workers' IPs
-          add_host:
-            name: "{{ item }}"
-            groups: workers
-            ansible_user: ubuntu
-            ansible_connection: ssh
-            ansible_ssh_private_key_file: ~/.ssh/id_rsa
-            ansible_become: true
-          loop: '{{ worker_ip_addresses }}'
-        - name: Scan for worker keys.
-          command: ssh-keyscan {{ item }}
-          register: ssh_scan
-          loop: '{{ worker_ip_addresses }}'
-        - name: Write the worker keys to known hosts
-          known_hosts:
-            name: "{{ item.0.item }}"
-            key: "{{ item.1 }}"
-          loop:
-            "{{ ssh_scan.results | subelements('stdout_lines') }}"
+    # - name: SSH to workers configuration
+    #   when: worker_ip_addresses is defined
+    #   block:
+    #     - name: Create group workers with workers' IPs
+    #       add_host:
+    #         name: "{{ item }}"
+    #         groups: workers
+    #         ansible_user: ubuntu
+    #         ansible_connection: ssh
+    #         ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    #         ansible_become: true
+    #       loop: '{{ worker_ip_addresses }}'
+    #     - name: Scan for worker keys.
+    #       command: ssh-keyscan {{ item }}
+    #       register: ssh_scan
+    #       loop: '{{ worker_ip_addresses }}'
+    #     - name: Write the worker keys to known hosts
+    #       known_hosts:
+    #         name: "{{ item.0.item }}"
+    #         key: "{{ item.1 }}"
+    #       loop:
+    #         "{{ ssh_scan.results | subelements('stdout_lines') }}"
 
 - name: Install and configure eWaterCycle Jupyter on jumphost
   hosts:
@@ -121,32 +113,32 @@
       include_role:
         name: grader
 
-    - name: Setup nfs server
-      when: worker_ip_addresses is defined
-      block:
-        - name: nfs-server
-          apt:
-            pkg:
-              - nfs-common
-              - nfs-kernel-server
-            state: present
-        - name: nfs export /home
-          lineinfile:
-            path: /etc/exports
-            line: "/home {{ item }}(rw,async,no_subtree_check)"
-            create: yes
-          loop: '{{ worker_ip_addresses }}'
-        - name: nfs export /mnt/data
-          lineinfile:
-            path: /etc/exports
-            line: "/mnt/data {{ item }}(ro,async,no_subtree_check)"
-            create: yes
-          loop: '{{ worker_ip_addresses }}'
-        - name: nfsd service
-          service:
-            name: nfs-kernel-server
-            state: started
-            enabled: true
+    # - name: Setup nfs server
+    #   when: worker_ip_addresses is defined
+    #   block:
+    #     - name: nfs-server
+    #       apt:
+    #         pkg:
+    #           - nfs-common
+    #           - nfs-kernel-server
+    #         state: present
+    #     - name: nfs export /home
+    #       lineinfile:
+    #         path: /etc/exports
+    #         line: "/home {{ item }}(rw,async,no_subtree_check)"
+    #         create: yes
+    #       loop: '{{ worker_ip_addresses }}'
+    #     - name: nfs export /mnt/data
+    #       lineinfile:
+    #         path: /etc/exports
+    #         line: "/mnt/data {{ item }}(ro,async,no_subtree_check)"
+    #         create: yes
+    #       loop: '{{ worker_ip_addresses }}'
+    #     - name: nfsd service
+    #       service:
+    #         name: nfs-kernel-server
+    #         state: started
+    #         enabled: true
 
     - name: Clean apt cache
       apt:
@@ -157,13 +149,13 @@
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
 
-- name: Install Workers
-  hosts:
-  - workers
-  tasks:
-    - name: Hello
-      debug:
-        msg: "Hello from worker"
+# - name: Install Workers
+#   hosts:
+#   - workers
+#   tasks:
+#     - name: Hello
+#       debug:
+#         msg: "Hello from worker"
 
 
 # TODO for cluster setup
