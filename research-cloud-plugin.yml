@@ -115,11 +115,6 @@
       include_role:
         name: grader
 
-    - name: Clean apt cache
-      apt:
-        autoclean: true
-        autoremove: true
-
     - name: Setup nfs server
       when: worker_ip_addresses is defined
       block:
@@ -147,10 +142,14 @@
             state: started
             enabled: true
 
+    - name: Clean apt cache
+      apt:
+        autoclean: true
+        autoremove: true
+
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
-
 
 - name: Install Workers
   hosts:
