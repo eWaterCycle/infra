@@ -5,6 +5,18 @@
     port: '8081'
     proto: tcp
     from_ip: 172.17.0.0/12
+- name: Create /etc/jupyterhub directory
+  file:
+    path: /etc/jupyterhub
+    state: directory
+    mode: '0755'
+- name: jupyterhub_config
+  template:
+    src: jupyterhub_config.py.j2
+    dest: /etc/jupyterhub/jupyterhub_config.py
+    mode: '0644'
+  notify:
+    - restart jupyterhub
 - name: JupyterHub systemd file
   template:
     src: jupyterhub.systemd.j2
@@ -34,18 +46,7 @@
     mode: 0775
     group: jupyter
   when: jupyterhub_spawner_environment.USGS_DATA_HOME != '/tmp'
-- name: Create /etc/jupyterhub directory
-  file:
-    path: /etc/jupyterhub
-    state: directory
-    mode: '0755'
-- name: jupyterhub_config
-  template:
-    src: jupyterhub_config.py.j2
-    dest: /etc/jupyterhub/jupyterhub_config.py
-    mode: '0644'
-  notify:
-    - restart jupyterhub
+
 - name: Remove default conda python kernel
   command: '{{ conda_environment_bin }}/bin/jupyter kernelspec remove -f conda'
   args:
