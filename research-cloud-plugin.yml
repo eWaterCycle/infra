@@ -20,7 +20,7 @@
 
     - name: afqdn
       debug:
-      var: ansible_fqdn
+        var: ansible_fqdn
 
     - name: fqdn
       debug:
