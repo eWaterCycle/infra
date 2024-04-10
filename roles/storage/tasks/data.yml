@@ -20,16 +20,16 @@
   block:
   - name: Create directory for samba share
     file:
-      path: /data/{{samba_client_folder}}
+      path: /data/{{ samba_client_folder }}
       state: directory
 
   - name: Add samba share to fstab
     lineinfile:
       path: /etc/fstab
       line: >
-        //{{private_smb_server_ip[0]}}/{{samba_share}}
-        /data/{{samba_client_folder}}
-        cifs username={{smbuser}},password={{samba_password}},ro,cache=loose
+        //{{ private_smb_server_ip[0] }}/{{ samba_share }}
+        /data/{{ samba_client_folder }}
+        cifs username={{ smbuser }},password={{ samba_password }},ro,cache=loose
 
   - name: Mount samba-share
     shell: mount -a
