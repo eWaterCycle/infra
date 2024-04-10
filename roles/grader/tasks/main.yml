@@ -57,9 +57,8 @@
   when: students != ''
 
 - name: List all non-grader_user non-system users
-  shell: set -o pipefail && ls -1 | grep -v lost+found | grep -v {{ grader_user }}
+  shell: "set -o pipefail && cat /etc/passwd | grep '/home/' | cut -d: -f1 | grep -v syslog | grep -v {{ grader_user }}"
   args:
-    chdir: /home
     executable: /bin/bash
   register: non_grader_users
   changed_when: false
