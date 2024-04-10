@@ -14,6 +14,19 @@
     - name: Gather facts for first time
       setup:
 
+    - name: Dump all facts
+      debug:
+        var: ansible_facts
+
+    - name: afqdn
+      debug:
+      var: ansible_fqdn
+
+    - name: fqdn
+      debug:
+        var: workspace_fqdn
+      when: workspace_fqdn is defined
+
     - name: Alias name for jumphost
       add_host:
         name: jumphost

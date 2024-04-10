@@ -7,13 +7,12 @@ user2
 ```
 
 ```
-python3 create_student_passwords.py < usernames.txt > students.json
+python3 create_student_passwords.py < usernames.txt > students.txt
 ```
 
 """
 
 from secrets import token_urlsafe
-import json
 
 password_length = 32
 
