@@ -25,7 +25,7 @@ The setup instructions in this repo will create an eWaterCycle application(a sor
 
 An application on the SURF Research cloud is provisioned by running an Ansible playbook (research-cloud-plugin.yml).
 
-In addition to the standard VM storage, additional read-only datasets are mounted at `/mnt/data` from dCache using rclone. They may contain things like:
+In addition to the standard VM storage, additional read-only datasets are mounted at `/data/shared` from a file server. They may contain things like:
 
 - climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 - observation
@@ -45,8 +45,6 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 
 ```yaml
 ---
-dcache_ro_token: <dcache macaroon with read permission>
-rclone_cache_dir: /data/volume_2
 # Directory where /home should point to
 alt_home_location: /data/volume_3
 # Vagrant user is instructor
@@ -102,19 +100,9 @@ For eWatercycle component following specialization was done
     - SURF HPC Cloud, with all non-gpu sizes selected
     - SURF HPC Cloud cluster, with all non-gpu sizes selected
 - Component parameters, all fixed source type, required and overwitable unless otherwise stated
-  - dcache_ro_token: parameter for dcache read-only token aka macaroon.
-      The token can be found in the eWaterCycle password manager.
-      This token has an expiration date, so it needs to be updated every now and then.
-    - description: Macaroon with read permission for dcache
   - alt_home_location:
     - default: /data/volume_2
     - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
-  - rclone_cache_dir:
-    - default: /data/volume_3
-    - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
-  - rclone_max_gsize:
-    - default: 45 
-    - description: For maximum size of cache on `rclone_cache_dir` volume. In Gb.
   - grader_user:
     - description: User who will be grading. User should be created on sram. This user will also be responsible for setting up the course and assignments.
     - default: ==USERNAME==
@@ -132,8 +120,11 @@ For eWatercycle component following specialization was done
     - source type: Resource
     - default: worker_ip_addresses
     - desciption: Makes addresses of workers available to Ansible playbook. Only used when cloud provider `SURF HPC Cloud cluster` is selected.
+  - samba_password:
+    - source_type: Co-Secret
+    - value: {"key": "samba_password","sensitive": 1}
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
-- Do not allow every org to use this component. Data on the dcache should not be made public.
+- Do not allow every org to use this component.
 - Select the organizations (CO) that are allowed to use the component.
 
 For eWatercycle catalog item following specialization was done
@@ -143,23 +134,17 @@ For eWatercycle catalog item following specialization was done
   2. SRC-CO
   3. SRC-Nginx
   4. SRC-External plugin
-  5. eWatercycle
+  5. eWatercycle teaching samba
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Select the organizations (CO) that are allowed to use the catalog item.
 - In cloud provider and settings step:
   - Add `SURF HPC Cloud` as cloud provider
     - Set Operating Systems to Ubuntu 22.04
     - Set Sizes to all non-gpu and non-disabled sizes
-  - Add `SURF HPC Cloud cluster` as cloud provider
-    - Set Operating Systems to Ubuntu 22.04
-    - Set Sizes to all non-gpu and non-disabled sizes
 - In parameter settings step keep all values as is except
   - Set `co_irods` to `false` as we do not use irods
   - Set `co_research_drive` to `false` as we do not use research drive
   - As interactive parameters expose following:
-    - rclone_cache_dir:
-      - label: Rclone cache directory
-      - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
     - alt_home_location:
       - label: Homes path
       - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
@@ -170,10 +155,6 @@ For eWatercycle catalog item following specialization was done
     - students
       - label: Students
       - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students. Use secure passwords as anyone on the internet can access the machine.
-    - num_nodes
-      - label: Number of nodes
-      - description: Only used when cloud provider `SURF HPC Cloud cluster` is selected.
-      - default: 2
 - Set boot disk size to 150Gb,
   as default size will be mostly used by the conda environment and will trigger out of space warnings.
 - Set workspace acces button behavior to `Webinterface (https:)`,
@@ -186,30 +167,50 @@ See [docs](https://servicedesk.surf.nl/wiki/display/WIKI/Workspace+roles%3A+Appo
 
 This chapter is dedicated for application deployers.
 
+For a new CO make sure
+
+- application is allowed to be used by CO. See [Sharing catalog items](https://servicedesk.surfsara.nl/wiki/display/WIKI/Sharing+catalog+items)
+
 1. Log into Research Cloud
 1. Create new storage item for home directories
    - To store user files
    - Use 50Gb size for simple experiments or bigger when required for experiment.
    - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
-1. Create new storage item for cache
-   - To store cached files from dCache by rclone
-   - Use 50GB size as size
-   - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
+1. Create new storage item for data
+   - To store training material like parameter sets, ready-to-use forcings, raw forcings and apptainer sif files for models.
+2. Create private network
+    - Name: `file-storage-network`
+3. In Collaborative organizations
+   - Create a secret named `samba_password` and a strong random password as value
+
+### File Server
+
+Each collaborative organization should run a single file server. This file server will be used to store shared data. The file server should be created with the following steps:
+
 1. Create a new workspace
-1. Select eWaterCycle application
-1. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
-1. Select size of VM (cpus/memory) based on use case
-1. Select home storage item and cache storage item. Remember items you picked as you will need them in the workspace parameters.
-1. Fill **all** the workspace parameters. They should look something like
+2. Select `Samba Server` application
+3. Select data storage item
+4. Select private network
+5. Wait for machine to be running
+6. Login to machine with ssh
+   1. Become root With sudo
+   2. Edit /etc/samba/smb.conf and replace `read only = no` with `read only = yes`
+   3. Restart samba server with `systemctl restart smbd`
+7. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
+
+## eWaterCycle machine
+
+1. Create a new workspace
+2. Select `eWaterCycle teaching samba` application
+3. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
+4. Select size of VM (cpus/memory) based on use case
+5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
+6. Select private network
+7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
-2. Wait for machine to be running
-3. Visit URL/IP
-4. When done delete machine
-
-For a new CO make sure
-
-- application is allowed to be used by CO. See [Sharing catalog items](https://servicedesk.surfsara.nl/wiki/display/WIKI/Sharing+catalog+items)
-- data storage item and home dir are created for the CO
+8.  Wait for machine to be running
+9. Visit URL/IP
+10. When done delete machine
 
 End user should be invited to CO so they can login.
 
@@ -239,7 +240,7 @@ This link uses [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync 
 This chapter is dedicated for application data preparer.
 
 The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
-For the Research cloud virtual machines we will mount a dcache bucket.
+For the Research cloud virtual machines we will copy data from a dcache bucket to a Samba file server also running on Research Cloud.
 
 To fill the dcache bucket you can run
 

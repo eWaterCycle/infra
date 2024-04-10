@@ -1,12 +1,11 @@
 # code: language=ansible
-- name: Configure workers
+- name: Install and configure eWaterCycle Jupyter
   hosts:
     - all
     - localhost
   gather_facts: false
   vars: {}
   tasks:
-    # Heavily inspired by https://github.com/RS-DAT/JupyterDaskOnSRC/blob/main/research-cloud-plugin.yml
     - name: Wait for system to become reachable
       wait_for_connection:
         timeout: 300
@@ -14,42 +13,6 @@
     - name: Gather facts for first time
       setup:
 
-    - name: Alias name for jumphost
-      add_host:
-        name: jumphost
-        hostname: localhost
-
-    # - name: SSH to workers configuration
-    #   when: worker_ip_addresses is defined
-    #   block:
-    #     - name: Create group workers with workers' IPs
-    #       add_host:
-    #         name: "{{ item }}"
-    #         groups: workers
-    #         ansible_user: ubuntu
-    #         ansible_connection: ssh
-    #         ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    #         ansible_become: true
-    #       loop: '{{ worker_ip_addresses }}'
-    #     - name: Scan for worker keys.
-    #       command: ssh-keyscan {{ item }}
-    #       register: ssh_scan
-    #       loop: '{{ worker_ip_addresses }}'
-    #     - name: Write the worker keys to known hosts
-    #       known_hosts:
-    #         name: "{{ item.0.item }}"
-    #         key: "{{ item.1 }}"
-    #       loop:
-    #         "{{ ssh_scan.results | subelements('stdout_lines') }}"
-
-- name: Install and configure eWaterCycle Jupyter on jumphost
-  hosts:
-    - default
-    - jumphost
-  vars:
-    # dCache token for mounting shared data
-    dcache_ro_token: null # Must be filled from command line
-  tasks:
     - name: Common stuff
       include_role:
         name: common
@@ -90,11 +53,6 @@
       include_role:
         name: conda
 
-    - name: Mount shared data dcache with rclone
-      include_role:
-        name: rclone
-        tasks_from: mount
-
     # https://lab.ewatercycle.org/ functionality
     - name: Welcome page
       include_role:
@@ -113,33 +71,6 @@
       include_role:
         name: grader
 
-    # - name: Setup nfs server
-    #   when: worker_ip_addresses is defined
-    #   block:
-    #     - name: nfs-server
-    #       apt:
-    #         pkg:
-    #           - nfs-common
-    #           - nfs-kernel-server
-    #         state: present
-    #     - name: nfs export /home
-    #       lineinfile:
-    #         path: /etc/exports
-    #         line: "/home {{ item }}(rw,async,no_subtree_check)"
-    #         create: yes
-    #       loop: '{{ worker_ip_addresses }}'
-    #     - name: nfs export /mnt/data
-    #       lineinfile:
-    #         path: /etc/exports
-    #         line: "/mnt/data {{ item }}(ro,async,no_subtree_check)"
-    #         create: yes
-    #       loop: '{{ worker_ip_addresses }}'
-    #     - name: nfsd service
-    #       service:
-    #         name: nfs-kernel-server
-    #         state: started
-    #         enabled: true
-
     - name: Clean apt cache
       apt:
         autoclean: true
@@ -148,24 +79,3 @@
     - name: Debug
       debug:
         msg: The eWaterCycle Jupyter plugin has completed
-
-# - name: Install Workers
-#   hosts:
-#   - workers
-#   tasks:
-#     - name: Hello
-#       debug:
-#         msg: "Hello from worker"
-
-
-# TODO for cluster setup
-# - Check if playbook works on vagrant, single src machine and src cluster
-# - Check sram users exist on workers with same uid
-# - Check network, workers should be able to reach jumphost but not accessable from internet
-# - Check storage, only jumphost should have home and cache storage items mounted
-# - Export homes and dcache and exchange dir over nfs to workers
-# - Install apptainer/conda/nbgrader/ewatercycle on workers
-# - use jupyterhub spawner to have each user end up on a different worker or jumphost
-#   - try ssh spawner with ssh keys+authorized_keys for each user on each machine
-#   - try slurm batch spawner with slurm installation
-#   - try dockerspawner.SystemUserSpawner with docker swarm installation

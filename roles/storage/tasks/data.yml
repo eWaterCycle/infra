@@ -1,0 +1,37 @@
+# Copied from https://gitlab.com/rsc-surf-nl/plugins/plugin-samba/-/blob/main/samba-client-linux.yml
+- name: Install cifs utils package
+  package:
+    name: cifs-utils
+
+- name: Install nmap utils package
+  package:
+    name: nmap
+
+- name: nmap for the samba IP
+  shell: nmap -p 445 -T4 -v 10.10.10.0/24 | awk -F'[ /]' '/Discovered open port/{print $NF}'
+  register: nmap_run
+
+- name: set variable
+  set_fact:
+    private_smb_server_ip: "{{ nmap_run.stdout.split('\n')}}"
+
+- name: configure the client
+  when: private_smb_server_ip[0] | length > 0
+  block:
+  - name: Create directory for samba share
+    file:
+      path: /data/{{samba_client_folder}}
+      state: directory
+
+  - name: Add samba share to fstab
+    lineinfile:
+      path: /etc/fstab
+      line: >
+        //{{private_smb_server_ip[0]}}/{{samba_share}}
+        /data/{{samba_client_folder}}
+        cifs username={{smbuser}},password={{samba_password}},ro,cache=loose
+
+  - name: Mount samba-share
+    shell: mount -a
+    ignore_errors: true
+    
