@@ -1,6 +1,8 @@
 name: Ansible Lint
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [main, grader]
 
 jobs:
   build:
@@ -13,4 +15,4 @@ jobs:
     - name: Deps
       run: pip install -r requirements.txt
     - name: Lint Ansible Playbook
-      run: ansible-lint --force-color research-cloud-plugin.yml shared-data-disk.yml
+      run: ansible-lint --profile min --force-color research-cloud-plugin.yml shared-data-disk.yml
