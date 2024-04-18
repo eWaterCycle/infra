@@ -13,17 +13,24 @@
     # dCache token for uploading files
     dcache_rw_token: null # Must be filled from command line
   tasks:
+    - name: Harden share
+      file:
+        path: '/data/volume_2/samba-share/'
+        state: directory
+        mode: 0755
+
+    - name: Read-only share
+      lineinfile:
+        path: /etc/samba/smb.conf
+        line: "read only = yes"
+        regexp: "^\s+read only ="
+        insertafter: '[samba-share]'
+      notify: restart samba
+
+    # Apptainer is need to build apptainer images from Docker
     - name: apptainer
       include_role:
         name: apptainer
-
-    - name: Install conda
-      include_role:
-        name: conda
-
-    - name: Create eWaterCycle conda env
-      include_role:
-        name: ewatercycle
 
     - name: Prepare shared data
       include_role:
@@ -33,7 +40,13 @@
       include_role:
          name: grdc
 
-    - name: Upload to dcache with rclone
+    - name: Install rclone
       include_role:
          name: rclone
-         tasks_from: upload
+         tasks_from: install
+
+handlers:
+  - name: restart samba
+    service:
+      name: smbd
+      state: restarted

@@ -198,6 +198,24 @@ Each collaborative organization should run a single file server. This file serve
    3. Restart samba server with `systemctl restart smbd`
 7. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
 
+Populating can be done with a Ansible playbook (this could be run during workspace creation, but downloads are very flaky and time consuming).
+
+```shell
+sudo -i
+git clone -b grader-samba https://github.com/eWaterCycle/infra.git /opt/infra
+ansible-playbook /opt/infra/playbooks/shared-data-disk.yml
+```
+
+This will:
+0. Harden the share, so only root can write in /data/volume_2/samba-share/ and its readonly
+1. Download Apptainer images for models
+2. Downloads Camels dataset (https://data.4tu.nl/datasets/ca13056c-c347-4a27-b320-930c2a4dd207)
+3. Setup era5cli to download era5 data
+4. Setup cds to download cmip data
+5. Setup rclone for copying data from dcache to file server
+6. Create a ewatercycle.yaml which can be used on the Jupyter machines.
+7. Create a esmvaltool config file which can be used on the Jupyter machines.
+
 ## eWaterCycle machine
 
 1. Create a new workspace
