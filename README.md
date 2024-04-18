@@ -203,7 +203,7 @@ Populating can be done with a Ansible playbook (this could be run during workspa
 ```shell
 sudo -i
 git clone -b grader-samba https://github.com/eWaterCycle/infra.git /opt/infra
-ansible-playbook /opt/infra/playbooks/shared-data-disk.yml
+ansible-playbook /opt/infra/shared-data-disk.yml
 ```
 
 This will:

@@ -1,6 +1,7 @@
 ---
-- name: Download climate data
-  include_tasks: climate-data.yml
+# TODO Make smaller selection
+# - name: Download climate data
+#   include_tasks: climate-data.yml
 - name: ESMValTool aux data
   include_tasks: esmvaltool-aux-data.yml
 - name: Build apptainer image files (sif) for each model
