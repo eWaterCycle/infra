@@ -1,6 +1,6 @@
 ---
 # Where all data should be put
-data_root: /mnt/data
+data_root: /data/volume_2/samba-share/
 # Directory where Apptainer sif files can be stored and read by other
 apptainer_image_root: '{{ data_root }}/singularity-images'
 # Docker container images that will be downloaded and converted to apptainer image files
@@ -21,38 +21,36 @@ grpc4bmi_images:
       apptainer: ewatercycle-lisflood-grpc4bmi_20.10.sif
     - docker: ewatercycle/hype-grpc4bmi:feb2021
       apptainer: ewatercycle-hype-grpc4bmi_feb2021.sif
+    - docker: ghcr.io/ewatercycle/leakybucket-grpc4bmi:v0.0.1
+      apptainer: ewatercycle-leakybucket-grpc4bmi_v0.0.1.sif
+    - docker: ghcr.io/daafip/hbv-bmi-grpc4bmi:v1.5.0
+      apptainer: daafip-hbv-bmi-grpc4bmi_v1.5.0.sif
 # Location where conda is installed
 conda_root: /opt/conda
-# Name of conda environment to use
-conda_environment: ewatercycle
 # Path to conda environments bin directory
-conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
+conda_environment_bin: '{{ conda_root}}//bin'
 # Start year for which climate data should be prepared
 climate_begin_year: 1990
 # End year for which climate data should be prepared
-climate_end_year: 1990
-# Which ERA5 variables to download
+climate_end_year: 2018
+# Which ERA5 variables to download, key:value as era5_name: cmor_name
 era5_variables:
-  - total_precipitation
-  - mean_sea_level_pressure
-  - 2m_temperature
-  - minimum_2m_temperature_since_previous_post_processing
-  - maximum_2m_temperature_since_previous_post_processing
-  - 2m_dewpoint_temperature
-  - 10m_u_component_of_wind
-  - 10m_v_component_of_wind
-  - surface_solar_radiation_downwards
-  - toa_incident_solar_radiation
-  - orography
+  total_precipitation: pr
+  mean_sea_level_pressure: psl
+  2m_temperature: tax
+  2m_dewpoint_temperature: tdps
+  surface_solar_radiation_downwards: rsds
+  toa_incident_solar_radiation: rsdt
+  # Only needed for Hype and lisflood?
+  # minimum_2m_temperature_since_previous_post_processing: tasmin
+  # maximum_2m_temperature_since_previous_post_processing: tasmax
+  # 10m_u_component_of_wind: uas
+  # 10m_v_component_of_wind: vas
 # Creds from https://cds.climate.copernicus.eu Climate Data Store to download ERA5 data
 cds_uid: null # Must be filled from other place
 cds_api_key: null # Must be filled from other place
 # Location where climate data should be placed
 climate_data_root_dir: '{{ data_root }}/climate-data'
-# Location where esmvaltool aux data should be placed
-auxiliary_data_dir: '{{ climate_data_root_dir }}/aux'
-# Version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to checkout to {{ auxiliary_data_dir }}
-esmvaltool_aux_version: 279e39b3815d9779e13d93376b42732495ef6330
 # Location where eWatercycle example parameter sets will be downloaded to
 parameter_set_root_dir: '{{ data_root }}/parameter-sets'
 # Location where eWatercycle example forcings will be downloaded to

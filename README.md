@@ -203,7 +203,9 @@ Populating can be done with a Ansible playbook (this could be run during workspa
 ```shell
 sudo -i
 git clone -b grader-samba https://github.com/eWaterCycle/infra.git /opt/infra
-ansible-playbook /opt/infra/shared-data-disk.yml
+ansible-galaxy role install mambaorg.micromamba
+# Get cds user id (uid) and api key from cds profile page
+ansible-playbook /opt/infra/shared-data-disk.yml -e cds_uid=... -e cds_api_key=...
 ```
 
 This will:

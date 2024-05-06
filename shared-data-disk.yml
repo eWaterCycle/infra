@@ -12,6 +12,10 @@
     # dCache token for uploading files
     dcache_rw_token: null # Must be filled from command line
     data_root: /data/volume_2/samba-share
+    packages:
+      - era5cli
+      - esmvalcore
+      - rclone
   tasks:
     # any sram user can become root via passwordless sudo
     # TODO exclude students from becoming root
@@ -33,6 +37,10 @@
     - name: Apptainer
       ansible.builtin.include_role:
         name: apptainer
+
+    - name: Mamba env
+      ansible.builtin.include_role:
+        name: mambaorg.micromamba
 
     - name: Prepare shared data
       ansible.builtin.include_role:
