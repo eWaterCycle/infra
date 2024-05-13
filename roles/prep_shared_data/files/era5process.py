@@ -33,6 +33,8 @@ ds = Dataset(
     era5_freq='hourly',
 )
 ds.find_files()
+xds = xarray.open_dataset(ds.first_file, chunks=auto)
+encoding = xsd[args.era5_name].encoding
 cube = ds.load()
 
 # Do + first day of next year
@@ -42,4 +44,12 @@ cube = daily_statistics(cube, operator='mean')
 # TODO for taxmin and taxmax, we need to do the daily max and min
 
 # Save file
-save(cube, args.output, zlib=True)
+xds2 = cube.to_xarray()
+encoding[zlib] = true
+enconding[complevel] = 5 
+if unit_thesame:
+    xsd2[args.era5_name].encoding = encoding
+else:
+    # derive center / offset 
+xds2.to_netcdf(args.output)
+# save(cube, args.output, zlib=True)
