@@ -16,6 +16,8 @@
       - era5cli
       - esmvalcore
       - rclone
+      - h5netcdf
+      - hdf5plugin
   tasks:
     # any sram user can become root via passwordless sudo
     # TODO exclude students from becoming root
