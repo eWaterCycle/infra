@@ -1,0 +1,8 @@
+---
+- name: Loop year
+  loop: '{{ range(climate_begin_year, climate_end_year + 1) | list }}'
+  include_tasks: era5-year.yml
+- name: Remove hourly data of last year + 1
+  file:
+    state: absent
+    path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/1hr/{{ var_item.value }}/era5_{{ var_item.key }}_{{ climate_end_year + 1 }}_hourly.nc'
