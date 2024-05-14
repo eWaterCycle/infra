@@ -72,6 +72,17 @@ Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
 
 You will get some complaints about unsecure serving, this is OK for local testing and this will not happen on Research Cloud.
 
+### Vagrant File server
+
+The file server can also be tested locally with
+
+```shell
+vagrant up fileserver
+vagrant ssh
+```
+
+And follow the steps in the [File Server](#file-server) section.
+
 ### Test on Windows Subsystem for Linux 2
 
 WSL2 users should follow steps on [https://www.vagrantup.com/docs/other/wsl](https://www.vagrantup.com/docs/other/wsl).
@@ -203,6 +214,7 @@ Populating can be done with a Ansible playbook (this could be run during workspa
 ```shell
 sudo -i
 git clone -b grader-samba https://github.com/eWaterCycle/infra.git /opt/infra
+cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
 # Get cds user id (uid) and api key from cds profile page
 ansible-playbook /opt/infra/shared-data-disk.yml -e cds_uid=... -e cds_api_key=...

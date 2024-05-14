@@ -1,0 +1,80 @@
+- name: Install and configure stuff already available on SURF Research Cloud before the shared-data-disk.yml playbook is run
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+        timeout: 300
+
+    - name: Gather facts for first time
+      setup:
+
+    - name: Update APT Cache
+      apt:
+        update_cache: yes
+
+    - name: Apt upgrade
+      apt:
+        upgrade: yes
+
+    - name: Install galaxy mamba role
+      command: ansible-galaxy role install mambaorg.micromamba
+      args:
+        creates: /root/.ansible/roles/mambaorg.micromamba
+
+    - name: Format data disk
+      filesystem:
+        dev: /dev/sdb
+        fstype: ext4
+
+    - name: Mount data disk as /data/volume_2
+      mount:
+        path: /data/volume_2
+        src: /dev/sdb
+        fstype: ext4
+        state: mounted
+
+    # From https://gitlab.com/rsc-surf-nl/plugins/plugin-samba/-/blob/main/samba-server.yml?ref_type=heads
+    - name: Create shared directory on external volume at /data/volume_2
+      file:
+        path: /data/volume_2/samba-share
+        mode: '0777'
+        state: directory
+    - name: Install Samba
+      apt:
+        name: samba
+
+    - name: Configure Samba server
+      lineinfile:
+        path: /etc/samba/smb.conf
+        line: |
+          [samba-share]
+            comment = Samba on Ubuntu
+            path = /data/volume_2/samba-share
+            read only = no
+            browsable = yes
+    
+    - name: Restart Samba
+      systemd:
+        state: restarted
+        name: smbd
+
+    - name: Create Samba-user
+      shell: "useradd -m -G sudo smbuser" 
+
+    - name: Set Samba-user password
+      shell: >
+        (echo '{{ samba_password }}'; echo '{{ samba_password }}') |
+        passwd smbuser
+
+    - name: Set Samba-user password
+      shell: >
+        (echo '{{ samba_password }}'; echo '{{ samba_password }}') |
+        smbpasswd -s -a smbuser
+
+    - name: Set samba-share owner
+      shell: chown smbuser:smbuser /data/volume_2/samba-share
+
+    - name: Next
+      debug:
+        msg: Next is to call the ansible command to provision the eWatercycle file-server. See README.md#file-server
