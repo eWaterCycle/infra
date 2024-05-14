@@ -1,6 +1,6 @@
 ---
 - name: Configure era5cli
-  command: '{{ conda_environment_bin }}/era5cli config --uid {{ cds_uid }} --key cds_api_key'
+  command: '{{ conda_environment_bin }}/era5cli config --uid {{ cds_uid }} --key {{ cds_api_key }}'
   args:
     creates: '~/.config/era5cli/cds_key.txt'
 - name: Climate data dir
