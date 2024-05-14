@@ -21,7 +21,7 @@
       command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ item + 1 }} --endyear {{ item + 1 }} --variables {{ var_item.key }}'
       args:
         chdir: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/1hr/{{ var_item.value }}'
-        creates: '{{ climate_data_root_dir }}/era5_{{ var_item.key }}_{{ item + 1 }}_hourly.nc'
+        creates: 'era5_{{ var_item.key }}_{{ item + 1 }}_hourly.nc'
     - name: 'Convert to daily + cmorize of {{ var_item.key }}: {{ var_item.value }} for year {{ item }}'
       command:
         argv:

@@ -44,10 +44,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "fileserver", autostart: false do |fileserver|
     fileserver.vm.box = "generic/ubuntu2004"
+    fileserver.vm.synced_folder ".", "/vagrant"
 
     fileserver.vm.provider "virtualbox" do |vb|
       # Customize the amount of memory on the VM:
-      vb.memory = 8096
+      vb.memory = 16096
       vb.cpus = 4
     end
 

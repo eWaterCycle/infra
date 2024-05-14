@@ -18,6 +18,17 @@
     src: era5process.py
     dest: /tmp/era5process.py
 
+- name: ESMValTool configuration directory
+  file:
+    path: /root/.esmvaltool
+    state: directory
+    mode: '0755'
+- name: ESMValTool config-user.yml
+  template:
+    src: ../../ewatercycle/templates/config-user.yml.j2
+    dest: /root/.esmvaltool/config-user.yml
+    mode: '0644'
+
 # We need to download era5 hourly data with era5cli
 # and then convert it to CMOR format with python script which uses ESMValcore, the script needs the current and next year
 # To make efficient use of available disk space we will chunk by variable and year,+year+1

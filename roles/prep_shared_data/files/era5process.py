@@ -2,31 +2,30 @@
 
 Usage:
 
-    python roles/prep_shared_data/files/era5process.py 1990 pr total_precipitation obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_pr_1990-1990.nc
+    python roles/prep_shared_data/files/era5process.py 1990 total_precipitation pr obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_pr_1990-1990.nc
 """
 
 import argparse
 from pathlib import Path
 from esmvalcore.dataset import Dataset
-from esmvalcore.config import CFG
 from esmvalcore.preprocessor import extract_time, daily_statistics
 import xarray as xr
 import numpy as np
 
 parser = argparse.ArgumentParser(description='Process ERA5 data')
 parser.add_argument('year', type=int, help='Current year')
-parser.add_argument('short_name', type=str, help='Short name of the variable')
 parser.add_argument('era5_name', type=str, help='ERA5 name of the variable')
+parser.add_argument('short_name', type=str, help='Short name of the variable')
 parser.add_argument('output', type=str, help='Output file')
 
 args = parser.parse_args()
 
-print(f'Processing ERA5 {args.era5_name} data from year {args.year}')
+print(f'Processing ERA5 {args.era5_name} data from year {args.year} to {args.short_name} and saving to {args.output}')
 
-CFG['rootpath'] = {
-    'default': '.',
-    'OBS6': 'obs6',
-}
+# When raw files are in . then uncomment below
+# CFG['rootpath'] = {
+#     'default': '.',
+# }
 
 current_year = args.year
 var = args.short_name
@@ -99,7 +98,7 @@ else:
 # size: 350Mb vs 760Mb
 # See https://docs.xarray.dev/en/stable/user-guide/io.html#chunk-based-compression
 da.encoding['zlib'] = True
-da.encoding['complevel'] = 4 # or use 4 as its the default in netcdf4 library
+da.encoding['complevel'] = 4 # 4 is the default in netcdf4 library
 da.encoding['shuffle'] = True
 # Chunk with whole year of a spatial areas as we are going to generate forcing for a certain area and whole year
 # da.encoding['chunksizes'] = (365, 80, 160) # chunk size ~18Mb, nr 90

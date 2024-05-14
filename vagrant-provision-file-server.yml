@@ -1,6 +1,8 @@
 - name: Install and configure stuff already available on SURF Research Cloud before the shared-data-disk.yml playbook is run
   hosts: all
   gather_facts: false
+  vars:
+    samba_password: "samba"
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
@@ -60,7 +62,10 @@
         name: smbd
 
     - name: Create Samba-user
-      shell: "useradd -m -G sudo smbuser" 
+      user:
+        name: smbuser
+        groups: sudo
+        append: yes
 
     - name: Set Samba-user password
       shell: >
@@ -74,6 +79,13 @@
 
     - name: Set samba-share owner
       shell: chown smbuser:smbuser /data/volume_2/samba-share
+
+    # The nameserver configure by Vagrant could not resolve cds.climate.copernicus.eu so use cloudflare nameserver instead
+    - name: Configure Cloudflare nameserver
+      lineinfile:
+        path: /etc/resolv.conf
+        line: "nameserver 1.1.1.1"
+        insertafter: EOF
 
     - name: Next
       debug:

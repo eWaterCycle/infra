@@ -74,14 +74,20 @@ You will get some complaints about unsecure serving, this is OK for local testin
 
 ### Vagrant File server
 
-The file server can also be tested locally with
+The file server can also be tested locally with Vagrant using:
 
 ```shell
 vagrant up fileserver
-vagrant ssh
+vagrant ssh fileserver
 ```
 
 And follow the steps in the [File Server](#file-server) section.
+
+To clean up use
+
+```shell
+vagrant destroy fileserver
+```
 
 ### Test on Windows Subsystem for Linux 2
 
@@ -223,12 +229,18 @@ ansible-playbook /opt/infra/shared-data-disk.yml -e cds_uid=... -e cds_api_key=.
 This will:
 0. Harden the share, so only root can write in /data/volume_2/samba-share/ and its readonly
 1. Download Apptainer images for models
-2. Downloads Camels dataset (https://data.4tu.nl/datasets/ca13056c-c347-4a27-b320-930c2a4dd207)
 3. Setup era5cli to download era5 data
-4. Setup cds to download cmip data
-5. Setup rclone for copying data from dcache to file server
-6. Create a ewatercycle.yaml which can be used on the Jupyter machines.
-7. Create a esmvaltool config file which can be used on the Jupyter machines.
+5. Download raw era5 data with era5cli
+6. Aggregate, cmorize and compress era5 data with custom esmvaltool script
+7. Setup rclone for copying data from dcache to file server
+8. Create a ewatercycle.yaml which can be used on the Jupyter machines.
+9. Create a esmvaltool config file which can be used on the Jupyter machines.
+
+If you have another file server that has data you can sync the data with this file server with
+
+```shell
+rsync -av --progress <remote user>@<remote host>/<remote location> /data/volume_2/samba-share/
+```
 
 ## eWaterCycle machine
 
