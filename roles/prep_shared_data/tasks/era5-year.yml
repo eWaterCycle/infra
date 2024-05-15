@@ -32,8 +32,7 @@
           - '{{ var_item.value }}'
           - '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_{{ var_item.value }}_{{ item }}-{{ item }}.nc'
         creates: '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_{{ var_item.value }}_{{ item }}-{{ item }}.nc'
-    # TODO clean up when working
-    # - name: Remove hourly data of current year
-    #   file:
-    #     state: absent
-    #     path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/1hr/{{ var_item.value }}/era5_{{ var_item.key }}_{{ item }}_hourly.nc'
+    - name: Remove hourly data of current year
+      file:
+        state: absent
+        path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/1hr/{{ var_item.value }}/era5_{{ var_item.key }}_{{ item }}_hourly.nc'
