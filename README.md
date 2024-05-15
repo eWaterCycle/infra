@@ -206,19 +206,21 @@ Each collaborative organization should run a single file server. This file serve
 
 1. Create a new workspace
 2. Select `Samba Server` application
-3. Select data storage item
-4. Select private network
-5. Wait for machine to be running
-6. Login to machine with ssh
+3. Select size with 2 cores and 16 GB RAM
+4. Select data storage item
+5. Select private network
+6. Wait for machine to be running
+7. Login to machine with ssh
    1. Become root With sudo
    2. Edit /etc/samba/smb.conf and replace `read only = no` with `read only = yes`
    3. Restart samba server with `systemctl restart smbd`
-7. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
+8. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
 
 Populating can be done with a Ansible playbook (this could be run during workspace creation, but downloads are very flaky and time consuming).
 
 ```shell
 sudo -i
+pip install -U ansible ansible-core
 git clone -b grader-samba https://github.com/eWaterCycle/infra.git /opt/infra
 cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
