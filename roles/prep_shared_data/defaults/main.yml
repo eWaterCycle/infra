@@ -35,17 +35,17 @@ climate_begin_year: 1990
 climate_end_year: 2018
 # Which ERA5 variables to download, key:value as era5_name: cmor_name
 era5_variables:
-  total_precipitation: pr
-  mean_sea_level_pressure: psl
-  2m_temperature: tax
-  2m_dewpoint_temperature: tdps
-  surface_solar_radiation_downwards: rsds
-  toa_incident_solar_radiation: rsdt
+  total_precipitation: [pr,1hr]
+  mean_sea_level_pressure: [psl,1hrPt]
+  2m_temperature: [tas,1hrPt]
+  2m_dewpoint_temperature: [tdps,1hrPt]
+  surface_solar_radiation_downwards: [rsds,1hrPt]
+  toa_incident_solar_radiation: [rsdt,1hrPt]
   # Only needed for Hype and lisflood?
-  # minimum_2m_temperature_since_previous_post_processing: tasmin
-  # maximum_2m_temperature_since_previous_post_processing: tasmax
-  # 10m_u_component_of_wind: uas
-  # 10m_v_component_of_wind: vas
+  # minimum_2m_temperature_since_previous_post_processing: [tasmin,1hrPt]
+  # maximum_2m_temperature_since_previous_post_processing: [tasmax,1hrPt]
+  # 10m_u_component_of_wind: [uas,1hrPt]
+  # 10m_v_component_of_wind: [vas,1hrPt]
 # Creds from https://cds.climate.copernicus.eu Climate Data Store to download ERA5 data
 cds_uid: null # Must be filled from other place
 cds_api_key: null # Must be filled from other place
