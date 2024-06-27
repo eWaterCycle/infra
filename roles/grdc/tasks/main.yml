@@ -37,9 +37,6 @@
   loop: '{{ grdc_station_zips }}'
 - name: archycos
   include_tasks: archycos.yml
-- name: GTN-R
-  include_tasks: gtnr.yml
-  loop: '{{ grdc_gtnr }}'
 - name: researchdrive archives
   include_tasks: researchdrive.yml
   loop: '{{ grdc_researchdrive_archives }}'
