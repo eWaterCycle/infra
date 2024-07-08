@@ -5,6 +5,8 @@
 
 This repo contains (codified) instructions for deploying the eWaterCycle platform. The target audience of these instructions are system administrators. For more information on the eWaterCycle platform (and how to deploy it) see the [eWaterCycle documentation](https://ewatercycle.readthedocs.io/).
 
+With grading setup is [one class, one grader](https://nbgrader.readthedocs.io/en/stable/configuration/jupyterhub_config.html#example-use-case-one-class-one-grader).
+
 For instructions on how to use the machine as deployed by this repo see the [User guide](USER.md).
 
 These instructions assume you have some basic knowledge of [vagrant](https://vagrantup.com) and
@@ -14,7 +16,7 @@ These instructions assume you have some basic knowledge of [vagrant](https://vag
 
 The hardware environment used by the eWaterCycle platform development team is the [SURF Research Cloud](https://servicedesk.surfsara.nl/wiki/display/WIKI/Research+Cloud+Documentation). Starting a machine on the Surf Research Cloud requires that you have research budget with SURF, for more info see the website of [SURF](https://www.surf.nl/en/research-it/apply-for-access-to-compute-services). Once running, access to the machine can be shared to anyone.
 
-The setup instructions in this repo will create an eWaterCycle application(a sort-of VM template) that when started will create a machine with:
+The setup instructions in this repo will create an eWaterCycle application(a sort-of VM template) that when started will create a machine with:****
 
 - Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
 - Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
@@ -47,16 +49,17 @@ dcache_ro_token: <dcache macaroon with read permission>
 rclone_cache_dir: /data/volume_2
 # Directory where /home should point to
 alt_home_location: /data/volume_3
+# Vagrant user is instructor
+# The students defined below can be used to login as a student
+students: 'student1:pw1,student2:pw2'
+worker_ip_addresses: []
 ```
 
 The token can be found in the eWaterCycle password manager.
 
 ```shell
 vagrant --version
-# Vagrant 2.2.18
-vagrant plugin install vagrant-vbguest
-# Installed the plugin 'vagrant-vbguest (0.30.0)'
-export VAGRANT_EXPERIMENTAL="disks"
+# Vagrant 2.4.1
 vagrant up
 ```
 
@@ -94,17 +97,41 @@ For eWatercycle component following specialization was done
 - Use Ansible playbook as component script type
   - Use `https://github.com/eWaterCycle/infra.git` as repository URL
   - Use `research-cloud-plugin.yml` as script path
-  - Use `main` as tag
-- Component parameters, all fixed source type and non-overwitable unless otherwise stated
-  - Add `dcache_ro_token` parameter for dcache read-only token aka macaroon.
-    The token can be found in the eWaterCycle password manager.
-    This token has an expiration date, so it needs to be updated every now and then.
-  - Add `alt_home_location` parameter with value `/data/volume_2`.
-    For mount point of the storage item which should hold homes mounted.
-  - Add `rclone_cache_dir` parameter with value `/data/volume_3`.
-    For directory where rclone can store its cache.
-  - Add `rclone_max_gsize` with value `45`.
-    For maximum size of cache on `rclone_cache_dir` volume. In Gb.
+  - Use `grader` as tag
+  - Select cloud providers:
+    - SURF HPC Cloud, with all non-gpu sizes selected
+    - SURF HPC Cloud cluster, with all non-gpu sizes selected
+- Component parameters, all fixed source type, required and overwitable unless otherwise stated
+  - dcache_ro_token: parameter for dcache read-only token aka macaroon.
+      The token can be found in the eWaterCycle password manager.
+      This token has an expiration date, so it needs to be updated every now and then.
+    - description: Macaroon with read permission for dcache
+  - alt_home_location:
+    - default: /data/volume_2
+    - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
+  - rclone_cache_dir:
+    - default: /data/volume_3
+    - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
+  - rclone_max_gsize:
+    - default: 45 
+    - description: For maximum size of cache on `rclone_cache_dir` volume. In Gb.
+  - grader_user:
+    - description: User who will be grading. User should be created on sram. This user will also be responsible for setting up the course and assignments.
+    - default: ==USERNAME==
+      (==USERNAME== which will be replaced by the actual username of the user creating the workspace)   
+  - students:
+    - default: []
+    - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students. Use secure passwords as anyone on the internet can access the machine.
+  - course_repo:
+    - default: https://github.com/eWaterCycle/teaching.git
+    - description: Git repository url with the course source material.
+  - course_version
+    - description: The version, branch or tag of the course repository to use.
+    - default: nbgrader-quickstart
+  - worker_ip_addresses:
+    - source type: Resource
+    - default: worker_ip_addresses
+    - desciption: Makes addresses of workers available to Ansible playbook. Only used when cloud provider `SURF HPC Cloud cluster` is selected.
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Do not allow every org to use this component. Data on the dcache should not be made public.
 - Select the organizations (CO) that are allowed to use the component.
@@ -118,17 +145,39 @@ For eWatercycle catalog item following specialization was done
   4. SRC-External plugin
   5. eWatercycle
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
-- Add `SURF HPC Cloud` as cloud provider
-  - Set Operating Systems to Ubuntu 22.04
-  - Set Sizes to all non-gpu and non-disabled sizes
+- Select the organizations (CO) that are allowed to use the catalog item.
+- In cloud provider and settings step:
+  - Add `SURF HPC Cloud` as cloud provider
+    - Set Operating Systems to Ubuntu 22.04
+    - Set Sizes to all non-gpu and non-disabled sizes
+  - Add `SURF HPC Cloud cluster` as cloud provider
+    - Set Operating Systems to Ubuntu 22.04
+    - Set Sizes to all non-gpu and non-disabled sizes
 - In parameter settings step keep all values as is except
   - Set `co_irods` to `false` as we do not use irods
   - Set `co_research_drive` to `false` as we do not use research drive
+  - As interactive parameters expose following:
+    - rclone_cache_dir:
+      - label: Rclone cache directory
+      - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
+    - alt_home_location:
+      - label: Homes path
+      - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
+    - grader_user:
+      - label: Username of grader
+      - description: User who will be grading. User should be created on sram.
+      - default: empty string
+    - students
+      - label: Students
+      - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students. Use secure passwords as anyone on the internet can access the machine.
+    - num_nodes
+      - label: Number of nodes
+      - description: Only used when cloud provider `SURF HPC Cloud cluster` is selected.
+      - default: 2
 - Set boot disk size to 150Gb,
   as default size will be mostly used by the conda environment and will trigger out of space warnings.
 - Set workspace acces button behavior to `Webinterface (https:)`,
   so clicking on `ACCESS` button will open up the eWatercycle experiment explorer web interface
-- Select the organizations (CO) that are allowed to use the catalog item.
 
 To become root on a VM the user needs to be member of the `src_co_admin` group on [SRAM](https://sram.surf.nl/).
 See [docs](https://servicedesk.surf.nl/wiki/display/WIKI/Workspace+roles%3A+Appoint+a+CO-member+a+SRC+administrator).
@@ -150,12 +199,12 @@ This chapter is dedicated for application deployers.
 1. Select eWaterCycle application
 1. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
 1. Select size of VM (cpus/memory) based on use case
-1. Select home storage item.
-   - Order in which the storage items are select is important, make sure to select home before cache storage item.
-1. Select cache storage item
-1. Wait for machine to be running
-1. Visit URL/IP
-1. When done delete machine
+1. Select home storage item and cache storage item. Remember items you picked as you will need them in the workspace parameters.
+1. Fill **all** the workspace parameters. They should look something like
+   ![workspace-parameters](workspace-parameters.png) 
+2. Wait for machine to be running
+3. Visit URL/IP
+4. When done delete machine
 
 For a new CO make sure
 
@@ -165,6 +214,11 @@ For a new CO make sure
 End user should be invited to CO so they can login.
 
 See [User guide](USER.md) to see what users have to do to login or use GitHub repository.
+
+### Students
+
+During creation you can set the `students` parameter to create local posix accounts for students.
+The value for the `students` parameter is a list of [student, password] values. You can use the python script [create_student_passwords.py](create_student_passwords.py) to generate passwords. To use it, create a file "usernames.txt" with one username on each line. Then call the script to generate passwords. They will be stored in a new file called `students.txt`. See docs in script for more details. The passwords generated by the script should be distributed to the students.
 
 ### Example notebooks
 
