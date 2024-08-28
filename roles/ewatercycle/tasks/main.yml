@@ -2,10 +2,9 @@
 # tasks file for ewatercycle
 
 - name: Install conda-lock in base conda env
-  command: '{{ conda_root }}/condabin/mamba env install --name base conda-lock -y' 
-  args:
-    creates:
-      '{{ conda_root }}/bin/conda-lock'
+  ansible.builtin.pip:
+    name: conda-lock
+    executable: '{{ conda_root }}/bin/pip3'
 - name: eWaterCycle conda lock
   ansible.builtin.get_url:
     url: 'https://raw.githubusercontent.com/eWaterCycle/ewatercycle/{{ pyewatercycle_version }}/conda-lock.yml'
