@@ -54,6 +54,8 @@ The token can be found in the eWaterCycle password manager.
 ```shell
 vagrant --version
 # Vagrant 2.4.1
+vagrant plugin install vagrant-vbguest
+# Installed the plugin 'vagrant-vbguest (0.32.0)'
 vagrant up
 ```
 
