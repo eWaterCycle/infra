@@ -4,12 +4,11 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  # TODO pin versions for reproducibility. Use `conda env export` and `pip list` to get versions
-  - python=3.10
-  - esmvaltool-python>=2.3.0
   - ansible
   - pip:
-      - ewatercycle=={{ pyewatercycle_version }}
+      # TODO use released version
+      - git+https://github.com/eWaterCycle/ewatercycle
+      # - ewatercycle=={{ pyewatercycle_version }}
       - ewatercycle-hype
       - ewatercycle-lisflood
       - ewatercycle-marrmot
@@ -21,25 +20,18 @@ dependencies:
       # TODO Once available uncomment the following line
       # - git+https://github.com/eWaterCycle/ewatercycle-sfincs
       - era5cli
-  - setuptools
   - altair_saver
   - altair
-  - dask-jobqueue
-  - distributed
-  - geoviews
-  - hydrostats
   - nco
   - ncview
   - regionmask
   - pyke  # required by iris, only available on conda or sourceforge
   - iris-sample-data # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
   # Pangeo deps, see https://pangeo.io/setup_guides/hpc.html
-  - zarr
   - hvplot
-  - numcodecs
   # Lint / formatters
   - autopep8
-  - black
+  - black  # Still dependenciy of bmi package, but make explicit here as main hbranch of bmi repo removed it
   - flake8
   - isort
   - pylint
