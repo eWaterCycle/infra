@@ -33,7 +33,7 @@ conda_environment_bin: '{{ conda_root}}//bin'
 climate_begin_year: 1990
 # End year for which climate data should be prepared
 climate_end_year: 2018
-# Which ERA5 variables to download, key:value as era5_name: cmor_name
+# Which ERA5 variables to download, key:value as era5_name: [cmor_name, mip]
 era5_variables:
   total_precipitation: [pr,1hr]
   mean_sea_level_pressure: [psl,1hrPt]
