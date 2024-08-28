@@ -4,6 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  # Skip ansible as running ansible second time in vagrant will make give --sudo does not exist error
   # - ansible
   - pip:
       # TODO use released version
@@ -59,6 +60,7 @@ dependencies:
   - ipympl
   - ipynb-py-convert
   - jupyterhub-idle-culler
+  - nodejs
   # JupyterLab extensions server dependencies, lab extension should be added to defaults of jupyter role
   - ipyleaflet
   - jupyterlab_code_formatter

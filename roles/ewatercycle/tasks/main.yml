@@ -11,7 +11,7 @@
     dest: '{{ conda_root }}/conda-lock.yml'
     mode: '0644'
 - name: Created conda environment with locked ewatercycle dependencies
-  command: '{{ conda_root }}/bin/conda-lock install --no-dev -n {{ conda_environment }} {{ conda_root }}/conda-lock.yml'  # noqa no-changed-when
+  command: '{{ conda_root }}/bin/conda-lock install --no-dev -n {{ conda_environment }} -p {{ conda_root }}/envs/{{ conda_environment }} {{ conda_root }}/conda-lock.yml'  # noqa no-changed-when
   args:
     creates:
       '{{ conda_root }}/envs/{{ conda_environment }}'
