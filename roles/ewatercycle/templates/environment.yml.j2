@@ -4,7 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - ansible
+  # - ansible
   - pip:
       # TODO use released version
       - git+https://github.com/eWaterCycle/ewatercycle
@@ -20,6 +20,7 @@ dependencies:
       # TODO Once available uncomment the following line
       # - git+https://github.com/eWaterCycle/ewatercycle-sfincs
       - era5cli
+      - jupyterhub-systemdspawner
   - altair_saver
   - altair
   - nco
@@ -37,14 +38,15 @@ dependencies:
   - pylint
   - yapf
   # Pymt
-  - pymt_cem
-  - pymt_ecsimplesnow
-  - pymt_gipl
-  - pymt_hydrotrend
-  - pymt_landlab
-  - pymt_permamodel
-  - pymt_rafem
-  - pymt_sedflux
+  # Disabled as it does not work with python3.12
+  # - pymt_cem
+  # - pymt_ecsimplesnow
+  # - pymt_gipl
+  # - pymt_hydrotrend
+  # - pymt_landlab
+  # - pymt_permamodel
+  # - pymt_rafem
+  #- pymt_sedflux
   - pymt
   # - pymt_child  # Skipped as only a osx binary is available
   # - pymt_topoflow  # Skipped not on conda-forge
@@ -57,7 +59,6 @@ dependencies:
   - ipympl
   - ipynb-py-convert
   - jupyterhub-idle-culler
-  - jupyterhub-systemdspawner
   # JupyterLab extensions server dependencies, lab extension should be added to defaults of jupyter role
   - ipyleaflet
   - jupyterlab_code_formatter
