@@ -1,9 +1,9 @@
 ---
 - name: Hostname
-  include: hostname.yml
+  ansible.builtin.include_tasks: hostname.yml
 - name: Firewall
-  include: firewall.yml
+  ansible.builtin.include_tasks: firewall.yml
 - name: Ppa
-  include: ppa.yml
+  ansible.builtin.include_tasks: ppa.yml
 - name: Pip3
-  include: pip3.yml
+  ansible.builtin.include_tasks: pip3.yml
