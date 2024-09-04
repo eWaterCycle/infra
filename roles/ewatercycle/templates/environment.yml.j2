@@ -4,23 +4,23 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  # Skip ansible as running ansible second time in vagrant will make give --sudo does not exist error
+  # Skip ansible as running ansible second time in vagrant will give --sudo does not exist error
   # - ansible
   - pip:
-      # TODO use released version
-      - git+https://github.com/eWaterCycle/ewatercycle
-      # - ewatercycle=={{ pyewatercycle_version }}
+      - ewatercycle=={{ pyewatercycle_version }}
       - ewatercycle-hype
       - ewatercycle-lisflood
       - ewatercycle-marrmot
       - ewatercycle-pcrglobwb
       - ewatercycle-wflow
       - ewatercycle-leakybucket
+      - ewatercycle-HBV==1.8.4
       # TODO Once ewatercycle-wflowjl uses a containerized model, uncomment the following line:
       # - ewatercycle-wflowjl
       # TODO Once available uncomment the following line
       # - git+https://github.com/eWaterCycle/ewatercycle-sfincs
       - era5cli
+      # Conda version of jupyterhub-systemdspawner is not py3.12 compat, so use pip version
       - jupyterhub-systemdspawner
   - altair_saver
   - altair
@@ -54,12 +54,13 @@ dependencies:
   # Jupyter
   - jupyter-server-proxy
   - jupyterhub
-  - jupyterlab # Version pinned due to not all wanted extensions support v3
+  - jupyterlab
   - notebook
   - ipykernel
   - ipympl
   - ipynb-py-convert
   - jupyterhub-idle-culler
+  # dependencies of jupyterhub-systemdspawner
   - nodejs
   # JupyterLab extensions server dependencies, lab extension should be added to defaults of jupyter role
   - ipyleaflet
