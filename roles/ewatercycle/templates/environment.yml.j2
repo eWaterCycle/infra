@@ -1,4 +1,5 @@
 ---
+# TODO pin more versions so future deployments have more chance to work
 name: ewatercycle
 channels:
   - conda-forge
@@ -22,6 +23,8 @@ dependencies:
       - era5cli
       # Conda version of jupyterhub-systemdspawner is not py3.12 compat, so use pip version
       - jupyterhub-systemdspawner
+      # Conda version of papermill is not py3.12 compat, so use pip version
+      - papermill
   - altair_saver
   - altair
   - nco
@@ -47,8 +50,8 @@ dependencies:
   # - pymt_landlab
   # - pymt_permamodel
   # - pymt_rafem
-  #- pymt_sedflux
-  - pymt
+  # - pymt_sedflux
+  # - pymt
   # - pymt_child  # Skipped as only a osx binary is available
   # - pymt_topoflow  # Skipped not on conda-forge
   # Jupyter
@@ -72,4 +75,3 @@ dependencies:
   - jupyterlab-git
   - nbdime
   - nbgitpuller
-  - papermill
