@@ -7,7 +7,7 @@
     executable: '{{ conda_root }}/bin/pip3'
 - name: eWaterCycle conda lock
   ansible.builtin.get_url:
-    url: 'https://github.com/eWaterCycle/ewatercycle/raw/{{ pyewatercycle_version }}/conda-lock.yml
+    url: 'https://github.com/eWaterCycle/ewatercycle/raw/{{ pyewatercycle_version }}/conda-lock.yml'
     dest: '{{ conda_root }}/conda-lock.yml'
     mode: '0644'
 - name: Created conda environment with locked ewatercycle dependencies
