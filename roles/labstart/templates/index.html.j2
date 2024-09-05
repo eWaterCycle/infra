@@ -15,6 +15,14 @@
     body {
         padding: 25px;
     }
+
+    .card-deck {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
     .card .card-img-top {
         max-height: 10rem;
         max-width: 10rem;
@@ -60,7 +68,7 @@
 
         </div>
         <div class="card-deck">
-            {%- if 'jupyter' in tool_urls -%}
+            {%- if 'explore' in tool_urls -%}
             <div class="card" style="width: 18rem;">
                 <img src="images/explore.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
@@ -71,15 +79,6 @@
                 </div>
             </div>
             {%- endif %}
-            <div class="card" style="width: 18rem;">
-                <img src="images/jupyter.png" class="card-img-top mx-auto" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Experiment with models and datasets in a notebook.</p>
-                </div>
-                <div class="card-footer text-black bg-white border-white">
-                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary btn-block">Jupyter notebook</a>
-                </div>
-            </div>
             <div class="card" style="width: 18rem;">
                 <img src="images/jupyter.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
@@ -107,20 +106,6 @@
                     <a href="/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2FtechnicalPaperExampleNotebooks&urlpath=lab%2Ftree%2FtechnicalPaperExampleNotebooks%2FCase1_Marrmot_Merrimack_ESMValTool.ipynb&branch=main" class="btn btn-primary btn-block">Jupyter notebook</a>
                 </div>
             </div>
-            <script>
-                const config = document.getElementById('teachbook-config');
-                config.textContent = config.textContent.replace('/jupyter/hub', window.location.origin + '/jupyter/hub');
-            </script>
-            <div class="card" style="width: 18rem;">
-                <h1>Configuration for teachbooks</h1>
-                <p>In the _config.yml file of your teachbook repository, you can add the following configuration to open books on this machine:</p>
-                <pre id="teachbook-config">
-                    # rest of configuration
-
-                    launch_buttons:
-                        jupyterhub_url: /jupyter/hub    
-                </pre>
-             </div>   
             {%- if 'analytics' in tool_urls -%}
             <div class="card" style="width: 18rem;">
                 <img src="images/analytics.png" class="card-img-top mx-auto" alt="...">
@@ -151,6 +136,21 @@
                 </div>
             </div>{%- endif %}
         </div>
+            <div>
+                <h1>Configuration for teachbooks</h1>
+                <p>In the _config.yml file of your teachbook repository, you can add the following configuration to open books on this machine:</p>
+                <pre id="teachbook-config">
+                    # rest of configuration
+
+                    launch_buttons:
+                        jupyterhub_url: /jupyter/hub
+                </pre>
+                <script>
+                // Make url absolute
+                const config = document.getElementById('teachbook-config');
+                config.textContent = config.textContent.replace('/jupyter/hub', window.location.origin + '/jupyter/hub');
+                </script>
+             </div>
     </div>
 </body>
 
