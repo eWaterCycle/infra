@@ -78,7 +78,7 @@
                     <p class="card-text">Experiment with models and datasets in a notebook.</p>
                 </div>
                 <div class="card-footer text-black bg-white border-white">
-                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary btn-block">Jupyter</a>
+                    <a href="/jupyter" class="btn btn-primary btn-block">Jupyter</a>
                 </div>
             </div>
                         <div class="card" style="width: 18rem;">
@@ -96,38 +96,7 @@
                     <a href="/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2FtechnicalPaperExampleNotebooks&urlpath=lab%2Ftree%2FtechnicalPaperExampleNotebooks%2FCase1_Marrmot_Merrimack_ESMValTool.ipynb&branch=main" class="btn btn-primary btn-block">Jupyter notebook</a>
                 </div>
             </div>
-            {%- if 'analytics' in tool_urls -%}
-            <div class="card" style="width: 18rem;">
-                <img src="images/analytics.png" class="card-img-top mx-auto" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Analytics for experiment results.</p>
-                    <p class="card-text">Coming Soon<sup>TM</sup>.</p>
-                </div>
-                <div class="card-footer text-black bg-white border-white">
-                    <a href="{{ tool_urls.analytics }}" class="btn btn-primary btn-block disabled">Analytics</a>
-                </div>
-            </div>
-            {%- endif %}
-            <div class="card" style="width: 18rem;">
-                <img src="images/cylc.png" class="card-img-top mx-auto" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Experiments which are running continously using cylc workflow engine.</p>
-                </div>
-                <div class="card-footer text-black bg-white border-white">
-                    <a href="{{ tool_urls.experiments }}" class="btn btn-primary btn-block">Experiments</a>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-                <img src="images/forecast.png" class="card-img-top mx-auto" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Visualization of global 5arcmin PCR-GLOBWB model.</p>
-                </div>
-                <div class="card-footer text-black bg-white border-white">
-                    <a href="{{ tool_urls.lowresforecast }}" class="btn btn-primary btn-block">Forecast</a>
-                </div>
-            </div>
-            -->
-        </div>
+         </div>
             <div>
                 <h3>Configuration for teachbooks</h3>
                 <p>To open books on this machine, you can add the following configuration in the <b>_config.yml</b> file of your teachbook repository:</p>
