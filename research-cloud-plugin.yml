@@ -76,12 +76,12 @@
         name: rclone
         tasks_from: mount
 
-    # TODO remove roles instead of commenting them out
     # https://lab.ewatercycle.org/ functionality
-    # - name: Welcome page
-    #   include_role:
-    #     name: labstart
+    - name: Welcome page
+      include_role:
+        name: labstart
 
+    # TODO remove roles instead of commenting them out or make them optional
     # # https://explore.ewatercycle.org/ functionality
     # - name: Experiment launcher
     #   include_role:
