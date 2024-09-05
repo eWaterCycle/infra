@@ -53,10 +53,9 @@ The token can be found in the eWaterCycle password manager.
 
 ```shell
 vagrant --version
-# Vagrant 2.2.18
+# Vagrant 2.4.1
 vagrant plugin install vagrant-vbguest
-# Installed the plugin 'vagrant-vbguest (0.30.0)'
-export VAGRANT_EXPERIMENTAL="disks"
+# Installed the plugin 'vagrant-vbguest (0.32.0)'
 vagrant up
 ```
 
@@ -79,7 +78,8 @@ Importantly:
 
 - Work on a folder on the windows file system.
 - Export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/.../infra"
-- Install [virtualbox_WSL2 vagrant plugin](https://github.com/Karandash8/virtualbox_WSL2)
+- `export PATH="$PATH:C:\Program Files\Oracle\VirtualBox"`
+- ` vagrant up --provider virtualbox`
 - Approve the firewall popup
 
 ## Catalog item registration

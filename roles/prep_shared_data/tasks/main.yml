@@ -1,11 +1,11 @@
 ---
 - name: Download climate data
-  include: climate-data.yml
+  ansible.builtin.include_tasks: climate-data.yml
 - name: ESMValTool aux data
-  include: esmvaltool-aux-data.yml
+  ansible.builtin.include_tasks: esmvaltool-aux-data.yml
 - name: Build apptainer image files (sif) for each model
-  include: apptainer-images.yml
+  ansible.builtin.include_tasks: apptainer-images.yml
 - name: Download example parameter sets
-  include: example-parameter-sets.yml
+  ansible.builtin.include_tasks: example-parameter-sets.yml
 - name: Download example forcing
-  include: example-forcing.yml
+  ansible.builtin.include_tasks: example-forcing.yml

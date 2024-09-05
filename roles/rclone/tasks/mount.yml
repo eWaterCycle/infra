@@ -1,6 +1,6 @@
 ---
 - name: Install
-  include: install.yml
+  ansible.builtin.include_tasks: install.yml
 - name: Configure rclone
   copy:
     dest: /etc/rclone.conf

@@ -81,14 +81,15 @@
       include_role:
         name: labstart
 
-    # https://explore.ewatercycle.org/ functionality
-    - name: Experiment launcher
-      include_role:
-        name: launcher
+    # TODO remove roles instead of commenting them out or make them optional
+    # # https://explore.ewatercycle.org/ functionality
+    # - name: Experiment launcher
+    #   include_role:
+    #     name: launcher
 
-    - name: Explorer
-      include_role:
-        name: terria
+    # - name: Explorer
+    #   include_role:
+    #     name: terria
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
