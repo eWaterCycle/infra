@@ -1,3 +1,4 @@
 ---
 tool_urls:
   # explore: /
+  jupyter: /jupyter/hub
