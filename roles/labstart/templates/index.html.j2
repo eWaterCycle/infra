@@ -107,14 +107,18 @@
                     <a href="/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2FtechnicalPaperExampleNotebooks&urlpath=lab%2Ftree%2FtechnicalPaperExampleNotebooks%2FCase1_Marrmot_Merrimack_ESMValTool.ipynb&branch=main" class="btn btn-primary btn-block">Jupyter notebook</a>
                 </div>
             </div>
+            <script>
+                const config = document.getElementById('teachbook-config');
+                config.textContent = config.textContent.replace('/jupyter/hub', window.location.origin + '/jupyter/hub');
+            </script>
             <div class="card" style="width: 18rem;">
                 <h1>Configuration for teachbooks</h1>
                 <p>In the _config.yml file of your teachbook repository, you can add the following configuration to open books on this machine:</p>
-                <pre>
+                <pre id="teachbook-config">
                     # rest of configuration
 
                     launch_buttons:
-                        jupyterhub_url: {{ ==REVERSE_PROXY== }}/jupyter/hub    
+                        jupyterhub_url: /jupyter/hub    
                 </pre>
              </div>   
             {%- if 'analytics' in tool_urls -%}
