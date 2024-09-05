@@ -14,6 +14,8 @@ dependencies:
       - ewatercycle-wflow==0.0.2
       - ewatercycle-leakybucket==0.0.2
       - ewatercycle-HBV==1.8.4
+      # TODO ewatercycle-HBV should not depend on HBV, but currently it does
+      - HBV==1.5.2
       # Conda version of jupyterhub-systemdspawner is not py3.12 compat, so use pip version
       - jupyterhub-systemdspawner==1.0.1
       # Conda version of papermill is not py3.12 compat, so use pip version
