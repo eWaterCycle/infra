@@ -4,8 +4,8 @@
 
 Vagrant.configure("2") do |config|
   config.vm.define "jupyter", primary: true do |jupyter|
-    jupyter.vm.box = "generic/ubuntu2004"
-    jupyter.vm.synced_folder ".", "/vagrant"
+    config.vm.box = "bento/ubuntu-22.04"
+    config.vm.synced_folder ".", "/vagrant"
 
     # Create a public network, which generally matched to bridged network.
     # Bridged networks make the machine appear as another physical device on

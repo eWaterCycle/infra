@@ -1,87 +1,46 @@
 ---
+# pinned versions so future deployments have more chance to work
 name: ewatercycle
 channels:
   - conda-forge
   - defaults
 dependencies:
-  # TODO pin versions for reproducibility. Use `conda env export` and `pip list` to get versions
-  - python=3.10
-  - esmvaltool-python>=2.3.0
-  - ansible
   - pip:
       - ewatercycle=={{ pyewatercycle_version }}
-      - ewatercycle-hype
-      - ewatercycle-lisflood
-      - ewatercycle-marrmot
-      - ewatercycle-pcrglobwb
-      - ewatercycle-wflow
-      - ewatercycle-leakybucket
-      # TODO Once ewatercycle-wflowjl uses a containerized model, uncomment the following line:
-      # - ewatercycle-wflowjl
-      # TODO Once available uncomment the following line
-      # - git+https://github.com/eWaterCycle/ewatercycle-sfincs
-      - era5cli
-      # Latest published nbgrader does not work (validate button gives error) with latest jupyterlab,notebook
-      # So install bleeding edge version from github
-      - git+https://github.com/jupyter/nbgrader.git@9876829b6be4fccce621ffee907bd5f9ac400c44
-  - setuptools
-  - altair_saver
-  - altair
-  - dask-jobqueue
-  - distributed
-  - geoviews
-  - hydrostats
-  - nco
-  - ncview
-  - regionmask
-  - pyke  # required by iris, only available on conda or sourceforge
-  - iris-sample-data # for sample notebooks, see https://github.com/eWaterCycle/notebooks/issues/15
+      - ewatercycle-hype==0.0.1
+      - ewatercycle-lisflood==0.0.1
+      - ewatercycle-marrmot==0.0.2
+      - ewatercycle-pcrglobwb==0.0.2
+      - ewatercycle-wflow==0.0.2
+      - ewatercycle-leakybucket==0.0.2
+      - ewatercycle-HBV==1.8.4
+      # TODO ewatercycle-HBV should not depend on HBV, but currently it does
+      - HBV==1.5.2
+      # Conda version of jupyterhub-systemdspawner is not py3.12 compat, so use pip version
+      - jupyterhub-systemdspawner==1.0.1
+      # Conda version of papermill is not py3.12 compat, so use pip version
+      - papermill==2.6.0
   # Pangeo deps, see https://pangeo.io/setup_guides/hpc.html
-  - zarr
-  - hvplot
-  - numcodecs
-  # Lint / formatters
-  - autopep8
-  - black
-  - flake8
-  - isort
-  - pylint
-  - yapf
-  # Pymt
-  - pymt_cem
-  - pymt_ecsimplesnow
-  - pymt_gipl
-  - pymt_hydrotrend
-  - pymt_landlab
-  - pymt_permamodel
-  - pymt_rafem
-  - pymt_sedflux
-  - pymt
-  # - pymt_child  # Skipped as only a osx binary is available
-  # - pymt_topoflow  # Skipped not on conda-forge
+  # TODO add pangeo deps back?
+
   # Jupyter
-  - jupyter-server-proxy
-  - jupyterhub
-  - jupyterlab # Version pinned due to not all wanted extensions support v3
-  - notebook
-  - ipykernel
-  - ipympl
-  - ipynb-py-convert
-  - jupyterhub-idle-culler
-  - jupyterhub-systemdspawner
+  - jupyter-server-proxy=4.4.0
+  - jupyterhub=5.1.0
+  - jupyterlab=4.2.5
+  - notebook=7.2.2
+  - ipykernel=6.29.5
+  - ipympl=0.9.4
+  - ipynb-py-convert=0.4.6
+  - jupyterhub-idle-culler=1.3.1
+  - nodejs=22.7.0
   # JupyterLab extensions server dependencies, lab extension should be added to defaults of jupyter role
-  - ipyleaflet
-  - jupyterlab_code_formatter
-  - dask-labextension
-  - jupyterlab-geojson
-  - jupyter_bokeh
-  - pyviz_comms
-  - jupyterlab-git
-  - nbdime
-  - nbgitpuller
-  - papermill
-  # nbgrader deps
-  - rapidfuzz
-  - nbconvert
-  - nbconvert-pandoc
-  - pandoc
+  - jupyterlab_code_formatter=3.0.2
+  - black=24.8.0
+  - isort=5.13.2
+  - dask-labextension=7.0.0
+  - jupyterlab-geojson=3.4.0
+  - ipyleaflet=0.19.2
+  - jupyterlab-git=0.50.1
+  - nbdime=4.0.1
+  - nbgitpuller=1.2.1
+  - nbgrader=0.9.3

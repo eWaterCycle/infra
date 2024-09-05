@@ -1,6 +1,20 @@
 ---
 # tasks file for ewatercycle
 
+- name: Install conda-lock in base conda env
+  ansible.builtin.pip:
+    name: conda-lock
+    executable: '{{ conda_root }}/bin/pip3'
+- name: eWaterCycle conda lock
+  ansible.builtin.get_url:
+    url: 'https://github.com/eWaterCycle/ewatercycle/raw/{{ pyewatercycle_version }}/conda-lock.yml'
+    dest: '{{ conda_root }}/conda-lock.yml'
+    mode: '0644'
+- name: Created conda environment with locked ewatercycle dependencies
+  command: '{{ conda_root }}/bin/conda-lock install --no-dev -p {{ conda_root }}/envs/{{ conda_environment }} {{ conda_root }}/conda-lock.yml'  # noqa no-changed-when
+  args:
+    creates:
+      '{{ conda_root }}/envs/{{ conda_environment }}'
 - name: Stage conda env file
   template:
     src: environment.yml.j2
