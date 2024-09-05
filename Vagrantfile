@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/ubuntu2004"
+  config.vm.box = "bento/ubuntu-22.04"
   config.vm.synced_folder ".", "/vagrant"
 
   # Create a public network, which generally matched to bridged network.

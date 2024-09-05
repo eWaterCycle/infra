@@ -1,6 +1,6 @@
 ---
 - name: Install
-  include_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
 - name: Config directory
   file:
     path: ~/.config/rclone

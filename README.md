@@ -82,7 +82,8 @@ Importantly:
 
 - Work on a folder on the windows file system.
 - Export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/.../infra"
-- Install [virtualbox_WSL2 vagrant plugin](https://github.com/Karandash8/virtualbox_WSL2)
+- `export PATH="$PATH:C:\Program Files\Oracle\VirtualBox"`
+- ` vagrant up --provider virtualbox`
 - Approve the firewall popup
 
 ## Catalog item registration

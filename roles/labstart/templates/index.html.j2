@@ -15,6 +15,7 @@
     body {
         padding: 25px;
     }
+
     .card .card-img-top {
         max-height: 10rem;
         max-width: 10rem;
@@ -60,7 +61,7 @@
 
         </div>
         <div class="card-deck">
-        <!--
+            {%- if 'explore' in tool_urls -%}
             <div class="card" style="width: 18rem;">
                 <img src="images/explore.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
@@ -70,17 +71,32 @@
                     <a href="{{ tool_urls.explore }}" class="btn btn-primary btn-block">Explore</a>
                 </div>
             </div>
-            -->
+            {%- endif %}
             <div class="card" style="width: 18rem;">
                 <img src="images/jupyter.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
                     <p class="card-text">Experiment with models and datasets in a notebook.</p>
                 </div>
                 <div class="card-footer text-black bg-white border-white">
-                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary btn-block">Jupyter notebook</a>
+                    <a href="{{ tool_urls.jupyter }}" class="btn btn-primary btn-block">Jupyter</a>
                 </div>
-                <!--
-            </div>{%- if 'analytics' in tool_urls -%}
+            </div>
+                        <div class="card" style="width: 18rem;">
+                <img src="images/analytics.png" class="card-img-top mx-auto" alt="...">
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2Fewatercycle.git&urlpath=lab%2Ftree%2Fewatercycle.git%2Fdocs%2Fuser_guide%2F00_intro.ipynb&branch=main" class="btn btn-primary btn-block">User guide notebook</a>
+                </div>
+            </div>
+                        <div class="card" style="width: 18rem;">
+                <img src="images/cylc.png" class="card-img-top mx-auto" alt="...">
+                <div class="card-body">
+                    <p class="card-text">Tech paper notebooks.</p>
+                </div>
+                <div class="card-footer text-black bg-white border-white">
+                    <a href="/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2FtechnicalPaperExampleNotebooks&urlpath=lab%2Ftree%2FtechnicalPaperExampleNotebooks%2FCase1_Marrmot_Merrimack_ESMValTool.ipynb&branch=main" class="btn btn-primary btn-block">Jupyter notebook</a>
+                </div>
+            </div>
+            {%- if 'analytics' in tool_urls -%}
             <div class="card" style="width: 18rem;">
                 <img src="images/analytics.png" class="card-img-top mx-auto" alt="...">
                 <div class="card-body">
@@ -112,6 +128,21 @@
             </div>
             -->
         </div>
+            <div>
+                <h3>Configuration for teachbooks</h3>
+                <p>To open books on this machine, you can add the following configuration in the <b>_config.yml</b> file of your teachbook repository:</p>
+                <pre id="teachbook-config">
+                    # rest of configuration
+
+                    launch_buttons:
+                        jupyterhub_url: /jupyter/hub
+                </pre>
+                <script>
+                // Make url absolute
+                const config = document.getElementById('teachbook-config');
+                config.textContent = config.textContent.replace('/jupyter/hub', window.location.origin + '/jupyter/hub');
+                </script>
+             </div>
     </div>
 </body>
 
