@@ -1,0 +1,38 @@
+---
+- name: Output file check
+  stat:
+    path: '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_{{ var_item.value[0] }}_{{ item }}-{{ item }}.nc'
+  register: output_file
+- name: Generate output file
+  when: not output_file.stat.exists
+  block:
+    - name: 'Hourly download dir of {{ var_item.key }}: {{ var_item.value }} for year {{ item }}'
+      file:
+        path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/{{ var_item.value[1] }}/{{ var_item.value[0] }}'
+        state: directory
+        mode: '0755'
+    - name: Download current year
+      command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ item }} --endyear {{ item }} --variables {{ var_item.key }}'
+      args:
+        chdir: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/{{ var_item.value[1] }}/{{ var_item.value[0] }}'
+        # era5_total_precipitation_1990_hourly.nc
+        creates: 'era5_{{ var_item.key }}_{{ item }}_hourly.nc'
+    - name: Download current year + 1
+      command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ item + 1 }} --endyear {{ item + 1 }} --variables {{ var_item.key }}'
+      args:
+        chdir: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/{{ var_item.value[1] }}/{{ var_item.value[0] }}'
+        creates: 'era5_{{ var_item.key }}_{{ item + 1 }}_hourly.nc'
+    - name: 'Convert to daily + cmorize of {{ var_item.key }}: {{ var_item.value }} for year {{ item }}'
+      command:
+        argv:
+          - '{{ conda_environment_bin }}/python'
+          - /tmp/era5process.py
+          - '{{ item }}'
+          - '{{ var_item.key }}'
+          - '{{ var_item.value[0] }}'
+          - '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_{{ var_item.value[0] }}_{{ item }}-{{ item }}.nc'
+        creates: '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_day_{{ var_item.value[0] }}_{{ item }}-{{ item }}.nc'
+    # - name: Remove hourly data of current year
+    #   file:
+    #     state: absent
+    #     path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/{{ var_item.value[1] }}/{{ var_item.value[0] }}/era5_{{ var_item.key }}_{{ item }}_hourly.nc'
