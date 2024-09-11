@@ -20,4 +20,4 @@
       bearer_token = {{ dcache_rw_token }}
 - name: Upload data root to dcache
   # TODO only run when needed
-  command: rclone copy {{ data_root }} {{ dcache_rclone_name }}:{{ dcache_root }}  # noqa no-changed-when
+  command: rclone copy /mnt/data {{ dcache_rclone_name }}:{{ dcache_root }}  # noqa no-changed-when

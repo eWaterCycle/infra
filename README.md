@@ -26,7 +26,7 @@ The setup instructions in this repo will create an eWaterCycle application(a sor
 
 An application on the SURF Research cloud is provisioned by running an Ansible playbook (research-cloud-plugin.yml).
 
-In addition to the standard VM storage, additional read-only datasets are mounted at `/data/shared` from a file server. They may contain things like:
+In addition to the standard VM storage, additional read-only datasets are mounted at `/data/shared` from a file server like a samba server or a dcache server. They may contain things like:
 
 - climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 - observation
@@ -46,6 +46,8 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 
 ```yaml
 ---
+dcache_ro_token: <dcache macaroon with read permission>
+rclone_cache_dir: /data/volume_2
 # Directory where /home should point to
 alt_home_location: /data/volume_3
 # Vagrant user is instructor
@@ -116,13 +118,29 @@ For eWatercycle component following specialization was done
   - Use `https://github.com/eWaterCycle/infra.git` as repository URL
   - Use `research-cloud-plugin.yml` as script path
   - Use `dcache-or-samba` as tag
+  - Name: eWaterCycle
+  - Subtitle: eWaterCycle teaching platform in a box
+  - Description: welcome page + jupyter + nbgrader + eWaterCycle python packages + dcache or samba
   - Select cloud providers:
     - SURF HPC Cloud, with all non-gpu sizes selected
     - SURF HPC Cloud cluster, with all non-gpu sizes selected
 - Component parameters, all fixed source type, required and overwitable unless otherwise stated
+  - shared_data_source: parameter for shared data source. 
+    -  default: dcache
+    -  description: Source of shared data. Set to `dcache` or `samba`. TODO list which parameter are required for each source.
+  - dcache_ro_token: parameter for dcache read-only token aka macaroon.
+      The token can be found in the eWaterCycle password manager.
+      This token has an expiration date, so it needs to be updated every now and then.
+    - description: Macaroon with read permission for dcache
   - alt_home_location:
     - default: /data/volume_2
     - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
+  - rclone_cache_dir:
+    - default: /data/volume_3
+    - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
+  - rclone_max_gsize:
+    - default: 45
+    - description: For maximum size of cache on `rclone_cache_dir` volume. In Gb.
   - grader_user:
     - description: User who will be grading. User should be created on sram. This user will also be responsible for setting up the course and assignments.
     - default: ==USERNAME==
@@ -145,7 +163,7 @@ For eWatercycle component following specialization was done
     - value: {"key": "samba_password","sensitive": 1}
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Do not allow every org to use this component.
-- Select the organizations (CO) that are allowed to use the component.
+- Select the organizations (CO) that are allowed to use the component. Data on the dcache should not be made public.
 
 For eWatercycle catalog item following specialization was done
 
@@ -154,7 +172,7 @@ For eWatercycle catalog item following specialization was done
   2. SRC-CO
   3. SRC-Nginx
   4. SRC-External plugin
-  5. eWatercycle teaching samba
+  5. eWaterCycle
 - Set documentation URL to `https://github.com/eWaterCycle/infra`
 - Select the organizations (CO) that are allowed to use the catalog item.
 - In cloud provider and settings step:
@@ -165,6 +183,12 @@ For eWatercycle catalog item following specialization was done
   - Set `co_irods` to `false` as we do not use irods
   - Set `co_research_drive` to `false` as we do not use research drive
   - As interactive parameters expose following:
+   - shared_data_source:
+      - label: Shared data source
+      - description: Source of shared data. Set to `dcache` or `samba`. When samba is picked then you need to have a Samba server running inside the organization and filling rclone_cache_dir parameter is not needed.
+    - rclone_cache_dir:
+      - label: Rclone cache directory
+      - description: Path where rclone cache is stored. Set to `/data/<storage item name for rclone cache>`.
     - alt_home_location:
       - label: Homes path
       - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
@@ -196,8 +220,13 @@ For a new CO make sure
    - To store user files
    - Use 50Gb size for simple experiments or bigger when required for experiment.
    - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
-1. Create new storage item for data
+1. If shared data source is dcache then create new storage item for dcache cache
+   - To store cached files from dCache by rclone
+   - Use 50GB size as size
+   - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
+1. If shared data source is samba then create new storage item for data
    - To store training material like parameter sets, ready-to-use forcings, raw forcings and apptainer sif files for models.
+   - This storage item should be used later in the Samba file server.
 2. Create private network
     - Name: `file-storage-network`
 3. In Collaborative organizations
@@ -205,12 +234,14 @@ For a new CO make sure
 
 ### File Server
 
+If you want to create a eWaterCycle machine (aka workspace) that uses a Samba file server (aka shared data source is samba), you need to create a Samba file server first.
+
 Each collaborative organization should run a single file server. This file server will be used to store shared data. The file server should be created with the following steps:
 
 1. Create a new workspace
 2. Select `Samba Server` application
 3. Select size with 2 cores and 16 GB RAM
-4. Select data storage item
+4. Select data storage item, created in previous section
 5. Select private network
 6. Wait for machine to be running
 7. Login to machine with ssh
@@ -254,12 +285,14 @@ rsync -av --progress <remote user>@<remote host>/<remote location> /data/volume_
 3. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
 4. Select size of VM (cpus/memory) based on use case
 5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
-6. Select private network
-7. Fill **all** the workspace parameters. They should look something like
+6. If you do not have a Samba file server running then select the dcache cache storage item.
+7. Select private network
+8. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
-8.  Wait for machine to be running
-9. Visit URL/IP
-10. When done delete machine
+   - TODO update screenshot that has shared_data_source parameter
+9.  Wait for machine to be running
+10. Visit URL/IP
+11. When done delete machine
 
 End user should be invited to CO so they can login.
 
@@ -304,7 +337,7 @@ ansible-playbook \
   shared-data-disk.yml
 ```
 
-Runnig this script will download all data files to /mnt/data and upload them to dcache.
+Running this script will download all data files to /mnt/data and upload them to dcache.
 
 ## Sync dcache with existing folder elsewhere
 

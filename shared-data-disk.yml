@@ -60,6 +60,8 @@
         name: rclone
         tasks_from: install
 
+    # TODO upload new data back to dcache using roles/rclone/tasks/upload.yml?
+
   handlers:
     - name: Restart samba
       ansible.builtin.service:

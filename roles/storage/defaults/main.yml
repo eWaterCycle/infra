@@ -1,4 +1,6 @@
 ---
+# From where should /data/shared be mounted, from dcache or samba.
+shared_data_source: dcache
 # defaults file for storage
 # Mount point for home directories
 home_location: /home

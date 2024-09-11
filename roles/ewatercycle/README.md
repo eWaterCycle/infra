@@ -34,7 +34,7 @@ conda_environment: ewatercycle
 # Path to conda environments bin directory
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
 # Where all shared data is available
-data_root: /mnt/data
+data_root: /data/shared
 # Location of climate data
 climate_data_root_dir: '{{ data_root }}/climate-data'
 # Location where GRDC data should be downloaded
