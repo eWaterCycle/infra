@@ -10,6 +10,8 @@ user2
 python3 create_student_passwords.py < usernames.txt > students.txt
 ```
 
+Copy contents of students.txt to the Surf Research Cloud workspace wizard.
+
 """
 
 from secrets import token_urlsafe
