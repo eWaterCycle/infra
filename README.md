@@ -252,8 +252,7 @@ Populating can be done with a Ansible playbook (this could be run during workspa
 
 ```shell
 sudo -i
-pip install -U ansible ansible-core
-git clone -b grader-samba https://github.com/eWaterCycle/infra.git /opt/infra
+git clone -b dcache-or-samba https://github.com/eWaterCycle/infra.git /opt/infra
 cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
 # Get cds user id (uid) and api key from cds profile page

@@ -24,6 +24,7 @@ Vagrant.configure("2") do |config|
     end
 
     jupyter.vm.disk :disk, size: "20GB", name: "home2"
+    # When shared_data_source is set to true, the disk will be unused
     jupyter.vm.disk :disk, size: "50GB", name: "cache"
 
     # Disable guest updates
