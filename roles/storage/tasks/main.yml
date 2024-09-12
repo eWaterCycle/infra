@@ -2,6 +2,9 @@
 # tasks file for storage
 - name: Move /home from root disk to other disk
   include_tasks: home.yml
+- name: Source of shared data is
+  debug:
+    var: shared_data_source
 - name: Mount data from Samba share
   include_tasks: data-samba.yml
   when: shared_data_source == 'samba' and samba_password is defined
