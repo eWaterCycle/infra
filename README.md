@@ -99,10 +99,10 @@ WSL2 users should follow steps on [https://www.vagrantup.com/docs/other/wsl](htt
 Importantly:
 
 - Work on a folder on the windows file system.
-- Export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/.../infra"
 - Install vagrant plugin https://github.com/Karandash8/virtualbox_WSL2
+- `export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH=$PWD`
 - `export PATH="$PATH:C:\Program Files\Oracle\VirtualBox"`
-- ` vagrant up --provider virtualbox`
+- `vagrant up --provider virtualbox`
 - Approve the firewall popup
 
 ## Catalog item registration
