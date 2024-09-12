@@ -49,8 +49,8 @@ Vagrant.configure("2") do |config|
 
     fileserver.vm.provider "virtualbox" do |vb|
       # Customize the amount of memory on the VM:
-      vb.memory = 16096
-      vb.cpus = 4
+      vb.memory = 2048
+      vb.cpus = 1
     end
 
     fileserver.vm.disk :disk, size: "500GB", name: "volume_2"
