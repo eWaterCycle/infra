@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "fileserver", autostart: false do |fileserver|
-    fileserver.vm.box = "generic/ubuntu2004"
+    fileserver.vm.box = "bento/ubuntu-22.04"
     fileserver.vm.synced_folder ".", "/vagrant"
 
     fileserver.vm.provider "virtualbox" do |vb|

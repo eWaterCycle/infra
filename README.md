@@ -46,6 +46,9 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 
 ```yaml
 ---
+shared_data_source: dcache
+# If set to samba you need to run the file server, see next chapter
+# shared_data_source: samba
 dcache_ro_token: <dcache macaroon with read permission>
 rclone_cache_dir: /data/volume_2
 # Directory where /home should point to
@@ -53,7 +56,6 @@ alt_home_location: /data/volume_3
 # Vagrant user is instructor
 # The students defined below can be used to login as a student
 students: 'student1:pw1,student2:pw2'
-worker_ip_addresses: []
 ```
 
 The token can be found in the eWaterCycle password manager.
@@ -154,10 +156,6 @@ For eWatercycle component following specialization was done
   - course_version
     - description: The version, branch or tag of the course repository to use.
     - default: nbgrader-quickstart
-  - worker_ip_addresses:
-    - source type: Resource
-    - default: worker_ip_addresses
-    - desciption: Makes addresses of workers available to Ansible playbook. Only used when cloud provider `SURF HPC Cloud cluster` is selected.
   - samba_password:
     - source_type: Co-Secret
     - value: {"key": "samba_password","sensitive": 1}
