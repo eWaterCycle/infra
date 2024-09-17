@@ -85,7 +85,7 @@ esmvaltool_aux_version: dde5fcc78398ff3208589150b52bf9dd0b3bfb30
 # Location where eWatercycle example parameter sets will be downloaded to
 parameter_set_root_dir: '{{ data_root }}/parameter-sets'
 # Location where eWatercycle example forcings will be downloaded to
-example_forcing_root_dir: '{{ data_root }}/forcing'
+forcing_root_dir: '{{ data_root }}/forcing'
 ```
 
 Dependencies

@@ -51,7 +51,11 @@ cds_uid: null # Must be filled from other place
 cds_api_key: null # Must be filled from other place
 # Location where climate data should be placed
 climate_data_root_dir: '{{ data_root }}/climate-data'
+# Location where auxiliary 
+auxiliary_data_dir: '{{ data_root }}/aux'
+# Which version of https://github.com/eWaterCycle/recipes_auxiliary_datasets to use
+esmvaltool_aux_version: 0.1.0
 # Location where eWatercycle example parameter sets will be downloaded to
 parameter_set_root_dir: '{{ data_root }}/parameter-sets'
 # Location where eWatercycle example forcings will be downloaded to
-example_forcing_root_dir: '{{ data_root }}/forcing'
+forcing_root_dir: '{{ data_root }}/forcing'
