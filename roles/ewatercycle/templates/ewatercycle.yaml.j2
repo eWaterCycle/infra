@@ -3,6 +3,7 @@ output_dir: .
 parameter_sets:
   # Following parameter sets are coming from dCache optionally via a Samba file server.
   # The dcache was filled once with by running something like the populate-samba.yml playbook.
+  # TODO only include parameter sets that are present in parameterset_dir
 
   # Example parameter sets
   lisflood_fraser:
@@ -24,6 +25,7 @@ parameter_sets:
     supported_model_versions: !!set {2020.1.1: null, 2020.1.2: null, 2020.1.3: null}
     target_model: wflow
 
+{% if shared_data_source == 'dcache' %}
   # From comparison study
   wflow_Rhine_ERA5-calibrated:
     directory: wflow_Rhine_ERA5-calibrated
@@ -110,15 +112,8 @@ parameter_sets:
     directory: sfincs_humber
     config: sfincs.inp
     target_model: sfincs
+{% endif %}
 
 parameterset_dir: {{ parameterset_dir }}
-# TODO remove singularity stuff, no longer needed as we alway install ewatercycle>=1.4.1
-{# ewatercycle<1.4.1 will use singularity instead of apptainer #}
-{% set pyewatercycle_pre_apptainer_versions = ('1.4.1', '1.4.0', '1.3.0', '1.2.0', '1.1.4', '1.1.3', '1.1.2', '1.1.1', '1.1.0', '1.0.0')  %}
-{% if pyewatercycle_version in pyewatercycle_pre_apptainer_versions %}
-container_engine: singularity
-singularity_dir: {{ apptainer_image_root }}
-{% else %}
 container_engine: apptainer
 apptainer_dir: {{ apptainer_image_root }}
-{% endif %}
