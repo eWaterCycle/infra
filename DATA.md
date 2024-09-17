@@ -1,9 +1,13 @@
-### Populating Samba file server
+# Shared data
+- [Shared data](#shared-data)
+  - [Populating Samba file server](#populating-samba-file-server)
+  - [Populating dcache](#populating-dcache)
+  - [Sync dcache with existing folder elsewhere](#sync-dcache-with-existing-folder-elsewhere)
+  - [Mount dcache on local machine](#mount-dcache-on-local-machine)
 
-- [Sync dcache with existing folder elsewhere](#sync-dcache-with-existing-folder-elsewhere)
-- [Mount dcache on local machine](#mount-dcache-on-local-machine)
+This document is dedicated for application data preparer.
 
-This chapter is dedicated for application data preparer.
+## Populating Samba file server
 
 Populating the `/data/volume_2/samba-share/` directory on the Samba file server can be done with a Ansible playbook using the following commands.
 <!-- 
@@ -34,7 +38,7 @@ If you have data elsewhere you can sync the data with this file server with
 rsync -av --progress <remote user>@<remote host>/<remote location> /data/volume_2/samba-share/
 ```
 
-### Populating dcache
+## Populating dcache
 
 This chapter is dedicated for application data preparer.
 
