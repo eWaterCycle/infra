@@ -14,6 +14,7 @@
     - [5. Add \& commit \& push notebooks on server to GitHub](#5-add--commit--push-notebooks-on-server-to-github)
     - [6. Pull changes from GitHub to server](#6-pull-changes-from-github-to-server)
   - [Install own software](#install-own-software)
+  - [Jupyter server logs](#jupyter-server-logs)
 
 ## Grading
 
@@ -226,3 +227,15 @@ which python
 5. Open a notebook and pick the new kernel that is `testewatercycle`
 
 6. Install additional software
+
+## Jupyter server logs
+
+Sometimes something goes wrong in the Jupyter Server, for example you expected to see an error in your notebook but it is not there.
+
+The log of the Jupyter server can be viewed with
+
+```shell
+journalctl -f -u jupyter-vagrant-singleuser.service
+```
+
+Replace `vagrant` with own username.
