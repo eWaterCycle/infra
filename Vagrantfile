@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
     # Bridged networks make the machine appear as another physical device on
     # your network.
     jupyter.vm.network "public_network"
-    jupyter.vm.hostname = "ewc-explorer-jupyterhub"
+    jupyter.vm.hostname = "jupyter"
 
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
@@ -34,18 +34,23 @@ Vagrant.configure("2") do |config|
     jupyter.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "vagrant-provision.yml"
       ansible.become = true
+      ansible.compatibility_mode = "2.0"
     end
 
     jupyter.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "research-cloud-plugin.yml"
       ansible.become = true
       ansible.extra_vars = "research-cloud-plugin.vagrant.vars"
+      ansible.compatibility_mode = "2.0"
     end
   end
 
   config.vm.define "fileserver", autostart: false do |fileserver|
     fileserver.vm.box = "bento/ubuntu-22.04"
     fileserver.vm.synced_folder ".", "/vagrant"
+
+    fileserver.vm.network "public_network"
+    fileserver.vm.hostname = "fileserver"
 
     fileserver.vm.provider "virtualbox" do |vb|
       # Customize the amount of memory on the VM:
@@ -62,6 +67,7 @@ Vagrant.configure("2") do |config|
     fileserver.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "vagrant-provision-file-server.yml"
       ansible.become = true
+      ansible.compatibility_mode = "2.0"
     end
   end
 end
