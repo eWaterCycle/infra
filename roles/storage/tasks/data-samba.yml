@@ -14,6 +14,7 @@
 - name: set variable
   set_fact:
     private_smb_server_ip: "{{ nmap_run.stdout.split('\n')}}"
+  when: private_smb_server_ip is not defined
 
 - name: configure the client
   when: private_smb_server_ip[0] | length > 0
