@@ -18,7 +18,7 @@ Role also adds /etc/ewatercycle.yaml and ~/.esmvaltool/config-user.yml config fi
 Requirements
 ------------
 
-This role expects `data_root` to be filled with files prepared by [../../shared-data-disk.yml](../../shared-data-disk.yml) playbook.
+This role expects `data_root` to be filled with files prepared by [../../populate-samba.yml](../../populate-samba.yml) playbook.
 
 Role Variables
 --------------

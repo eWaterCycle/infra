@@ -49,6 +49,13 @@ Create config file `research-cloud-plugin.vagrant.vars` with
 shared_data_source: dcache
 # If set to samba you need to run the file server, see next chapter
 # shared_data_source: samba
+# When using source samba you need to also give the ip of the file server
+# This can be retrieved with `vagrant ssh fileserver -c 'ip addr show eth1'`
+# private_smb_server_ip:
+#   - <ip of file-server>
+# When using source samba you need to also give a password
+# it is hardcoded in vagrant-provision-file-server.yml to samba
+# samba_password: samba
 dcache_ro_token: <dcache macaroon with read permission>
 rclone_cache_dir: /data/volume_2
 # Directory where /home should point to
@@ -83,10 +90,11 @@ The file server can also be tested locally with Vagrant using:
 
 ```shell
 vagrant up fileserver
+# Pick same bridged network interface for the Jupyter server
 vagrant ssh fileserver
 ```
 
-And follow the steps in the [File Server](#file-server) section.
+And follow the steps in the [File Server](#populating-samba-file-server) section, but instead of cloning repo you can `cd /vagrant` and run ansible commands.
 
 To clean up use
 
@@ -248,7 +256,23 @@ Each collaborative organization should run a single file server. This file serve
    3. Restart samba server with `systemctl restart smbd`
 8. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
 
-Populating can be done with a Ansible playbook (this could be run during workspace creation, but downloads are very flaky and time consuming).
+## Shared data storage
+
+The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
+
+The shared data can come from either
+1. dcache, High capacity, but high latency storage accessible via WebDAV from anywhere on the internet. Usefull for research.
+2. or samba, A low capaciry, low latency file server that is only accessible from the private network of the SURF Research cloud. Usefull for teaching.
+
+The shared data is mounted read-only `/data/shared` on the Jupyter machines.
+
+### Populating Samba file server
+
+This chapter is dedicated for application data preparer.
+
+Populating the `/data/volume_2/samba-share/` directory on the Samba file server can be done with a Ansible playbook using the following commands.
+<!-- 
+this could be run during workspace creation, but downloads are very flaky and time consuming, also this would require maintaining another SRC compoent+catalog item so done manually after workspace is up. -->
 
 ```shell
 sudo -i
@@ -256,7 +280,7 @@ git clone -b dcache-or-samba https://github.com/eWaterCycle/infra.git /opt/infra
 cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
 # Get cds user id (uid) and api key from cds profile page
-ansible-playbook /opt/infra/shared-data-disk.yml -e cds_uid=... -e cds_api_key=...
+ansible-playbook populate-samba.yml -e cds_uid=... -e cds_api_key=...
 ```
 
 This will:
@@ -269,10 +293,26 @@ This will:
 8. Create a ewatercycle.yaml which can be used on the Jupyter machines.
 9. Create a esmvaltool config file which can be used on the Jupyter machines.
 
-If you have another file server that has data you can sync the data with this file server with
+If you have data elsewhere you can sync the data with this file server with
 
 ```shell
 rsync -av --progress <remote user>@<remote host>/<remote location> /data/volume_2/samba-share/
+```
+
+### Populating dcache
+
+This chapter is dedicated for application data preparer.
+
+First gather all your data togethe on a server (like snellius or spider). 
+You can use parts of the [populate-samba.yml](populate-samba.yml) playbook to download data.
+
+Populating the dcache can be done from a server (like snellius or spider)
+with the following command
+
+```shell
+# cd to directory with data
+# have a rclone config with dcache macaroon
+rclone copy . dcache:ewatercycle
 ```
 
 ## eWaterCycle machine
@@ -323,7 +363,7 @@ This link uses [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync 
 This chapter is dedicated for application data preparer.
 
 The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
-For the Research cloud virtual machines we will copy data from a dcache bucket to a Samba file server also running on Research Cloud.
+For the Research cloud virtual machines we will copy data from a dcache bucket to a Samba file server also running on SURF Research Cloud.
 
 To fill the dcache bucket you can run
 
@@ -331,7 +371,7 @@ To fill the dcache bucket you can run
 ansible-playbook \
   -e cds_uid=1234 -e cds_api_key <cds api key> \
   -e dcache_rw_token=<dcache macaroon with read/write permissions>
-  shared-data-disk.yml
+  populate-samba.yml
 ```
 
 Running this script will download all data files to /mnt/data and upload them to dcache.

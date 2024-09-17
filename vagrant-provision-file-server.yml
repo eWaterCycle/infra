@@ -1,4 +1,4 @@
-- name: Install and configure stuff already available on SURF Research Cloud before the shared-data-disk.yml playbook is run
+- name: Install and configure stuff already available on SURF Research Cloud before the populate-samba.yml playbook is run
   hosts: all
   gather_facts: false
   vars:
