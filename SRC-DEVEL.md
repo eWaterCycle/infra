@@ -127,41 +127,11 @@ create an eWatercycle catalog item with following specialization:
 2. Click on Actions -> Clone
 3. Then re-configure the following
 
-TODO
-
-- Select the following components:
-  1. SRC-OS
-  2. SRC-CO
-  3. SRC-Nginx
-  4. SRC-External plugin
-  5. eWaterCycle dache or samba
-- Set description fields:
+- Name & description
   - Name: eWaterCycle samba
-  - Subtitle: eWaterCycle teaching platform in a box
   - Description: Welcome page + JupyterHub + nbgitpuller + nbgrader + eWaterCycle Python packages + samba as shared data source
-  - Logo: Organization avatar/logo from https://github.com/eWaterCycle
-- Set documentation URL to `https://github.com/eWaterCycle/infra`
-- Select the organizations (CO) that are allowed to use the catalog item.
-- In cloud provider and settings step:
-  - Add `SURF HPC Cloud` as cloud provider
-    - Set Operating Systems to Ubuntu 22.04
-    - Set Sizes to all non-gpu and non-disabled sizes
-- In parameter settings step keep all values as is except
-  - Set `co_irods` to `false` as we do not use irods
-  - Set `co_research_drive` to `false` as we do not use research drive
-  - Set `shared_data_source` to `samba`
-  - As interactive parameters expose following:
-    - alt_home_location:
-      - label: Homes path
-      - description: Path where home directories are stored. Set to `/data/<storage item name for homes>`.
-    - grader_user:
-      - label: Username of grader
-      - description: User who will be grading. User should be created on sram.
-      - default: empty string
-    - students
-      - label: Students
-      - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use '' for no students. Use secure passwords as anyone on the internet can access the machine.
-- Set boot disk size to 150Gb,
-  as default size will be mostly used by the conda environment and will trigger out of space warnings.
-- Set workspace acces button behavior to `Webinterface (https:)`,
-  so clicking on `ACCESS` button will open up the eWatercycle experiment explorer web interface
+- Parameters
+  - rclone_cache_dir:
+    - action: keep value
+  - shared_data_source:
+    - initial value: samba
