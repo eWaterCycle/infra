@@ -54,9 +54,9 @@ Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, 
 
 For developing the SURF Research Cloud applications locally you can use the [Vagrant instructions](VAGRANT.md)
 
-## SURF Reseach cloud Catalog item registration
+## SURF Reseach cloud catalog item registration
 
-To register the eWaterCycle application on the SURF Research cloud, follow instructions in [SURF Research cloud developer document](SRC-DEVEL.md).
+To register the eWaterCycle platform on the SURF Research cloud, follow instructions in [SURF Research cloud developer document](SRC-DEVEL.md).
 
 ## SURF Research cloud workspace 
 
@@ -66,13 +66,13 @@ This chapter is dedicated for application deployers. A workspace is name for a V
 
 The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
 
-The shared data can come from 2 sources:
-1. dcache, High capacity, but high latency storage accessible via WebDAV from anywhere on the internet. Usefull for research.
-2. samba, A low capaciry, low latency file server that is only accessible from the private network of the SURF Research cloud. Usefull for teaching.
+Two eWaterCycle catalog items have been created:
+1. eWaterCycle dcache, uses dcache as shared data source. High capacity, but high latency storage accessible via WebDAV from anywhere on the Internet. Usefull for research.
+2. eWaterCycle samba, uses samba as shared data source. A low capaciry, low latency file server that is only accessible from the private network of the SURF Research cloud. Usefull for teaching.
 
-The shared data is mounted read-only `/data/shared` on the Jupyter machines.
-In the following chapters you will need to make a choice which shared data source.
-Depending on the choice you make you need to do certain things.
+The shared data is mounted read-only `/data/shared` on the workspaces.
+In the following chapters you will need to make choose which catalog item you want to use.
+Depending on the choice, you need to do certain things.
 
 ### Preparations
 
@@ -93,8 +93,9 @@ Before you can create a workspace several steps need to be done first.
    - This storage item should be used later in the Samba file server.
 6. If shared data source is samba then create a private network
     - Name: `file-storage-network`
-7. In Collaborative organizations
+7. On https://portal.live.surfresearchcloud.nl/profile page in Collaborative organizations 
    - Create a secret named `samba_password` and a strong random password as value
+   - Create a secret named `dcache_ro_token` and a dcache read-only token as value
 
 To become root on a VM the user needs to be member of the `src_co_admin` group on [SRAM](https://sram.surf.nl/).
 See [docs](https://servicedesk.surf.nl/wiki/display/WIKI/Workspace+roles%3A+Appoint+a+CO-member+a+SRC+administrator).
@@ -119,23 +120,43 @@ Each collaborative organization should run a single file server. This file serve
 
 See [data documentation](DATA.md#populating-samba-file-server) on how to populate the file server.
 
-### Workspace creation
+### Workspace creation with dcache as stared data source
 
 Steps to create a eWaterCycle workspace:
 
 1. Create a new workspace
 2. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
-3. Select `eWaterCycle` catalog item
+3. Select `eWaterCycle dcache` catalog item
 4. Select size of VM (cpus/memory) based on use case
-5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
-6. If you do not have a Samba file server running then select the dcache cache storage item.
-7. If you do have a Samba file server running then select the private network
-8. Fill **all** the workspace parameters. They should look something like
+5. Select storage item for home directories. Remember item you picked as you will need it in the workspace parameters.
+6. Select storage item for dcache cache. Remember item you picked as you will need it in the workspace parameters. 
+7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
    - TODO update screenshot that has shared_data_source parameter
-9.  Wait for machine to be running
-10. Visit URL/IP
-11. When done delete machine
+8.  Wait for machine to be running
+9. Visit URL/IP
+10. When done delete machine
+
+End user should be invited to Collaborative organization in [SRAM](https://sram.surf.nl/) or [created as students](#students) so they can login.
+
+See [User guide](USER.md) to see what users have to do to login or use GitHub repository.
+
+### Workspace creation with samba as shared data source
+
+Steps to create a eWaterCycle workspace:
+
+1. Create a new workspace
+2. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
+3. Select `eWaterCycle dcache` catalog item
+4. Select size of VM (cpus/memory) based on use case
+5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
+6. Select the private network
+7. Fill **all** the workspace parameters. They should look something like
+   ![workspace-parameters](workspace-parameters.png) 
+   - TODO update screenshot that has shared_data_source parameter
+8.  Wait for machine to be running
+9. Visit URL/IP
+10. When done delete machine
 
 End user should be invited to Collaborative organization in [SRAM](https://sram.surf.nl/) or [created as students](#students) so they can login.
 
