@@ -53,7 +53,7 @@
     name: "{{ item.split(':') | first }}"
     password: "{{ item.split(':') | last | password_hash(hashtype='sha512') }}"
     shell: /bin/bash
-  loop: "{{ students.split(',') }}"
+  loop: "{{ students.strip().split(',') }}"
   when: students != ''
 
 - name: List all non-grader_user non-system users
