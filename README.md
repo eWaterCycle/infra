@@ -132,8 +132,7 @@ Steps to create a eWaterCycle workspace:
 6. Select storage item for dcache cache. Remember item you picked as you will need it in the workspace parameters. 
 7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
-   - TODO update screenshot that has shared_data_source parameter
-8.  Wait for machine to be running
+8. Wait for machine to be running
 9. Visit URL/IP
 10. When done delete machine
 
@@ -153,8 +152,7 @@ Steps to create a eWaterCycle workspace:
 6. Select the private network
 7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
-   - TODO update screenshot that has shared_data_source parameter
-8.  Wait for machine to be running
+8. Wait for machine to be running
 9. Visit URL/IP
 10. When done delete machine
 
