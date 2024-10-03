@@ -52,8 +52,8 @@ create a eWatercycle component with following specialization:
     - initial value: /data/volume_2
   - grader_user:
     - description: User who will be grading. User should be created on sram. This user will also be responsible for setting up the course and assignments.
-    - initial value: ==USERNAME==
-      (==USERNAME== which will be replaced by the actual username of the user creating the workspace)   
+    - initial value: ubuntu
+    - required: false
   - students:
     - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use empty string for no students. Use strong passwords as anyone on the internet can access the machine.
     - required: false

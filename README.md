@@ -131,7 +131,8 @@ Steps to create a eWaterCycle workspace:
 5. Select storage item for home directories. Remember item you picked as you will need it in the workspace parameters.
 6. Select storage item for dcache cache. Remember item you picked as you will need it in the workspace parameters. 
 7. Fill **all** the workspace parameters. They should look something like
-   ![workspace-parameters](workspace-parameters.png) 
+   ![workspace-parameters](workspace-parameters.png)
+   The following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
 8. Wait for machine to be running
 9. Visit URL/IP
 10. When done delete machine
@@ -152,6 +153,7 @@ Steps to create a eWaterCycle workspace:
 6. Select the private network
 7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
+   The following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
 8. Wait for machine to be running
 9. Visit URL/IP
 10. When done delete machine
