@@ -55,8 +55,8 @@ create a eWatercycle component with following specialization:
     - initial value: ==USERNAME==
       (==USERNAME== which will be replaced by the actual username of the user creating the workspace)   
   - students:
-    - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use ' ' for no students. Use strong passwords as anyone on the internet can access the machine.
-    - initial value: ' ' (a space, as empty string make workspace creation form invalid)
+    - description: List of student user name and passwords. Format '<username1>:<password1>,<username2>:<password2>'. Use empty string for no students. Use strong passwords as anyone on the internet can access the machine.
+    - required: false
   - course_repo:
     - description: Git repository url with the course source material.
     - initial value: https://github.com/eWaterCycle/teaching.git
@@ -107,7 +107,6 @@ create an eWatercycle catalog item with following specialization:
       - label: Username of grader
     - students
       - label: Students
-      - default: ' ' (a space, as empty string is not allowed)
     - course_repo
       - label: Course repository
     - course_version
