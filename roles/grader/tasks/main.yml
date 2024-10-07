@@ -54,7 +54,7 @@
     password: "{{ item.split(':') | last | password_hash(hashtype='sha512') }}"
     shell: /bin/bash
   loop: "{{ students.strip().split(',') }}"
-  when: students != '' and students != ' '
+  when: students is defined and students != ''
 
 - name: List all non-grader_user non-system users
   shell: "set -o pipefail && cat /etc/passwd | grep '/home/' | cut -d: -f1 | grep -v syslog | grep -v {{ grader_user }} || /bin/true"
