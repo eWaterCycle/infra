@@ -133,4 +133,5 @@ create an eWatercycle catalog item with following specialization:
   - rclone_cache_dir:
     - action: keep value
   - shared_data_source:
+    - action: overwrite
     - initial value: samba
