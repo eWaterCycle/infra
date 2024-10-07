@@ -1,6 +1,6 @@
 ---
 # Location where data should be uploaded from or where dCache should be mounted at
-data_root: /mnt/data
+data_root: /data/shared
 dcache_url: https://webdav.grid.surfsara.nl:2880
 dcache_root: '/'
 dcache_rclone_name: dcache

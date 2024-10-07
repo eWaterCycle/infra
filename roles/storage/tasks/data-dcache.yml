@@ -1,0 +1,5 @@
+---
+- name: Mount shared data dcache with rclone
+  include_role:
+    name: rclone
+    tasks_from: mount
