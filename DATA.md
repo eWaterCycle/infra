@@ -1,11 +1,24 @@
 # Shared data
 - [Shared data](#shared-data)
+  - [Configured paths](#configured-paths)
   - [Populating Samba file server](#populating-samba-file-server)
   - [Populating dcache](#populating-dcache)
   - [Sync dcache with existing folder elsewhere](#sync-dcache-with-existing-folder-elsewhere)
   - [Mount dcache on local machine](#mount-dcache-on-local-machine)
 
 This document is dedicated for application data preparer.
+
+## Configured paths
+
+The eWatercycle Python package (`/etc/ewatercycle.yaml`) and ESMValTool (`~/.esmvaltool/config-user.yml`) have been configured to use the following paths:
+
+- Root is `/data/shared`
+  - Climate data is in `/data/shared/climate-data`, used to generated forcings.
+    - ESMValTool auxiliary data is in `/data/shared/climate-data/aux`
+    - OBS6 data is in `/data/shared/climate-data/obs6`
+  - Parameter sets are in `/data/shared/parameter-sets`, used to run models.
+  - Apptainer images are in `/data/shared/singularity-images`, used to run models.
+  - GRDC observations are in `/data/shared/observation/grdc/dailies`, used to evaluate model runs.
 
 ## Populating Samba file server
 
