@@ -10,3 +10,8 @@
 # TODO Make smaller selection
 - name: Download climate data
   ansible.builtin.include_tasks: climate-data.yml
+- name: GRDC placeholder
+  ansible.builtin.file:
+    path: '{{ grdc_location }}'
+    state: directory
+    mode: 0755

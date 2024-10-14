@@ -17,8 +17,8 @@ The eWatercycle Python package (`/etc/ewatercycle.yaml`) and ESMValTool (`~/.esm
     - ESMValTool auxiliary data is in `/data/shared/climate-data/aux`
     - OBS6 data is in `/data/shared/climate-data/obs6`
   - Parameter sets are in `/data/shared/parameter-sets`, used to run models.
-  - Apptainer images are in `/data/shared/singularity-images`, used to run models.
-  - GRDC observations are in `/data/shared/observation/grdc/dailies`, used to evaluate model runs.
+  - Apptainer images are in `/data/shared/singularity-images`, used to run containerized models.
+  - GRDC observations are in `/data/shared/observation/grdc/dailies`, used `ewatercycle.observation.grdc.get_grdc_data()` function.
 
 ## Populating Samba file server
 
@@ -44,7 +44,8 @@ This will:
 6. Aggregate, cmorize and compress era5 data with custom esmvaltool script
 7. Setup rclone for copying data from dcache to file server
 8. Create a ewatercycle.yaml which can be used on the Jupyter machines.
-9. Create a esmvaltool config file which can be used on the Jupyter machines.
+   1. Create empty directory `/data/shared/observation/grdc/dailies` where GRDC data can be stored.
+9.  Create a esmvaltool config file which can be used on the Jupyter machines.
 
 If you have data elsewhere you can sync the data with this file server with
 
