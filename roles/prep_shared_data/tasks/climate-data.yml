@@ -26,7 +26,7 @@
     mode: '0644'
 
 - name: ERA5 download
-  when: cds_uid is defined and cds_api_key is defined
+  when: cds_uid is defined and cds_api_key is defined and cds_uid != None and cds_api_key != None
   block:
   - name: Configure era5cli
     command: '{{ conda_environment_bin }}/era5cli config --uid {{ cds_uid }} --key {{ cds_api_key }}'
