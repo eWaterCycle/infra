@@ -6,15 +6,17 @@
 - [Instructions for system administrators to deploy the eWaterCycle platform](#instructions-for-system-administrators-to-deploy-the-ewatercycle-platform)
   - [Setup of eWaterCycle platform on the SURF Research cloud](#setup-of-ewatercycle-platform-on-the-surf-research-cloud)
   - [Setup of eWaterCycle platform on a local test VM](#setup-of-ewatercycle-platform-on-a-local-test-vm)
-  - [SURF Reseach cloud Catalog item registration](#surf-reseach-cloud-catalog-item-registration)
+  - [SURF Reseach cloud catalog item registration](#surf-reseach-cloud-catalog-item-registration)
   - [SURF Research cloud workspace](#surf-research-cloud-workspace)
     - [Shared data source](#shared-data-source)
     - [Preparations](#preparations)
     - [File Server](#file-server)
-    - [Workspace creation](#workspace-creation)
+    - [Workspace creation with dcache as stared data source](#workspace-creation-with-dcache-as-stared-data-source)
+    - [Workspace creation with samba as shared data source](#workspace-creation-with-samba-as-shared-data-source)
     - [Students](#students)
     - [Example notebooks](#example-notebooks)
   - [Docker images](#docker-images)
+  - [AI Disclaimer](#ai-disclaimer)
 
 This repo contains (codified) instructions for deploying the eWaterCycle platform. The target audience of these instructions are system administrators. For more information on the eWaterCycle platform (and how to deploy it) see the [eWaterCycle documentation](https://ewatercycle.readthedocs.io/).
 
@@ -180,3 +182,9 @@ These links use [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) and [GitHub Container Registry](https://github.com/orgs/eWaterCycle/packages). A project member can create issues here for permisison to push images to Docker Hub or GitHub Container Registry.
+
+## AI Disclaimer
+
+The above documentation/software code has been generated and/or refined using
+GitHub CoPilot. All AI-output has been verified for correctness,
+accuracy and completeness, adapted where needed, and approved by the author.
