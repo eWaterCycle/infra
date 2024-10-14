@@ -113,8 +113,8 @@ Each collaborative organization should run a single file server. This file serve
 5. Select private network
 6. Wait for machine to be running
 7. Login to machine with ssh
-   1. Become root With sudo
-   2. Edit /etc/samba/smb.conf and replace `read only = no` with `read only = yes`
+   1. Become root with `sudo -i`
+   2. Edit /etc/samba/smb.conf and in `[samba-share]` section replace `read only = no` with `read only = yes`
    3. Restart samba server with `systemctl restart smbd`
 8. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
 
@@ -132,7 +132,7 @@ Steps to create a eWaterCycle workspace:
 6. Select storage item for dcache cache. Remember item you picked as you will need it in the workspace parameters. 
 7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png)
-   The following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
+   If you are not interested in grading then the following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
 8. Wait for machine to be running
 9. Visit URL/IP
 10. When done delete machine
@@ -147,13 +147,13 @@ Steps to create a eWaterCycle workspace:
 
 1. Create a new workspace
 2. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
-3. Select `eWaterCycle dcache` catalog item
+3. Select `eWaterCycle samba` catalog item
 4. Select size of VM (cpus/memory) based on use case
 5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
 6. Select the private network
 7. Fill **all** the workspace parameters. They should look something like
    ![workspace-parameters](workspace-parameters.png) 
-   The following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
+   If you are not interested in grading then the following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
 8. Wait for machine to be running
 9. Visit URL/IP
 10. When done delete machine
