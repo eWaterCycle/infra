@@ -185,6 +185,6 @@ In the eWaterCycle project we make Docker images. The images are hosted on [Dock
 
 ## AI Disclaimer
 
-The above documentation/software code has been generated and/or refined using
+The documentation/software code in this repository has been generated and/or refined using
 GitHub CoPilot. All AI-output has been verified for correctness,
 accuracy and completeness, adapted where needed, and approved by the author.
