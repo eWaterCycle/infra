@@ -33,6 +33,7 @@ cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
 # Get cds user id (uid) and api key from cds profile page
 ansible-playbook populate-samba.yml -e cds_uid=... -e cds_api_key=...
+# If you do not want to download ERA5 data then leave out cds_uid and cds_api_key arguments.
 ```
 
 This will:

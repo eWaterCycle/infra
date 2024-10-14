@@ -1,8 +1,4 @@
 ---
-- name: Configure era5cli
-  command: '{{ conda_environment_bin }}/era5cli config --uid {{ cds_uid }} --key {{ cds_api_key }}'
-  args:
-    creates: '~/.config/era5cli/cds_key.txt'
 - name: Climate data dir
   file:
     path: '{{ climate_data_root_dir }}'
@@ -29,50 +25,58 @@
     dest: /root/.esmvaltool/config-user.yml
     mode: '0644'
 
-# We need to download era5 hourly data with era5cli
-# and then convert it to CMOR format with python script which uses ESMValcore, the script needs the current and next year
-# To make efficient use of available disk space we will chunk by variable and year,+year+1
-
-- name: ERA5 download + hourly2daily + cmorize, loop variable
-  loop: '{{ era5_variables | dict2items }}'
-  loop_control:
-    loop_var: var_item
-  include_tasks: era5-variable.yml
-
-- name: Orography file check
-  stat:
-    path: '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_fx_orog.nc'
-  register: orog_file
-- name: Orography
-  when: not orog_file.stat.exists
+- name: ERA5 download
+  when: cds_uid is defined and cds_api_key is defined
   block:
-    - name: ERA5 land process script
-      copy:
-        src: era5landprocess.py
-        dest: /tmp/era5landprocess.py
-    - name: Download dir
-      file:
-        path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/fx/orog'
-        state: directory
-        mode: '0755'
-    - name: Download
-      command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ climate_begin_year }} --months 1 --days 1 --hours 0 --levels surface --variables geopotential'
-      args:
-        chdir: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/fx/orog'
-        creates: 'era5_geopotential_{{ climate_begin_year }}_hourly.nc'
-    - name: Cmorize
-      command:
-        argv:
-          - '{{ conda_environment_bin }}/python'
-          - /tmp/era5landprocess.py
-          - '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_fx_orog.nc'
-    - name: Remove script
-      file:
-        state: absent
-        path: /tmp/era5landprocess.py
-    - name: Raw data
-      file:
-        state: absent
-        path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/fx/orog/era5_geopotential_{{ climate_begin_year }}_hourly.nc'
+  - name: Configure era5cli
+    command: '{{ conda_environment_bin }}/era5cli config --uid {{ cds_uid }} --key {{ cds_api_key }}'
+    args:
+      creates: '~/.config/era5cli/cds_key.txt'
 
-# Instead of downloading from source we could download from already processed data from dcache
+  # We need to download era5 hourly data with era5cli
+  # and then convert it to CMOR format with python script which uses ESMValcore, the script needs the current and next year
+  # To make efficient use of available disk space we will chunk by variable and year,+year+1
+
+  - name: ERA5 download + hourly2daily + cmorize, loop variable
+    loop: '{{ era5_variables | dict2items }}'
+    loop_control:
+      loop_var: var_item
+    include_tasks: era5-variable.yml
+
+  - name: Orography file check
+    stat:
+      path: '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_fx_orog.nc'
+    register: orog_file
+  - name: Orography
+    when: not orog_file.stat.exists
+    block:
+      - name: ERA5 land process script
+        copy:
+          src: era5landprocess.py
+          dest: /tmp/era5landprocess.py
+      - name: Download dir
+        file:
+          path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/fx/orog'
+          state: directory
+          mode: '0755'
+      - name: Download
+        command: '{{ conda_environment_bin }}/era5cli hourly --startyear {{ climate_begin_year }} --months 1 --days 1 --hours 0 --levels surface --variables geopotential'
+        args:
+          chdir: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/fx/orog'
+          creates: 'era5_geopotential_{{ climate_begin_year }}_hourly.nc'
+      - name: Cmorize
+        command:
+          argv:
+            - '{{ conda_environment_bin }}/python'
+            - /tmp/era5landprocess.py
+            - '{{ climate_data_root_dir }}/obs6/Tier3/ERA5/OBS6_ERA5_reanaly_1_fx_orog.nc'
+      - name: Remove script
+        file:
+          state: absent
+          path: /tmp/era5landprocess.py
+      - name: Raw data
+        file:
+          state: absent
+          path: '{{ climate_data_root_dir }}/Tier3/ERA5/v1/fx/orog/era5_geopotential_{{ climate_begin_year }}_hourly.nc'
+
+  # Instead of downloading from source we could download from already processed data from dcache
