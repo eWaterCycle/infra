@@ -59,3 +59,4 @@ esmvaltool_aux_version: 0.1.0
 parameter_set_root_dir: '{{ data_root }}/parameter-sets'
 # Location where eWatercycle example forcings will be downloaded to
 forcing_root_dir: '{{ data_root }}/forcing'
+grdc_location: '{{ data_root }}/observation/grdc/dailies'
