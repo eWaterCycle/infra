@@ -1,0 +1,113 @@
+---
+# tasks file for grader
+- name: Exchange directory
+  ansible.builtin.file:
+    path: '{{ exchange_root }}'
+    state: directory
+    mode: '0777'
+- name: /etc/jupyter
+  ansible.builtin.file:
+    path: /etc/jupyter
+    state: directory
+    mode: '0755'
+- name: Global nbgrader config
+  ansible.builtin.copy:
+    dest: /etc/jupyter/nbgrader_config.py
+    mode: '0644'
+    content: |
+      c = get_config()
+      c.Exchange.root = '{{ exchange_root }}'
+- name: Grader jupyter dir
+  ansible.builtin.file:
+    path: /home/{{ grader_user }}/.jupyter
+    state: directory
+    owner: '{{ grader_user }}'
+    group: '{{ grader_user }}'
+    mode: '0755'
+- name: Nbgrader config for grader user
+  ansible.builtin.copy:
+    dest: /home/{{ grader_user }}/.jupyter/nbgrader_config.py
+    mode: '0644'
+    owner: '{{ grader_user }}'
+    group: '{{ grader_user }}'
+    content: |
+      c = get_config()
+      c.CourseDirectory.course_id = '{{ course_id }}'
+      c.CourseDirectory.root = '/home/{{ grader_user }}/{{ course_id }}'
+- name: Course directory
+  ansible.builtin.file:
+    path: '/home/{{ grader_user }}/{{ course_id }}'
+    state: directory
+    owner: '{{ grader_user }}'
+    group: '{{ grader_user }}'
+    mode: '0755'
+- name: Clone course repo
+  ansible.builtin.git:
+    repo: '{{ course_repo }}'
+    dest: '/home/{{ grader_user }}/{{ course_id }}/source'
+    version: '{{ course_version }}'
+  become: true
+  become_user: "{{ grader_user }}"
+- name: Create student posix users
+  ansible.builtin.user:
+    name: "{{ item.split(':') | first }}"
+    password: "{{ item.split(':') | last | password_hash(hashtype='sha512') }}"
+    shell: /bin/bash
+  loop: "{{ students.strip().split(',') }}"
+  when: students is defined and students != ''
+
+- name: List all non-grader_user non-system users
+  shell: "set -o pipefail && cat /etc/passwd | grep '/home/' | cut -d: -f1 | grep -v syslog | grep -v {{ grader_user }} || /bin/true"
+  args:
+    executable: /bin/bash
+  register: non_grader_users
+  changed_when: false
+
+# TODO when user is added to sram after provisioning then
+# add user to nbgrader as student + enable assignment-list extension for that user
+
+# enable/disable labextensions like https://github.com/jupyter/nbgrader/blob/main/demos/demo_one_class_one_grader/setup_demo.sh
+- name: Enable nbgrader extensions for grader_user
+  shell: |
+    set -o pipefail
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user n@jupyter/bgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user @jupyter/nbgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user @jupyter/nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.formgrader
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user @jupyter/nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:course-list
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ grader_user }}"
+  changed_when: true
+- name: Enable lab assignment list all non-grader users
+  loop: "{{ non_grader_users.stdout_lines | default([]) }}"
+  shell: |
+    set -o pipefail
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter labextension enable --level=user @jupyter/nbgrader:assignment-list
+    {{ conda_environment_bin }}/jupyter server extension enable --user nbgrader.server_extensions.assignment_list
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:create-assignment
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:formgrader
+    {{ conda_environment_bin }}/jupyter labextension disable --level=user @jupyter/nbgrader:course-list
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ item }}"
+  changed_when: true
+
+- name: Register non_grader_users as nbgrader student
+  loop: "{{ non_grader_users.stdout_lines | default([]) }}"
+  command:
+    cmd: "{{ conda_environment_bin }}/nbgrader db student add {{ item }}"
+    chdir: "/home/{{ grader_user }}/{{ course_id }}"
+  environment:
+    # nbgrader calls subprocess which is not in path by default
+    PATH: "{{ conda_environment_bin }}:{{ ansible_env.PATH }}"
+  become: true
+  become_user: "{{ grader_user }}"
+  changed_when: true

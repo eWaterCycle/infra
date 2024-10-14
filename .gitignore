@@ -15,3 +15,4 @@ env
 research-cloud-plugin.vagrant.vars
 jupyterhub.launcher.token
 launcher.jwt.secret
+.venv

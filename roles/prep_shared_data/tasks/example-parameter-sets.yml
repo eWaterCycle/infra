@@ -4,13 +4,26 @@
     path: '{{ parameter_set_root_dir }}'
     state: directory
     mode: '0755'
+- name: ewatecycle package
+  ansible.builtin.pip:
+    name: 
+      - ewatercycle
+      - ewatercycle-pcrglobwb
+      - ewatercycle-wflow
+      - ewatercycle-lisflood
+    state: present
+    executable: '{{ conda_root }}/bin/pip3'
 - name: copy fetch.py
   template:
     src: fetch.py.j2
     dest: '{{ parameter_set_root_dir }}/fetch.py'
     mode: '0644'
+- name: ewatercycle.yaml parent dir
+  file:
+    state: directory
+    path: /root/.config/ewatercycle
 - name: Download example parameter sets
-  command: '{{ conda_root }}/envs/ewatercycle/bin/python fetch.py'
+  command: '{{ conda_root }}/bin/python {{ parameter_set_root_dir }}/fetch.py'
   args:
     chdir: '{{ parameter_set_root_dir }}'
     creates: '{{ parameter_set_root_dir }}/pcrglobwb_rhinemeuse_30min'

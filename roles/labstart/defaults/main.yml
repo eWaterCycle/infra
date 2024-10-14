@@ -1,7 +1,1 @@
 ---
-tool_urls:
-  # explore: /
-  jupyter: /jupyter
-  # analytics: https://analytics.ewatercycle.org
-  # experiments: https://experiments.ewatercycle.org
-  # lowresforecast: https://lowres-forecast.ewatercycle.org
