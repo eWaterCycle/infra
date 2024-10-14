@@ -31,9 +31,13 @@ sudo -i
 git clone -b dcache-or-samba https://github.com/eWaterCycle/infra.git /opt/infra
 cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
+# Playbook will run for a long time, so run it in a detachable shell
+screen
 # Get cds user id (uid) and api key from cds profile page
 ansible-playbook populate-samba.yml -e cds_uid=... -e cds_api_key=...
 # If you do not want to download ERA5 data then leave out cds_uid and cds_api_key arguments.
+# Detach screen with Ctrl+A, D
+# Reattach screen with screen -r
 ```
 
 This will:
