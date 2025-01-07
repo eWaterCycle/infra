@@ -179,6 +179,21 @@ To get example notebooks end users should goto to the machines homepage and clic
 
 These links use [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync a git repo and open a notebook in it.
 
+### Restrict memory and cpu usage of JupyterHub
+
+To restrict the memory and cpu usage of each Jupyter user, you can edit the `/etc/jupyterhub/jupyterhub_config.py` file on the workspace. Add the following lines to the file:
+
+```python
+# Each user can use at most 4G of memory and 1 CPU
+c.SystemdSpawner.mem_limit = '4G'
+c.SystemdSpawner.cpu_limit = 1.0
+```
+See [JupyterHub Systemdspawner](https://github.com/jupyterhub/systemdspawner?tab=readme-ov-file#configuration) docs for more information.
+
+Reload configuration with `sudo systemctl restart jupyterhub`.
+
+By default the each user can use all the memory and cpu of the machine.
+
 ## Docker images
 
 In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) and [GitHub Container Registry](https://github.com/orgs/eWaterCycle/packages). A project member can create issues here for permisison to push images to Docker Hub or GitHub Container Registry.
