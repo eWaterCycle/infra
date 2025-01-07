@@ -2,7 +2,7 @@ Role Name
 =========
 
 Global Runoff Data Centre, https://www.bafg.de/GRDC/EN/Home/homepage_node.html.
-Downloads free datasets from GRDC site and datasets from research drive.
+Downloads free datasets from GRDC site.
 
 Requirements
 ------------
@@ -36,14 +36,12 @@ grdc_gtnr:
         url: https://geoportal.bafg.de/grdc-gtnr?datasource=1&service=SOS&version=2.0&request=GetObservation&featureOfInterest=http://gemstat.bafg.de/stations/1104150,1104530,1159100,1159105,1160235,1160378,1160500,1160580,1160684,1160788,1160880,1255100,1257100,1259100,1445100,1732100,1733600&temporalFilter=phenomenonTime,1961-01-01T00:00:00.000Z/1990-12-31T00:00:00.000Z
       - range: 1981_2010
         url: https://geoportal.bafg.de/grdc-gtnr?datasource=1&service=SOS&version=2.0&request=GetObservation&featureOfInterest=http://gemstat.bafg.de/stations/1104150,1104530,1159100,1159105,1160235,1160378,1160500,1160580,1160684,1160788,1160880,1255100,1257100,1259100,1445100,1732100,1733600&temporalFilter=phenomenonTime,1981-01-01T00:00:00.000Z/2010-12-31T00:00:00.000Z
-grdc_researchdrive_archives:
-  - <filename of archive on research drive >
 ```
 
 Dependencies
 ------------
 
-Requires rclone and rclone research drive config to be available which is what the researchdrive role does.
+None.
 
 Example Playbook
 ----------------

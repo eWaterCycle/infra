@@ -18,7 +18,7 @@ Role also adds /etc/ewatercycle.yaml and ~/.esmvaltool/config-user.yml config fi
 Requirements
 ------------
 
-This role expects `data_root` to be filled with files prepared by [../../shared-data-disk.yml](../../shared-data-disk.yml) playbook.
+This role expects `data_root` to be filled with files prepared by [../../populate-samba.yml](../../populate-samba.yml) playbook.
 
 Role Variables
 --------------
@@ -34,7 +34,7 @@ conda_environment: ewatercycle
 # Path to conda environments bin directory
 conda_environment_bin: '{{ conda_root}}/envs/{{ conda_environment }}/bin'
 # Where all shared data is available
-data_root: /mnt/data
+data_root: /data/shared
 # Location of climate data
 climate_data_root_dir: '{{ data_root }}/climate-data'
 # Location where GRDC data should be downloaded

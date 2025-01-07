@@ -13,9 +13,8 @@ dependencies:
       - ewatercycle-pcrglobwb==0.0.2
       - ewatercycle-wflow==0.0.2
       - ewatercycle-leakybucket==0.0.2
-      - ewatercycle-HBV==1.8.4
-      # TODO ewatercycle-HBV should not depend on HBV, but currently it does
-      - HBV==1.5.2
+      # Use fork of ewatercycle-hbv
+      - ewatercycle-HBV@git+https://github.com/eWaterCycle/ewatercycle-hbv@main
       # Conda version of jupyterhub-systemdspawner is not py3.12 compat, so use pip version
       - jupyterhub-systemdspawner==1.0.1
       # Conda version of papermill is not py3.12 compat, so use pip version
@@ -43,3 +42,7 @@ dependencies:
   - jupyterlab-git=0.50.1
   - nbdime=4.0.1
   - nbgitpuller=1.2.1
+  - nbgrader=0.9.3
+  # Needed for running playbooks, as after initial provision the conda env is the default python
+  - ansible=10.4.0
+  - passlib=1.7.4

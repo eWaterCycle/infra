@@ -17,4 +17,4 @@ jobs:
     - name: Deps
       run: pip install -r requirements.txt
     - name: Lint Ansible Playbook
-      run: ansible-lint --profile min --force-color research-cloud-plugin.yml shared-data-disk.yml
+      run: ansible-lint --profile min --force-color research-cloud-plugin.yml populate-samba.yml

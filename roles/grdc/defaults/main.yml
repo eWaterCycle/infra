@@ -12,18 +12,4 @@ grdc_station_zips:
   - ftp://ftp.bafg.de/pub/REFERATE/GRDC/catalogue/grdc_stations.zip
 # Archycos daily zip url
 grds_archycos_day_zip: ftp://ftp.bafg.de/pub/REFERATE/GRDC/ARC_HYCOS/arc_hycos_day.zip
-# Global Terrestrial Network for River Discharge (GTN-R) datasets
-# https://www.bafg.de/GRDC/EN/04_spcldtbss/44_GTNR/GTN-R%20SOS2.html
-grdc_gtnr:
-  - id: 1
-    name: WMO Region 1 (Africa)
-    stations: ftp://ftp.bafg.de/pub/REFERATE/GRDC/website/GTNR_ONLINE_1.txt
-    periods:
-      - range: 1931-1960
-        url: https://gemstat.bafg.de/KiWISGRDC/KiWIS?datasource=1&service=SOS&version=2.0&request=GetObservation&featureOfInterest=http://gemstat.bafg.de/stations/1104150,1104530,1159100,1160235,1160378,1160500,1160580,1160684,1160788,1160880,1255100,1257100,1259100,1445100,1732100,1733600&temporalFilter=phenomenonTime,1931-01-01T00:00:00.000Z/1960-12-31T00:00:00.000Z
-      - range: 1961-1990
-        url: https://gemstat.bafg.de/KiWISGRDC/KiWIS?datasource=1&service=SOS&version=2.0&request=GetObservation&featureOfInterest=http://gemstat.bafg.de/stations/1104150,1104530,1159100,1160235,1160378,1160500,1160580,1160684,1160788,1160880,1255100,1257100,1259100,1445100,1732100,1733600&temporalFilter=phenomenonTime,1961-01-01T00:00:00.000Z/1990-12-31T00:00:00.000Z
-      - range: 1981-2010
-        url: https://gemstat.bafg.de/KiWISGRDC/KiWIS?datasource=1&service=SOS&version=2.0&request=GetObservation&featureOfInterest=http://gemstat.bafg.de/stations/1104150,1104530,1159100,1160235,1160378,1160500,1160580,1160684,1160788,1160880,1255100,1257100,1259100,1445100,1732100,1733600&temporalFilter=phenomenonTime,1981-01-01T00:00:00.000Z/2010-12-31T00:00:00.000Z
-  # TODO add all regions
-grdc_researchdrive_archives: []
+# TODO fetch grdc data from dcache

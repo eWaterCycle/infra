@@ -1,0 +1,69 @@
+- name: Download data from internet to file server
+  hosts:
+    - localhost
+  vars:
+    # Creds from https://cds.climate.copernicus.eu Climate Data Store
+    cds_uid: null # Must be filled from other place
+    cds_api_key: null # Must be filled from other place
+    # To add more ERA5 variables edit or overwrite roles/prep_shared_data/defaults/main.yml#era5_variables
+    # To add more apptainer images of hydrological models edit or overwrite roles/prep_shared_data/defaults/main.yml#era5_variables#grpc4bmi_images
+    # climate_begin_year: 1990
+    # climate_end_year: 1990
+    # dCache token for uploading files
+    dcache_rw_token: null # Must be filled from command line
+    data_root: /data/volume_2/samba-share
+
+  tasks:
+    # any sram user can become root via passwordless sudo
+    # TODO exclude students from becoming root
+    - name: Harden share
+      ansible.builtin.file:
+        path: '/data/volume_2/samba-share/'
+        state: directory
+        mode: 'u=rwx,g=rx,o=rx'
+
+    - name: Read-only share
+      ansible.builtin.lineinfile:
+        path: /etc/samba/smb.conf
+        line: 'read only = yes'
+        regexp: '^\s+read only ='
+        insertafter: '[samba-share]'
+      notify: Restart samba
+
+    # Apptainer is need to build apptainer images from Docker
+    - name: Apptainer
+      ansible.builtin.include_role:
+        name: apptainer
+
+    - name: Mamba env
+      ansible.builtin.include_role:
+        name: mambaorg.micromamba
+      vars:
+        root_prefix: /opt/conda
+        packages:
+          - era5cli
+          - esmvalcore
+          - rclone
+          - h5netcdf
+          - hdf5plugin
+
+    - name: Prepare shared data
+      ansible.builtin.include_role:
+        name: prep_shared_data
+
+    - name: Download observation data
+      ansible.builtin.include_role:
+        name: grdc
+
+    - name: Install rclone
+      ansible.builtin.include_role:
+        name: rclone
+        tasks_from: install
+
+    # TODO upload new data back to dcache using roles/rclone/tasks/upload.yml?
+
+  handlers:
+    - name: Restart samba
+      ansible.builtin.service:
+        name: smbd
+        state: restarted

@@ -4,9 +4,7 @@
     - all
     - localhost
   gather_facts: false
-  vars:
-    # dCache token for mounting shared data
-    dcache_ro_token: null # Must be filled from command line
+  vars: {}
   tasks:
     - name: Wait for system to become reachable
       wait_for_connection:
@@ -14,10 +12,6 @@
 
     - name: Gather facts for first time
       setup:
-
-    - name: Extra vols
-      debug:
-        var: external_volumes
 
     - name: Common stuff
       include_role:
@@ -59,37 +53,10 @@
       include_role:
         name: conda
 
-    # TODO mount a home and scratch disk, see https://github.com/eWaterCycle/infra/issues/89
-    # - name: Scratch disk
-    #   mount:
-    #     path: /scratch
-    #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
-    #     state: present
-    # - name: Home disk
-    #   mount:
-    #     path: /home
-    #     src: # TODO find correct value, possibly extracted from SRC API or ansible vars/facts
-    #     state: present
-
-    - name: Mount shared data dcache with rclone
-      include_role:
-        name: rclone
-        tasks_from: mount
-
     # https://lab.ewatercycle.org/ functionality
     - name: Welcome page
       include_role:
         name: labstart
-
-    # TODO remove roles instead of commenting them out or make them optional
-    # # https://explore.ewatercycle.org/ functionality
-    # - name: Experiment launcher
-    #   include_role:
-    #     name: launcher
-
-    # - name: Explorer
-    #   include_role:
-    #     name: terria
 
     # https://jupyter.ewatercycle.org/ functionality
     - name: Create eWaterCycle conda env
@@ -99,6 +66,10 @@
     - name: Set up Jupyter lab/hub
       include_role:
         name: jupyter
+
+    - name: Set up grader
+      include_role:
+        name: grader
 
     - name: Clean apt cache
       apt:

@@ -3,7 +3,24 @@
 ![Ansible Lint](https://github.com/eWaterCycle/infra/workflows/Ansible%20Lint/badge.svg)
 [![Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1462548.svg)](https://doi.org/10.5281/zenodo.1462548)
 
+- [Instructions for system administrators to deploy the eWaterCycle platform](#instructions-for-system-administrators-to-deploy-the-ewatercycle-platform)
+  - [Setup of eWaterCycle platform on the SURF Research cloud](#setup-of-ewatercycle-platform-on-the-surf-research-cloud)
+  - [Setup of eWaterCycle platform on a local test VM](#setup-of-ewatercycle-platform-on-a-local-test-vm)
+  - [SURF Reseach cloud catalog item registration](#surf-reseach-cloud-catalog-item-registration)
+  - [SURF Research cloud workspace](#surf-research-cloud-workspace)
+    - [Shared data source](#shared-data-source)
+    - [Preparations](#preparations)
+    - [File Server](#file-server)
+    - [Workspace creation with dcache as shared data source](#workspace-creation-with-dcache-as-shared-data-source)
+    - [Workspace creation with samba as shared data source](#workspace-creation-with-samba-as-shared-data-source)
+    - [Students](#students)
+    - [Example notebooks](#example-notebooks)
+  - [Docker images](#docker-images)
+  - [AI Disclaimer](#ai-disclaimer)
+
 This repo contains (codified) instructions for deploying the eWaterCycle platform. The target audience of these instructions are system administrators. For more information on the eWaterCycle platform (and how to deploy it) see the [eWaterCycle documentation](https://ewatercycle.readthedocs.io/).
+
+With grading setup is [one class, one grader](https://nbgrader.readthedocs.io/en/stable/configuration/jupyterhub_config.html#example-use-case-one-class-one-grader).
 
 For instructions on how to use the machine as deployed by this repo see the [User guide](USER.md).
 
@@ -16,246 +33,173 @@ The hardware environment used by the eWaterCycle platform development team is th
 
 The setup instructions in this repo will create an eWaterCycle application(a sort-of VM template) that when started will create a machine with:
 
-- Explorer: web visualization of available models / parameter sets combinations and a way to generate Jupyter notebooks
 - Jupyter Hub: to interactivly generate forcings and perform experiments on hydrological models using the [eWatercycle Python package](https://ewatercycle.readthedocs.io/)
+  - [nbgrader](https://nbgrader.readthedocs.io/en/stable/) for grading
+  - [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to open a cloned git repository in Jupyter Lab from an [URL](https://nbgitpuller.readthedocs.io/en/latest/link.html)
 - ERA5 and ERA-Interim global climate data, which can be used to generate forcings
 - Installed models and their example parameter sets
 
 An application on the SURF Research cloud is provisioned by running an Ansible playbook (research-cloud-plugin.yml).
 
-In addition to the standard VM storage, additional read-only datasets are mounted at `/mnt/data` from dCache using rclone. They may contain things like:
+In addition to the standard VM storage, additional read-only datasets are mounted at `/data/shared` from a file server like a samba server or a dcache server. They may contain things like:
 
 - climate data, see <https://ewatercycle.readthedocs.io/en/latest/system_setup.html#download-climate-data>
 - observation
 - parameter-sets
 - singularity-images of hydrological models wrapped in grpc4bmi servers
 
+See [File server chapter](#file-server) for more information on the file server.
+
 Previously the eWatercycle platform consisted of multiple VM on SURF HPC cloud, see [v0.1.2 release](https://github.com/eWaterCycle/infra/releases/tag/v0.1.2) for that code.
 
 ## Setup of eWaterCycle platform on a local test VM
 
-Deploying a local test VM is mostly useful for developing the SURF Research Cloud applications. This vagrant setup creates a virtual machine with 8Gb memory, 4 virtual cores, and 70Gb storage. This should work on any Linux or Windows machine.
+For developing the SURF Research Cloud applications locally you can use the [Vagrant instructions](VAGRANT.md)
 
-To set up an Explorer/Jupyter server on your local machine with [vagrant](https://vagrantup.com) and
-[Ansible](https://docs.ansible.com/ansible/latest/index.html)
+## SURF Reseach cloud catalog item registration
 
-Create config file `research-cloud-plugin.vagrant.vars` with
+To register the eWaterCycle platform on the SURF Research cloud, follow instructions in [SURF Research cloud developer document](SRC-DEVEL.md).
 
-```yaml
----
-dcache_ro_token: <dcache macaroon with read permission>
-rclone_cache_dir: /data/volume_2
-# Directory where /home should point to
-alt_home_location: /data/volume_3
-```
+## SURF Research cloud workspace 
 
-The token can be found in the eWaterCycle password manager.
+This chapter is dedicated for application deployers. A workspace is name for a Virtual Machine (VM) on the SURF Research cloud. The workspace is created with the eWaterCycle application from the catalog.
 
-```shell
-vagrant --version
-# Vagrant 2.4.1
-vagrant plugin install vagrant-vbguest
-# Installed the plugin 'vagrant-vbguest (0.32.0)'
-vagrant up
-```
+### Shared data source
 
-Visit site
+The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
 
-```shell
-# Get ip of server with
-vagrant ssh -c 'ifconfig eth1'
-```
+Two eWaterCycle catalog items have been created:
+1. eWaterCycle dcache, uses dcache as shared data source. High capacity, but high latency storage accessible via WebDAV from anywhere on the Internet. Usefull for research.
+2. eWaterCycle samba, uses samba as shared data source. A low capacity, low latency file server that is only accessible from the private network of the SURF Research cloud. Usefull for teaching.
 
-Go to `http://<ip of eth1>` and login with `vagrant:vagrant`.
+The shared data is mounted read-only `/data/shared` on the workspaces.
+In the following chapters you will need to make choose which catalog item you want to use.
+Depending on the choice, you need to do certain things.
 
-You will get some complaints about unsecure serving, this is OK for local testing and this will not happen on Research Cloud.
+### Preparations
 
-### Test on Windows Subsystem for Linux 2
+Before you can create a workspace several steps need to be done first.
 
-WSL2 users should follow steps on [https://www.vagrantup.com/docs/other/wsl](https://www.vagrantup.com/docs/other/wsl).
-
-Importantly:
-
-- Work on a folder on the windows file system.
-- Export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/.../infra"
-- `export PATH="$PATH:C:\Program Files\Oracle\VirtualBox"`
-- ` vagrant up --provider virtualbox`
-- Approve the firewall popup
-
-## Catalog item registration
-
-This chapter is dedicated for catalog item developers.
-
-On the Research cloud the [developer](https://servicedesk.surf.nl/wiki/display/WIKI/Appoint+a+CO-member+a+developer) can add an catalog item for other people to use.
-The generic steps to do this are documented [here](https://servicedesk.surf.nl/wiki/display/WIKI/Create+your+own+catalog+items).
-
-For eWatercycle component following specialization was done
-
-- Use Ansible playbook as component script type
-  - Use `https://github.com/eWaterCycle/infra.git` as repository URL
-  - Use `research-cloud-plugin.yml` as script path
-  - Use `main` as tag
-- Component parameters, all fixed source type and non-overwitable unless otherwise stated
-  - Add `dcache_ro_token` parameter for dcache read-only token aka macaroon.
-    The token can be found in the eWaterCycle password manager.
-    This token has an expiration date, so it needs to be updated every now and then.
-  - Add `alt_home_location` parameter with value `/data/volume_2`.
-    For mount point of the storage item which should hold homes mounted.
-  - Add `rclone_cache_dir` parameter with value `/data/volume_3`.
-    For directory where rclone can store its cache.
-  - Add `rclone_max_gsize` with value `45`.
-    For maximum size of cache on `rclone_cache_dir` volume. In Gb.
-- Set documentation URL to `https://github.com/eWaterCycle/infra`
-- Do not allow every org to use this component. Data on the dcache should not be made public.
-- Select the organizations (CO) that are allowed to use the component.
-
-For eWatercycle catalog item following specialization was done
-
-- Select the following components:
-  1. SRC-OS
-  2. SRC-CO
-  3. SRC-Nginx
-  4. SRC-External plugin
-  5. eWatercycle
-- Set documentation URL to `https://github.com/eWaterCycle/infra`
-- Add `SURF HPC Cloud` as cloud provider
-  - Set Operating Systems to Ubuntu 22.04
-  - Set Sizes to all non-gpu and non-disabled sizes
-- In parameter settings step keep all values as is except
-  - Set `co_irods` to `false` as we do not use irods
-  - Set `co_research_drive` to `false` as we do not use research drive
-- Set boot disk size to 150Gb,
-  as default size will be mostly used by the conda environment and will trigger out of space warnings.
-- Set workspace acces button behavior to `Webinterface (https:)`,
-  so clicking on `ACCESS` button will open up the eWatercycle experiment explorer web interface
-- Select the organizations (CO) that are allowed to use the catalog item.
+1. Log into [SURF Research Cloud](https://portal.live.surfresearchcloud.nl/)
+2. Make sure you are [allowed to use eWaterCycle catalog item](https://servicedesk.surf.nl/wiki/display/WIKI/Sharing+components+and+catalog+items)
+3. Create new storage item for home directories
+   - To store user files
+   - Use 50Gb size for simple experiments or bigger when required for experiment.
+   - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
+4. If shared data source is dcache then create new storage item for dcache cache
+   - To store cached files from dCache by rclone
+   - Use 50GB size as size
+   - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
+5. If shared data source is samba then create new storage item for data
+   - To store training material like parameter sets, ready-to-use forcings, raw forcings and apptainer sif files for models.
+   - This storage item should be used later in the Samba file server.
+6. If shared data source is samba then create a private network
+    - Name: `file-storage-network`
+7. On https://portal.live.surfresearchcloud.nl/profile page in Collaborative organizations 
+   - Create a secret named `samba_password` and a strong random password as value
+   - Create a secret named `dcache_ro_token` and a dcache read-only token as value
 
 To become root on a VM the user needs to be member of the `src_co_admin` group on [SRAM](https://sram.surf.nl/).
 See [docs](https://servicedesk.surf.nl/wiki/display/WIKI/Workspace+roles%3A+Appoint+a+CO-member+a+SRC+administrator).
 
-## SURF Research cloud VM deployment
+### File Server
 
-This chapter is dedicated for application deployers.
+If you want to create a eWaterCycle machine (aka workspace) that uses a Samba file server (aka shared data source is samba), you need to create a Samba file server first.
 
-1. Log into Research Cloud
-1. Create new storage item for home directories
-   - To store user files
-   - Use 50Gb size for simple experiments or bigger when required for experiment.
-   - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
-1. Create new storage item for cache
-   - To store cached files from dCache by rclone
-   - Use 50GB size as size
-   - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
+Each collaborative organization should run a single file server. This file server will be used to store read-only shared data. The file server should be created with the following steps:
+
 1. Create a new workspace
-1. Select eWaterCycle application
-1. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
-1. Select size of VM (cpus/memory) based on use case
-1. Select home storage item.
-   - Order in which the storage items are select is important, make sure to select home before cache storage item.
-1. Select cache storage item
-1. Wait for machine to be running
-1. Visit URL/IP
-1. When done delete machine
+2. Select `Samba Server` application
+3. Select size with 2 cores and 16 GB RAM
+4. Select data storage item, created in previous section
+5. Select private network
+6. Wait for machine to be running
+7. Login to machine with ssh
+   1. Become root with `sudo -i`
+   2. Edit /etc/samba/smb.conf and in `[samba-share]` section replace `read only = no` with `read only = yes`
+   3. Restart samba server with `systemctl restart smbd`
+8. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
 
-For a new CO make sure
+See [data documentation](DATA.md#populating-samba-file-server) on how to populate the file server.
 
-- application is allowed to be used by CO. See [Sharing catalog items](https://servicedesk.surfsara.nl/wiki/display/WIKI/Sharing+catalog+items)
-- data storage item and home dir are created for the CO
+### Workspace creation with dcache as shared data source
 
-End user should be invited to CO so they can login.
+Steps to create a eWaterCycle workspace:
+
+1. Create a new workspace
+2. Select collaborative organisation (CO) for example `ewatercycle-tudelft`
+3. Select `eWaterCycle dcache` catalog item
+4. Select size of VM (cpus/memory) based on use case
+5. Select storage item for home directories. Remember item you picked as you will need it in the workspace parameters.
+6. Select storage item for dcache cache. Remember item you picked as you will need it in the workspace parameters. 
+7. Fill **all** the workspace parameters. They should look something like
+   ![workspace-parameters](workspace-parameters.png)
+   If you are not interested in grading then the following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
+8. Wait for machine to be running
+9. Visit URL/IP
+10. When done delete machine
+
+End user should be invited to Collaborative organization in [SRAM](https://sram.surf.nl/) or [created as students](#students) so they can login.
 
 See [User guide](USER.md) to see what users have to do to login or use GitHub repository.
 
+### Workspace creation with samba as shared data source
+
+Steps to create a eWaterCycle workspace:
+
+1. Create a new workspace
+2. Select collaborative organisation (CO) for example `ewatercycle-tudelft`
+3. Select `eWaterCycle samba` catalog item
+4. Select size of VM (cpus/memory) based on use case
+5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
+6. Select the private network
+7. Fill **all** the workspace parameters. They should look something like
+   ![workspace-parameters](workspace-parameters.png) 
+   If you are not interested in grading then the following parameters can be left unchanged: 'Course repository', 'Course version', 'Grader user' and 'Students'.
+8. Wait for machine to be running
+9. Visit URL/IP
+10. When done delete machine
+
+End user should be invited to Collaborative organization in [SRAM](https://sram.surf.nl/) or [created as students](#students) so they can login.
+
+See [User guide](USER.md) to see what users have to do to login or use GitHub repository.
+
+### Students
+
+During creation you can set the `students` parameter to create local posix accounts for students.
+The format of the parameter value is `<username1>:<password1>,<username2>:<password2>`.
+Use emtpy string for no students.
+Make sure to use strong passwords as anyone on the internet can access the machine.
+
+You can use the python script [create_student_passwords.py](create_student_passwords.py) to generate passwords. To use it, create a file "usernames.txt" with one username on each line. Then call the script to generate passwords. They will be stored in a new file called `students.txt`. See docs in script for more details. The passwords generated by the script should be distributed to the students.
+
 ### Example notebooks
 
-To get example notebooks end users should use following URL (with `<workspace id>` with your currently running workspace)
+To get example notebooks end users should goto to the machines homepage and click one of the notebook links.
 
-```html
-https://<workspace id
-  >.workspaces.live.surfresearchcloud.nl/jupyter/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FeWaterCycle%2Fewatercycle&urlpath=lab%2Ftree%2Fewatercycle%2Fdocs%2Fexamples%2FMarrmotM01.ipynb&branch=main</workspace
->
+These links use [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync a git repo and open a notebook in it.
+
+### Restrict memory and cpu usage of JupyterHub
+
+To restrict the memory and cpu usage of each Jupyter user, you can edit the `/etc/jupyterhub/jupyterhub_config.py` file on the workspace. Add the following lines to the file:
+
+```python
+# Each user can use at most 4G of memory and 1 CPU
+c.SystemdSpawner.mem_limit = '4G'
+c.SystemdSpawner.cpu_limit = 1.0
 ```
+See [JupyterHub Systemdspawner](https://github.com/jupyterhub/systemdspawner?tab=readme-ov-file#configuration) docs for more information.
 
-TODO add this link to home page of server at
+Reload configuration with `sudo systemctl restart jupyterhub`.
 
-This link uses [nbgitpuller](https://jupyterhub.github.io/nbgitpuller/) to sync a git repo and open a notebook in it.
-
-## Fill shared data disk
-
-This chapter is dedicated for application data preparer.
-
-The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/system_setup.html) requires a lot of data files.
-For the Research cloud virtual machines we will mount a dcache bucket.
-
-To fill the dcache bucket you can run
-
-```shell
-ansible-playbook \
-  -e cds_uid=1234 -e cds_api_key <cds api key> \
-  -e dcache_rw_token=<dcache macaroon with read/write permissions>
-  shared-data-disk.yml
-```
-
-Runnig this script will download all data files to /mnt/data and upload them to dcache.
-
-## Sync dcache with existing folder elsewhere
-
-The steps above fetch the data from original sources. If you want to sync some files from
-another location, say, Snellius, you can use rclone directly. In our experience, it works
-better to sync entire directories than to try and copy single files.
-
-Create the file `~/.config/rclone/rclone.conf` and add the following content:
-
-```
-[ dcache ]
-type = webdav
-url = https://webdav.grid.surfsara.nl:2880
-vendor = other
-user =
-pass =
-bearer_token = <dcache macaroon with read/write permissions>
-```
-
-You can verify your access by running an innocent `rclone ls  dcache:parameter-sets`.
-The command to sync directories is `rclone copy somedir dcache:parameter-sets/somedir`.
-Beware that this will overwrite any existing files, if different!
-
-Note: password manager can be used for exchanging macaroons.
-
-## Mount dcache on local machine
-
-Create the file `~/.config/rclone/rclone.conf` and add the following content:
-
-```ini
-[dcache]
-type = webdav
-url = https://webdav.grid.surfsara.nl:2880
-vendor = other
-user =
-pass =
-bearer_token = <dcache macaroon with read permissions>
-```
-
-Install [rclone](https://rclone.org/) and run following command to mount dcache at `~/dcache` directory.
-
-```shell
-mkdir ~/dcache
-rclone mount --read-only --cache-dir /tmp/rclone-cache --vfs-cache-max-size 30G --vfs-cache-mode full dcache:/ ~/dcache
-```
-
-In ESMValTool config files you can use `~/dcache/climate-data/obs6` for `rootpath:OBS6`.
+By default the each user can use all the memory and cpu of the machine.
 
 ## Docker images
 
-In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) . A project member can create issues here for permisison to push images to Docker Hub.
+In the eWaterCycle project we make Docker images. The images are hosted on [Docker Hub](https://hub.docker.com/u/ewatercycle) and [GitHub Container Registry](https://github.com/orgs/eWaterCycle/packages). A project member can create issues here for permisison to push images to Docker Hub or GitHub Container Registry.
 
-## Logs
+## AI Disclaimer
 
-All services are running with systemd. Their logs can be viewed with `journalctl`.
-The log of the Jupyter server for each user can be followed with
-
-```shell
-journalctl -f -u jupyter-vagrant-singleuser.service
-```
-
-(replace `vagrant` with own username)
+The documentation/software code in this repository has been generated and/or refined using
+GitHub CoPilot. All AI-output has been verified for correctness,
+accuracy and completeness, adapted where needed, and approved by the author.

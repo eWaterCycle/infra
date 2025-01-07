@@ -6,7 +6,7 @@ conda_environment: ewatercycle2
 # Path to conda environments bin directory
 conda_environment_bin: '{{ conda_root }}/envs/{{ conda_environment }}/bin'
 # Where all shared data is available
-data_root: /mnt/data
+data_root: /data/shared
 # Location of climate data
 climate_data_root_dir: '{{ data_root }}/climate-data'
 # Location where GRDC data should be downloaded
@@ -19,4 +19,7 @@ apptainer_image_root: '{{ data_root }}/singularity-images'
 home_root: /home
 # Version of ewatercycle Python package
 # /etc/ewatercycle.yaml will be slightly different depending on version.
-pyewatercycle_version: 2.4.0
+pyewatercycle_version: v2.4.0
+# From where should /data/shared be mounted, from dcache or samba.
+# Determines what parameter sets are avaliable. As samba has a small subset.
+shared_data_source: dcache
