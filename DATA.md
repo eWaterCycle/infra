@@ -28,7 +28,7 @@ this could be run during workspace creation, but downloads are very flaky and ti
 
 ```shell
 sudo -i
-git clone -b dcache-or-samba https://github.com/eWaterCycle/infra.git /opt/infra
+git clone -b main https://github.com/eWaterCycle/infra.git /opt/infra
 cd /opt/infra
 ansible-galaxy role install mambaorg.micromamba
 # Playbook will run for a long time, so run it in a detachable shell

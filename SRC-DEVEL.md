@@ -23,7 +23,7 @@ create a eWatercycle component with following specialization:
   - Component script type: Ansible playbook
   - Repository URL: https://github.com/eWaterCycle/infra.git
   - Path: research-cloud-plugin.yml
-  - Tag: dcache-or-samba
+  - Tag: main
 - Name & description
   - Name: eWaterCycle dache or samba
   - Subtitle: eWaterCycle teaching platform in a box
@@ -64,7 +64,7 @@ create a eWatercycle component with following specialization:
     - description: The version, branch or tag of the course repository to use.
     - initial value: nbgrader-quickstart
 - Owner & support
-  - Owner: ewatercycle-nlesc
+  - Owner: ewatercycle-tudelft
   - Documentation URL: https://github.com/eWaterCycle/infra
 - Access
   - Allow every org to use this component.
@@ -86,7 +86,7 @@ create an eWatercycle catalog item with following specialization:
   - Description: Welcome page + JupyterHub + nbgitpuller + nbgrader + eWaterCycle Python packages + dcache as shared data source
   - Logo: Organization avatar/logo from https://github.com/eWaterCycle
 - Owner & support
-  - Owner: ewatercycle-nlesc
+  - Owner: ewatercycle-tudelft
   - Documentation URL: https://github.com/eWaterCycle/infra
 - Access, Select the organizations (CO) that are allowed to use the catalog item.
   - Allowed Collaborative Organisations: Select all organizations with eWaterCycle in the name

@@ -127,7 +127,7 @@ See [data documentation](DATA.md#populating-samba-file-server) on how to populat
 Steps to create a eWaterCycle workspace:
 
 1. Create a new workspace
-2. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
+2. Select collaborative organisation (CO) for example `ewatercycle-tudelft`
 3. Select `eWaterCycle dcache` catalog item
 4. Select size of VM (cpus/memory) based on use case
 5. Select storage item for home directories. Remember item you picked as you will need it in the workspace parameters.
@@ -148,7 +148,7 @@ See [User guide](USER.md) to see what users have to do to login or use GitHub re
 Steps to create a eWaterCycle workspace:
 
 1. Create a new workspace
-2. Select collaborative organisation (CO) for example `ewatercycle-nlesc`
+2. Select collaborative organisation (CO) for example `ewatercycle-tudelft`
 3. Select `eWaterCycle samba` catalog item
 4. Select size of VM (cpus/memory) based on use case
 5. Select home storage item. Remember items you picked as you will need them in the workspace parameters.
