@@ -4,11 +4,6 @@ import sys
 
 c.JupyterHub.admin_access = True
 c.JupyterHub.services = [
-    # {
-    #     'name': 'experiment-launcher',
-    #     'admin': True,
-    #     'api_token': '{{ lookup('password', 'jupyterhub.launcher.token length=32 chars=ascii_letters,digits') }}',
-    # },
     {
         'name': 'idle-culler',
         'admin': True,
