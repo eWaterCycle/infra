@@ -11,7 +11,7 @@
     - [Shared data source](#shared-data-source)
     - [Preparations](#preparations)
     - [File Server](#file-server)
-    - [Workspace creation with dcache as stared data source](#workspace-creation-with-dcache-as-stared-data-source)
+    - [Workspace creation with dcache as shared data source](#workspace-creation-with-dcache-as-shared-data-source)
     - [Workspace creation with samba as shared data source](#workspace-creation-with-samba-as-shared-data-source)
     - [Students](#students)
     - [Example notebooks](#example-notebooks)
@@ -70,7 +70,7 @@ The [eWatercycle system setup](https://ewatercycle.readthedocs.io/en/latest/syst
 
 Two eWaterCycle catalog items have been created:
 1. eWaterCycle dcache, uses dcache as shared data source. High capacity, but high latency storage accessible via WebDAV from anywhere on the Internet. Usefull for research.
-2. eWaterCycle samba, uses samba as shared data source. A low capaciry, low latency file server that is only accessible from the private network of the SURF Research cloud. Usefull for teaching.
+2. eWaterCycle samba, uses samba as shared data source. A low capacity, low latency file server that is only accessible from the private network of the SURF Research cloud. Usefull for teaching.
 
 The shared data is mounted read-only `/data/shared` on the workspaces.
 In the following chapters you will need to make choose which catalog item you want to use.
@@ -122,7 +122,7 @@ Each collaborative organization should run a single file server. This file serve
 
 See [data documentation](DATA.md#populating-samba-file-server) on how to populate the file server.
 
-### Workspace creation with dcache as stared data source
+### Workspace creation with dcache as shared data source
 
 Steps to create a eWaterCycle workspace:
 

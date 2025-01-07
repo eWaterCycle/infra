@@ -10,7 +10,7 @@ A new workspace (aka Virtual Machine) can be made by choosing a catalog item.
 A catalog item consists out of a list of components and other configuration.
 
 To register new catalog items in SURF Research cloud you 
-need to [appoint a developer](https://servicedesk.surf.nl/wiki/display/WIKI/Appoint+a+CO-member+a+developer).
+need to [appoint a developer](https://servicedesk.surf.nl/wiki/display/WIKI/Appoint+a+collaboration-member+a+developer).
 
 The generic steps to make your own catalog item are documented [here](https://servicedesk.surf.nl/wiki/display/WIKI/Create+your+own+catalog+items).
 
