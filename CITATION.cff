@@ -31,6 +31,13 @@ authors:
     family-names: Andela
     given-names: Bouwe
     orcid: "https://orcid.org/0000-0001-9005-8940"
+  -
+    affiliation: "Delft University of Technology"
+    family-names: Melotto
+    given-names: Mark
+    orcid: "https://orcid.org/0009-0005-2727-660X"
+    email: "markmelotto@tudelft.nl"
+  -
 
 cff-version: "1.2.0"
 identifiers:
