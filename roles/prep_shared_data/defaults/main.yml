@@ -23,8 +23,8 @@ grpc4bmi_images:
       apptainer: ewatercycle-hype-grpc4bmi_feb2021.sif
     - docker: ghcr.io/ewatercycle/leakybucket-grpc4bmi:v0.0.1
       apptainer: ewatercycle-leakybucket-grpc4bmi_v0.0.1.sif
-    - docker: ghcr.io/daafip/hbv-bmi-grpc4bmi:v1.5.0
-      apptainer: daafip-hbv-bmi-grpc4bmi_v1.5.0.sif
+    - docker: ghcr.io/ewatercycle/hbv-bmi-grpc4bmi:v1.5.2
+      apptainer: ewatercycle-hbv-bmi-grpc4bmi_v1.5.2.sif
 # Location where conda is installed
 conda_root: /opt/conda
 # Path to conda environments bin directory
