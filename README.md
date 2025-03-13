@@ -119,7 +119,7 @@ Each collaborative organization should run a single file server. This file serve
    2. Edit /etc/samba/smb.conf and in `[samba-share]` section replace `read only = no` with `read only = yes`
    3. Restart samba server with `systemctl restart smbd`
 8. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
-9. (Optional)
+9. (Optional) do this on the samba server after the git clone!
     - For ENVM1502 you want to change the [main yml file](https://github.com/eWaterCycle/infra/blob/main/roles/prep_shared_data/defaults/main.yml)
     - And also change the [task yml file](https://github.com/eWaterCycle/infra/blob/main/roles/prep_shared_data/tasks/main.yml) to only keep the "Download example parameter sets" and "Download example forcing."
 
