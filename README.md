@@ -82,7 +82,7 @@ Before you can create a workspace several steps need to be done first.
 
 1. Log into [SURF Research Cloud](https://portal.live.surfresearchcloud.nl/)
 2. Make sure you are [allowed to use eWaterCycle catalog item](https://servicedesk.surf.nl/wiki/display/WIKI/Sharing+components+and+catalog+items)
-3. Create new storage item for home directories
+3. Create new storage item for home directories (**no capital letters**)
    - To store user files
    - Use 50Gb size for simple experiments or bigger when required for experiment.
    - As each storage item can only be used by a single workspace, give it a name and description so you know which workspace and storage items go together.
@@ -110,7 +110,7 @@ Each collaborative organization should run a single file server. This file serve
 
 1. Create a new workspace
 2. Select `Samba Server` application
-3. Select size with 2 cores and 16 GB RAM
+3. Select size with 2 cores and 16 GB RAM for a big data storage, otherwise 1 core is enough.
 4. Select data storage item, created in previous section
 5. Select private network
 6. Wait for machine to be running
@@ -119,6 +119,9 @@ Each collaborative organization should run a single file server. This file serve
    2. Edit /etc/samba/smb.conf and in `[samba-share]` section replace `read only = no` with `read only = yes`
    3. Restart samba server with `systemctl restart smbd`
 8. Populate `/data/volume_2/samba-share/` directory with training material. This directory will be shared with other machines.
+9. (Optional)
+    - For ENVM1502 you want to change the [main yml file](https://github.com/eWaterCycle/infra/blob/main/roles/prep_shared_data/defaults/main.yml)
+    - And also change the [task yml file](https://github.com/eWaterCycle/infra/blob/main/roles/prep_shared_data/tasks/main.yml) to only keep the "Download example parameter sets" and "Download example forcing."
 
 See [data documentation](DATA.md#populating-samba-file-server) on how to populate the file server.
 
