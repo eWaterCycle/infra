@@ -93,7 +93,7 @@ Before you can create a workspace several steps need to be done first.
 5. If shared data source is samba then create new storage item for data
    - To store training material like parameter sets, ready-to-use forcings, raw forcings and apptainer sif files for models.
    - This storage item should be used later in the Samba file server.
-6. If shared data source is samba then create a private network
+6. If shared data source is samba then create a private network: under "Workspaces" "Storage" "IP addresses (advanced)" "**Networks (advanced)**"
     - Name: `file-storage-network`
 7. On https://portal.live.surfresearchcloud.nl/profile page in Collaborative organizations 
    - Create a secret named `samba_password` and a strong random password as value
