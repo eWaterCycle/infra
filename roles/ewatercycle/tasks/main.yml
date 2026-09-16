@@ -44,7 +44,7 @@
 
 - name: ESMValTool configuration directory
   file:
-    path: '{{ home_root }}/{{ item }}/.esmvaltool'
+    path: '{{ home_root }}/{{ item }}/.config/esmvaltool'
     state: directory
     mode: '0755'
     owner: "{{ item }}"
@@ -57,7 +57,7 @@
 - name: ESMValTool config-user.yml
   template:
     src: config-user.yml.j2
-    dest: '{{ home_root }}/{{ item }}/.esmvaltool/config-user.yml'
+    dest: '{{ home_root }}/{{ item }}/.config/esmvaltool/config-user.yml'
     mode: '0644'
     owner: "{{ item }}"
     group: "{{ item }}"
@@ -68,14 +68,14 @@
 
 - name: ESMValTool configuration directory in new user skeleton
   file:
-    path: '/etc/skel/.esmvaltool'
+    path: '/etc/skel/.config/esmvaltool'
     state: directory
     mode: '0755'
 
 - name: ESMValTool config-user.yml in new user skeleton
   template:
     src: config-user.yml.j2
-    dest: '/etc/skel/.esmvaltool/config-user.yml'
+    dest: '/etc/skel/.config/esmvaltool/config-user.yml'
     mode: '0644'
 
 - name: Create esmvaltool downloads dir
