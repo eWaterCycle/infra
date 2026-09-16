@@ -16,13 +16,13 @@
 
 - name: ESMValTool configuration directory
   file:
-    path: /root/.esmvaltool
+    path: /root/.config/esmvaltool
     state: directory
     mode: '0755'
 - name: ESMValTool config-user.yml
   template:
     src: ../../ewatercycle/templates/config-user.yml.j2
-    dest: /root/.esmvaltool/config-user.yml
+    dest: /root/.config/esmvaltool/config-user.yml
     mode: '0644'
 
 - name: ERA5 download
